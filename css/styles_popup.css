@@ -1,0 +1,353 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+body{  margin:100px auto;
+			padding: 0; width:100%}
+
+
+.modal-header{ padding:15px 10px 0px 0px;}
+
+.nav-tabs{ border:none;}
+
+.nav-tabs > li > a{ font-size:30px;}
+
+.close { font-size:40px;}
+
+.mobile{ background:url(../img/mobile.png) center no-repeat; height:775px; padding:0px 80px ;}	
+	
+	.mobile div{  margin-top:45px;margin-left:-9px;}
+	
+	.slimScrollDiv { border:0px solid #eee; }
+	
+
+
+
+		/* Forces Outlook to display email at 100% width */
+		.ExternalClass {
+	        width: 100%;
+	    }
+	    /* Corrects line-height issues on Outlook */
+	    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+	        line-height: 100%;
+	    }
+	    /* Removes unwanted gap with left/right aligned tables */
+	    /* <td> included to correct Outlook 2007 issue */
+	    table, td {
+	    	mso-table-lspace: 0pt;
+	    	mso-table-rspace: 0pt;
+	    	border-collapse: collapse;
+	    }
+	    /* Mobile Responsive Styles */
+	    /* Using attribute selectors due to media queries issues with Yahoo! Mail */
+		
+		
+		
+		
+		
+	    @media only screen and (max-width: 480px) {
+	    	table[class=device-width], td[class=device-width], img[class=device-width] {
+	    		width: 320px !important;	
+	    		height: auto !important;    
+	    	}
+	    	table[class=inner-width], td[class=inner-width], img[class=inner-width] {
+	    		width: 240px !important;	
+	    		height: auto !important;    
+	    	}
+	    	td[class=stack] {
+	    		display: block !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=wrapper] {
+	    		padding-top: 0 !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=center] {
+	    		width: 240px !important;	
+	    		height: auto !important;
+	    		text-align: center !important;
+	    	}
+	    }
+		
+		
+		 @media only screen and (max-width: 768px) {
+	    	table[class=device-width], td[class=device-width], img[class=device-width] {
+	    		width: 500px !important;	
+	    		height: auto !important;    
+	    	}
+	    	table[class=inner-width], td[class=inner-width], img[class=inner-width] {
+	    		width: 240px !important;	
+	    		height: auto !important;    
+	    	}
+	    	td[class=stack] {
+	    		display: block !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=wrapper] {
+	    		padding-top: 0 !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=center] {
+	    		width: 500px !important;	
+	    		height: auto !important;
+	    		text-align: center !important;
+	    	}
+	    }
+		
+		 @media only screen and (max-width: 800px) {
+	    	table[class=device-width], td[class=device-width], img[class=device-width] {
+	    		width: 500px !important;	
+	    		height: auto !important;    
+	    	}
+	    	table[class=inner-width], td[class=inner-width], img[class=inner-width] {
+	    		width: 240px !important;	
+	    		height: auto !important;    
+	    	}
+	    	td[class=stack] {
+	    		display: block !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=wrapper] {
+	    		padding-top: 0 !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=center] {
+	    		width: 500px !important;	
+	    		height: auto !important;
+	    		text-align: center !important;
+	    	}
+	    }
+		
+		
+		 @media only screen and (max-width: 980px) {
+	    	table[class=device-width], td[class=device-width], img[class=device-width] {
+	    		width: 500px !important;	
+	    		height: auto !important;    
+	    	}
+	    	table[class=inner-width], td[class=inner-width], img[class=inner-width] {
+	    		width: 240px !important;	
+	    		height: auto !important;    
+	    	}
+	    	td[class=stack] {
+	    		display: block !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=wrapper] {
+	    		padding-top: 0 !important;
+	    		padding-left: 0 !important;
+	    		padding-right: 0 !important;
+	    	}
+	    	td[class=center] {
+	    		width: 500px !important;	
+	    		height: auto !important;
+	    		text-align: center !important;
+	    	}
+	    }
+		
+		
+		
+	
+		@media (max-width:320px) {
+	
+.mobile{ padding:0px 40px  0px 40px;}	
+
+	}
+	
+	@media (max-width:360px) {
+	
+.mobile{ padding:0px 30px  0px 40px;}	
+
+	}
+
+/* poo
+*/
+
+.txt_edit_btn_blk
+{
+      margin: 5px 10px;
+}
+.txt_size
+{
+        float: left;
+    margin: 0 15px 0 0;
+}
+.txt_edit_btn_blk .btn-group
+{
+    
+}
+.txt_edit_btn_blk .fnt_famly
+{
+    width: 53%;
+    margin: 0;
+}
+.txt_edit_btn_blk .fnt_famly select
+{
+    width: 58%;
+}
+.txt_edit_btn
+{
+    margin-bottom: 6px;
+}
+
+.popup_blk
+{
+    width: 90%;
+}
+.sidecntnt_popup
+{
+    background: #ddd;
+    border: 1px solid #333;
+}
+.rhtside_contnt
+{
+    background: #ddd;
+    border: 1px solid #333;
+
+}
+.rhtside_contnt ul li
+{
+    float:left;
+     margin: 10px 10px 10px 6px;
+}
+.rhtside_contnt_lst
+{
+    background: #f5f5f5;
+    border: 1px solid #999;
+    border-radius:5px;
+        clear: both;
+    overflow: hidden;
+     padding: 7px;
+}
+.rhtside_contnt_lst img 
+{
+width: 130px;
+}
+.Nav_Popup{
+    clear: both;
+    height: 450px;
+    overflow: auto;
+    background: #fff;
+}
+.gallery_a_tag{
+    cursor: pointer;
+
+}
+
+/*---dec-5th siva----*/
+.mar_btm10
+{
+    margin-bottom: 10px;
+
+}
+.mar_top10
+{
+    margin-top: 10px;
+}
+.pad_non
+{
+    padding: 0;
+}
+.pad_lftnon
+{
+    padding-left: 0;
+}
+.pad_lftrht
+{
+    padding-right: 0;
+}
+.opac_rot_blk
+{
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: 15px;
+}
+.opac_contnt
+{
+    float: left;
+    width: 50%;
+}
+.rot_contnt
+{
+
+}
+/*-------Dec 4th-------------*/
+
+.popup_bg
+{
+    background:none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+    color:#fff;
+}
+.sidecntnt_popup ol li
+{
+    margin:0 0 10px 0;
+}
+.sidecntnt_popup ol 
+{
+    margin:10x 5px;
+    padding:10px;
+}
+.sidecntnt_popup ol li button
+{
+    border:1px solid #8a8a8a;
+    width: 100%;
+}
+.sidecntnt_btm
+{
+    background: #fff;
+    border: 1px solid #333;
+    border-radius:5px;
+    margin:15px 0 10px 0;
+}
+.mar_form_bot{
+    margin-bottom: 0px !important;
+}
+.lyer_a{
+    color: #fff !important;
+    cursor: pointer;
+}
+#layer_list_det{
+    height: 295px;
+    overflow: auto;
+}
+#layer_list_det li{
+     border-bottom: 1px solid #dcdcdc;
+    color: #212121;
+    padding: 19px;
+}
+.fileUpload {
+    margin: 10px 10px 10px 5px;
+    overflow: hidden;
+    padding: 4px 11px;
+    position: relative;
+    text-align: left;
+    width: 240px;
+}
+.fileUpload {
+    text-align: left;
+}
+
+.fileUpload input.upload {
+    cursor: pointer;
+    font-size: 20px;
+    height: auto !important;
+    margin: 0 !important;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto !important;
+}
+li {
+    list-style: outside none none;
+}
+/*poo end */
+
+

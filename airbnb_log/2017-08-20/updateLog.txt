@@ -1,0 +1,249 @@
+TImestamp::2017-08-20 13:03:22=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-23/2017-09-23
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=b57e2f5b-7fbd-4523-b6f3-144efe5ee507&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:03:22 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:03:22=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:03:22 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:03:23=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-23/2017-09-23
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=4c91a84e-a5db-4cf3-85a2-2ae143c91650&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:03:23 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:03:23=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:03:23 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:03:48=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-22/2017-09-22
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=09436c3b-6cc5-4669-a5e7-1ae43bcfa1ef&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:03:48 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:03:49=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:03:48 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:03:50=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-22/2017-09-22
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=341d6c48-f13a-4999-a79a-d074caac0ab8&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:03:49 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:03:50=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:03:50 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:04:12=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-22/2017-09-22
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"available"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=1cb5d9e4-a1d3-45df-986c-8d89af309aa0&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:04:12 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:04:12=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=available&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:04:12 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:04:18=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-22/2017-09-22
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=b278bcd0-4c86-426c-acca-1fb7b8f8564c&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:04:18 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:04:21=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:04:18 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:04:46=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-23/2017-09-23
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"available"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=96644e96-245d-435a-9b69-e95c6a9d4705&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:04:46 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:04:47=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=available&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:04:46 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-08-20 13:04:53=>url=>https://api.airbnb.com/v2/calendars/16369850/2017-09-23/2017-09-23
+Access TOken=>dj2qvj8rkr3bil8sko9k6i8we
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=d9d326d9-37c0-41d9-a3d8-3c40358a81f8&version=c675a9cc463245e8bbf8bf1c774382d5407deac1;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 20 Aug 2017 13:04:53 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-08-20 13:04:53=>url=>https://api.airbnb.com/v1/authorize
+Request=>availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=jlaferla%40ihdynamics.co.za&password=Caruso2014
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx/1.7.12
+Content-Type: application/json
+Status: 400 Bad Request
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Sun, 20 Aug 2017 13:04:53 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}

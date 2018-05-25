@@ -1,0 +1,17 @@
+TImestamp::2017-10-16 17:51:40=>RESERVATIOM URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/bookings/search
+
+Content=><GTA_BookingSearchRQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.gta-travel.com/GTA/2012/05">
+				<User Qualifier="CPTHOLB" Password="HOTERATUS" UserName="XMLUSER" />
+				<SearchCriteria
+					PropertyId="10493"
+					ModifiedStartDate="2017-09-16T17:51:40"
+					ModifiedEndDate="2017-10-16T17:51:40"/>
+			</GTA_BookingSearchRQ>
+
+Response=><GTA_BookingSearchRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Success/>
+ <Warnings>
+  <Warning Code="wrn.service.bookings.search">No bookings found for property id 10,493</Warning>
+ </Warnings>
+ <Bookings PropertyId="10493"/>
+</GTA_BookingSearchRS>

@@ -1,0 +1,30 @@
+TImestamp::2017-09-30 09:20:20=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>Joamilka2402!</password>
+            <hotel_id>2344104</hotel_id>
+            <room id="234410402">
+            <date value="2017-10-13" >
+            <rate id="9333277"/><roomstosell>1</roomstosell></date></room></request>
+Response=><?xml version='1.0' standalone='yes'?>
+<availability>
+  <fault code="401"
+         string="Authorization Required" />
+</availability>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YXoDVTS+KtVf8A7gkc3MAG/jV3U+hqcQ5BMQZts8akoxOB57k5sv1wQNCB0ofss0lyrNMjc8BbFF] -->
+TImestamp::2017-09-30 09:20:20=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>Joamilka2402!</password>
+            <hotel_id>2344104</hotel_id>
+            <room id="234410402">
+            <date value="2017-10-14" >
+            <rate id="9333277"/><roomstosell>1</roomstosell></date></room></request>
+Response=><?xml version='1.0' standalone='yes'?>
+<availability>
+  <fault code="401"
+         string="Authorization Required" />
+</availability>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YXoDVTS+KtVfBP6mBpk3n9aKcqIpyYsZMpr9jtpyERJajg0nR4Gu5Ubi9MSyFoVG2o1CFlps6YOT] -->

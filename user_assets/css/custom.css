@@ -1,0 +1,57 @@
+.list-icon-container.done .fa-check{
+	color:green;
+	font-size:15px;
+}
+
+.list-icon-container.error .fa-exclamation{
+	color:red;
+	font-size:15px;
+}
+
+.list-icon-container.warning .fa-eye{
+	color:orange;
+	font-size:15px;
+}
+
+.mt-element-list .list-default.mt-list-container ul>.mt-list-item>.list-warning ,.list-error {
+    text-align: right;
+    float: right;
+    width: 250px;
+	padding: 10px 0;
+}
+
+.mt-element-list .list-default.mt-list-container ul>.mt-list-item>.list-icon-container.error{
+	border-color: #ed6b75;
+}
+.mt-element-list .list-default.mt-list-container ul>.mt-list-item>.list-icon-container.warning{
+	border-color: #F1C40F;
+}
+
+.mt-element-list .list-default.mt-list-container ul>.mt-list-item>.list-item-content {
+padding: 5px 75px 0 60px;}
+
+.mt-element-list .list-default.mt-list-container ul>.mt-list-item{
+	padding: 10px 0;
+}
+.fa-arrow-circle-o-right{
+	font-size:16px;
+}
+
+.modal-footer{
+	border:none;
+}
+
+.page-content-wrapper .page-content{
+	margin-left:0 !important;
+}
+
+
+.page-content-wrapper .page-content {
+	background: whitesmoke !important;
+}
+.dashboard-stat.blue, .dashboard-stat.red, .dashboard-stat.green-jungle, .dashboard-stat.blue-hoki {
+	box-shadow: 1px 5px 5px #888888;
+}
+div.col-md-6.col-sm-6> .portlet.light.bordered{
+	box-shadow: 1px 1px 5px #888888;
+}

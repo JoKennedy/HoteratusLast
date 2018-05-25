@@ -1,0 +1,114 @@
+/*-- //Designs --*/
+/*-- Services --*/
+.services-w3lsrow {
+    margin-top: 6em;
+    justify-content:center;
+}
+.services-grids { 
+    text-align: center;  
+} 
+.services-grids .icon-holder {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.8em;
+    width: 76px;
+    height: 42px;
+    background: #504f4f;
+    position: relative;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+    line-height: 1.8em;
+}
+.services-grids h4 { 
+    color: #0a4de5;
+    font-size: 1.6em; 
+	margin:2em 0 .6em;
+}
+.hexagon:before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 38px solid transparent;
+    border-right: 38px solid transparent;
+    border-bottom: 20px solid #504f4f;
+	-webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s; 
+}
+.hexagon:after {
+	content: "";
+	position: absolute;
+	bottom: -20px;
+	left: 0;
+	width: 0;
+	height: 0;
+	border-left: 38px solid transparent;
+	border-right: 38px solid transparent;
+	border-top: 20px solid #504f4f;
+	-webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s; 
+}
+.services-grids:hover .icon-holder { 
+	background: #0a4de5;
+} 
+.services-grids:hover .hexagon:before { 
+	border-bottom-color: #0a4de5;
+} 
+.services-grids:hover .hexagon:after { 
+	border-top-color:#0a4de5;
+} 
+/*-- //Services --*/
+@media(max-width: 736px){
+	.services-grids:nth-child(3), .services-grids:nth-child(4){
+		margin-top: 3.5em;
+	}
+	
+}
+
+
+@media(max-width: 600px){
+	
+	.about-top, .stats, .team, .services, .team-section, .gallery, .contact {
+		padding: 3.5em 0;
+	}
+	
+}
+@media(max-width: 568px){
+	
+}
+@media(max-width: 480px){
+
+	.wthree-services-left img {
+		width: 75%;
+	}
+	.wthree-services-right-top h4 {
+		font-size: 1.8em;
+	}
+	.wthree-services-right-top p {
+		font-size: .9em;
+		letter-spacing: 2px;
+		margin: .4em 0 0 0;
+	}
+	.wthree-services-right-top {
+		right: 4%;
+		top: 9%;
+	}
+	.wthree-services-right {
+		top: 32%;
+	}
+	
+}
+
+	
+/*--//responsive--*/

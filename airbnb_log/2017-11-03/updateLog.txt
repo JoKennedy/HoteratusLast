@@ -1,0 +1,321 @@
+TImestamp::2017-11-03 06:55:48=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-24/2017-12-24
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"781cc34731727178a2498e943f7f07f1"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=faf18928-6f97-4414-919b-67150363b31e&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:48 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-24"}],"end_date":"2017-12-24","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-24"},"metadata":{}}TImestamp::2017-11-03 06:55:49=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-25/2017-12-25
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"99173a27ee140fcf024fbaf3ca5fdfda"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=b0bfb438-45fc-4a05-96e9-70a6300edee4&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:49 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-25"}],"end_date":"2017-12-25","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-25"},"metadata":{}}TImestamp::2017-11-03 06:55:49=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-26/2017-12-26
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"f308e9e94ef1c2a77f766915c652c387"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=18e4939a-7eef-4381-b0d5-05f391f5ca35&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:49 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-26"}],"end_date":"2017-12-26","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-26"},"metadata":{}}TImestamp::2017-11-03 06:55:49=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-27/2017-12-27
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"dc450ed792047cf76d45644b14ce8176"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io a.alipayobjects.com gw.alipayobjects.com cn-ali.muscache.com static.agrant.com.cn t.agrantsem.com z0.muscache.com ditu.google.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=9112eca6-ab2d-4f84-8191-f4994ea49ceb&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:49 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-27"}],"end_date":"2017-12-27","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-27"},"metadata":{}}TImestamp::2017-11-03 06:55:50=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-28/2017-12-28
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"1865268272451bd3dd9bd11613d4bfc2"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=12482539-d0f5-4814-8435-f4a222690179&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:50 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-28"}],"end_date":"2017-12-28","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-28"},"metadata":{}}TImestamp::2017-11-03 06:55:50=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-29/2017-12-29
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"0606704e6f325a4cff30cac445261f37"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=238cdf9a-4982-4dab-ad7a-60e65add9161&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:50 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-29"}],"end_date":"2017-12-29","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-29"},"metadata":{}}TImestamp::2017-11-03 06:55:50=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-30/2017-12-30
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"f95c422eb0bec7c6a9878adf211d3c00"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io a.alipayobjects.com gw.alipayobjects.com cn-ali.muscache.com static.agrant.com.cn t.agrantsem.com z0.muscache.com ditu.google.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=5a0b5bd1-60aa-4a6e-9177-50afbbce9bb1&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:50 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-30"}],"end_date":"2017-12-30","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-30"},"metadata":{}}TImestamp::2017-11-03 06:55:51=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-12-31/2017-12-31
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"7baa569ab43372cb014e58b28e70279f"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=4d386ca1-836e-49b4-b3a7-df9ef4d079f5&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:51 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-12-31"}],"end_date":"2017-12-31","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-12-31"},"metadata":{}}TImestamp::2017-11-03 06:55:51=>url=>https://api.airbnb.com/v2/calendars/18990160/2018-01-01/2018-01-01
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"1874243c2dd37b97146d8422ff4d8f74"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=88a7ce9e-4a3b-45af-a00d-0c645e7e88d7&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:51 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2018-01-01"}],"end_date":"2018-01-01","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2018-01-01"},"metadata":{}}TImestamp::2017-11-03 06:55:51=>url=>https://api.airbnb.com/v2/calendars/18990160/2018-01-02/2018-01-02
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"daily_price":1412.8,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"f09a4c2d6a9746bf21c7b7d85c580afd"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=4fa4b255-cce0-4740-89e0-2595d0b9e6fc&version=419489a0802de92ffe8d3321a34e6c1cd0cb16fc
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 06:55:51 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2018-01-02"}],"end_date":"2018-01-02","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2018-01-02"},"metadata":{}}TImestamp::2017-11-03 08:15:08=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-11-24/2017-11-24
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>{"daily_price":78,"demand_based_pricing_overridden":true,"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"dfa49ec19d3307ee22e766c3baa41e07"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io a.alipayobjects.com gw.alipayobjects.com cn-ali.muscache.com static.agrant.com.cn t.agrantsem.com z0.muscache.com ditu.google.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=b43745c1-1ff9-432f-ba8e-b74667710163&version=03ce7b61c917b380baae2b6b7e2be53846de4f13
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 08:15:08 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":true,"date":"2017-11-24"}],"end_date":"2017-11-24","host_id":18009968,"listing_currency":"USD","listing_id":12888825,"start_date":"2017-11-24"},"metadata":{}}TImestamp::2017-11-03 08:15:09=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-11-25/2017-11-25
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>{"daily_price":78,"demand_based_pricing_overridden":true,"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"b43aabd05106ba44ca757cf7a706d519"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=da3b2bb6-0c73-4bcc-bd3c-3b05707d2987&version=03ce7b61c917b380baae2b6b7e2be53846de4f13
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 08:15:09 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":true,"date":"2017-11-25"}],"end_date":"2017-11-25","host_id":18009968,"listing_currency":"USD","listing_id":12888825,"start_date":"2017-11-25"},"metadata":{}}TImestamp::2017-11-03 08:30:13=>url=>https://api.airbnb.com/v2/calendars/4328295/2017-11-17/2017-11-17
+Access TOken=>37dg9ubozs9ppbrw0d1r40x73
+Request=>{"daily_price":132.44,"demand_based_pricing_overridden":true,"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"43d85a805a61e5d6ff1d59f51ad1455f"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=ba974330-0d11-4979-a1ba-faadcb992318&version=03ce7b61c917b380baae2b6b7e2be53846de4f13
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 08:30:13 GMT
+Content-Length: 191
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":true,"date":"2017-11-17"}],"end_date":"2017-11-17","host_id":18009968,"listing_currency":"USD","listing_id":4328295,"start_date":"2017-11-17"},"metadata":{}}TImestamp::2017-11-03 08:30:13=>url=>https://api.airbnb.com/v2/calendars/4328295/2017-11-18/2017-11-18
+Access TOken=>37dg9ubozs9ppbrw0d1r40x73
+Request=>{"daily_price":132.44,"demand_based_pricing_overridden":true,"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"c27a2f8e444c1a82a48ca5b5636e0d56"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=daf7b88e-6e71-402f-9fec-b5f0315f91a9&version=03ce7b61c917b380baae2b6b7e2be53846de4f13
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 08:30:13 GMT
+Content-Length: 191
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":true,"date":"2017-11-18"}],"end_date":"2017-11-18","host_id":18009968,"listing_currency":"USD","listing_id":4328295,"start_date":"2017-11-18"},"metadata":{}}TImestamp::2017-11-03 08:36:22=>url=>https://api.airbnb.com/v2/calendars/4328295/2017-11-18/2017-11-18
+Access TOken=>37dg9ubozs9ppbrw0d1r40x73
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"502fdab9aafcd593c7e2dbb81bd8e16e"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=a3d2fa1d-6259-48f9-9685-b488162676a0&version=03ce7b61c917b380baae2b6b7e2be53846de4f13
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 08:36:22 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-11-18"}],"end_date":"2017-11-18","host_id":18009968,"listing_currency":"USD","listing_id":4328295,"start_date":"2017-11-18"},"metadata":{}}TImestamp::2017-11-03 08:36:30=>url=>https://api.airbnb.com/v2/calendars/4328295/2017-11-18/2017-11-18
+Access TOken=>37dg9ubozs9ppbrw0d1r40x73
+Request=>{"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"c27a2f8e444c1a82a48ca5b5636e0d56"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=1042616c-a50e-4312-ac59-968dc0035779&version=03ce7b61c917b380baae2b6b7e2be53846de4f13
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Fri, 03 Nov 2017 08:36:30 GMT
+Content-Length: 191
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":true,"date":"2017-11-18"}],"end_date":"2017-11-18","host_id":18009968,"listing_currency":"USD","listing_id":4328295,"start_date":"2017-11-18"},"metadata":{}}

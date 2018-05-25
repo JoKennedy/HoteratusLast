@@ -1,0 +1,79 @@
+TImestamp::2017-11-30 13:18:19=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-12-07/2017-12-07
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":98,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Cache-Control: no-cache
+Referrer-Policy: same-origin
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=96aa972c-aa19-4b4e-ba84-c690b8d83c1a&version=d6964e82cb9024c99fc9a03e9cf1a4bcb83dccc3
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Thu, 30 Nov 2017 13:18:19 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-11-30 13:18:19=>url=>https://api.airbnb.com/v1/authorize
+Request=>daily_price=98&demand_based_pricing_overridden=1&availability=unavailable&client_id=d306zoyjsyarp7ifhu67rjxn52tv0t20&locale=en-US&currency=USD&grant_type=password&username=stanzecarro%40gmail.com%20&password=cecilia2
+
+Response=>400HTTP/1.1 400 Bad Request
+Server: nginx
+Content-Type: application/json
+Status: 400 Bad Request
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 40
+Date: Thu, 30 Nov 2017 13:18:19 GMT
+Connection: close
+
+{"status":400,"error":"Invalid Request"}TImestamp::2017-11-30 13:18:19=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-12-08/2017-12-08
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":109,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Cache-Control: no-cache
+Referrer-Policy: same-origin
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io a.alipayobjects.com gw.alipayobjects.com static.agrant.com.cn t.agrantsem.com ditu.google.com *.muscache.cn *.muscache.com ss.musthird.cn blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=8168901e-e2ba-4577-aa09-ae2077d83242&version=d6964e82cb9024c99fc9a03e9cf1a4bcb83dccc3
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Thu, 30 Nov 2017 13:18:19 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}TImestamp::2017-11-30 13:18:19=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-12-09/2017-12-09
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":109,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Cache-Control: no-cache
+Referrer-Policy: same-origin
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "ba223bff33cd2be0140073dccfac9c6b"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=ba4c91e3-2d07-44c9-8e08-dfbae0e5ac51&version=d6964e82cb9024c99fc9a03e9cf1a4bcb83dccc3
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Thu, 30 Nov 2017 13:18:19 GMT
+Connection: close
+
+{"error_code":401,"error":"expired_token","error_message":"Expired Token"}

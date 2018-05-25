@@ -1,0 +1,195 @@
+TImestamp::2018-01-26 18:31:58=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="300"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-26</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-26 18:31:58=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="300"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-26</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-26 19:16:33=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="1"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-26</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-26 19:24:39=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:24:39=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:24:39=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:24:39=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:24:39=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:24:40=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:19=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="226.66666666667"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="226.66666666667"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="226.66666666667"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="226.66666666667"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="226.66666666667"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:20=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:21=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="226.66666666667"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=>
+TImestamp::2018-01-26 19:31:21=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=>

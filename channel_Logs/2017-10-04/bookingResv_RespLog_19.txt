@@ -1,0 +1,34 @@
+TImestamp::2017-10-04 16:33:05=>IN importAvailabilities
+TImestamp::2017-10-04 16:33:06=>importAvailabilities2 URL=>https://supply-xml.booking.com/hotels/xml/roomrateavailability
+XML=>=<?xml version="1.0" encoding="UTF-8"?>  
+                        <request>
+                        <username>hoteratus--osiz</username>
+                        <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+                        <hotel_id>1818734</hotel_id>
+                        <number_of_days>1</number_of_days>
+                        <start_date>2017-11-17</start_date>
+                        <room_level>1</room_level>
+                        </request>
+Response=><result>
+  <room room_id="181873402">
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="23" value="2017-11-17">
+      <rate booked="0" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="8050440"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="23" value="2017-11-18">
+      <rate booked="0" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="8050440"/>
+    </date>
+  </room>
+  <room room_id="181873401">
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2017-11-17">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="8050440"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="2" value="2017-11-18">
+      <rate booked="0" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="8050440"/>
+    </date>
+  </room>
+</result>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YZf6ZkBi2a5wsVo5YBFSMfworD6/eAhwXu898eRNwLOaIVTXdDCm10FEHRVYThHM6MTXqRGeb5pl] -->
+TImestamp::2017-10-04 16:33:06=>Before update_channel_calendar2 PARAMS=>--13--19--{"channel_id":"2","property_id":"9","rate_id":"0","guest_count":"0","refun_type":"0","start":"17\/11\/2017","end":"18\/11\/2017"}--1--17/11/2017--mapping---
+TImestamp::2017-10-04 16:33:08=>Before update_channel_calendar3 PARAMS=>--13--19--{"channel_id":0,"property_id":"9","rate_id":"0","guest_count":"0","refun_type":"0","start":"17\/11\/2017","end":"18\/11\/2017"}--1--17/11/2017--mapping---
+TImestamp::2017-10-04 16:33:08=>Before update_channel_calendar2 PARAMS=>--13--19--{"channel_id":0,"property_id":"9","rate_id":"0","guest_count":"0","refun_type":"0","start":"17\/11\/2017","end":"18\/11\/2017"}--2--18/11/2017--mapping---
+TImestamp::2017-10-04 16:33:09=>Before update_channel_calendar3 PARAMS=>--13--19--{"channel_id":0,"property_id":"9","rate_id":"0","guest_count":"0","refun_type":"0","start":"17\/11\/2017","end":"18\/11\/2017"}--2--18/11/2017--mapping---

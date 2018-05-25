@@ -1,0 +1,171 @@
+TImestamp::2017-10-05 15:30:19=>IN importAvailabilities
+TImestamp::2017-10-05 15:30:21=>importAvailabilities2 URL=>https://supply-xml.booking.com/hotels/xml/roomrateavailability
+XML=>=<?xml version="1.0" encoding="UTF-8"?>  
+                        <request>
+                        <username>hoteratus--osiz</username>
+                        <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+                        <hotel_id>2465830</hotel_id>
+                        <number_of_days>30</number_of_days>
+                        <start_date>2018-01-27</start_date>
+                        <room_level>1</room_level>
+                        </request>
+Response=><result>
+  <room room_id="246583001">
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-01-27">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-01-28">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-01-29">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-01-30">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-01-31">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-01">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-02">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-03">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-04">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-05">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-06">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-07">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-08">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-09">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-10">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-11">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-12">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-13">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-14">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-15">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-16">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-17">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-18">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-19">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-20">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-21">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-22">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-23">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-24">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-25">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-26">
+      <rate booked="0" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+  </room>
+</result>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YWi/+ltUgmxGwfnCWQOXfjlo5dKVXQty9ge9ys41gKGzMqfxzBoXJ9RwkrzrQOwnYJ/3fRd48GyL] -->
+TImestamp::2017-10-05 15:30:21=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":"2","property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--27/01/2018--mapping---
+TImestamp::2017-10-05 15:30:21=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--27/01/2018--mapping---
+TImestamp::2017-10-05 15:30:21=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--28/01/2018--mapping---
+TImestamp::2017-10-05 15:30:22=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--28/01/2018--mapping---
+TImestamp::2017-10-05 15:30:22=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--29/01/2018--mapping---
+TImestamp::2017-10-05 15:30:22=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--29/01/2018--mapping---
+TImestamp::2017-10-05 15:30:23=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--30/01/2018--mapping---
+TImestamp::2017-10-05 15:30:23=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--30/01/2018--mapping---
+TImestamp::2017-10-05 15:30:23=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--31/01/2018--mapping---
+TImestamp::2017-10-05 15:30:23=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--31/01/2018--mapping---
+TImestamp::2017-10-05 15:30:24=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--01/02/2018--mapping---
+TImestamp::2017-10-05 15:30:24=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--01/02/2018--mapping---
+TImestamp::2017-10-05 15:30:24=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--02/02/2018--mapping---
+TImestamp::2017-10-05 15:30:25=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--02/02/2018--mapping---
+TImestamp::2017-10-05 15:30:25=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--03/02/2018--mapping---
+TImestamp::2017-10-05 15:30:25=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--03/02/2018--mapping---
+TImestamp::2017-10-05 15:30:26=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--04/02/2018--mapping---
+TImestamp::2017-10-05 15:30:26=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--04/02/2018--mapping---
+TImestamp::2017-10-05 15:30:26=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--05/02/2018--mapping---
+TImestamp::2017-10-05 15:30:26=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--05/02/2018--mapping---
+TImestamp::2017-10-05 15:30:27=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--06/02/2018--mapping---
+TImestamp::2017-10-05 15:30:27=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--06/02/2018--mapping---
+TImestamp::2017-10-05 15:30:27=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--07/02/2018--mapping---
+TImestamp::2017-10-05 15:30:28=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--07/02/2018--mapping---
+TImestamp::2017-10-05 15:30:28=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--08/02/2018--mapping---
+TImestamp::2017-10-05 15:30:28=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--08/02/2018--mapping---
+TImestamp::2017-10-05 15:30:29=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--09/02/2018--mapping---
+TImestamp::2017-10-05 15:30:29=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--09/02/2018--mapping---
+TImestamp::2017-10-05 15:30:29=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--10/02/2018--mapping---
+TImestamp::2017-10-05 15:30:29=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--10/02/2018--mapping---
+TImestamp::2017-10-05 15:30:30=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--11/02/2018--mapping---
+TImestamp::2017-10-05 15:30:30=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--11/02/2018--mapping---
+TImestamp::2017-10-05 15:30:30=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--12/02/2018--mapping---
+TImestamp::2017-10-05 15:30:31=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--12/02/2018--mapping---
+TImestamp::2017-10-05 15:30:31=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--13/02/2018--mapping---
+TImestamp::2017-10-05 15:30:31=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--13/02/2018--mapping---
+TImestamp::2017-10-05 15:30:32=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--14/02/2018--mapping---
+TImestamp::2017-10-05 15:30:32=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--14/02/2018--mapping---
+TImestamp::2017-10-05 15:30:33=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--15/02/2018--mapping---
+TImestamp::2017-10-05 15:30:33=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--15/02/2018--mapping---
+TImestamp::2017-10-05 15:30:33=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--16/02/2018--mapping---
+TImestamp::2017-10-05 15:30:33=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--16/02/2018--mapping---
+TImestamp::2017-10-05 15:30:34=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--17/02/2018--mapping---
+TImestamp::2017-10-05 15:30:34=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--17/02/2018--mapping---
+TImestamp::2017-10-05 15:30:34=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--18/02/2018--mapping---
+TImestamp::2017-10-05 15:30:35=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--18/02/2018--mapping---
+TImestamp::2017-10-05 15:30:35=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--19/02/2018--mapping---
+TImestamp::2017-10-05 15:30:35=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--19/02/2018--mapping---
+TImestamp::2017-10-05 15:30:36=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--20/02/2018--mapping---
+TImestamp::2017-10-05 15:30:36=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--20/02/2018--mapping---
+TImestamp::2017-10-05 15:30:36=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--21/02/2018--mapping---
+TImestamp::2017-10-05 15:30:36=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--21/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--22/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--22/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--23/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--23/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--24/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--24/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--25/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--25/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--26/02/2018--mapping---
+TImestamp::2017-10-05 15:30:37=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--26/02/2018--mapping---

@@ -1,0 +1,53 @@
+TImestamp::2017-10-06 22:15:14=>IN importAvailabilities
+TImestamp::2017-10-06 22:15:15=>importAvailabilities2 URL=>https://supply-xml.booking.com/hotels/xml/roomrateavailability
+XML=>=<?xml version="1.0" encoding="UTF-8"?>  
+                        <request>
+                        <username>hoteratus--osiz</username>
+                        <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+                        <hotel_id>2485972</hotel_id>
+                        <number_of_days>2</number_of_days>
+                        <start_date>2017-10-20</start_date>
+                        <room_level>1</room_level>
+                        </request>
+Response=><result>
+  <room room_id="248597201">
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2017-10-20">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9604616"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2017-10-21">
+      <rate booked="1" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9604616"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2017-10-22">
+      <rate booked="0" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9604616"/>
+    </date>
+  </room>
+</result>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YUwfr7w/u04XaR7GvT5k9ckai+AxfcdU1aBQwWokXUOr3UPTTFmrvEAa0jxtLNda0OirFds+kzjV] -->
+TImestamp::2017-10-06 22:15:15=>Before update_channel_calendar2 PARAMS=>--13--44--{"channel_id":"2","property_id":"66","rate_id":"0","guest_count":"0","refun_type":"0","start":"20\/10\/2017","end":"22\/10\/2017"}--0--20/10/2017--mapping---
+TImestamp::2017-10-06 22:15:15=>Before update_channel_calendar3 PARAMS=>--13--44--{"channel_id":0,"property_id":"66","rate_id":"0","guest_count":"0","refun_type":"0","start":"20\/10\/2017","end":"22\/10\/2017"}--0--20/10/2017--mapping---
+TImestamp::2017-10-06 22:15:16=>Before update_channel_calendar2 PARAMS=>--13--44--{"channel_id":0,"property_id":"66","rate_id":"0","guest_count":"0","refun_type":"0","start":"20\/10\/2017","end":"22\/10\/2017"}--0--21/10/2017--mapping---
+TImestamp::2017-10-06 22:15:17=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2485972</hotel_id>
+            <room id="248597201">
+            <date value="2017-10-21" >
+            <rate id="9604616"/><roomstosell>0</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YUwfr7w/u04XLSNuAwD/yUekrB/JUoTZ0SwaYml3b0bQZyFKlzJeTwOlz7604kv45Gyv8SwgdKla] -->
+TImestamp::2017-10-06 22:15:17=>Before update_channel_calendar3 PARAMS=>--13--44--{"channel_id":0,"property_id":"66","rate_id":"0","guest_count":"0","refun_type":"0","start":"20\/10\/2017","end":"22\/10\/2017"}--0--21/10/2017--mapping---
+TImestamp::2017-10-06 22:15:19=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2485972</hotel_id>
+            <room id="248597201">
+            <date value="2017-10-21" >
+            <rate id="9604616"/><roomstosell>0</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YUwfr7w/u04Xw6twx+4/JSxSO4wXO5ZEMM3iGwrYc7+QLFkLJra5BIFmQ2mPZdLcvkSEy587GagQ] -->
+TImestamp::2017-10-06 22:15:19=>Before update_channel_calendar2 PARAMS=>--13--44--{"channel_id":0,"property_id":"66","rate_id":"0","guest_count":"0","refun_type":"0","start":"20\/10\/2017","end":"22\/10\/2017"}--1--22/10/2017--mapping---
+TImestamp::2017-10-06 22:15:19=>Before update_channel_calendar3 PARAMS=>--13--44--{"channel_id":0,"property_id":"66","rate_id":"0","guest_count":"0","refun_type":"0","start":"20\/10\/2017","end":"22\/10\/2017"}--1--22/10/2017--mapping---

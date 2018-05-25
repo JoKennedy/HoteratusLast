@@ -1,0 +1,387 @@
+TImestamp::2018-01-24 18:08:36=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:36=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:37=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:37=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:37=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:37=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:37=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 18:08:38=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="13" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 19:24:43=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="10" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:10:21=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="253.33333333333"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:10:22=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="5" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:52=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:53=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:53=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:53=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:53=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:54=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:54=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:54=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:54=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:54=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:55=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:55=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:55=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:55=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2018-01-24 20:11:56=>BULK_UPDATE Price URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/marginRates
+Content=><GTA_MarginRatesUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS" /><RatePlan Id="35516"><MarginRates DaysOfWeek="1111111" MinNights="1" FullPeriod="false"><RoomRate Start="1970-01-01" End="1970-01-01" RoomId="119386" Occupancy="3" Gross="200"/></MarginRates></RatePlan></GTA_MarginRatesUpdateRQ>
+Response=><GTA_MarginRatesUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+ <Errors>
+  <Error Code="vld.invalid.startdate.after">The start date 1970-01-01 should be on or after 2018-01-24</Error>
+ </Errors>
+</GTA_MarginRatesUpdateRS>
+TImestamp::2018-01-24 20:11:56=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="24825" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "1970-01-01">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="15" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 01/01/70 18:00 SAST (01/01/70 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 1970-01-01 should be on or after 2018-01-24</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>

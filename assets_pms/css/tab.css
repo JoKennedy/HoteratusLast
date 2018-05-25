@@ -1,0 +1,87 @@
+/***
+Bootstrap Line Tabs by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+***/
+
+/* Tabs panel */
+.tab-room .tabbable-panel {
+  border:1px solid #eee;
+  padding: 10px;
+}
+
+/* Default mode */
+.tab-room .tabbable-line > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.tab-room .tabbable-line > .nav-tabs > li {
+  margin-right: 2px;
+}
+.tab-room .tabbable-line > .nav-tabs > li > a {
+  border: 0;
+  margin-right: 0;
+  color: #737373;
+}
+.tab-room .tabbable-line > .nav-tabs > li > a > i {
+  color: #a6a6a6;
+}
+.tab-room .tabbable-line > .nav-tabs > li.open, .tab-room .tabbable-line > .nav-tabs > li:hover {
+  border-bottom: 4px solid #fbcdcf;
+}
+.tab-room .tabbable-line > .nav-tabs > li.open > a,  .tab-room .tabbable-line > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #333333;
+}
+.tab-room .tabbable-line > .nav-tabs > li.open > a > i, .tab-room .tabbable-line > .nav-tabs > li:hover > a > i {
+  color: #a6a6a6;
+}
+.tab-room .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tab-room .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0px;
+}
+.tab-room .tabbable-line > .nav-tabs > li.active {
+  border-bottom: 4px solid #f3565d;
+  position: relative;
+}
+.tab-room .tabbable-line > .nav-tabs > li.active > a {
+  border: 0;
+  color: #333333;
+}
+.tab-room .tabbable-line > .nav-tabs > li.active > a > i {
+  color: #404040;
+}
+.tab-room .tabbable-line > .tab-content {
+  margin-top: -3px;
+  background-color: #fff;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+}
+.tab-room .portlet .tabbable-line > .tab-content {
+  padding-bottom: 0;
+}
+
+/* Below tabs mode */
+
+.tab-room .tabbable-line.tabs-below > .nav-tabs > li {
+  border-top: 4px solid transparent;
+}
+.tab-room .tabbable-line.tabs-below > .nav-tabs > li > a {
+  margin-top: 0;
+}
+.tab-room .tabbable-line.tabs-below > .nav-tabs > li:hover {
+  border-bottom: 0;
+  border-top: 4px solid #fbcdcf;
+}
+.tab-room .tabbable-line.tabs-below > .nav-tabs > li.active {
+  margin-bottom: -2px;
+  border-bottom: 0;
+  border-top: 4px solid #f3565d;
+}
+.tab-room .tabbable-line.tabs-below > .tab-content {
+  margin-top: -10px;
+  border-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}

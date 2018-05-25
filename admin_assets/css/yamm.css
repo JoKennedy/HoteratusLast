@@ -1,0 +1,99 @@
+/*!
+ * Yamm!3 - Yet another megamenu for Bootstrap 3
+ * http://geedmo.github.com/yamm3
+ * 
+ * @geedmo - Licensed under the MIT license
+ */
+.yamm .nav, .yamm .collapse, .yamm .dropup, .yamm .dropdown {
+	position: static;
+}
+.yamm .container {
+	position: relative;
+}
+.yamm .dropdown-menu {
+	/*left: auto;*/
+}
+.yamm .yamm-content {
+	padding: 20px 30px;
+}
+.yamm .dropdown.yamm-fw .dropdown-menu {
+	left: 0;
+	right: 0;
+}
+.jumbotron {
+	margin: 60px 0;
+	padding-left: 0;
+	padding-right: 0;
+}
+.jumbotron.intro {
+	margin-top: 0;
+}
+.jumbotron .navbar {
+	font-size: 14px;
+	line-height: 1.6;
+}
+/* menu styes */
+.list-unstyled, .list-unstyled ul {
+	min-width: 120px
+}
+.navbar-default {
+	background: none;
+	border: 0px;
+}
+.navbar-default .navbar-nav > .active > a, .nav-dash .navbar-default .navbar-nav > .active > a:focus, .nav-dash .navbar-default .navbar-nav > .active > a:hover {
+	background: #344b53;
+	color: #fff;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+	background: none;
+	color: #555;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+	background: #344b53;
+	color: #fff;
+}
+.yamm .dropdown-menu {
+	background-clip: padding-box;
+	background-color: #344b53;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+	display: none;
+	float: left;
+	font-size: 14px;
+	color: #fff;
+	left: 0;
+	list-style: outside none none;
+	margin: 2px 0 0;
+	min-width: 800px;
+	padding: 5px 0;
+	position: absolute;
+	text-align: left;
+	top: auto;
+	z-index: 1000;
+}
+.dropdown-menu a {
+	color: #fff;
+}
+.panel-group {
+	margin-bottom: 5px;
+} 
+ @media ( min-width: 767px ) {
+
+.thumbnail {
+	margin: 0;
+}
+}
+/* Grid demo styles */
+.grid-demo {
+	padding: 10px 30px;
+}
+.grid-demo [class*="col-"] {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 1em;
+	text-align: center;
+	line-height: 2;
+	background-color: #e5e1ea;
+	border: 1px solid #d1d1d1;
+}

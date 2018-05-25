@@ -1,0 +1,809 @@
+TImestamp::2017-10-06 08:42:19=>IN importAvailabilities
+TImestamp::2017-10-06 08:42:20=>importAvailabilities2 URL=>https://supply-xml.booking.com/hotels/xml/roomrateavailability
+XML=>=<?xml version="1.0" encoding="UTF-8"?>  
+                        <request>
+                        <username>hoteratus--osiz</username>
+                        <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+                        <hotel_id>2465830</hotel_id>
+                        <number_of_days>30</number_of_days>
+                        <start_date>2018-01-27</start_date>
+                        <room_level>1</room_level>
+                        </request>
+Response=><result>
+  <room room_id="246583001">
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-01-27">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-01-28">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-01-29">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-01-30">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-01-31">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-01">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-02">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-03">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-04">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-05">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-06">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-07">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-08">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-09">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-10">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-11">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-12">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-13">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-14">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-15">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-16">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-17">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-18">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-19">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-20">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-21">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-22">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-23">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-24">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="1" value="2018-02-25">
+      <rate booked="1" cancelled="1" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+    <date min_contracted_rooms="0" min_contracted_rooms_until="0" rooms_to_sell="0" value="2018-02-26">
+      <rate booked="0" cancelled="0" closed="0" min_contracted_rooms="0" min_contracted_rooms_until="0" rate_id="9568653"/>
+    </date>
+  </room>
+</result>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAyuaTOqxf5ncspx51G9ZQa4Ir3GRvDVC4DD0zGj2FB1wwFN2WCMlZ9qpLUW6842Fp] -->
+TImestamp::2017-10-06 08:42:20=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":"2","property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--27/01/2018--mapping---
+TImestamp::2017-10-06 08:42:21=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--27/01/2018--mapping---
+TImestamp::2017-10-06 08:42:21=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--28/01/2018--mapping---
+TImestamp::2017-10-06 08:42:22=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-28" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUATCLpJ7fTxQ7uj2TZaNAti2SbhXpOBoJ20+cselwjaTeb+ZZ6d4nYU2BLI6BAlX2E] -->
+TImestamp::2017-10-06 08:42:22=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--28/01/2018--mapping---
+TImestamp::2017-10-06 08:42:24=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-28" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAOhVc86TDYMP5iTS/lAEIwEtvgwcAZRa4HuYu4BGtrh/S3YjCgURBv71JfCdeagE8] -->
+TImestamp::2017-10-06 08:42:24=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--29/01/2018--mapping---
+TImestamp::2017-10-06 08:42:25=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-29" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUACoWms65wPNPTlWLsuNbbXpdbZjM1QF5hnqeXpVd5OZQTvoWlvsX8S2wRtGq6iF+8] -->
+TImestamp::2017-10-06 08:42:25=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--29/01/2018--mapping---
+TImestamp::2017-10-06 08:42:26=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-29" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAucgRQoEuap1JY15F5jQZkwSfQ3h9PR2JCl7pj37YOI0Z0tCpqSEB7891FthI3Q3p] -->
+TImestamp::2017-10-06 08:42:27=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--30/01/2018--mapping---
+TImestamp::2017-10-06 08:42:28=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-30" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUALSE68TMELTWVLo/SU4Fh+nTEDf5k87Uj/l1nLh3T9CaQXPPzkJdVvxVo3UFuPwAy] -->
+TImestamp::2017-10-06 08:42:28=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--30/01/2018--mapping---
+TImestamp::2017-10-06 08:42:29=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-30" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAcn+SriYY5YuDhGcBi+vYahY4knfYNVMFx1bhr0Kos4f6OdNRkDT/YjqKl06euTgR] -->
+TImestamp::2017-10-06 08:42:30=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--31/01/2018--mapping---
+TImestamp::2017-10-06 08:42:31=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-31" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAt7piYbjyNPXSFofAUCVaTyTkMMHC9XjLn3XKosHQ96wtQRUWPABmiPnKUN7aDapq] -->
+TImestamp::2017-10-06 08:42:31=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--31/01/2018--mapping---
+TImestamp::2017-10-06 08:42:32=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-01-31" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAV4YOwiDneCbKFb/V+dkKwfeMTjo1EvgHZpf4DAjManYvIEIXj1OeSR1brrlIaaq/] -->
+TImestamp::2017-10-06 08:42:33=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--01/02/2018--mapping---
+TImestamp::2017-10-06 08:42:34=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-01" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAnz1lYxlfCvSXBWeXPlt/k5I8qudtbRPxu4blVzWxPwyrC5tOTT+AHkllJFalY1cr] -->
+TImestamp::2017-10-06 08:42:34=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--01/02/2018--mapping---
+TImestamp::2017-10-06 08:42:35=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-01" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAQXtU0qcd53XWeOZBTgH3YaH2mbWd2PTqtU27dVhUd69DglIY/RDdlYcLioBTNmpm] -->
+TImestamp::2017-10-06 08:42:35=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--02/02/2018--mapping---
+TImestamp::2017-10-06 08:42:37=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-02" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAayUdIBafdxUx0vdkWFNIEgb2sz3om7NkxDWNX1Y9gf5sE8dRM521am3tuQISkDYs] -->
+TImestamp::2017-10-06 08:42:37=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--02/02/2018--mapping---
+TImestamp::2017-10-06 08:42:38=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-02" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAyfziG79crnVoSAb8BHQjr1k/xUZ/0CIsTfylBWUCNANS/9trjvl3xQUV4C0UqBNO] -->
+TImestamp::2017-10-06 08:42:38=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--03/02/2018--mapping---
+TImestamp::2017-10-06 08:42:40=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-03" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUArfSdPTC9DrICerIe2Vp1mwVU/6NppsDPgD0fJTDXs+lQDoBrZ9K11X76yVnTOpBi] -->
+TImestamp::2017-10-06 08:42:40=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--03/02/2018--mapping---
+TImestamp::2017-10-06 08:42:41=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-03" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAAdnLNbtxBQcDWjm8wGNCMGRnuCCUAcFpTaq7EdUkRG+wiztPYBPCu/96z1pV5yFL] -->
+TImestamp::2017-10-06 08:42:41=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--04/02/2018--mapping---
+TImestamp::2017-10-06 08:42:42=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-04" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAmzy+Kctpo2N+3HqDfxPXrNz1AK/Z+mtcZo1Fx0Eou7Mt55h+s2e8LzI7g0QTC/KN] -->
+TImestamp::2017-10-06 08:42:43=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--04/02/2018--mapping---
+TImestamp::2017-10-06 08:42:44=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-04" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAd6nAyYEV3ITnYTWosyINEvubBdkD029nNHBGWns9dLLVF2I+vuxrNp05b6T4TkKZ] -->
+TImestamp::2017-10-06 08:42:44=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--05/02/2018--mapping---
+TImestamp::2017-10-06 08:42:46=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-05" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA9ulQP5WV26zXXe7ZK/SPgnxejtGwCgflUvGyKL3uM6Vm61GCddrE5dyTQOczHuNw] -->
+TImestamp::2017-10-06 08:42:46=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--05/02/2018--mapping---
+TImestamp::2017-10-06 08:42:47=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-05" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAfEwJniYnqa/JL73Als4VMVmbYOeEoRhI3s+EmfJcnmLWEayuYVH1/xyG+StKzIJ/] -->
+TImestamp::2017-10-06 08:42:47=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--06/02/2018--mapping---
+TImestamp::2017-10-06 08:42:48=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-06" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAO6r4WHNO5axQesWWXwUPjjqL9xevUvZoK9ZBkpn5WK81ERZq0h+Rb3Um5sFAYRmz] -->
+TImestamp::2017-10-06 08:42:49=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--06/02/2018--mapping---
+TImestamp::2017-10-06 08:42:50=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-06" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAugOVkLDDK2jWW/lrbz8dJr1y4tV4k2WRzLOda93VHbwMqOpmNwnW+EGoapJr4cB6] -->
+TImestamp::2017-10-06 08:42:50=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--07/02/2018--mapping---
+TImestamp::2017-10-06 08:42:51=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-07" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA4z3VSaGEoG8dp6aT3C9QKKsgv2nqIE8j9wB8jm/xfu3da4T2ovcVj0jR0rb18uvt] -->
+TImestamp::2017-10-06 08:42:52=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--07/02/2018--mapping---
+TImestamp::2017-10-06 08:42:53=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-07" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAxfaBYdH0kyES7yrmh4UhcTvZTPVV11lA9B+xCeMH7Y03+FfBnlksVCDVDZKnQWmW] -->
+TImestamp::2017-10-06 08:42:53=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--08/02/2018--mapping---
+TImestamp::2017-10-06 08:42:54=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-08" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA9mWW0EtF7+1D7FJdTyx54KTRiIMduRZo5xwrrT0kOfoohmgmmLYEA5Sb13m4jBrA] -->
+TImestamp::2017-10-06 08:42:54=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--08/02/2018--mapping---
+TImestamp::2017-10-06 08:42:56=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-08" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA59AdinYn67JweU7jonMZHpXUrkS0OJgbCM+CGMnFmI9Nk5mioDUNDImJoFH7BEnF] -->
+TImestamp::2017-10-06 08:42:56=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--09/02/2018--mapping---
+TImestamp::2017-10-06 08:42:57=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-09" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAlVwOa59MTmJkdp3P8ZpXbC35lf2O/PwRRN/fb1sz8ON0F7E5wHgR8qg7dtnfLYfX] -->
+TImestamp::2017-10-06 08:42:57=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--09/02/2018--mapping---
+TImestamp::2017-10-06 08:42:59=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-09" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAxEG+d1e2ANafghs01tkGSsOADqI45lkCTdsYquF0SNA7YrSkYjZJFUnu0oNerwRI] -->
+TImestamp::2017-10-06 08:42:59=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--10/02/2018--mapping---
+TImestamp::2017-10-06 08:43:00=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-10" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUACVK4jmW7+PCSSjqbWfLYf1a/LcRHZ1e0aLuSfgymFLBaqUauMzBq7SuQokF3HtSl] -->
+TImestamp::2017-10-06 08:43:00=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--10/02/2018--mapping---
+TImestamp::2017-10-06 08:43:02=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-10" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAhWWqVIk5aR8dwHeZ9HuXi2xiVP1vTCQSXaVRTq9z2pra8weXQL3jCkLlPVaUsytZ] -->
+TImestamp::2017-10-06 08:43:02=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--11/02/2018--mapping---
+TImestamp::2017-10-06 08:43:03=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-11" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA8ecHma6ZWC50ggOlUSr6E+f0qIy6KbWA6cGDjR3uhnufYelYym7HzpLVCvh1lJD/] -->
+TImestamp::2017-10-06 08:43:03=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--11/02/2018--mapping---
+TImestamp::2017-10-06 08:43:04=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-11" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAOUiFrKrheCOxj2EF7UFnci6BnyZD17IN5q3yb2OnvrRNnAF0w15HFj6ksVL8ctrK] -->
+TImestamp::2017-10-06 08:43:05=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--12/02/2018--mapping---
+TImestamp::2017-10-06 08:43:06=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-12" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAizcGVHENdTSErcKqpWdFio0bo/5jBYd8wiL2OIuo9L8MSjoTu6S1ATP3VCRLJ1lN] -->
+TImestamp::2017-10-06 08:43:06=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--12/02/2018--mapping---
+TImestamp::2017-10-06 08:43:07=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-12" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAMJejNHVtazBeFHnGPHem+8yvttBEPPQz/bLTt+6W8FWKakLn+ZrPnCMyzN3wGag3] -->
+TImestamp::2017-10-06 08:43:08=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--13/02/2018--mapping---
+TImestamp::2017-10-06 08:43:09=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-13" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA9eQ3qmtzCtclA3/JbIWfZILwLj6TNHfoflH0D3VCvqvk6enCfRrFZZ3gjo1A39Rw] -->
+TImestamp::2017-10-06 08:43:09=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--13/02/2018--mapping---
+TImestamp::2017-10-06 08:43:10=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-13" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA/q9K7CarIScu/1Xei2UfVJPzq4txZdInOTQBr8r7AfaScw4/b1/cuK+Exjw2qnm5] -->
+TImestamp::2017-10-06 08:43:10=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--14/02/2018--mapping---
+TImestamp::2017-10-06 08:43:12=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-14" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAVR9CtttzEn4UOa7zRmaZ6w0o5m2s/44Bh7tbnXM8ALIVYWdfXdqdX0kJ9UxaqXUm] -->
+TImestamp::2017-10-06 08:43:12=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--14/02/2018--mapping---
+TImestamp::2017-10-06 08:43:13=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-14" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUATQO1vir0r8e9lIbF7Qo7T0uJjHaMUpa2ZAnuV+1pE9zTQmHrgLMn2Hj1dBB9lkXz] -->
+TImestamp::2017-10-06 08:43:13=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--15/02/2018--mapping---
+TImestamp::2017-10-06 08:43:14=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-15" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUARf1wQEQZO78YqOG0qpQumatyHYexdobZW1x5GAKd9KxdKWEUyu/oLMkXFY9R1LeV] -->
+TImestamp::2017-10-06 08:43:15=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--15/02/2018--mapping---
+TImestamp::2017-10-06 08:43:16=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-15" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA8grBusCQ8Q6TujEVsj8tOE5IAzRxMJvgx0agjL+V6IJI+Wt2aFX1cGvQBnutEyX2] -->
+TImestamp::2017-10-06 08:43:16=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--16/02/2018--mapping---
+TImestamp::2017-10-06 08:43:18=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-16" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAeysz4+v/m4PPNjHxalgveBBARepyduIIo6Gw1jSxEh5azZF+58Pc+GMf4tj9m5SS] -->
+TImestamp::2017-10-06 08:43:18=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--16/02/2018--mapping---
+TImestamp::2017-10-06 08:43:19=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-16" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAW9YEgqnp26qCXXmP7UsBhKQGSAwOxO1QVvDxSF9LTZmFClalpVoUqGNCkO0/qU0m] -->
+TImestamp::2017-10-06 08:43:19=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--17/02/2018--mapping---
+TImestamp::2017-10-06 08:43:21=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-17" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAGt11nQOJJ8yS2UnQj4FhuExgczJVbE2arg68oLV5xZQ8R5uUcA1yV+5qWt5r9tcD] -->
+TImestamp::2017-10-06 08:43:21=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--17/02/2018--mapping---
+TImestamp::2017-10-06 08:43:22=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-17" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAF3RDnsGkV941WO6pexRqBnQ3Gc7QJagzq5vdQ/jhgWCiZGVKYbfSzBadqBN1gaGG] -->
+TImestamp::2017-10-06 08:43:22=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--18/02/2018--mapping---
+TImestamp::2017-10-06 08:43:24=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-18" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAC4PAljdz0F2YGNQ8sKKfx3CB5QhJ0Pf/xI7wC9H9JeENrmgohBgPEQPL0S6ZXFmf] -->
+TImestamp::2017-10-06 08:43:24=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--18/02/2018--mapping---
+TImestamp::2017-10-06 08:43:25=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-18" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUALc31GKVMPiEHxxdMfwyqVv+6DNosZE8C4xxGrQ2RtzKNBZKNCOE8lNN5YZm2XfsK] -->
+TImestamp::2017-10-06 08:43:25=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--19/02/2018--mapping---
+TImestamp::2017-10-06 08:43:26=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-19" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAbBEz/NxIMZ78aZD/8CEQF2qWGbCkaLS0YNvQ7Xc7T0JWITggTfKMM5srrfw4S1m3] -->
+TImestamp::2017-10-06 08:43:27=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--19/02/2018--mapping---
+TImestamp::2017-10-06 08:43:28=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-19" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAowOEIZKcWKt+08cx5Eyfpf4dszX9HWGW0LhaRMuL3InRIHVKuipcBadqySWEAcvu] -->
+TImestamp::2017-10-06 08:43:28=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--20/02/2018--mapping---
+TImestamp::2017-10-06 08:43:29=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-20" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAA7WmXEY09NTEXPS11uLxwfXu5cpnNfYr7XKgNrrZMoK8t5rDeQkz2fxCSvV7lKel] -->
+TImestamp::2017-10-06 08:43:29=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--20/02/2018--mapping---
+TImestamp::2017-10-06 08:43:31=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-20" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAG54rlnB+4pn0qCHTrCncOgedog6XhLozv2USUBTT4sCCmF5SJ859evANBfDhDThN] -->
+TImestamp::2017-10-06 08:43:31=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--21/02/2018--mapping---
+TImestamp::2017-10-06 08:43:32=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-21" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAF/iwACsamp7cOxHab9WRM9cTJy9otarPuqTxuht+aV2W9mS6ndb+23QoSNdLk6i8] -->
+TImestamp::2017-10-06 08:43:32=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--21/02/2018--mapping---
+TImestamp::2017-10-06 08:43:34=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-21" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA0GUPuNI89oYEIopyTHVX1S4v0JxeSO6UuSNrDXiVRr79GLi+YFI3JTBs7BGHY3bp] -->
+TImestamp::2017-10-06 08:43:34=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--22/02/2018--mapping---
+TImestamp::2017-10-06 08:43:35=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-22" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA4qpjJkcyBSIxN+YJgCsDWK7JaB3MeW6zCqV1mLjewmR2b9mV7JBPvEHfg8lE/NZd] -->
+TImestamp::2017-10-06 08:43:35=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--22/02/2018--mapping---
+TImestamp::2017-10-06 08:43:36=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-22" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA3MyEfWHlQSy6tjLijzjPh9bhMRAUssIhxIp11ObDVuhdT8GKDBKN629NUc07GKhX] -->
+TImestamp::2017-10-06 08:43:37=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--23/02/2018--mapping---
+TImestamp::2017-10-06 08:43:38=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-23" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAf9TzIVn2LTFwmZ0KRgAD06VqRZTxpnjPgXkGrUl0vifEYH6mYkpp0PK1EHwQp3Z0] -->
+TImestamp::2017-10-06 08:43:38=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--23/02/2018--mapping---
+TImestamp::2017-10-06 08:43:39=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-23" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAiLiVmfWlDE3RE9I4eCtWxvPYZN7bFcvx/0QQy7bEaoMRCZWdCgOS2dFcadLgmFZH] -->
+TImestamp::2017-10-06 08:43:39=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--24/02/2018--mapping---
+TImestamp::2017-10-06 08:43:41=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-24" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA6fsW1WNM0vrsvd12gfVVTkTXyl/Nm9Jo94MlLBBN6+wONTRD3x+zL+NL5uSyYedL] -->
+TImestamp::2017-10-06 08:43:41=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--24/02/2018--mapping---
+TImestamp::2017-10-06 08:43:42=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-24" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUAx+J+rObYtqFqcStAb55clt05qdHenOagWe8Q2CIlqXgkHSIzmoUqCv3YI9kL0eem] -->
+TImestamp::2017-10-06 08:43:42=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--25/02/2018--mapping---
+TImestamp::2017-10-06 08:43:43=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-25" >
+            <rate id="9568653"/><roomstosell>1</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA3glStA00MfaDvd3yF9fo48quIyggMTUL5SgeN8s5oNOGm1VEFynMYFqYCcWIoMhq] -->
+TImestamp::2017-10-06 08:43:44=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--1--25/02/2018--mapping---
+TImestamp::2017-10-06 08:43:45=>IN update_availability URL=>https://supply-xml.booking.com/hotels/xml/availability?xml=
+XML=>=<?xml version="1.0" encoding="UTF-8"?>
+            <request>
+            <username>hoteratus--osiz</username>
+            <password>4/^SLG@nzvuUTZX8-95!H?h._pWIBAkSv?tq=?R)</password>
+            <hotel_id>2465830</hotel_id>
+            <room id="246583001">
+            <date value="2018-02-25" >
+            <rate id="9568653"/><roomstosell>2</roomstosell></date></room></request>
+Response=><ok></ok>
+<!-- RUID: [UmFuZG9tSVYkc2RlIyh9YR2ryau78gUA5ottzzT3s9qxq+TnUNex3JgPOPJGi2o0hRC1hTjaMYSG9hVQOrEJk4yqPh/SCg4+] -->
+TImestamp::2017-10-06 08:43:45=>Before update_channel_calendar2 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--26/02/2018--mapping---
+TImestamp::2017-10-06 08:43:45=>Before update_channel_calendar3 PARAMS=>--35--64--{"channel_id":0,"property_id":"91","rate_id":"0","guest_count":"0","refun_type":"0","start":"27\/01\/2018","end":"26\/02\/2018"}--0--26/02/2018--mapping---

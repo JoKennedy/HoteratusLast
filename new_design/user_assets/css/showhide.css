@@ -1,0 +1,56 @@
+
+.intro {
+  font-size: 1.25em;
+}
+.js .panel-title {
+  margin: 0;
+}
+.panel-title a {
+  border-bottom: none;
+  color: #292929;
+  display: block;
+  padding: 1.25em 0;
+  position: relative;
+  text-decoration: none;
+  -webkit-transition: color 200ms ease 0s;
+  -moz-transition: color 200ms ease 0s;
+  transition: color 200ms ease 0s;
+  width: 100%;
+}
+.panel-title a .icon {
+  color: #00B632;
+  position: absolute;
+  left: 10px;
+  -webkit-transition: all 200ms ease 0s;
+  -moz-transition: all 200ms ease 0s;
+  transition: all 200ms ease 0s;
+}
+.panel-title a:hover,
+.panel-title a:focus {
+  color: #37474f;
+}
+.panel-title a:hover .icon,
+.panel-title a:focus .icon {
+  color: #ec407a;
+}
+.panel-title a.active {
+  color: #37474f;
+}
+.panel-title a.active .icon {
+  color: #ec407a;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.js .accordion {
+  border-bottom: 1px solid #ececec;
+  margin: 2em 0;
+}
+.accordion .panel-title a {
+ border: 2px solid #FB4B6F;
+    margin-bottom: 25px;
+	 padding-left: 25px;
+}
+[id^="panel-"] {
+  padding-bottom: 2em;
+}

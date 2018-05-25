@@ -1,0 +1,49 @@
+TImestamp::2018-02-08 14:00:07=>url=>https://api.airbnb.com/v2/calendars/22488132/2018-03-15/2018-03-15
+Access TOken=>37cn2myv4fhy95llh5je7uaan
+Request=>{"daily_price":130,"demand_based_pricing_overridden":true,"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"05d8ed27a3f6d2ba7aa6427171a5f87d"
+Referrer-Policy: same-origin
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com *.g.doubleclick.net www.google.com www.gstatic.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com *.gbc.criteo.net ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=1fbeef58-76fb-440e-b86f-4f398de1fd59&version=b608592c362dcbb6550343548bfa5ebdedc324a2
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Thu, 08 Feb 2018 14:00:07 GMT
+Content-Length: 192
+Connection: keep-alive
+Set-Cookie: jitney_client_session_id=c7ceb002-ebc0-4017-93b1-87121dd2484d; domain=.airbnb.com; path=/; expires=Fri, 09-Feb-2018 14:00:07 GMT; secure
+Set-Cookie: jitney_client_session_created_at=1518098407; domain=.airbnb.com; path=/; expires=Fri, 09-Feb-2018 14:00:07 GMT; secure
+Set-Cookie: jitney_client_session_updated_at=1518098407; domain=.airbnb.com; path=/; expires=Fri, 09-Feb-2018 14:00:07 GMT; secure
+
+{"calendar":{"days":[{"available":true,"date":"2018-03-15"}],"end_date":"2018-03-15","host_id":18009968,"listing_currency":"USD","listing_id":22488132,"start_date":"2018-03-15"},"metadata":{}}TImestamp::2018-02-08 14:00:08=>url=>https://api.airbnb.com/v2/calendars/22488132/2018-03-16/2018-03-16
+Access TOken=>37cn2myv4fhy95llh5je7uaan
+Request=>{"daily_price":130,"demand_based_pricing_overridden":true,"availability":"available"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"2cfdbb5eb3715832551b012a8bd241d7"
+Referrer-Policy: same-origin
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' a0.muscache.com cdn.siftscience.com ss.musthird.com t1.musthird.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com *.g.doubleclick.net www.google.com www.gstatic.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com *.gbc.criteo.net ethn.io b92.yahoo.co.jp blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=642cf0ae-7220-44e8-8429-9113c5832ea5&version=b608592c362dcbb6550343548bfa5ebdedc324a2
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Thu, 08 Feb 2018 14:00:08 GMT
+Content-Length: 192
+Connection: keep-alive
+Set-Cookie: jitney_client_session_id=d3cfb4ff-ba88-4a34-9274-01df94a7c861; domain=.airbnb.com; path=/; expires=Fri, 09-Feb-2018 14:00:07 GMT; secure
+Set-Cookie: jitney_client_session_created_at=1518098407; domain=.airbnb.com; path=/; expires=Fri, 09-Feb-2018 14:00:07 GMT; secure
+Set-Cookie: jitney_client_session_updated_at=1518098407; domain=.airbnb.com; path=/; expires=Fri, 09-Feb-2018 14:00:07 GMT; secure
+
+{"calendar":{"days":[{"available":true,"date":"2018-03-16"}],"end_date":"2018-03-16","host_id":18009968,"listing_currency":"USD","listing_id":22488132,"start_date":"2018-03-16"},"metadata":{}}

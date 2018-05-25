@@ -1,0 +1,38 @@
+TImestamp::2017-12-07 15:02:54=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="10203" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "2017-07-12">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="2" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.inventorystyle.room">For stay date 2017-07-12 you are attempting to update Room style inventory  whereas inventory on that day is by Category style</Error>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 12/07/17 18:00 SAST (12/07/17 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 2017-07-12 should be on or after 2017-12-07</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>
+TImestamp::2017-12-07 19:48:27=>BULK_UPDATE Alot URL=>https://hotels.demo.gta-travel.com/supplierapi/rest/inventory
+Content=><GTA_InventoryUpdateRQ xmlns="http://www.gta-travel.com/GTA/2012/05"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.gta-travel.com/GTA/2012/05 GTA_InventoryUpdateRQ.xsd"><User Qualifier="CPTHOLB" UserName="XMLUSER" Password="HOTERATUS"/><InventoryBlock ContractId="10203" PropertyId="10493" ><RoomStyle>
+                    <StayDate Date = "2017-07-12">
+                    <Inventory RoomId="119386" >
+                    <Detail FreeSale="false" InventoryType="Flexible"
+                    Quantity="2" ReleaseDays="0"/>
+                    </Inventory>
+                    </StayDate></RoomStyle>
+                    </InventoryBlock>
+                    </GTA_InventoryUpdateRQ>
+Response=><GTA_InventoryUpdateRS User="CPTHOLB:xmluser" Version="1.36" Env="I" xmlns="http://www.gta-travel.com/GTA/2012/05">
+  <Errors>
+    <Error Code="vld.invalid.inventorystyle.room">For stay date 2017-07-12 you are attempting to update Room style inventory  whereas inventory on that day is by Category style</Error>
+    <Error Code="vld.invalid.releaseDays.tooEarly">Error - inventory would release immediately 12/07/17 18:00 SAST (12/07/17 16:00 GMT)</Error>
+    <Error Code="vld.invalid.inventory.staydate.after">The stay date 2017-07-12 should be on or after 2017-12-07</Error>
+  </Errors>
+</GTA_InventoryUpdateRS>

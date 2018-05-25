@@ -1,0 +1,321 @@
+TImestamp::2017-09-16 10:27:19=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-16/2017-09-16
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":109,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"8368ef1e693bc170d8d05cb30d2c7b9d"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io a.alipayobjects.com gw.alipayobjects.com cn-ali.muscache.com static.agrant.com.cn t.agrantsem.com z0.muscache.com ditu.google.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=f650ea59-a201-4036-9cfb-e1dc08cb10ee&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:19 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-16"}],"end_date":"2017-09-16","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-16"},"metadata":{}}TImestamp::2017-09-16 10:27:19=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-17/2017-09-17
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":94,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"f32b36c1470b51977107c7c3760edaeb"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=69351c73-0054-4f8e-bbad-3b50323d19ab&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:19 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-17"}],"end_date":"2017-09-17","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-17"},"metadata":{}}TImestamp::2017-09-16 10:27:20=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-18/2017-09-18
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":94,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"946d8881db17cd0848cf7d550f0e0dcc"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=2fc369f3-f8b1-406b-bb64-875fc26e244a&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:20 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-18"}],"end_date":"2017-09-18","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-18"},"metadata":{}}TImestamp::2017-09-16 10:27:21=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-19/2017-09-19
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":94,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"90cb4fce17a569aec1800569730275d8"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io a.alipayobjects.com gw.alipayobjects.com cn-ali.muscache.com static.agrant.com.cn t.agrantsem.com z0.muscache.com ditu.google.com blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=6d5c1b8f-a7d8-492b-8fd9-108c75c31074&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:21 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-19"}],"end_date":"2017-09-19","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-19"},"metadata":{}}TImestamp::2017-09-16 10:27:21=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-20/2017-09-20
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":94,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"5a7f7a449e93a0530e352741ecec208d"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=4ce1d900-123c-4166-8a49-9d4c19619cb6&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:21 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-20"}],"end_date":"2017-09-20","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-20"},"metadata":{}}TImestamp::2017-09-16 10:27:22=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-21/2017-09-21
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":94,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"80fd49e46b7d925ee12534a4c979535b"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=8ee176de-867d-43f2-926c-2ac90bedc7d6&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:22 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-21"}],"end_date":"2017-09-21","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-21"},"metadata":{}}TImestamp::2017-09-16 10:27:23=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-22/2017-09-22
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":109,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"136d38bce2bd967bf7810cff6959a2fc"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=6401eda2-4ec3-4666-9793-1dfa01b9cc1a&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:23 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-22"}],"end_date":"2017-09-22","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-22"},"metadata":{}}TImestamp::2017-09-16 10:27:23=>url=>https://api.airbnb.com/v2/calendars/2775415/2017-09-23/2017-09-23
+Access TOken=>6j26infpp25tv7ujq7fifk5re
+Request=>{"daily_price":109,"demand_based_pricing_overridden":true,"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"636bf1f1b9f58c63cb9a74ba30a9c6bb"
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=b2d1535c-983c-4a72-9f75-c54cfa7d223c&version=449b70ec336c4ce71fe24d646fea9d38bd8f4615
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sat, 16 Sep 2017 10:27:23 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-09-23"}],"end_date":"2017-09-23","host_id":14159056,"listing_currency":"EUR","listing_id":2775415,"start_date":"2017-09-23"},"metadata":{}}TImestamp::2017-09-16 23:20:05=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-17/2017-09-17
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "6196a8ebdcc124b341ff695724542570"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=cc6589b0-8c4a-43d8-9bed-88bffac03c7b&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:05 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"8b64d5b7ecd51d3ac2e96c369034bdbe"}TImestamp::2017-09-16 23:20:05=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-18/2017-09-18
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "b8b3e4215cacfcdc59333389dfae6f25"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=2fcc7e54-1875-41d3-a36b-f5ebfbd6b9ef&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:05 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"ae4be969be0f9cb843ec42c9471b98de"}TImestamp::2017-09-16 23:20:05=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-19/2017-09-19
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "4cbde6762f27c1b21ab8ed5878b0f81a"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=93237630-94e7-4f83-866b-747801e35e08&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:06 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"70b69ed092a96fadecdce5e97a4e7436"}TImestamp::2017-09-16 23:20:06=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-20/2017-09-20
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "e6f6449e3f4a14fdb53774b308b521e7"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io mc.yandex.ru blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=c4eaf985-a301-4614-9668-0795e3372d16&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:06 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"5232324b048df26fb65aa5797b15640a"}TImestamp::2017-09-16 23:20:51=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-17/2017-09-17
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "c6aec186e6c88946064cf2c8f8bab3ca"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=1d0a33e6-c795-4321-9be3-f75c279fdd4b&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:51 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"bff8dd2f31ae65664e290744fbd828a7"}TImestamp::2017-09-16 23:20:51=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-18/2017-09-18
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "e96d844e9d1cd9c14a95ad53532b4811"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=09fb7775-1b9c-4176-be7c-34eda0626195&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:51 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"ccd4383b9b0e870be58bc6f78ce3f1b1"}TImestamp::2017-09-16 23:20:51=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-19/2017-09-19
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "f48dc0ab99a3f8b77cf3d23576cf1991"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=ebcf4289-b252-48f9-98cc-d9e1d161ce93&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:51 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"6b6452d15b007eae6e96ebb81a50d3a1"}TImestamp::2017-09-16 23:20:51=>url=>https://api.airbnb.com/v2/calendars/12888825/2017-09-16/2017-09-16
+Access TOken=>7cwpuz0dcevg41bg4sxl9jhwx
+Request=>[]
+
+Response=>500HTTP/1.1 500 Internal Server Error
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 500 Internal Server Error
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "37e0d19aa6c7dec0b56c8a2f2ff1deca"
+Content-Security-Policy: default-src 'self' https: blob:; child-src *; connect-src 'self' https: wss: *.amap.com *.inspectlet.com; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; img-src 'self' https: data: *.inspectlet.com; media-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' a0.muscache.com cdn.siftscience.com bat.bing.com connect.facebook.net www.google-analytics.com www.googleadservices.com tpc.googlesyndication.com www.googletagmanager.com maps.googleapis.com ajax.googleapis.com app.link cdn.branch.io bam.nr-data.net js-agent.newrelic.com sslwidget.criteo.com static.criteo.net dis.criteo.com widget.us.criteo.com ethn.io blob: webapi.amap.com restapi.amap.com *.inspectlet.com https:; style-src 'self' https: 'unsafe-inline'; report-uri /tracking/csp?action=update&controller=v2&report_only=false&req_uuid=94457a87-309c-4dec-bd29-002c32269660&version=5a052ee211758be43346397f8786565f51c4d0fe
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Content-Length: 280
+Date: Sat, 16 Sep 2017 23:20:51 GMT
+Connection: close
+
+{"error_code":500,"error_type":"unknown_error","error_message":"Unfortunately, a server error prevented your request from being completed. Airbnb may be undergoing maintenance or your connection may have timed out. Please try again.","error_id":"fde016aadb61732db62299bf38f74e3f"}

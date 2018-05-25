@@ -1,0 +1,339 @@
+TImestamp::2017-08-06 21:29:02=>url=>https://api.airbnb.com/v2/calendars/19851344/2017-08-07/2017-08-07
+Access TOken=>7ihmyxjae78muvpzsokncjtna
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=b92f1de4-a9e2-474e-9a6f-034f5c9dab0c&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"8177e8555fff1c50cf4a3a4b61b49492"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:29:02 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":19851344,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:29:22=>url=>https://api.airbnb.com/v2/calendars/4201160/2017-08-07/2017-08-07
+Access TOken=>9xwm4tphhgo7khcshy5gmthft
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=b639c90d-d95f-4994-b8b4-479e0f80f6af&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"b0476cac75de7f65b8a6e32fe275c526"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:29:22 GMT
+Content-Length: 192
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":4201160,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:30:12=>url=>https://api.airbnb.com/v2/calendars/4326648/2017-08-07/2017-08-07
+Access TOken=>d306zoyjsyarp7ifhu67rjxn52tv0t20
+Request=>{"availability":"unavailable"}
+
+Response=>401HTTP/1.1 401 Unauthorized
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 401 Unauthorized
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=cf304d04-b69f-482e-9d8c-196c11717cd6&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+Cache-Control: no-cache
+X-UA-Compatible: IE=Edge,chrome=1
+ETag: "82a52fe7bdc475eabe1109587601bea4"
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 74
+Date: Sun, 06 Aug 2017 21:30:12 GMT
+Connection: close
+
+{"error_code":401,"error":"invalid_token","error_message":"Invalid Token"}TImestamp::2017-08-06 21:32:30=>url=>https://api.airbnb.com/v2/calendars/19833146/2017-08-07/2017-08-07
+Access TOken=>1mojcdth0w0zlzcvj45ad8m06
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=f12e0eb7-d6de-48c2-8b1e-2bcd15223d0d&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"d3d0a871fc5a94f52cb57afef27a5625"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:32:30 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":19833146,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:34:28=>url=>https://api.airbnb.com/v2/calendars/20081616/2017-08-07/2017-08-07
+Access TOken=>al2tvps2rnuv14m8p1dprgvc6
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=ee2d1ce6-961d-46eb-b57d-3bdc3c9d4680&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"99cc26440528b8731f8a61c305e7df2f"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:34:28 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":20081616,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:34:47=>url=>https://api.airbnb.com/v2/calendars/20181377/2017-08-07/2017-08-07
+Access TOken=>ekav11u96o8n8uoaiuuq54nz0
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=6d19e884-ef77-47da-8013-4c659592d133&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"45e615095c511af130b09cf61e0599c1"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:34:47 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":20181377,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:36:58=>url=>https://api.airbnb.com/v2/calendars/18942514/2017-08-07/2017-08-07
+Access TOken=>350txux68ivpcjqeemrq6qmlw
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=83397ce0-68ff-461f-b5de-9eeb9ad9be96&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"ba388d416ad153e3e04b36c47751e1f9"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:36:58 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18942514,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:37:38=>url=>https://api.airbnb.com/v2/calendars/18963364/2017-08-07/2017-08-07
+Access TOken=>83ragufhjxkrzpyafvj0fzrpw
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=bf46cb3e-e798-4ce9-9160-249674a49e70&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"0554ebb9addcfc7cb4b3201fce00fdb4"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:37:38 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18963364,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:37:54=>url=>https://api.airbnb.com/v2/calendars/18991379/2017-08-07/2017-08-07
+Access TOken=>9gsftqo57fltgnu6i4l9jcrcx
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=919d2823-27c0-4723-be0d-5ece689905f6&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"23706b08d8deca9ea8ec8b3a42683e3a"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:37:54 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18991379,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:38:30=>url=>https://api.airbnb.com/v2/calendars/18991680/2017-08-07/2017-08-07
+Access TOken=>932imd7z60cxax9y8p10zow7i
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=a65c09b1-2d9c-446f-a7ca-92063ccc761f&version=2aa83f5e428c65cd2d66b70a61479002c39a64dd;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"54ebe4b2a3d9d9cfcd435c94d38d5fbf"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:38:30 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18991680,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:38:48=>url=>https://api.airbnb.com/v2/calendars/18962906/2017-08-07/2017-08-07
+Access TOken=>7aia9ffojd5mel1tji9nkp7gy
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=3340dfa6-842a-4f40-ae6a-13dc473cf90d&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"186d2935ff69532f49a590c5e3fe5328"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:38:47 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18962906,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:39:14=>url=>https://api.airbnb.com/v2/calendars/18962739/2017-08-07/2017-08-07
+Access TOken=>3sruxr68w8szi9n67p7gvhd45
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=302a19f5-3bd7-488a-a1cb-29240a8c1008&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"e77d77238a866f400f76440aec97d623"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:39:14 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18962739,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:39:21=>url=>https://api.airbnb.com/v2/calendars/18962739/2017-08-06/2017-08-06
+Access TOken=>3sruxr68w8szi9n67p7gvhd45
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=943483fc-948d-4c09-ae45-55c424cc304c&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"28d6b73f8cf969d791a2bef6a83897d8"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:39:21 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-06"}],"end_date":"2017-08-06","host_id":18009968,"listing_currency":"USD","listing_id":18962739,"start_date":"2017-08-06"},"metadata":{}}TImestamp::2017-08-06 21:40:00=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-08-06/2017-08-06
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=0add6e7a-d0a2-45ea-aba1-43c7c30f9e5c&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"55ecef7c26bb7ab36695334a1ac3b3df"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:40:00 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-06"}],"end_date":"2017-08-06","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-08-06"},"metadata":{}}TImestamp::2017-08-06 21:40:06=>url=>https://api.airbnb.com/v2/calendars/18990160/2017-08-07/2017-08-07
+Access TOken=>39os4rqi3jo9jvaluxe25e4jz
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=a7c242b4-d5d7-488a-959a-8c0d0fcdef08&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"45ef30227545d9eb6f3d9eb2681638fe"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:40:06 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18990160,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:40:22=>url=>https://api.airbnb.com/v2/calendars/18988548/2017-08-07/2017-08-07
+Access TOken=>c3ypz2s1ipph3yjoem26xyguq
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=8fe25ef4-9f83-4feb-be0b-943a987193d5&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"a62fbd8a81a655b43da6ca12944dc411"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:40:22 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-07"}],"end_date":"2017-08-07","host_id":18009968,"listing_currency":"USD","listing_id":18988548,"start_date":"2017-08-07"},"metadata":{}}TImestamp::2017-08-06 21:40:30=>url=>https://api.airbnb.com/v2/calendars/18988548/2017-08-06/2017-08-06
+Access TOken=>c3ypz2s1ipph3yjoem26xyguq
+Request=>{"availability":"unavailable"}
+
+Response=>200HTTP/1.1 200 OK
+Server: nginx/1.7.12
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+Content-Security-Policy: default-src 'self' https:; connect-src 'self' https: ws://localhost.airbnb.com:8888 http:; font-src 'self' data: *.muscache.com fonts.gstatic.com use.typekit.net; frame-src *; img-src 'self' https: http: data:; media-src 'self' https:; object-src 'self' https:; script-src 'self' https: 'unsafe-eval' 'unsafe-inline' http:; style-src 'self' https: 'unsafe-inline' http:; report-uri /tracking/csp?action=update&controller=v2&req_uuid=bc6e1bce-05b3-424f-899d-599d06630dd5&version=5a0d93a952919506050ae9d4cea70602c9c3428d;
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Cache-Control: no-store, max-age=0, private, must-revalidate
+ETag: W/"30292a4244004e189604c75dcdafd39b"
+X-UA-Compatible: IE=Edge,chrome=1
+Strict-Transport-Security: max-age=10886400; includeSubdomains
+Date: Sun, 06 Aug 2017 21:40:30 GMT
+Content-Length: 193
+Connection: keep-alive
+
+{"calendar":{"days":[{"available":false,"date":"2017-08-06"}],"end_date":"2017-08-06","host_id":18009968,"listing_currency":"USD","listing_id":18988548,"start_date":"2017-08-06"},"metadata":{}}

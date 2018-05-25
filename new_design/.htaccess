@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+SetEnv HTTP_MOD_REWRITE On
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) new_design/index.php?q=$1
+</IfModule>

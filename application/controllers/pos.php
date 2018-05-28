@@ -69,9 +69,11 @@ class POS extends Front_Controller {
 			left join stafftype b on a.stafftypeid = b.stafftypeid
 			where a.myposid =$posid ")->result_array();
 
-		$data['waiter']=(count($data['OrderInfo'])==0?'':$this->db->query("select concat(firstname,' ',lastname) name from mystaffpos where mystaffposid =".$data['OrderInfo'][0]['StaffCode'])->row()->name);
+		$data['waiter']=(count($data['OrderInfo'])==0 || $data['OrderInfo'][0]['StaffCode']==0 ?'':$this->db->query("select concat(firstname,' ',lastname) name from mystaffpos where mystaffposid =".$data['OrderInfo'][0]['StaffCode'])->row()->name);
 
 		$data['Categories']=$this->db->query("SELECT * from itemcategory where posid= $posid")->result_array();
+
+		
 		$this->views('Restaurant/viewtable',$data);
 	}
 

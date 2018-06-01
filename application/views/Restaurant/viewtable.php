@@ -42,7 +42,7 @@
         <h3><?= $Posinfo['description']?></h3>
     </div>
     <div>
-        <h5>Here Menu</h5>
+      <?php include("menu.php") ?>
     </div>
     <div class="graph-form">
         <div style="float: right;" class="buttons-ui">

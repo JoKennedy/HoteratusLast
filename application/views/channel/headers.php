@@ -52,7 +52,7 @@
     <script src="<?php echo base_url();?>user_asset/back/js/skycons.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/jquery.easydropdown.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>
-
+    <script src="<?php echo base_url();?>user_asset/back/js/helpers.js"></script>
 
 
     <!--//skycons-icons-->
@@ -60,41 +60,20 @@
 
 <body>
 
-    <style>
-     #preloader { position: fixed; left: 0; top: 0; z-index: 1050; width: 100%; height: 100%; overflow: visible; background: #fff url('../../user_assets/images/loader.gif') no-repeat center center; }
-    .loader {
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #1DCC25;
-        border-bottom: 16px solid #1DCC25;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        background: url('<?php echo base_url();?>user_asset/png/logo.png') 50% 50% no-repeat rgb(249, 249, 249);
-        position: relative;
-        z-index: 1;
-    }
+<style>
+#WindowLoad
+{
+    position:fixed;
+    top:0px;
+    left:0px;
+    z-index:3200;
+    filter:alpha(opacity=65);
+   -moz-opacity:65;
+    opacity:0.65;
+    background:#999;
+}
+</style>
 
-    @-webkit-keyframes spin {
-        0% {
-            -webkit-transform: rotate(0deg);
-        }
-        100% {
-            -webkit-transform: rotate(360deg);
-        }
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-    </style>
-    <div id="loaderr" class="loader" style=' Display: none; margin:0 auto; position: absolute; top: 50%; left: 50%; margin: -30px 0 0 -30px;'> </div>
     <div class="page-container">
         <!--/content-inner-->
         <div class="left-content">

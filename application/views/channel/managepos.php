@@ -58,11 +58,11 @@
 
                     <div class="col-md-6 form-group1">
                         <label class="control-label" >POS Name</label>
-                        <input style="background:white; color:black;" name="posname" type="text" placeholder="Pos Name" required="">
+                        <input style="background:white; color:black;" name="posname" id ="posname" type="text" placeholder="Pos Name" required="">
                     </div>
                     <div class="col-md-6 form-group1 form-last">
                         <label style="padding:4px;" class="control-label controls">Type Of POS </label>
-                        <select style="width: 100%; padding: 9px;" name="typeposid">
+                        <select style="width: 100%; padding: 9px;" name="typeposid" id="typeposid" >
                             <?php
 
                                     echo '<option value="0" >Select a Type of POS</option>';
@@ -92,12 +92,37 @@
 <script>
 function savePOS() {
 
- var data =$("#crateposid").serialize()
+var data =$("#crateposid").serialize()
+
+    if($("#posname").val().length <3  ){
+         swal({
+           title: "upps, Sorry",
+            text: "Missing Field POS Name!",
+            icon: "warning",
+            button: "Ok!",});
+            return;
+    }
+    else if ($("#typeposid").val()==0) {
+        swal({
+           title: "upps, Sorry",
+            text: "Missing Field Type Of POS!",
+            icon: "warning",
+            button: "Ok!",});
+            return;
+    }
+
+    
+
+ 
   $.ajax({
       type: "POST",
       dataType: "json",
       url: "<?php echo lang_url(); ?>pos/savePOS",
       data: data,
+      beforeSend:function() {
+      showWait();
+    }
+      ,
       success: function(msg) {
         if (msg=="0") {
           swal({
@@ -115,6 +140,9 @@ function savePOS() {
             icon: "warning",
             button: "Ok!",});
         }
+
+        unShowWait();
+
 
       }
   });

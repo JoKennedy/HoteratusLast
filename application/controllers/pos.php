@@ -45,6 +45,24 @@ class POS extends Front_Controller {
 		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
 		$this->views('Restaurant/main',$data);
 	}
+
+	function viewCreationtable($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'All The Tables';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
+		$this->views('Restaurant/creationtable',$data);
+	}
 	function viewtable($hotelid,$posid,$tableid)
 	{
 
@@ -385,5 +403,36 @@ class POS extends Front_Controller {
 			else {
 				echo "1";
 			}
+	}
+	function saveTable()
+	{
+			$data['myposid']=$_POST['postid'];
+			$data['active']=1;
+			$data['qtyPerson']=$_POST['Capacity'];
+			$data['description']=$_POST['tablename'];
+			if(insert_data('mypostable',$data))
+			{
+				echo "0";
+			}
+			else {
+				echo "1";
+			}
+
+	}
+	function updateTable()
+	{
+			$data['myposid']=$_POST['postidup'];
+			$data['active']=1;
+			$data['qtyPerson']=$_POST['Capacityup'];
+			$data['description']=$_POST['tablenameup'];
+			
+			if(update_data('mypostable',$data,array('postableid' =>$_POST['tableidup'] )))
+			{
+				echo "0";
+			}
+			else {
+				echo "1";
+			}
+
 	}
 }

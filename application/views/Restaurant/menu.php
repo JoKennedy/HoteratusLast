@@ -16,7 +16,7 @@
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Inventory<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Categories</a></li>
+          <li><a href="<?=site_url('pos/viewCategories/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Categories</a></li>
           <li><a href="#">Products</a></li>
           <li><a href="#">Kardex</a></li>
         </ul>

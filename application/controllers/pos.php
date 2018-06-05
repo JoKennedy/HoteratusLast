@@ -63,6 +63,23 @@ class POS extends Front_Controller {
 		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
 		$this->views('Restaurant/creationtable',$data);
 	}
+	function viewCategories($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'All The Tables';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
+		$this->views('Restaurant/categories',$data);
+	}
 	function viewtable($hotelid,$posid,$tableid)
 	{
 
@@ -434,5 +451,57 @@ class POS extends Front_Controller {
 				echo "1";
 			}
 
+	}
+	function LoadImage()
+	{
+		
+		if (isset($_FILES["Image"]))
+		{
+
+		    $file = $_FILES["Image"];
+
+
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "files/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      echo "Error, el archivo no es una imagen"; 
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      echo "Error, el tamaño máximo permitido es un 1MB";
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        echo "Error la anchura y la altura maxima permitida es 500px";
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        echo "Error la anchura y la altura mínima permitida es 60px";
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+		        echo '<img id="pathimagen" src="/'.$src.'">';
+		    }
+		}
+	}
+	function saveCategory()
+	{		
+		/*$newName='category'posid.
+
+		copy($fichero, $nuevo_fichero)*/
 	}
 }

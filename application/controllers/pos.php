@@ -500,8 +500,21 @@ class POS extends Front_Controller {
 	}
 	function saveCategory()
 	{		
-		/*$newName='category'posid.
+			//$newName=$_POST['name'].$_POST['posid'];
 
-		copy($fichero, $nuevo_fichero)*/
+
+			copy('file/admin.jpg', 'file/admin5.jpg');
+return;
+			$data['photo']="user_assets/images/$newName.jpg";
+			$data['posid']=$_POST['posid'];
+			$data['name']=$_POST['name'];
+			$data['active']=1;
+			if(insert_data('itemcategory',$data))
+			{
+				echo "0";
+			}
+			else {
+				echo "1";
+			}
 	}
 }

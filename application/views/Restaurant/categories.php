@@ -61,7 +61,7 @@
                 <div>
                     <div class="graph-form">
                   <form id ="CategoryC" >
-                    <input type="hidden" name="postid" value="<?=$Posinfo['myposId']?>">
+                    <input type="hidden" name="postid" id="posid" value="<?=$Posinfo['myposId']?>">
                     <div class="col-md-12 form-group1">
                         <label class="control-label" >Category Name</label>
                         <input style="background:white; color:black;" name="categoryname" id ="categoryname" type="text" placeholder="Category Name" required="">
@@ -155,8 +155,7 @@
 
         var pathi=$("#pathimagen").attr('src');
        
-        var data =$("#CategoryC").serialize()
-
+  
         if($("#categoryname").val().length <3  ){
              swal({
                title: "upps, Sorry",
@@ -179,17 +178,19 @@
           type: "POST",
           dataType: "json",
           url: "<?php echo lang_url(); ?>pos/saveCategory",
-          data: data,
+          data: {"posid":$("#posid").val(),"Imagen":pathi,"name":$("#categoryname").val()},
           beforeSend:function() {
           showWait();
           setTimeout(function() {unShowWait();}, 10000);
         }
           ,
           success: function(msg) {
+            alert(msg);
+            return;
             if (msg=="0") {
               swal({
                title: "Success",
-                text: "Table Created!",
+                text: "Category Created!",
                 icon: "success",
                 button: "Ok!",}).then((n)=>{
                   location.reload();
@@ -198,7 +199,7 @@
             else {
               swal({
                title: "upps, Sorry",
-                text: "Table was not Created!",
+                text: "Category was not Created!",
                 icon: "warning",
                 button: "Ok!",});
             }

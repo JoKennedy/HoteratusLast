@@ -14,10 +14,10 @@
       <?php include("menu.php") ?>
     </div>
 
-    <div style="float: right;" class="buttons-ui">
+    <div style="float: right; " class="buttons-ui">
         <a href="#createcategory"  data-toggle="modal" class="btn blue">Add New Categories</a>
     </div>
-    <div class="clearfix"></div>
+    <div class="clearfix" ></div>
     <div class="graph-visual tables-main">
         <div class="graph">
             <div class="table-responsive">
@@ -38,7 +38,8 @@
                             $i=0;
                             foreach ($AllCategories as  $value) {
                                 $i++;
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> <td>'.$value['photo'].'</td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updatecategory" onclick =" showupdate('."'".$value['description']."'".','.$value['qtyPerson'].','.$value['postableid'].')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
+                                <td> <img id="img'.$value['itemcategoryID'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updatecategory" onclick =" showupdate('."'".$value['name']."'".','.$value['itemcategoryID'].')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
 
                             }
                         } ?>
@@ -61,14 +62,14 @@
                 <div>
                     <div class="graph-form">
                   <form id ="CategoryC" >
-                    <input type="hidden" name="postid" id="posid" value="<?=$Posinfo['myposId']?>">
+                    <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                     <div class="col-md-12 form-group1">
                         <label class="control-label" >Category Name</label>
                         <input style="background:white; color:black;" name="categoryname" id ="categoryname" type="text" placeholder="Category Name" required="">
                     </div>
                     <div class="col-md-12 form-group1">
                         <label class="control-label" >Imagen</label>
-                        <input style="background:white; color:black;" onchange="File(this.value);"   type="file" id="Image" name="Image">
+                        <input style="background:white; color:black;"   type="file" id="Image" name="Image">
                     </div>
                     <div id="respuesta"></div>
                     <div class="clearfix"> </div>
@@ -86,30 +87,35 @@
             </div>
         </div>
 </div>
-<div id="updatetable" class="modal fade" role="dialog" aria-hidden="true">
+<div id="updatecategory" class="modal fade" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Update a Table</h4>
+                    <h4 class="modal-title">Update a Category</h4>
                 </div>
                 <div>
                     <div class="graph-form">
-                  <form id ="tableup" onsubmit="" >
-                    <input type="hidden" name="postidup" value="<?=$Posinfo['myposId']?>">
-                    <input type="hidden" name="tableidup" id="tableidup" value="">
+                  <form id ="categoryup" onsubmit="" >
+                    <input type="hidden" name="posidup" value="<?=$Posinfo['myposId']?>">
+                    <input type="hidden" name="itemcategoryidup" id="itemcategoryidup" value="">
                     <div class="col-md-6 form-group1">
-                        <label class="control-label" >Table Name</label>
-                        <input style="background:white; color:black;" name="tablenameup" id ="tablenameup" type="text" placeholder="Table Name" required="">
+                        <label class="control-label" >Category Name</label>
+                        <input style="background:white; color:black;" name="categorynameup" id ="categorynameup" type="text" placeholder="Table Name" required="">
                     </div>
-                    <div class="col-md-6 form-group1">
-                        <label class="control-label" >Table Capacity of People</label>
-                        <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="Capacityup" id ="Capacityup" type="text" placeholder="Capacity of People" required="">
+                    <div class="col-md-12 form-group1">
+                        <label class="control-label" >New Imagen</label>
+                        <input style="background:white; color:black;"   type="file" id="photoup" name="photoup">
                     </div>
+                     <div class="col-md-12 form-group1">
+                        <label class="control-label" >Actual Imagen</label>
+                        <img width="250px" src="" alt="" id="photo">
+                    </div>
+
                     <div class="clearfix"> </div>
                     <br><br>
                         <div class="buttons-ui">
-                        <a onclick="UpdateTable()" class="btn green">Update</a>
+                        <a onclick="UpdateCategory()" class="btn green">Update</a>
                         </div>
 
                     <div class="clearfix"> </div>
@@ -126,36 +132,12 @@
 </div>
 <script type="text/javascript">
 
-  $("#Image").on('change',(function(e) {
-    e.preventDefault();
-    
-
-      var data =new FormData($("#CategoryC")[0]);
-       $.ajax({
-          type: "POST",
-          contentType: false,
-          processData:false,
-          url: "<?php echo lang_url(); ?>pos/LoadImage",
-          data: data,  beforeSend:function() {
-          showWait();
-          setTimeout(function() {unShowWait();}, 10000);
-        }
-          ,
-          success: function(msg) {
-           $("#respuesta").html(msg);
-           unShowWait();
-
-
-          }
-      });
-  
-  }));
 
     function saveCategory(){
 
-        var pathi=$("#pathimagen").attr('src');
+ 
        
-  
+      var data =new FormData($("#CategoryC")[0]);
         if($("#categoryname").val().length <3  ){
              swal({
                title: "upps, Sorry",
@@ -164,7 +146,7 @@
                 button: "Ok!",});
                 return;
         }
-        else if ( pathi == undefined || pathi.length <1 ) {
+        else if ( $("#Image").val().length <1 ) {
             swal({
                title: "upps, Sorry",
                 text: "Missing Field Imagen!",
@@ -173,21 +155,21 @@
                 return;
         }
 
-        
-      $.ajax({
+
+          $.ajax({
           type: "POST",
           dataType: "json",
+          contentType: false,
+          processData:false,
           url: "<?php echo lang_url(); ?>pos/saveCategory",
-          data: {"posid":$("#posid").val(),"Imagen":pathi,"name":$("#categoryname").val()},
-          beforeSend:function() {
+          data: data,  beforeSend:function() {
           showWait();
           setTimeout(function() {unShowWait();}, 10000);
         }
           ,
           success: function(msg) {
-            alert(msg);
-            return;
-            if (msg=="0") {
+
+             if (msg=="0") {
               swal({
                title: "Success",
                 text: "Category Created!",
@@ -197,9 +179,10 @@
                 });
             }
             else {
+              
               swal({
                title: "upps, Sorry",
-                text: "Category was not Created!",
+                text: "Category was not Created!" + msg,
                 icon: "warning",
                 button: "Ok!",});
             }
@@ -207,59 +190,54 @@
             unShowWait();
 
 
+
           }
       });
-
 
           
     }
 
-    function UpdateTable()
+    function UpdateCategory()
     {
-        var data =$("#tableup").serialize();
-        
-        if($("#tablenameup").val().length <3  ){
+       var data =new FormData($("#categoryup")[0]);
+        if($("#categorynameup").val().length <3  ){
              swal({
                title: "upps, Sorry",
-                text: "Missing Field Table Name!",
-                icon: "warning",
-                button: "Ok!",});
-                return;
-        }
-        else if ($("#Capacityup").val().length <1) {
-            swal({
-               title: "upps, Sorry",
-                text: "Missing Field Capacity!",
+                text: "Missing Field Category Name!",
                 icon: "warning",
                 button: "Ok!",});
                 return;
         }
 
-        
-      $.ajax({
+
+
+          $.ajax({
           type: "POST",
           dataType: "json",
-          url: "<?php echo lang_url(); ?>pos/UpdateTable",
-          data: data,
-          beforeSend:function() {
+          contentType: false,
+          processData:false,
+          url: "<?php echo lang_url(); ?>pos/updateCategory",
+          data: data,  beforeSend:function() {
           showWait();
           setTimeout(function() {unShowWait();}, 10000);
         }
           ,
           success: function(msg) {
-            if (msg=="0") {
+
+             if (msg=="0") {
               swal({
                title: "Success",
-                text: "Table Update!",
+                text: "Category Update!",
                 icon: "success",
                 button: "Ok!",}).then((n)=>{
                   location.reload();
                 });
             }
             else {
+              
               swal({
                title: "upps, Sorry",
-                text: "Table was not Updated!",
+                text: "Category was not Update!" + msg,
                 icon: "warning",
                 button: "Ok!",});
             }
@@ -267,74 +245,19 @@
             unShowWait();
 
 
+
           }
       });
-
         
     }
-    function showupdate(nombre,capacidad,id)
+    function showupdate(nombre,id)
     {
-        $("#tablenameup").val(nombre);
-        $("#tableidup").val(id);
-        $("#Capacityup").val(capacidad);
+
+        $("#categorynameup").val(nombre);
+        $("#itemcategoryidup").val(id);
+        $("#photo").attr('src',$("#img"+id).attr('src'));
     }
 
-    function saveTable() {
-
-    var data =$("#tablecre").serialize()
-
-        if($("#tablename").val().length <3  ){
-             swal({
-               title: "upps, Sorry",
-                text: "Missing Field Table Name!",
-                icon: "warning",
-                button: "Ok!",});
-                return;
-        }
-        else if ($("#Capacity").val().length <1) {
-            swal({
-               title: "upps, Sorry",
-                text: "Missing Field Capacity!",
-                icon: "warning",
-                button: "Ok!",});
-                return;
-        }
-
-        
-      $.ajax({
-          type: "POST",
-          dataType: "json",
-          url: "<?php echo lang_url(); ?>pos/saveTable",
-          data: data,
-          beforeSend:function() {
-          showWait();
-          setTimeout(function() {unShowWait();}, 10000);
-        }
-          ,
-          success: function(msg) {
-            if (msg=="0") {
-              swal({
-               title: "Success",
-                text: "Table Created!",
-                icon: "success",
-                button: "Ok!",}).then((n)=>{
-                  location.reload();
-                });
-            }
-            else {
-              swal({
-               title: "upps, Sorry",
-                text: "Table was not Created!",
-                icon: "warning",
-                button: "Ok!",});
-            }
-
-            unShowWait();
-
-
-          }
-      });
-
-    }
+    
 
 </script>

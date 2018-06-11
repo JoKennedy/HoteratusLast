@@ -454,7 +454,9 @@ class POS extends Front_Controller {
 	}
 	function LoadImage()
 	{
-		
+			echo (var_dump($_FILES));
+			echo (var_dump($_POST));
+			return;
 		if (isset($_FILES["Image"]))
 		{
 
@@ -469,7 +471,7 @@ class POS extends Front_Controller {
 		    $dimensiones = getimagesize($ruta_provisional);
 		    $width = $dimensiones[0];
 		    $height = $dimensiones[1];
-		    $carpeta = "files/";
+		    $carpeta = "user_assets/images/Categories/";
 
 		    
 		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
@@ -500,21 +502,134 @@ class POS extends Front_Controller {
 	}
 	function saveCategory()
 	{		
-			//$newName=$_POST['name'].$_POST['posid'];
+			
+
+		if (isset($_FILES["Image"]))
+		{
+
+		    $file = $_FILES["Image"];
 
 
-			copy('file/admin.jpg', 'file/admin5.jpg');
-return;
-			$data['photo']="user_assets/images/$newName.jpg";
-			$data['posid']=$_POST['posid'];
-			$data['name']=$_POST['name'];
-			$data['active']=1;
-			if(insert_data('itemcategory',$data))
-			{
-				echo "0";
-			}
-			else {
-				echo "1";
-			}
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Categories/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      echo "Error, el archivo no es una imagen"; 
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      echo "Error, el tamaño máximo permitido es un 1MB";
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        echo "Error la anchura y la altura maxima permitida es 500px";
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        echo "Error la anchura y la altura mínima permitida es 60px";
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.$_POST['posid'].$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['photo']="/".$src;
+				$data['posid']=$_POST['posid'];
+				$data['name']=$_POST['categoryname'];
+				$data['active']=1;
+
+				if(insert_data('itemcategory',$data))
+				{
+					echo "0";
+				}
+				else 
+				{
+					echo "1";
+				}
+
+		    }
+		}
+
+
+			
+	}
+	function updateCategory()
+	{		
+	
+		if (strlen($_FILES["photoup"]["name"])>0)
+		{
+
+		    $file = $_FILES["photoup"];
+
+
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Categories/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      echo "Error, el archivo no es una imagen"; 
+		      return;
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      echo "Error, el tamaño máximo permitido es un 1MB";
+		        return;
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        echo "Error la anchura y la altura maxima permitida es 500px";
+		          return;
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        echo "Error la anchura y la altura mínima permitida es 60px";
+		          return;
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.$_POST['posidup'].$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['photo']="/".$src;
+		    }
+		}
+
+		
+				$data['posid']=$_POST['posidup'];
+				$data['name']=$_POST['categorynameup'];
+
+				if(update_data('itemcategory',$data,array('itemcategoryID' =>$_POST['itemcategoryidup'] )))
+				{
+					echo "0";
+				}
+				else 
+				{
+					echo "1";
+				}
+
+			
 	}
 }

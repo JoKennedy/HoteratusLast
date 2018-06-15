@@ -42,7 +42,7 @@
         <h3><?= $Posinfo['description']?></h3>
     </div>
     <div>
-      <?php include("menu.php") ?>
+        <?php include("menu.php") ?>
     </div>
     <div class="graph-form">
         <div style="float: right;" class="buttons-ui">
@@ -52,19 +52,19 @@
         <div align="center">
             <h4>You are working with: <strong><?=$TableInfo['description']?></strong></h4></div>
         <div class="graph-visual tables-main">
-            <div class="graph">
+            <div class="graph" >
                 <div class="table-responsive">
                     <div class="clearfix"></div>
                     <table id="invoice" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th>Add</th>
-                                <th>Remove</th>
+                                <th width="2%">#</th>
+                                <th width="20%">Product</th>
+                                <th width="5%">Price</th>
+                                <th width="5%">Quantity</th>
+                                <th width="5%">Total</th>
+                                <th width="5%">Add</th>
+                                <th width="5%">Remove</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,23 +85,22 @@
                     <?php if (count($OrderInfo)==0) {echo '<h4 id="noproduct">No product added!</h4>';} ?>
                     <div class="clearfix"></div>
                 </div>
-            </div>
-
-            <div align="right" id="grandtotal">
-                <h2><strong>Total Due:</strong> <?=number_format($grandtotal, 2, '.', '')?></h2>
+                <div align="right" id="grandtotal">
+                    <h2><strong>Total Due:</strong> <?=number_format($grandtotal, 2, '.', '')?></h2>
+                </div>
             </div>
             <div style="float: left;" class="buttons-ui">
-                <a onclick=" cancelorden()" class="btn red" >Cancel Order</a>
+                <a onclick=" cancelorden()" class="btn red">Cancel Order</a>
                 <a class="btn green">Charge</a>
                 <a href="#addwaiter" data-toggle="modal" class="btn blue">Assign Waiter</a>
-                <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()"  data-toggle="modal" class="btn orange">Change Table</a>
+                <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()" data-toggle="modal" class="btn orange">Change Table</a>
             </div>
             <div class="clearfix"></div>
             <div align="left" id="staff">
                 <h3><strong>Waiter/s:</strong> <?=($waiter==''?'Not Assigned':$waiter)?></h3>
             </div>
         </div>
-        <div class="graph-form">
+        <div class="graph-form" style="float: left; width: 50%;">
             <h3 align="center"> Categories</h3>
             <div class="table-responsive">
                 <?php
@@ -121,7 +120,7 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="graph-form">
+        <div class="graph-form" style="float: right; width: 50%">
             <h3 align="center">Items</h3>
             <br>
             <div id="allitem">
@@ -143,7 +142,7 @@
                 <strong>Warning!</strong> Select an Extra to Continue.
             </div>
             <div>
-                <div class="graph">
+                <div class="graph" style>
                     <div class="table-responsive">
                         <div class="clearfix"></div>
                         <table id="tablestaff" class="table table-bordered">
@@ -155,7 +154,7 @@
                                     <th>Add</th>
                                     <th>Remove</th>
                                 </tr>
-                                           </thead>
+                            </thead>
                             <tbody>
                                 <?php
 
@@ -189,7 +188,6 @@
             <div id="msguser" class="alert alert-warning" style="display: none; text-align: center;">
                 <strong>Warning!</strong> Select an Extra to Continue.
             </div>
-
         </div>
     </div>
 </div>
@@ -203,7 +201,6 @@
             <div id="msguser" class="alert alert-warning" style="display: none; text-align: center;">
                 <strong>Warning!</strong> Select an Extra to Continue.
             </div>
-
         </div>
     </div>
 </div>
@@ -214,165 +211,166 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Change Table</h4>
             </div>
-            <div  class="buttons-ui">
-                <a onclick=" availabletable(<?=$Posinfo['myposId']?>)" class="btn green" >Available Table</a>
+            <div class="buttons-ui">
+                <a onclick=" availabletable(<?=$Posinfo['myposId']?>)" class="btn green">Available Table</a>
             </div>
-
             <div id="tableavailable">
             </div>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
 var tableid = "<?= $TableInfo['postableid']?>";
-var posid="<?=$Posinfo['myposId']?>";
+var posid = "<?=$Posinfo['myposId']?>";
 
 function cleartable() {
-  $("#tableavailable").html('');
+    $("#tableavailable").html('');
 }
-function cancelorden()
-{
-       swal({
-                     title: "Are you sure?",
-                     text: "Do you want to cancel this order?",
-                     icon: "info",
-                     buttons: true,
-                     dangerMode: true,
-                 })
-                 .then((willDelete) => {
-                    if(!willDelete){return;}
 
-                    $.ajax({
-                               type: "POST",
-                               dataType: "json",
-                               url: "<?php echo lang_url(); ?>pos/cancelorden",
-                               data: { "tableid":tableid },
-                               success: function(msg) {
+function cancelorden() {
+    swal({
+            title: "Are you sure?",
+            text: "Do you want to cancel this order?",
+            icon: "info",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (!willDelete) { return; }
 
-                                 if (msg['result']) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "<?php echo lang_url(); ?>pos/cancelorden",
+                data: { "tableid": tableid },
+                success: function(msg) {
 
-                                   swal({
-                                    title: "Done!",
-                                     text: "Orden cancelled Successfully!",
-                                     icon: "success",
-                                     button: "Ok!",}).then((nt)=>{
-                                       window.location.assign($("#btback").attr('href') )
-                                     });
-                                 }
-                                 else {
+                    if (msg['result']) {
 
-                                   swal({
-                                    title: "upps!, something went wrong!",
-                                     text: "Please try again!",
-                                     icon: "warning",
-                                     button: "Ok!",});
-                                 }
+                        swal({
+                            title: "Done!",
+                            text: "Orden cancelled Successfully!",
+                            icon: "success",
+                            button: "Ok!",
+                        }).then((nt) => {
+                            window.location.assign($("#btback").attr('href'))
+                        });
+                    } else {
 
-
-                               }
-                           });
+                        swal({
+                            title: "upps!, something went wrong!",
+                            text: "Please try again!",
+                            icon: "warning",
+                            button: "Ok!",
+                        });
+                    }
 
 
-
+                }
+            });
 
 
 
-                });
+
+
+
+        });
 }
+
 function changetable(newtable) {
 
-  $.ajax({
-      type: "POST",
-      dataType: "json",
-      url: "<?php echo lang_url(); ?>pos/changetable",
-      data: { "newid": newtable ,"oldid":tableid,"posid":posid},
-      success: function(msg) {
-        if (msg['result']==0) {
-          alert(msg['result']);
-          swal({
-           title: "Success",
-            text: "Done!!!, The table was changed",
-            icon: "success",
-            button: "Ok!",}).then((n)=>{
-              window.location.assign(msg['url']);
-            });
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/changetable",
+        data: { "newid": newtable, "oldid": tableid, "posid": posid },
+        success: function(msg) {
+            if (msg['result'] == 0) {
+                alert(msg['result']);
+                swal({
+                    title: "Success",
+                    text: "Done!!!, The table was changed",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    window.location.assign(msg['url']);
+                });
+            } else if (msg['result'] == 1) {
+                swal({
+                    title: "Upps, Sorry",
+                    text: "This Table is no Available!",
+                    icon: "warning",
+                    button: "Ok!",
+                });
+
+
+            }
+
         }
-        else if(msg['result']==1){
-          swal({
-           title: "Upps, Sorry",
-            text: "This Table is no Available!",
-            icon: "warning",
-            button: "Ok!",});
-
-
-        }
-
-      }
-  });
+    });
 
 }
-function availabletable(posid)
-{
-  $.ajax({
-      type: "POST",
-      dataType: "json",
-      url: "<?php echo lang_url(); ?>pos/availabletable",
-      data: { "posid": posid },
-      success: function(msg) {
-        if (msg['result']) {
-          $("#tableavailable").html(msg['html']);
-        }
-        else {
-          swal({
-           title: "upps, Sorry",
-            text: "No Available Table!",
-            icon: "warning",
-            button: "Ok!",});
 
-          $("#tableavailable").html(msg['html']);
-        }
+function availabletable(posid) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/availabletable",
+        data: { "posid": posid },
+        success: function(msg) {
+            if (msg['result']) {
+                $("#tableavailable").html(msg['html']);
+            } else {
+                swal({
+                    title: "upps, Sorry",
+                    text: "No Available Table!",
+                    icon: "warning",
+                    button: "Ok!",
+                });
 
-      }
-  });
+                $("#tableavailable").html(msg['html']);
+            }
+
+        }
+    });
 }
-function addstaff(id)
-{
+
+function addstaff(id) {
     $.ajax({
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/exists_staff",
-        data: { "staffid": id,"tableid":tableid },
+        data: { "staffid": id, "tableid": tableid },
         success: function(msg) {
 
-            if (msg['status']==1 || msg['status']==-1 ) {
+            if (msg['status'] == 1 || msg['status'] == -1) {
                 swal({
-                     title: "Are you sure?",
-                     text: (msg['status']==-1?"Do you want to create a new order for this table?":"This table has an assigned waiter/s, do you want to change?"),
-                     icon: "warning",
-                     buttons: true,
-                     dangerMode: true,
-                 })
-                 .then((willDelete) => {
-                    if (!willDelete) {return;}
-                     $.ajax({
-                                type: "POST",
-                                dataType: "json",
-                                url: "<?php echo lang_url(); ?>pos/addstaff",
-                                data: { "staffid": id,"tableid":tableid },
-                                success: function(msg) {
-                                      $("#staff").html(msg['staff']);
-                                        swal({
-                                            title: "Done!",
-                                            text: "Staff Added Successfully!",
-                                            icon: "success",
-                                            button: "Ok!",
-                                        });
-                                }
-                            });
+                        title: "Are you sure?",
+                        text: (msg['status'] == -1 ? "Do you want to create a new order for this table?" : "This table has an assigned waiter/s, do you want to change?"),
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (!willDelete) { return; }
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "<?php echo lang_url(); ?>pos/addstaff",
+                            data: { "staffid": id, "tableid": tableid },
+                            success: function(msg) {
+                                $("#staff").html(msg['staff']);
+                                swal({
+                                    title: "Done!",
+                                    text: "Staff Added Successfully!",
+                                    icon: "success",
+                                    button: "Ok!",
+                                });
+                            }
+                        });
 
 
-                 });
+                    });
             }
         }
     });
@@ -402,7 +400,7 @@ function additem(id) {
                 $('#noproduct').html('');
                 $('#invoice tbody').html(msg['html']);
                 $('#grandtotal').html(msg['total']);
-                $('#change').attr('style','');
+                $('#change').attr('style', '');
 
             } else {
 
@@ -440,7 +438,7 @@ function reloj() {
     minuto = now.getMinutes()
     segundo = now.getSeconds()
 
-    $("#reloj").html('System Time ' + hora + ':' + minuto + ':' + segundo);
+    $("#reloj").html('System Time ' + hora + ':' + (minuto <= 9 ? '0' + minuto : minuto) + ':' + (segundo <= 9 ? '0' + segundo : segundo));
 
 }
 reloj();

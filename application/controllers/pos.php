@@ -80,6 +80,48 @@ class POS extends Front_Controller {
 		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
 		$this->views('Restaurant/categories',$data);
 	}
+	function viewProducts($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'All The Tables';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
+		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname
+												FROM itempos a
+												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
+												where b.posid=$posid ")->result_array();
+		$this->views('Restaurant/products',$data);
+	}
+	function viewEmployees($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'All The Tables';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype  where  myposid=$posid ")->result_array();
+		$data['AllStaff']=$this->db->query("SELECT a.*, b.name stafftypename, concat(firstname,' ' , lastname) fullname 
+											FROM mystaffpos a
+											left join stafftype b on a.stafftypeid = b.stafftypeid  
+											where  a.myposid=$posid ")->result_array();
+		$this->views('Restaurant/employes',$data);
+	}
 	function viewtable($hotelid,$posid,$tableid)
 	{
 
@@ -502,7 +544,7 @@ class POS extends Front_Controller {
 	}
 	function saveCategory()
 	{		
-			
+		$result["result"]='';
 
 		if (isset($_FILES["Image"]))
 		{
@@ -523,19 +565,19 @@ class POS extends Front_Controller {
 		    
 		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
 		    {
-		      echo "Error, el archivo no es una imagen"; 
+		      $result["result"]= "Error, el archivo no es una imagen"; 
 		    }
 		    else if ($size > 1024*1024)
 		    {
-		      echo "Error, el tamaño máximo permitido es un 1MB";
+		      $result["result"]="Error, el tamaño máximo permitido es un 1MB";
 		    }
 		    else if ($width > 500 || $height > 500)
 		    {
-		        echo "Error la anchura y la altura maxima permitida es 500px";
+		        $result["result"]= "Error la anchura y la altura maxima permitida es 500px";
 		    }
 		    else if($width < 60 || $height < 60)
 		    {
-		        echo "Error la anchura y la altura mínima permitida es 60px";
+		        $result["result"]= "Error la anchura y la altura mínima permitida es 60px";
 		    }
 		    else
 
@@ -552,14 +594,17 @@ class POS extends Front_Controller {
 
 				if(insert_data('itemcategory',$data))
 				{
-					echo "0";
+					$result["result"]= "0";
 				}
 				else 
 				{
-					echo "1";
+					$result["result"]= "1";
 				}
 
 		    }
+
+		    echo json_encode($result);
+
 		}
 
 
@@ -567,7 +612,7 @@ class POS extends Front_Controller {
 	}
 	function updateCategory()
 	{		
-	
+		$result["result"]='';
 		if (strlen($_FILES["photoup"]["name"])>0)
 		{
 
@@ -587,22 +632,22 @@ class POS extends Front_Controller {
 		    
 		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
 		    {
-		      echo "Error, el archivo no es una imagen"; 
-		      return;
+		      $result["result"]="Error, el archivo no es una imagen"; 
+		     
 		    }
 		    else if ($size > 1024*1024)
 		    {
-		      echo "Error, el tamaño máximo permitido es un 1MB";
-		        return;
+		      $result["result"]= "Error, el tamaño máximo permitido es un 1MB";
+		        
 		    }
 		    else if ($width > 500 || $height > 500)
 		    {
-		        echo "Error la anchura y la altura maxima permitida es 500px";
-		          return;
+		        $result["result"]="Error la anchura y la altura maxima permitida es 500px";
+		         
 		    }
 		    else if($width < 60 || $height < 60)
 		    {
-		        echo "Error la anchura y la altura mínima permitida es 60px";
+		        $result["result"]="Error la anchura y la altura mínima permitida es 60px";
 		          return;
 		    }
 		    else
@@ -617,19 +662,155 @@ class POS extends Front_Controller {
 		    }
 		}
 
-		
-				$data['posid']=$_POST['posidup'];
-				$data['name']=$_POST['categorynameup'];
-
-				if(update_data('itemcategory',$data,array('itemcategoryID' =>$_POST['itemcategoryidup'] )))
+				if(strlen( $result["result"])==0)
 				{
-					echo "0";
+					$data['posid']=$_POST['posidup'];
+					$data['name']=$_POST['categorynameup'];
+					update_data('itemcategory',$data,array('itemcategoryID' =>$_POST['itemcategoryidup'] ));
+					$result["result"]=$result["result"]="0";
+				}
+				
+
+				echo json_encode($result);
+			
+	}
+		function saveProduct()
+	{		
+		$result["result"]='';
+
+		if (isset($_FILES["Image"]))
+		{
+
+		    $file = $_FILES["Image"];
+
+
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Product/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      $result["result"]= "Error, el archivo no es una imagen"; 
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      $result["result"]="Error, el tamaño máximo permitido es un 1MB";
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        $result["result"]= "Error la anchura y la altura maxima permitida es 500px";
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        $result["result"]= "Error la anchura y la altura mínima permitida es 60px";
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.$_POST['Categoryid'].$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['photo']="/".$src;
+				$data['itemcategoryid']=$_POST['Categoryid'];
+				$data['name']=$_POST['productname'];
+				$data['type']=$_POST['type'];
+				$data['code']='item';
+				$data['active']=1;
+
+				if(insert_data('itempos',$data))
+				{
+					$result["result"]= "0";
 				}
 				else 
 				{
-					echo "1";
+					$result["result"]= "1";
 				}
+
+		    }
+
+		    echo json_encode($result);
+
+		}
+
 
 			
 	}
+	function updateProduct()
+	{		
+		$result["result"]='';
+		if (strlen($_FILES["Imageup"]["name"])>0)
+		{
+
+		    $file = $_FILES["Imageup"];
+
+
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Product/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      $result["result"]="Error, el archivo no es una imagen"; 
+		     
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      $result["result"]= "Error, el tamaño máximo permitido es un 1MB";
+		        
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        $result["result"]="Error la anchura y la altura maxima permitida es 500px";
+		         
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        $result["result"]="Error la anchura y la altura mínima permitida es 60px";
+		          return;
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.$_POST['posidup'].$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['photo']="/".$src;
+		    }
+		}
+
+				if(strlen( $result["result"])==0)
+				{
+					$data['itemcategoryid']=(int)$_POST['Categoryidup'];
+					$data['type']=$_POST['typeup'];
+					$data['name']=$_POST['productnameup'];
+					update_data('itempos',$data,array('itemPosId' =>$_POST['itemPosId'] ));
+					$result["result"]=$result["result"]="0";
+				}
+
+
+				echo json_encode($result);
+			
+	}
+
 }
+
+
+

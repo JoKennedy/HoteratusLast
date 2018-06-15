@@ -9,7 +9,7 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Maintenance <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="<?=site_url('pos/viewCreationtable/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tables</a></li>
-          <li><a href="#">Staff</a></li>
+          <li><a href="<?=site_url('pos/viewEmployees/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>"">Employees</a></li>
           <li><a href="#">Other</a></li>
         </ul>
       </li>
@@ -17,8 +17,9 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Inventory<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="<?=site_url('pos/viewCategories/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Categories</a></li>
-          <li><a href="#">Products</a></li>
-          <li><a href="#">Kardex</a></li>
+          <li><a href="<?=site_url('pos/viewProducts/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Products</a></li>
+          <li><a href="#">Suppliers</a></li>
+          <li><a href="#">Inventory</a></li>
         </ul>
       </li>
       <li><a href="#" >Configuration</a></li>

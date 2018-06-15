@@ -6,7 +6,7 @@
             <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
             <li><a href="<?php echo base_url();?>channel/managepos">All POS</a></li>
             <li><a><?= $Posinfo['description']?></a></li>
-            <li class="active">Tables</li>
+            <li class="active">Categories</li>
         </ol>
     </div>
 
@@ -169,7 +169,7 @@
           ,
           success: function(msg) {
 
-             if (msg=="0") {
+             if (msg["result"]=="0") {
               swal({
                title: "Success",
                 text: "Category Created!",
@@ -182,7 +182,7 @@
               
               swal({
                title: "upps, Sorry",
-                text: "Category was not Created!" + msg,
+                text: "Category was not Created! Error: " + msg["result"],
                 icon: "warning",
                 button: "Ok!",});
             }
@@ -224,7 +224,7 @@
           ,
           success: function(msg) {
 
-             if (msg=="0") {
+             if (msg["result"]=="0") {
               swal({
                title: "Success",
                 text: "Category Update!",
@@ -237,7 +237,7 @@
               
               swal({
                title: "upps, Sorry",
-                text: "Category was not Update!" + msg,
+                text: "Category was not Update! Error:" + msg["result"],
                 icon: "warning",
                 button: "Ok!",});
             }

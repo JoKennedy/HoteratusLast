@@ -37,8 +37,9 @@ function showWait(mensaje) {
     var heightdivsito = alto/2 - parseInt(height)/2;//Se utiliza en el margen superior, para centrar
  
    //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
-    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + mensaje + "</div>"+'<i class="fa fa-spinner fa-spin fa-5x fa-fw"></i></div>';
- 
+    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + 
+    mensaje + "</div>" +'<img src="/user_assets/images/loader.gif" > </div>' //+'<i class="fa fa-spinner fa-spin fa-5x fa-fw"></i> </div>';
+    
         //creamos el div que bloquea grande------------------------------------------
         div = document.createElement("div");
         div.id = "WindowLoad"

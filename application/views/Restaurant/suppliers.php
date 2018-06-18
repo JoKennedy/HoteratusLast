@@ -1,3 +1,4 @@
+
 <div class="outter-wp">
 
 
@@ -6,7 +7,7 @@
             <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
             <li><a href="<?php echo base_url();?>channel/managepos">All POS</a></li>
             <li><a><?= $Posinfo['description']?></a></li>
-            <li class="active">Employees</li>
+            <li class="active">Suppliers</li>
         </ol>
     </div>
 
@@ -15,57 +16,62 @@
     </div>
 
     <div style="float: right; " class="buttons-ui">
-        <a href="#createemployee"  data-toggle="modal" class="btn blue">Add New Employee</a>
+        <a href="#createsupplier"  data-toggle="modal" class="btn blue">Add New Supplier</a>
     </div>
     <div class="clearfix" ></div>
     <div class="graph-visual tables-main">
         <div class="graph">
             <div class="table-responsive">
                 <div class="clearfix"></div>
-                <table id="employeeList" class="table table-bordered">
+                <table id="suppList" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Employee Name</th>
-                            <th>Employee Type</th>
+                            <th width="5%">#</th>
+                            <th>Product Name</th>
+                            <th>Category Name</th>
+                            <th>Photo</th>
                             <th>Status</th>
                             <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
-                           <?php if (count($AllStaff)>0) {
+                           <?php if (count($ALLProducts)>0) {
 
                             $i=0;
-                            foreach ($AllStaff as  $value) {
+                            foreach ($ALLProducts as  $value) {
                                 $i++;
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['fullname'].'  </td> 
-                                <td> '.$value['stafftypename'].'  </td> <td> '.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updateproduct" onclick =" showupdate('."'".$value['firstname']."'".')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
+                                <td> '.$value['Categoryname'].'  </td> <td> <img id="img'.$value['itemPosId'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updateproduct" onclick =" showupdate('."'".$value['name']."'".','.$value['itemPosId'].','.$value['itemcategoryid'].','.$value['type'].')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
 
                             }
+                           
                         } ?>
                     </tbody>
                 </table>
-                <?php if (count($AllStaff)==0) {echo '<h4>No Employee Created!</h4>';} ?>
+                <?php if (count($ALLProducts)==0) {echo '<h4>No Products Created!</h4>';} 
+                  else
+                  { echo ' <div style"float:right;> <ul " class="pagination pagination-lg pager" id="myPager"></ul> </div>';}
+                 ?>
                 <div class="clearfix"></div>
             </div>
         </div>
     </div>
 </div>
 
-<div id="createemployee" class="modal fade" role="dialog" aria-hidden="true">
+<div id="createproduct" class="modal fade" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Create a Employee</h4>
+                    <h4 class="modal-title">Create a Product</h4>
                 </div>
                 <div>
                     <div class="graph-form">
-                  <form id ="EmployeeC" >
+                  <form id ="ProductC" >
                     <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                     <div class="col-md-12 form-group1">
-                        <label class="control-label" >Name</label>
-                        <input style="background:white; color:black;" name="name" id ="name" type="text" placeholder="Name" required="">
+                        <label class="control-label" >Product Name</label>
+                        <input style="background:white; color:black;" name="productname" id ="productname" type="text" placeholder="Product Name" required="">
                     </div>
                      <div class="col-md-12 form-group1 form-last">
                         <label style="padding:4px;" class="control-label controls">Type of Category </label>
@@ -347,6 +353,117 @@
         $("#photo").attr('src',$("#img"+id).attr('src'));
     }
 
+
+    $.fn.pageMe = function(opts){
+    var $this = this,
+        defaults = {
+            perPage: 7,
+            showPrevNext: false,
+            hidePageNumbers: false
+        },
+        settings = $.extend(defaults, opts);
     
+    var listElement = $this.find('tbody');
+    var perPage = settings.perPage; 
+    var children = listElement.children();
+    var pager = $('.pager');
+    
+    if (typeof settings.childSelector!="undefined") {
+        children = listElement.find(settings.childSelector);
+    }
+    
+    if (typeof settings.pagerSelector!="undefined") {
+        pager = $(settings.pagerSelector);
+    }
+    
+    var numItems = children.size();
+    var numPages = Math.ceil(numItems/perPage);
+
+    pager.data("curr",0);
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+    }
+    
+    var curr = 0;
+    while(numPages > curr && (settings.hidePageNumbers==false)){
+        $('<li><a href="#" class="page_link">'+(curr+1)+'</a></li>').appendTo(pager);
+        curr++;
+    }
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+    }
+    
+    pager.find('.page_link:first').addClass('active');
+    pager.find('.prev_link').hide();
+    if (numPages<=1) {
+        pager.find('.next_link').hide();
+    }
+    pager.children().eq(1).addClass("active");
+    
+    children.hide();
+    children.slice(0, perPage).show();
+    
+    pager.find('li .page_link').click(function(){
+        var clickedPage = $(this).html().valueOf()-1;
+        goTo(clickedPage,perPage);
+        return false;
+    });
+    pager.find('li .prev_link').click(function(){
+        previous();
+        return false;
+    });
+    pager.find('li .next_link').click(function(){
+        next();
+        return false;
+    });
+    
+    function previous(){
+        var goToPage = parseInt(pager.data("curr")) - 1;
+        goTo(goToPage);
+    }
+     
+    function next(){
+        goToPage = parseInt(pager.data("curr")) + 1;
+        goTo(goToPage);
+    }
+    
+    function goTo(page){
+        var startAt = page * perPage,
+            endOn = startAt + perPage;
+        
+        children.css('display','none').slice(startAt, endOn).show();
+        
+        if (page>=1) {
+            pager.find('.prev_link').show();
+        }
+        else {
+            pager.find('.prev_link').hide();
+        }
+        
+        if (page<(numPages-1)) {
+            pager.find('.next_link').show();
+        }
+        else {
+            pager.find('.next_link').hide();
+        }
+        
+        pager.data("curr",page);
+        pager.children().removeClass("active");
+        pager.children().eq(page+1).addClass("active");
+    
+    }
+};
+
+function Paginar(numeroP=10)
+{
+  $('#proList').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:numeroP});
+}
+$(document).ready(function(){
+    
+  Paginar(10);
+    
+});
 
 </script>

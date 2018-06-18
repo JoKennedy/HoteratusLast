@@ -168,7 +168,7 @@
                                 </li>
                                 <li class="dropdown note">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="badge">3</span></a>
-                                    <ul class="dropdown-menu two first">
+                                    <ul class="dropdown-menu two first" style="width: 5px">
                                         <li>
                                             <div class="notification_header">
                                                 <h3>You have 3 new messages  </h3>

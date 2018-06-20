@@ -257,7 +257,7 @@ class Reservation_model extends CI_Model
         {
             foreach ($extras as $value) {
                 
-                $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Extras',"qty"=>1,"description"=>$value['description'],"total"=>$value['amount'],"tax"=>0);
+                $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Extras',"qty"=>1,"description"=>$value['description'],"total"=>$value['amount'],"tax"=>0, "productid"=>$value['extra_id']);
 
                 
                 insert_data('reservationinvoicedetails',$datadetails);
@@ -413,13 +413,13 @@ class Reservation_model extends CI_Model
         {
             $invoiceId=0;
         }
-        
+        $id='';
         foreach ($extrasId as  $value) {
             $d=explode(',', $value);
             $data=array('reservation_id' =>$reservationId ,'channel_id' =>$channelID,'description' =>$d[2],'amount' =>$d[1],'extra_date' =>date('Y-m-d H:i:s') );
             if(insert_data('extras',$data))
             {
-
+                $id=$this->db->insert_id();
                 $description="Add Extra:(".$d[2].") by $userName";
 
 
@@ -429,7 +429,7 @@ class Reservation_model extends CI_Model
 
             if ( $invoiceId>0) {
               
-              $datadetails =array("reservationinvoiceId"=>$invoiceId,"item"=>'Extra',"qty"=>1,"description"=>$d[2],"total"=>$d[1],"tax"=>0);
+              $datadetails =array("reservationinvoiceId"=>$invoiceId,"item"=>'Extra',"qty"=>1,"description"=>$d[2],"total"=>$d[1],"tax"=>0,'productid'=>$id);
 
                 
                 insert_data('reservationinvoicedetails',$datadetails);
@@ -448,12 +448,40 @@ class Reservation_model extends CI_Model
     function delete_extras($extra_id,$reser_id,$channel_id,$detail)
     {
 
+        $userId=user_id();
+
+
+        $invoice=get_data('reservationinvoice',array('channelId'=>$channel_id ,'reservationId'=>$reser_id));
+
+        if ($invoice->num_rows()>0) {
+            $invoice=$invoice->row_array();
+            $number=$invoice['Number'];
+            $invoiceId=$invoice['reservationinvoiceid'];
+       
+        }
+        else
+        {
+            $invoiceId=0;
+        }
+
         $description="Delete Extra:$detail";
         $this->db->where('extra_id',$extra_id);
         $ver = $this->db->delete('extras');
 
         $data = array('channel_id'=>$channel_id,'Userid'=>user_id(),'extra_id'=>2,'reservation_id'=>$reser_id,'description'=>$description,'history_date'=>date('Y-m-d H:i:s'));
+
         $res = $this->db->insert('new_history',$data);
+
+       if ( $invoiceId>0) {
+          
+          $monto=$this->db->query("select sum(total) total from  reservationinvoicedetails where item ='Extras' and  reservationinvoiceId = $invoiceId and productid=$extra_id")->row_array();
+         
+          $this->db->query("delete from reservationinvoicedetails  where item ='Extras' and  reservationinvoiceId = $invoiceId and productid=$extra_id ");
+          $this->db->query("update reservationinvoice set amount = amount -".$monto['total']."  where reservationinvoiceid =$invoiceId  ");
+
+             $data = array('channel_id'=>$channel_id,'Userid'=>$userId,'reservation_id'=>$reser_id,'description'=>'Modify invoice, Delete extra('.$detail.'--amount:'.$monto['total'].') to invoice #'.$number,'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+            insert_data('new_history',$data);
+        }
 
         
 
@@ -6100,6 +6128,15 @@ METHOD:PUBLISH";
         $data = get_data("import_reservation_EXPEDIA", array('user_id' => $user_id,'hotel_id' => $hotel_id,'booking_id' => $id))->row_array();
         if($channel_data){
 
+
+              if($data['type'] == "Book"){
+                $status = "New Booking";
+            }else if($data['type'] == "Modify"){
+                $status = "Modified";
+            }else if($data['type'] == "Cancel"){
+                $status = "Canceled";
+            }
+
             $get_email_info     =   get_mail_template('20');
 
             $email_subject1= $status + ' ' + $get_email_info['subject'];
@@ -6107,13 +6144,7 @@ METHOD:PUBLISH";
             $email_content1= $get_email_info['message'];
 
             //$row=get_data(USERS,array('user_id'=>user_id()));
-            if($data['type'] == "Book"){
-                $status = "New Booking";
-            }else if($data['type'] == "Modify"){
-                $status = "Modified";
-            }else if($data['type'] == "Cancel"){
-                $status = "Canceled";
-            }
+          
 
             $staydate = explode(',', $data['stayDate']);
             $baserate = explode(',', $data['baseRate']);

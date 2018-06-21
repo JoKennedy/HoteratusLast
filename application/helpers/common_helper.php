@@ -1016,7 +1016,7 @@ function send_notification($from="",$to,$content='',$subject='')
 	'protocol' => 'smtp',
 	'smtp_host' => 'ssl://smtp.googlemail.com',
 	'smtp_port' => 465,
-	'smtp_user' => 'thirupathi@osiztechnologies.com',
+	'smtp_user' => 'datahernandez@gmail.com',
 	'smtp_pass' => 'thirupass',
 	'mailtype'  => 'html', 
 	'charset'   => 'iso-8859-1'

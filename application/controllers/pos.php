@@ -30,7 +30,6 @@ class POS extends Front_Controller {
 
 	function viewpos($hotelid,$posid)
 	{
-
 		$hotelid= unsecure($hotelid);
 		$posid =insep_decode($posid);
 		$this->is_login();
@@ -115,11 +114,11 @@ class POS extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype  where  myposid=$posid ")->result_array();
+		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype  where  hotelid=$hotelid ")->result_array();
 		$data['AllStaff']=$this->db->query("SELECT a.*, b.name stafftypename, concat(firstname,' ' , lastname) fullname 
 											FROM mystaffpos a
 											left join stafftype b on a.stafftypeid = b.stafftypeid  
-											where  a.myposid=$posid ")->result_array();
+											where  a.hotelid=$hotelid ")->result_array();
 		$this->views('Restaurant/employes',$data);
 	}
 	function viewSuppliers($hotelid,$posid)
@@ -513,9 +512,9 @@ class POS extends Front_Controller {
 	}
 	function LoadImage()
 	{
-			echo (var_dump($_FILES));
-			echo (var_dump($_POST));
-			return;
+		echo (var_dump($_FILES));
+		echo (var_dump($_POST));
+		return;
 		if (isset($_FILES["Image"]))
 		{
 
@@ -623,9 +622,7 @@ class POS extends Front_Controller {
 		    echo json_encode($result);
 
 		}
-
-
-			
+	
 	}
 	function updateCategory()
 	{		
@@ -691,7 +688,7 @@ class POS extends Front_Controller {
 				echo json_encode($result);
 			
 	}
-		function saveProduct()
+	function saveProduct()
 	{		
 		$result["result"]='';
 
@@ -757,9 +754,7 @@ class POS extends Front_Controller {
 		    echo json_encode($result);
 
 		}
-
-
-			
+	
 	}
 	function updateProduct()
 	{		
@@ -819,14 +814,142 @@ class POS extends Front_Controller {
 					$data['type']=$_POST['typeup'];
 					$data['name']=$_POST['productnameup'];
 					update_data('itempos',$data,array('itemPosId' =>$_POST['itemPosId'] ));
-					$result["result"]=$result["result"]="0";
+					$result["result"]="0";
 				}
 
 
 				echo json_encode($result);
 			
 	}
+	function saveSupplier()
+	{		
+		$result["result"]='';
 
+	    $data['companyname']=$_POST['cname'];
+		$data['representativename']=$_POST['rname'];
+		$data['address']=$_POST['address'];
+		$data['phone']=$_POST['phone'];
+		$data['cellphone']=$_POST['cphone'];
+		$data['email']=$_POST['email'];
+		$data['active']=1;
+		$data['myposid']=$_POST['posid'];
+
+
+		if(insert_data('suppliers',$data))
+		{
+			$result["result"]= "0";
+		}
+		else 
+		{
+			$result["result"]= "1";
+		}
+
+		 echo json_encode($result);
+
+		# supplierID, myposid, companyname, representativename, address, phone, cellphone, email, active
+
+	}
+	function updateSupplier()
+	{		
+		$result["result"]='';
+
+	    $data['companyname']=$_POST['cnameup'];
+		$data['representativename']=$_POST['rnameup'];
+		$data['address']=$_POST['addressup'];
+		$data['phone']=$_POST['phoneup'];
+		$data['cellphone']=$_POST['cphoneup'];
+		$data['email']=$_POST['emailup'];
+		
+
+
+		if(update_data('suppliers',$data,array('supplierID' =>$_POST['supplierID'])))
+		{
+			$result["result"]= "0";
+		}
+		else 
+		{
+			$result["result"]= "1";
+		}
+
+		 echo json_encode($result);
+
+		# supplierID, myposid, companyname, representativename, address, phone, cellphone, email, active
+
+	}
+	function saveEmployee()
+	{		
+		$result["result"]='';
+
+		
+		if (isset($_FILES["Image"]) && strlen($_FILES["Image"]["name"])>0)
+		{
+
+		    $file = $_FILES["Image"];
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Employee/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      $result["result"]= "Error, el archivo no es una imagen"; 
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      $result["result"]="Error, el tamaño máximo permitido es un 1MB";
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        $result["result"]= "Error la anchura y la altura maxima permitida es 500px";
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        $result["result"]= "Error la anchura y la altura mínima permitida es 60px";
+		    }
+		    else
+
+		    {	
+
+		        $src = $carpeta.$_POST['posid'].$_POST['name'].$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['photo']="/".$src;
+
+		    }
+
+		}
+
+
+			if( $result["result"]=="")
+			{
+				$data['firstname']=$_POST['name'];
+				$data['lastname']=$_POST['lastname'];
+				$data['gender']=$_POST['gender'];
+				$data['stafftypeid']=$_POST['staffType'];
+				$data['hotelid']=hotel_id();
+				$data['active']=1;
+			    if(insert_data('mystaffpos',$data))
+				{
+					$result["result"]="0";
+				}
+				else 
+				{
+					$result["result"]= "1";
+				}
+			}
+			
+		    echo json_encode($result);
+
+		# mystaffposid, firstname, lastname, gender, stafftypeid, myposid, active, photo
+
+	
+	}
 }
 
 

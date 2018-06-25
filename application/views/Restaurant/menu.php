@@ -10,7 +10,6 @@
         <ul class="dropdown-menu">
           <li><a href="<?=site_url('pos/viewCreationtable/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tables</a></li>
           <li><a href="<?=site_url('pos/viewEmployees/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>"">Employees</a></li>
-          <li><a href="#">Other</a></li>
         </ul>
       </li>
         <li class="dropdown">

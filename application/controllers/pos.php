@@ -94,7 +94,7 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
-		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname
+		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname, 0.00 price
 												FROM itempos a
 												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
 												where b.posid=$posid ")->result_array();
@@ -160,7 +160,7 @@ class POS extends Front_Controller {
 		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
 			FROM mystaffpos a
 			left join stafftype b on a.stafftypeid = b.stafftypeid
-			where a.myposid =$posid ")->result_array();
+			where a.hotelid =$hotelid ")->result_array();
 
 		$data['waiter']=(count($data['OrderInfo'])==0 || $data['OrderInfo'][0]['StaffCode']==0 ?'':$this->db->query("select concat(firstname,' ',lastname) name from mystaffpos where mystaffposid =".$data['OrderInfo'][0]['StaffCode'])->row()->name);
 
@@ -738,6 +738,9 @@ class POS extends Front_Controller {
 				$data['name']=$_POST['productname'];
 				$data['type']=$_POST['type'];
 				$data['code']='item';
+				$data['brand']=$_POST['brand'];;
+				$data['model']=$_POST['model'];;
+				$data['stock']=$_POST['stock'];;
 				$data['active']=1;
 
 				if(insert_data('itempos',$data))
@@ -813,6 +816,9 @@ class POS extends Front_Controller {
 					$data['itemcategoryid']=(int)$_POST['Categoryidup'];
 					$data['type']=$_POST['typeup'];
 					$data['name']=$_POST['productnameup'];
+					$data['brand']=$_POST['brandup'];
+					$data['model']=$_POST['modelup'];
+					$data['stock']=$_POST['stockup'];
 					update_data('itempos',$data,array('itemPosId' =>$_POST['itemPosId'] ));
 					$result["result"]="0";
 				}
@@ -949,6 +955,121 @@ class POS extends Front_Controller {
 		# mystaffposid, firstname, lastname, gender, stafftypeid, myposid, active, photo
 
 	
+	}
+	function updateEmployee()
+	{		
+		$result["result"]='';
+
+		
+		if (isset($_FILES["Imageup"]) && strlen($_FILES["Imageup"]["name"])>0)
+		{
+
+		    $file = $_FILES["Image"];
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Employee/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		      $result["result"]= "Error, el archivo no es una imagen"; 
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		      $result["result"]="Error, el tamaño máximo permitido es un 1MB";
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		        $result["result"]= "Error la anchura y la altura maxima permitida es 500px";
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		        $result["result"]= "Error la anchura y la altura mínima permitida es 60px";
+		    }
+		    else
+
+		    {	
+
+		        $src = $carpeta.$_POST['posid'].$_POST['name'].$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['photo']="/".$src;
+
+		    }
+
+		}
+
+
+			if( $result["result"]=="")
+			{
+				$data['firstname']=$_POST['nameup'];
+				$data['lastname']=$_POST['lastnameup'];
+				$data['gender']=$_POST['genderup'];
+				$data['stafftypeid']=$_POST['staffTypeup'];
+				$data['active']=1;
+			    if(update_data('mystaffpos',$data,array('mystaffposid' =>$_POST['mystaffposid'])))
+				{
+					$result["result"]="0";
+				}
+				else 
+				{
+					$result["result"]= "1";
+				}
+			}
+			
+		    echo json_encode($result);
+
+		# mystaffposid, firstname, lastname, gender, stafftypeid, myposid, active, photo
+
+	
+	}
+	function pricehistory()
+	{
+		$itemPosId=$_POST['itemPosId'];
+
+		$available=$this->db->query("select * from itemprice where itemid = $itemPosId")->result_array();
+
+
+		if (count($available)==0) {
+			$data['html']='<h1 align="center">No Available Price</1>';
+			$data['result']=false;
+			echo json_encode($data);
+			return;
+		}
+
+		$html='';
+		$html.='
+				<div class="table-responsive">
+						
+						<table class="table table-bordered">
+								<thead>
+										<tr>
+												<th>#</th>
+												<th>Price </th>
+												<th>Date Time</th>
+										</tr>
+															 </thead>
+								<tbody>';
+					$i=0;
+					foreach ($available as  $value) {
+						$i++;
+						$html.=' <tr class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
+							' </th> <td>'.$value['price'].'  </td> <td>'.date("F j, Y, g:i a",strtotime($value['datetime'])).'</td>  </tr>';
+
+
+					}
+					$html.='</tbody>
+									</table>
+									</div> ';
+					$data['html']=$html;
+					$data['result']=true;
+					echo json_encode($data);
 	}
 }
 

@@ -44,7 +44,7 @@
                             $i=0;
                             foreach ($ALLProducts as  $value) {
                                 $i++;
-                                $update="'".$value['name']."'".','.$value['itemPosId'].','.$value['itemcategoryid'].','.$value['type'].",'".
+                                $update="'".$value['name']."','".$value['itemPosId']."','".$value['itemcategoryid']."','".$value['type']."','".
                                 $value['brand']."','".$value['model']."','".$value['stock']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
@@ -115,6 +115,10 @@
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Stock</label>
                             <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="stock" id="stock" type="text" placeholder="Stock" required="">
+                        </div>
+                          <div  class="col-md-12 form-group1">
+                            <label class="control-label">Price</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="pricen" id="pricen" type="text" placeholder="Price" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Imagen</label>
@@ -235,18 +239,20 @@
                         <br>
                         <br>
                         <div class="graph-form">
-                        <div class="col-md-6 form-group1">
+                        <div style="float: left;" class="col-md-12 form-group1">
                             <label class="control-label">New Price</label>
                             <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="newprice" id="newprice" type="text" placeholder="Price" required="">
+                             <div  style="float: right;"  class="buttons-ui">
+                                <a onclick="savePrice()" class="btn green">Save</a>
+                             </div>
                         </div>
 
-                        <div class="clearfix"> </div>
-                          <div id="tablepriceid"></div>
+                         
+                        <div  class="clearfix"> </div>
+                          <div  id="tablepriceid"></div>
                           
                         </div>
-                        <div class="buttons-ui">
-                            <a onclick="savePrice()" class="btn green">Save</a>
-                        </div>
+                       
                         <div class="clearfix"> </div>
                     </form>
                 </div>
@@ -257,6 +263,51 @@
 </div>
 </div>
 <script type="text/javascript">
+
+function savePrice()
+{
+    if ($("#newprice").val().length == 0 || $("#newprice").val()==0 ) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Price!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } 
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/savePrice",
+        data: {"price":$("#newprice").val(),"itemid":$("#itemPosIdP").val()},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["result"] == "0") {
+                swal({
+                    title: "Success",
+                    text: "Price Saved!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: "Price was not Saved! Error:" + msg["result"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+}
 function saveProduct() {
 
 
@@ -286,7 +337,17 @@ function saveProduct() {
             button: "Ok!",
         });
         return;
-    } else if ($("#Image").val().length < 1) {
+    }else if ($("#pricen").val().length == 0 || $("#pricen").val()==0 ) 
+    {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Price!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }  
+    else if ($("#Image").val().length < 1) {
         swal({
             title: "upps, Sorry",
             text: "Missing Field Imagen!",
@@ -426,9 +487,10 @@ function showupdate(nombre, id, category, type, brand, model, stock) {
 
 function showPrice(nombre, id, category, type, brand, model, stock) {
 
-    $("#productnameP").val(nombre);
-    $("#photoP").attr('src', $("#img" + id).attr('src'));
-    $("#itemPosIdP").val(id);
+  $("#productnameP").val(nombre);
+  $("#newprice").val(0.00);
+  $("#photoP").attr('src', $("#img" + id).attr('src'));
+  $("#itemPosIdP").val(id);
 
   $.ajax({
         type: "POST",

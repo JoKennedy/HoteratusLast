@@ -28,6 +28,7 @@
                             <th>#</th>
                             <th>Product Name</th>
                             <th>Category Name</th>
+                            <th>Unit</th>
                             <th>Brand</th>
                             <th>Model</th>
                             <th>Stock</th>
@@ -45,10 +46,10 @@
                             foreach ($ALLProducts as  $value) {
                                 $i++;
                                 $update="'".$value['name']."','".$value['itemPosId']."','".$value['itemcategoryid']."','".$value['type']."','".
-                                $value['brand']."','".$value['model']."','".$value['stock']."'";
+                                $value['brand']."','".$value['model']."','".$value['stock']."','".$value['unitid']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
-                                <td> '.$value['Categoryname'].'  </td><td>'.$value['brand'].'</td> <td>'.$value['model'].'</td> <td>'.$value['stock'].'</td> <td>'.$value['price'].'</td> <td> <img id="img'.$value['itemPosId'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td> <td><a href="#updateproduct" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                <td> '.$value['Categoryname'].'  </td> <td>'.$value['unitname'].'</td><td>'.$value['brand'].'</td> <td>'.$value['model'].'</td> <td>'.$value['stock'].'</td> <td>'.$value['price'].'</td> <td> <img id="img'.$value['itemPosId'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td> <td><a href="#updateproduct" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
                             }
                            
                         } ?>
@@ -101,6 +102,19 @@
                                     echo '<option  value="2" >Recipe</option>';
                                     echo '<option  value="3" >Service</option>';
 
+                              ?>
+                            </select>
+                        </div>
+                          <div class="col-md-12 form-group1 form-last">
+                            <label style="padding:4px;" class="control-label controls">Unit of Measurement</label>
+                            <select style="width: 100%; padding: 9px;" name="unitid" id="unitid">
+                                <?php
+
+                                    echo '<option value="0" >Select a Unit of Measurement</option>';
+                                    foreach ($AllUnits as $value) {
+                                        $i++;
+                                        echo '<option  value="'.$value['unitid'].'" >'.$value['name'].'</option>';
+                                    }
                               ?>
                             </select>
                         </div>
@@ -176,6 +190,19 @@
                                     echo '<option  value="2" >Recipe</option>';
                                     echo '<option  value="3" >Service</option>';
 
+                              ?>
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group1 form-last">
+                            <label style="padding:4px;" class="control-label controls">Unit of Measurement</label>
+                            <select style="width: 100%; padding: 9px;" name="unitidup" id="unitidup">
+                                <?php
+
+                                    echo '<option value="0" >Select a Unit of Measurement</option>';
+                                    foreach ($AllUnits as $value) {
+                                        $i++;
+                                        echo '<option  value="'.$value['unitid'].'" >'.$value['name'].'</option>';
+                                    }
                               ?>
                             </select>
                         </div>
@@ -337,7 +364,16 @@ function saveProduct() {
             button: "Ok!",
         });
         return;
-    }else if ($("#pricen").val().length == 0 || $("#pricen").val()==0 ) 
+    } else if ($("#unitid").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Select a Unit of Measurement!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+    else if ($("#pricen").val().length == 0 || $("#pricen").val()==0 ) 
     {
         swal({
             title: "upps, Sorry",
@@ -429,6 +465,15 @@ function updateProduct() {
         });
         return;
     }
+    else if ($("#unitidup").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Select a Unit of Measurement!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
 
 
     $.ajax({
@@ -473,7 +518,7 @@ function updateProduct() {
 
 }
 
-function showupdate(nombre, id, category, type, brand, model, stock) {
+function showupdate(nombre, id, category, type, brand, model, stock,unitid) {
 
     $("#productnameup").val(nombre);
     $("#itemPosId").val(id);
@@ -482,6 +527,7 @@ function showupdate(nombre, id, category, type, brand, model, stock) {
     $("#brandup").val(brand);
     $("#modelup").val(model);
     $("#stockup").val(stock);
+    $("#unitidup").val(unitid);
     $("#photo").attr('src', $("#img" + id).attr('src'));
 }
 
@@ -496,7 +542,7 @@ function showPrice(nombre, id, category, type, brand, model, stock) {
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/pricehistory",
-        data: {"itemPosId":id},
+        data: {"itemPosId":id,"type":1},
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);

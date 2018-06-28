@@ -53,7 +53,7 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'All The Tables';
+    	$data['page_heading'] = 'New Table';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
@@ -70,7 +70,7 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'All The Tables';
+    	$data['page_heading'] = 'Categories';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
@@ -87,18 +87,56 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'All The Tables';
+    	$data['page_heading'] = 'Products';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
-		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname, (select price from itemprice  where itemid=a.itemPosId ORDER BY `datetime` DESC LIMIT 1) price
+		$data['AllUnits']=$this->db->query("SELECT * FROM units  order by name ")->result_array();
+		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname, (select price from itemprice  where itemid=a.itemPosId and isitem=1 ORDER BY `datetime` DESC LIMIT 1) price, c.name unitname
 												FROM itempos a
 												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
+												left join units c on a.unitid = c.unitid
 												where b.posid=$posid ")->result_array();
 		$this->views('Restaurant/products',$data);
+	}
+	function viewRecipes($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Recipes';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname, (select price from itemprice  where itemid=a.itemPosId and isitem=1 ORDER BY `datetime` DESC LIMIT 1) price, c.name unitname
+												FROM itempos a
+												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
+												left join units c on a.unitid = c.unitid
+												where b.posid=$posid ")->result_array();
+		$data['ALLRecipes']=$this->db->query("SELECT a.*,  (select price from itemprice  where itemid=a.recipeid and isitem=0 ORDER BY `datetime` 
+												DESC LIMIT 1) price
+												FROM recipes a
+												where a.posid=$posid and a.active=1 ")->result_array();
+
+		$this->views('Restaurant/recipes',$data);
+
+
+		#detalle de recetas
+		/*select a.name, b.quantity,c.name, (select price from itemprice  where itemid=b.itemid ORDER BY `datetime` DESC LIMIT 1)  unitary, 
+		b.quantity*(select price from itemprice  where itemid=b.itemid ORDER BY `datetime` DESC LIMIT 1) importe,
+		d.name UnitName
+		from recipes a
+		left join recipedetails b on a.recipeid =b.recipeid
+		left join itempos c on b.itemid=c.itemposid
+		left join units d on c.unitid =d.unitid*/
 	}
 	function viewEmployees($hotelid,$posid)
 	{
@@ -108,7 +146,7 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'All The Tables';
+    	$data['page_heading'] = 'Employees';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
@@ -129,7 +167,7 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'All The Tables';
+    	$data['page_heading'] = 'Suppliers';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
@@ -147,7 +185,7 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'Manage POS';
+    	$data['page_heading'] = 'Table';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
@@ -155,7 +193,7 @@ class POS extends Front_Controller {
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['TableInfo']=$this->db->query("SELECT * FROM mypostable  where postableid =$tableid ")->row_array();
 		$data['OrderInfo']=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty,c.name itemname,
-		ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid AND 'DATETIME' <= a.datetime ORDER BY 'datetime' DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid")->result_array();
+		ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid and isitem =1 AND 'DATETIME' <= a.datetime ORDER BY 'datetime' DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid")->result_array();
 
 		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
 			FROM mystaffpos a
@@ -246,7 +284,7 @@ class POS extends Front_Controller {
 		}
 
 			$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty,c.name itemname,
-				ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid order by b.orderlistdetailid ")->result_array();
+				ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid and isitem =1 AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid order by b.orderlistdetailid ")->result_array();
 
 
 
@@ -285,7 +323,7 @@ class POS extends Front_Controller {
 			$this->db->query("delete from  orderlistdetails where itemid=$itemid and ordersListid=$ordenid  limit 1");
 
 				$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty,c.name itemname,
-				ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid AND DATETIME <= a.datetime ORDER BY datetime DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
+				ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid and isitem=1 AND DATETIME <= a.datetime ORDER BY datetime DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
 		}
 
 
@@ -742,6 +780,7 @@ class POS extends Front_Controller {
 				$data['brand']=$_POST['brand'];;
 				$data['model']=$_POST['model'];;
 				$data['stock']=$_POST['stock'];;
+				$data['unitid']=$_POST['unitid'];
 				$data['active']=1;
 
 				if(insert_data('itempos',$data))
@@ -826,6 +865,7 @@ class POS extends Front_Controller {
 					$data['brand']=$_POST['brandup'];
 					$data['model']=$_POST['modelup'];
 					$data['stock']=$_POST['stockup'];
+					$data['unitid']=$_POST['unitidup'];
 					update_data('itempos',$data,array('itemPosId' =>$_POST['itemPosId'] ));
 					$result["result"]="0";
 				}
@@ -1039,9 +1079,9 @@ class POS extends Front_Controller {
 	function pricehistory()
 	{
 		$itemPosId=$_POST['itemPosId'];
+		$isitem=$_POST['type'];
 
-		$available=$this->db->query("select * from itemprice where itemid = $itemPosId order by datetime desc ")->result_array();
-
+		$available=$this->db->query("select * from itemprice where itemid = $itemPosId and isitem=$isitem order by datetime desc ")->result_array();
 
 		if (count($available)==0) {
 			$data['html']='<h1 align="center">No Available Price</1>';
@@ -1086,6 +1126,7 @@ class POS extends Front_Controller {
 
 		$data['itemid']=$_POST['itemid'];
 		$data['price']=$_POST['price'];
+		$data['isitem']=1;
 
 		if(insert_data('itemprice',$data))
 		{

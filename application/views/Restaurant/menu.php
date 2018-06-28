@@ -17,6 +17,7 @@
         <ul class="dropdown-menu">
           <li><a href="<?=site_url('pos/viewCategories/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Categories</a></li>
           <li><a href="<?=site_url('pos/viewProducts/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Products</a></li>
+          <li><a href="<?=site_url('pos/viewRecipes/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Recipes</a></li>
           <li><a href="<?=site_url('pos/viewSuppliers/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Suppliers</a></li>
           <li><a href="#">Inventory</a></li>
         </ul>

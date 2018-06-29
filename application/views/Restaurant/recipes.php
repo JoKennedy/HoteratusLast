@@ -15,7 +15,7 @@
         <?php include("menu.php") ?>
     </div>
     <div style="float: right; " class="buttons-ui">
-        <a href="#createrecipe" data-toggle="modal" class="btn blue">Add New Recipe</a>
+        <a  onclick="ClearRecipe();" href="#createrecipe" data-toggle="modal" class="btn blue">Add New Recipe</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
@@ -82,21 +82,21 @@
                             <input style="background:white; color:black;" type="file" id="Image" name="Image">
                         </div>
                         <div class="col-md-6 form-group1 form-last">
-                            <label style="padding:4px;" class="control-label controls">Type of Category </label>
-                            <select style="width: 100%; padding: 9px;" name="Categoryid" id="Categoryid">
+                            <label style="padding:4px;" class="control-label controls">Product List </label>
+                            <select style="width: 100%; padding: 9px;" name="productid" id="productid">
                                 <?php
 
                                     echo '<option  value="0" >Select a Product</option>';
                                     foreach ($ALLProducts as $value) {
                                         $i++;
-                                        echo '<option onclick="alert('."'".$value['unitname']."'".')" value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
+                                        echo '<option value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
                                     }
                               ?>
                             </select>
                         </div>
                         <div class="col-md-6 form-group1">
                             <label class="control-label">Quantity</label>
-                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="pricen" id="pricen" type="text" placeholder="Quantity" required="">
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="qty" id="qty" type="text" placeholder="Quantity" required="">
                         </div>
                         <div class="buttons-ui">
                             <a onclick="addProduct()" class="btn blue">Add</a>
@@ -104,15 +104,15 @@
                         <div class="graph">
                             <div class="table-responsive">
                                 <div class="clearfix"></div>
-                                <table id="allProduct" class="table table-bordered">
+                                <table id="allDetails" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>Product</th>
                                             <th>Unit</th>
                                             <th>Quantity</th>
                                             <th>Price</th>
                                             <th>Amount</th>
+                                            <th width="2%">Remove</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,7 +125,7 @@
                                 <br>
                                 <br>
                                 <div class="buttons-ui">
-                                    <a onclick="saveProduct()" class="btn green">Save</a>
+                                    <a onclick="walk('allDetails');" class="btn green">Save</a>
                                 </div>
                                 <div class="clearfix"> </div>
                     </form>
@@ -255,6 +255,99 @@
     </div>
 </div>
 <script type="text/javascript">
+
+ function ClearRecipe()
+ {
+    $("#productid").val("0");
+    $("#allDetails tbody").html("");
+    $("#recipename").val("");
+    $("#pricen").val("0");
+    $("#qty").val("0");
+    $("#Image").val("");
+
+
+ }
+
+function addProduct()
+{    id =$("#productid").val();
+
+        if (id==0) {
+            swal({
+                title: "upps, Sorry",
+                text: "Missing Field Product!",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return;
+        }else if ($("#qty").val()==0 || $("#qty").val().length==0 ) {
+            swal({
+                title: "upps, Sorry",
+                text: "Missing Field Quantity!",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return;
+        }else if ($("#tr"+id).attr('id')!=undefined) {
+            swal({
+                title: "upps, Sorry",
+                text: "This ingredient is already included!",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return;
+        }
+
+
+     var nFilas = $("#allDetails tr").length;  
+     $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/Productinfo",
+        data: {  "itemid": id },
+        success: function(msg) {
+   
+         $("#allDetails").append('<tr id="tr'+(id)+'"> <td> '+msg['name']+'</td><td> '+msg['UnitName']+'</td><td> '+$("#qty").val()+'</td><td> '+msg['unitary']+'</td><td> '+ (new Intl.NumberFormat("en-US").format(($("#qty").val()*msg['unitary']))) +'</td> <td><a id="'+(id)+'" onclick="deleteitem(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
+         $("#productid").val("0");
+         $("#qty").val("0");
+        }
+    });
+
+     
+}
+
+function walk(table="allDetails") {
+     var data=[];
+     var info='';
+
+     $('#allDetails tbody tr').each(function(){
+       
+        info='{';
+        $(this).children("td").each(function (index) {
+            
+            if(index==0)
+            {
+                 info +="member:"+$(this).text();
+            }
+
+               
+        });
+        info +='}';
+
+        alert(JSON.parse(info));
+      
+     
+
+     });
+
+     
+  
+}
+function deleteitem(id)
+{
+    
+   $("#tr"+id).remove();
+}
+
 function savePrice() {
     if ($("#newprice").val().length == 0 || $("#newprice").val() == 0) {
         swal({

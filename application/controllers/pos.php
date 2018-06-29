@@ -1144,6 +1144,38 @@ class POS extends Front_Controller {
 
 	
 	}
+	function Productinfo()
+	{
+		$result=$this->db->query("select  a.*, IFNULL((select price from itemprice  where itemid=a.itemPosId ORDER BY `datetime` DESC LIMIT 1),0)  unitary,
+		d.name UnitName 
+		from itempos a 
+		left join units d on a.unitid =d.unitid
+        where itemPosId =".$_POST['itemid'])->row_array();
+
+        echo json_encode($result);
+
+
+	}
+	function detailsRecipeTable()
+	{
+
+		$html='  <table id="allProduct" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Unit</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>';
+            
+
+        $html= '</tbody>
+        		</table>';
+	}
 
 }
 

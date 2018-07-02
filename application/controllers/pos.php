@@ -272,8 +272,7 @@ class POS extends Front_Controller {
 		$ordenid='';
 		$data= array();
 
-
-		$OrderInfo=$this->db->query("SELECT * from orderslist  where mypostableid= $tableid and active =1 limit 1 ")->row_array();
+		$OrderInfo=$this->db->query("SELECT * from orderslist  where mypostableid= $tableid and active =1 limit 1")->row_array();
 
 		if(count($OrderInfo)>0)
 		{

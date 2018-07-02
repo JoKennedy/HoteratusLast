@@ -2,14 +2,13 @@
 .div-img {
     text-align: center;
     background-color: white;
-    width: 150px;
-    height: 150px;
+ 
 }
 
 .img {
-    width: 115px;
-    height: 110px;
-    padding-bottom: 3px;
+    width: 50px;
+    height: 50px;
+    padding-bottom: 0px;
 }
 
 .div-img .img {
@@ -108,13 +107,19 @@
                     if (count($Categories)>0) {
                        foreach ($Categories as  $value) {
                           echo '<div  class="col-md-4 div-img">
-                                    <a onclick="CategoryItem('."this.id".');" id="'.$value['itemcategoryID'].'"><img class="img"  src="'.$value['photo'].'"></a>
+                                    <a onclick="CategoryItem('."this.id".');" id="'.$value['itemcategoryID'].'"><img  class="img"  src="'.$value['photo'].'"></a>
                                     <h4> '.$value['name'].' </h4>
                                 </div>';
                        }
                     }
 
+                    if (count($Recipes)>0) {
 
+                          echo '<div  class="col-md-4 div-img">
+                                    <a onclick="RecipeItem();" ><img  class="img"  src="/user_assets/images/Categories/recipedefault.png"></a>
+                                    <h4> Recipes </h4>
+                                </div>';
+                    } 
 
                  ?>
             </div>
@@ -156,7 +161,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
+                        <?php
 
                             if (count($StaffInfo)>0) {
 
@@ -386,7 +391,18 @@ function CategoryItem(id) {
         }
     });
 }
-
+function RecipeItem()
+{
+     $.ajax({
+        type: "POST",
+        url: "<?php echo lang_url(); ?>pos/allRecipe",
+        data: { "posid": posid },
+        success: function(msg) {
+            $("#allitem").html(msg)
+        }
+    });
+    
+}
 function additem(id) {
 
     $.ajax({

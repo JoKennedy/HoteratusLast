@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url'] = "http://127.0.0.1/";
+$config['base_url'] = "http://127.0.0.1:8080/";
 //$config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/'; 
 
 /*

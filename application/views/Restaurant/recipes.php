@@ -15,7 +15,7 @@
         <?php include("menu.php") ?>
     </div>
     <div style="float: right; " class="buttons-ui">
-        <a  onclick="ClearRecipe();" href="#createrecipe" data-toggle="modal" class="btn blue">Add New Recipe</a>
+        <a onclick="ClearRecipe();" href="#createrecipe" data-toggle="modal" class="btn blue">Add New Recipe</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
@@ -43,7 +43,7 @@
                                 $update="'".$value['recipeid']."','".$value['name']."','".$value['Active']."','".$value['price']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
-                                 <td>'.$value['price'].'</td> <td> <img id="img'.$value['recipeid'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['Active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td> <td><a href="#updateproduct" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                 <td>'.$value['price'].'</td> <td> <img id="img'.$value['recipeid'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['Active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td> <td><a href="#updaterecipe" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
                             }
                            
                         } ?>
@@ -73,13 +73,13 @@
                             <label class="control-label">Recipe Name</label>
                             <input style="background:white; color:black;" name="recipename" id="recipename" type="text" placeholder="Recipe Name" required="">
                         </div>
-                        <div class="col-md-12 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label">Price</label>
                             <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="pricen" id="pricen" type="text" placeholder="Price" required="">
                         </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Imagen</label>
-                            <input style="background:white; color:black;" type="file" id="Image" name="Image">
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Total Cost</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="totalC" id="totalC" type="text" placeholder="0.00" required="" readonly="true">
                         </div>
                         <div class="col-md-6 form-group1 form-last">
                             <label style="padding:4px;" class="control-label controls">Product List </label>
@@ -116,11 +116,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-
                                     </tbody>
                                 </table>
-                                <div id="respuesta"></div>
                                 <div class="clearfix"> </div>
                                 <br>
                                 <br>
@@ -134,219 +131,413 @@
                 </div>
             </div>
         </div>
-        <div id="updateproduct" class="modal fade" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Update a Product</h4>
-                    </div>
-                    <div>
-                        <div class="graph-form">
-                            <form id="ProductUP">
-                                <input type="hidden" name="itemPosId" id="itemPosId" value="">
-                                <div class="col-md-12 form-group1">
-                                    <label class="control-label">Product Name</label>
-                                    <input style="background:white; color:black;" name="productnameup" id="productnameup" type="text" placeholder="Product Name" required="">
-                                </div>
-                                <div class="col-md-12 form-group1 form-last">
-                                    <label style="padding:4px;" class="control-label controls">Type of Category </label>
-                                    <select style="width: 100%; padding: 9px;" name="Categoryidup" id="Categoryidup">
-                                        <?php
+    </div>
+</div>
 
-                                    echo '<option value="0" >Select a Type of Category</option>';
-                                    foreach ($AllCategories as $value) {
+<div id="updaterecipe" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Update a Recipe</h4>
+            </div>
+            <div>
+                <div class="graph-form">
+                    <form id="RecipeC">
+                        <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
+                        <input type="hidden" name="recipeid" id="recipeid" value="">
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Recipe Name</label>
+                            <input style="background:white; color:black;" name="recipenameup" id="recipenameup" type="text" placeholder="Recipe Name" required="">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Price</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="priceup" id="priceup" type="text" placeholder="Price" required="" readonly="true">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Total Cost</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="totalCup" id="totalCup" type="text" placeholder="0.00" required="" readonly="true">
+                        </div>
+                        <div class="col-md-6 form-group1 form-last">
+                            <label style="padding:4px;" class="control-label controls">Product List </label>
+                            <select style="width: 100%; padding: 9px;" name="productidup" id="productidup">
+                                <?php
+
+                                    echo '<option  value="0" >Select a Product</option>';
+                                    foreach ($ALLProducts as $value) {
                                         $i++;
-                                        echo '<option  value="'.$value['itemcategoryID'].'" >'.$value['name'].'</option>';
+                                        echo '<option value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
                                     }
                               ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-12 form-group1 form-last">
-                                    <label style="padding:4px;" class="control-label controls">Type of Product </label>
-                                    <select style="width: 100%; padding: 9px;" name="typeup" id="typeup">
-                                        <?php
-
-                                    echo '<option value="0" >Select a Type of Product</option>';
-                                    echo '<option  value="1" >Product</option>';
-                                    echo '<option  value="2" >Recipe</option>';
-                                    echo '<option  value="3" >Service</option>';
-
-                              ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 form-group1">
-                                    <label class="control-label">Brand</label>
-                                    <input style="background:white; color:black;" name="brandup" id="brandup" type="text" placeholder="Brand" required="">
-                                </div>
-                                <div class="col-md-6 form-group1">
-                                    <label class="control-label">Model</label>
-                                    <input style="background:white; color:black;" name="modelup" id="modelup" type="text" placeholder="Model" required="">
-                                </div>
-                                <div class="col-md-12 form-group1">
-                                    <label class="control-label">Stock</label>
-                                    <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="stockup" id="stockup" type="text" placeholder="Stock" required="">
-                                </div>
-                                <div class="col-md-12 form-group1">
-                                    <label class="control-label">New Imagen</label>
-                                    <input style="background:white; color:black;" type="file" id="Imageup" name="Imageup">
-                                </div>
-                                <div id="respuesta"></div>
-                                <div class="col-md-12 form-group1">
-                                    <label class="control-label">Actual Imagen </label>
-                                    <img style="width:200px;" src="" id="photo">
-                                </div>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Quantity</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="qtyup" id="qtyup" type="text" placeholder="Quantity" required="">
+                        </div>
+                        <div class="buttons-ui">
+                            <a onclick="addProductup()" class="btn blue">Add</a>
+                        </div>
+                        <div class="graph">
+                            <div class="table-responsive">
+                                <div class="clearfix"></div>
+                                <table id="allDetailsup" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Unit</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Amount</th>
+                                            <th width="2%">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                                 <div class="clearfix"> </div>
                                 <br>
                                 <br>
                                 <div class="buttons-ui">
-                                    <a onclick="updateProduct()" class="btn green">Save</a>
+                                    <a onclick="updateRecipe();" class="btn green">Update</a>
                                 </div>
                                 <div class="clearfix"> </div>
-                            </form>
-                        </div>
+                    </form>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div id="priceh" class="modal fade" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Price History</h4>
-                    </div>
-                    <div>
-                        <div class="graph-form">
-                            <form id="ProductP">
-                                <input type="hidden" name="itemPosIdP" id="itemPosIdP" value="">
-                                <div class="graph-form">
-                                    <div class="col-md-8 form-group1">
-                                        <label class="control-label">Product Name</label>
-                                        <input style="background:white; color:black;" id="productnameP" type="text" placeholder="Product Name" required="" readonly="true">
-                                    </div>
-                                    <div class="col-md-4 form-group1">
-                                        <label class="control-label">Imagen </label>
-                                        <img style="width:100px;" src="" id="photoP">
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                </div>
-                                <div class="clearfix"> </div>
-                                <br>
-                                <br>
-                                <div class="graph-form">
-                                    <div style="float: left;" class="col-md-12 form-group1">
-                                        <label class="control-label">New Price</label>
-                                        <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="newprice" id="newprice" type="text" placeholder="Price" required="">
-                                        <div style="float: right;" class="buttons-ui">
-                                            <a onclick="savePrice()" class="btn green">Save</a>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                    <div id="tablepriceid"></div>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div id="priceh" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Price History</h4>
+            </div>
+            <div>
+                <div class="graph-form">
+                    <form id="ProductP">
+                        <input type="hidden" name="itemPosIdP" id="itemPosIdP" value="">
+                        <div class="graph-form">
+                            <div class="col-md-8 form-group1">
+                                <label class="control-label">Product Name</label>
+                                <input style="background:white; color:black;" id="productnameP" type="text" placeholder="Product Name" required="" readonly="true">
+                            </div>
+                            <div class="col-md-4 form-group1">
+                                <label class="control-label">Imagen </label>
+                                <img style="width:100px;" src="" id="photoP">
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                        <br>
+                        <br>
+                        <div class="graph-form">
+                            <div style="float: left;" class="col-md-12 form-group1">
+                                <label class="control-label">New Price</label>
+                                <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="newprice" id="newprice" type="text" placeholder="Price" required="">
+                                <div style="float: right;" class="buttons-ui">
+                                    <a onclick="savePrice()" class="btn green">Save</a>
+                                </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                            <div id="tablepriceid"></div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
-
- function ClearRecipe()
- {
+function ClearRecipeup() {
+    $("#productidup").val("0");
+    $("#allDetailsup tbody").html("");
+    $("#recipenameup").val("");
+    $("#priceup").val("0");
+    $("#qtyup").val("0");
+}
+function ClearRecipe() {
     $("#productid").val("0");
     $("#allDetails tbody").html("");
     $("#recipename").val("");
     $("#pricen").val("0");
     $("#qty").val("0");
     $("#Image").val("");
+}
+
+function addProduct() {
+    id = $("#productid").val();
+
+    if (id == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Product!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#qty").val() == 0 || $("#qty").val().length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Quantity!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#tr" + id).attr('id') != undefined) {
+        swal({
+            title: "upps, Sorry",
+            text: "This ingredient is already included!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
 
 
- }
-
-function addProduct()
-{    id =$("#productid").val();
-
-        if (id==0) {
-            swal({
-                title: "upps, Sorry",
-                text: "Missing Field Product!",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return;
-        }else if ($("#qty").val()==0 || $("#qty").val().length==0 ) {
-            swal({
-                title: "upps, Sorry",
-                text: "Missing Field Quantity!",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return;
-        }else if ($("#tr"+id).attr('id')!=undefined) {
-            swal({
-                title: "upps, Sorry",
-                text: "This ingredient is already included!",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return;
-        }
-
-
-     var nFilas = $("#allDetails tr").length;  
-     $.ajax({
+    var costo = 0;
+    $.ajax({
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/Productinfo",
-        data: {  "itemid": id },
+        data: { "itemid": id },
         success: function(msg) {
-   
-         $("#allDetails").append('<tr id="tr'+(id)+'"> <td> '+msg['name']+'</td><td> '+msg['UnitName']+'</td><td> '+$("#qty").val()+'</td><td> '+msg['unitary']+'</td><td> '+ (new Intl.NumberFormat("en-US").format(($("#qty").val()*msg['unitary']))) +'</td> <td><a id="'+(id)+'" onclick="deleteitem(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
-         $("#productid").val("0");
-         $("#qty").val("0");
+            costo = (new Intl.NumberFormat("en-US").format(($("#qty").val() * msg['unitary'])));
+            $("#allDetails").append('<tr id="tr' + (id) + '"> <td> ' + msg['name'] + '</td><td> ' + msg['UnitName'] + '</td><td> ' + $("#qty").val() + '</td><td> ' + msg['unitary'] + '</td><td> ' + costo + '</td> <td><a id="' + (id) + '" onclick="deleteitem(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
+            $("#productid").val("0");
+            $("#qty").val("0");
+            totalcostoC();
         }
     });
 
-     
+}
+function addProductup() {
+
+    id = $("#productidup").val();
+
+    if (id == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Product!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#qtyup").val() == 0 || $("#qtyup").val().length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Quantity!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#trup" + id).attr('id') != undefined) {
+        swal({
+            title: "upps, Sorry",
+            text: "This ingredient is already included!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+
+
+    var costo = 0;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/Productinfo",
+        data: { "itemid": id },
+        success: function(msg) {
+            costo = (new Intl.NumberFormat("en-US").format(($("#qtyup").val() * msg['unitary'])));
+            $("#allDetailsup").append('<tr id="trup' + (id) + '"> <td> ' + msg['name'] + '</td><td> ' + msg['UnitName'] + '</td><td> ' + $("#qtyup").val() + '</td><td> ' + msg['unitary'] + '</td><td> ' + costo + '</td> <td><a id="up' + (id) + '" onclick="deleteitemup(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
+            $("#productidup").val("0");
+            $("#qtyup").val("0");
+            totalcostoUP();
+        }
+    });
+
 }
 
 function saveRecipe() {
-     var data=[];
-     var info='';
 
-     $('#allDetails tbody tr').each(function(){
-       
-        info='{"id":"'+this.id.replace("tr","")+'"';
-        $(this).children("td").each(function (index) {
-            
-            if(index==2)
-            {
-                 info +=',"qty":"'+$(this).text().trim()+'"';
+
+    if ($("#recipename").val().length <= 3) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Recipe Name!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#pricen").val() == 0 || $("#pricen").val().length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Price!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+
+
+
+    var data = { "info": [], "posid": $("#posid").val(), "name": $("#recipename").val(), "price": $("#pricen").val() };
+    var info = '';
+
+    $('#allDetails tbody tr').each(function() {
+
+        info = '{"id":"' + this.id.replace("tr", "") + '"';
+        $(this).children("td").each(function(index) {
+
+            if (index == 2) {
+                info += ',"qty":"' + $(this).text().trim() + '"';
             }
 
-               
         });
-        info +='}';
-        data.push(JSON.parse(info));
-        
-      
-     
+        info += '}';
+        data["info"].push(JSON.parse(info));
+    });
 
-     });
+    if (data["info"].length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "You must add at least one item to save!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
 
-alert(data[0]["id"]);
-     
-  
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/saveRecipe",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["result"] == "0") {
+                swal({
+                    title: "Success",
+                    text: "Price Saved!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: "Price was not Saved! Error:" + msg["result"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
 }
-function deleteitem(id)
-{
-    
-   $("#tr"+id).remove();
+function updateRecipe() {
+
+
+    if ($("#recipenameup").val().length <= 3) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Recipe Name!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#priceup").val() == 0 || $("#priceup").val().length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Price!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+
+
+
+    var data = { "info": [], "recipeid": $("#recipeid").val(), "name": $("#recipenameup").val()};
+    var info = '';
+
+    $('#allDetailsup tbody tr').each(function() {
+
+        info = '{"id":"' + this.id.replace("trup", "") + '"';
+        $(this).children("td").each(function(index) {
+
+            if (index == 2) {
+                info += ',"qty":"' + $(this).text().trim() + '"';
+            }
+
+        });
+        info += '}';
+        data["info"].push(JSON.parse(info));
+    });
+
+    if (data["info"].length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "You must add at least one item to save!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/updateRecipe",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["result"] == "0") {
+                swal({
+                    title: "Success",
+                    text: "Price Updated!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: "Price was not Updated! Error:" + msg["result"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+}
+
+function deleteitem(id) {
+
+    $("#tr" + id).remove();
+    totalcostoC();
+}
+function deleteitemup(id) {
+
+    $("#trup" + id).remove();
+    totalcostoUP();
 }
 
 function savePrice() {
@@ -393,181 +584,61 @@ function savePrice() {
     });
 }
 
-function saveProduct() {
-
-
-
-    var data = new FormData($("#ProductC")[0]);
-    if ($("#productname").val().length < 3) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Product Name!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#Categoryid").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Select a Category to Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#type").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Select a Type to Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#pricen").val().length == 0 || $("#pricen").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Price!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#Image").val().length < 1) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Imagen!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
+function showupdate(id, nombre, active, price) {
+    ClearRecipeup();
+    $("#recipenameup").val(nombre);
+    $("#recipeid").val(id);
+    $("#priceup").val(price);
 
     $.ajax({
         type: "POST",
         dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/saveProduct",
-        data: data,
-        beforeSend: function() {
-            showWait();
-            setTimeout(function() { unShowWait(); }, 10000);
-        },
+        url: "<?php echo lang_url(); ?>pos/recipeInfo",
+        data: { "id": id },
         success: function(msg) {
-            unShowWait();
-            if (msg["result"] == "0") {
-                swal({
-                    title: "Success",
-                    text: "Product Created!",
-                    icon: "success",
-                    button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
-            } else {
-
-                swal({
-                    title: "upps, Sorry",
-                    text: "Product was not Created! Error:" + msg["result"],
-                    icon: "warning",
-                    button: "Ok!",
-                });
-            }
-
-
-
-
-
-        }
-    });
-
-
-}
-
-function updateProduct() {
-
-
-
-    var data = new FormData($("#ProductUP")[0]);
-    if ($("#productnameup").val().length < 3) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Product Name!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#Categoryidup").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Select a Category to Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#typeup").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Select a Type to Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
-
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/updateProduct",
-        data: data,
-        beforeSend: function() {
-            showWait();
-            setTimeout(function() { unShowWait(); }, 10000);
-        },
-        success: function(msg) {
-
-            unShowWait();
-            if (msg["result"] == "0") {
-                swal({
-                    title: "Success",
-                    text: "Product Updated!",
-                    icon: "success",
-                    button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
-            } else {
-
-                swal({
-                    title: "upps, Sorry",
-                    text: "Product was not Updated!" + msg["result"],
-                    icon: "warning",
-                    button: "Ok!",
-                });
-            }
-
-
-
-
-
+            $("#allDetailsup").append(msg['html']);
+            totalcostoUP();
         }
     });
 
 }
 
-function showupdate(nombre, id, category, type, brand, model, stock) {
+function totalcostoC() {
+    var total = 0;
+    $('#allDetails tbody tr').each(function() {
 
-    $("#productnameup").val(nombre);
-    $("#itemPosId").val(id);
-    $("#Categoryidup").val(category);
-    $("#typeup").val(type);
-    $("#brandup").val(brand);
-    $("#modelup").val(model);
-    $("#stockup").val(stock);
-    $("#photo").attr('src', $("#img" + id).attr('src'));
+
+        $(this).children("td").each(function(index) {
+
+            if (index == 4) {
+
+                total = total + parseFloat($(this).text().trim());
+            }
+
+        });
+
+    });
+
+    $("#totalC").val(parseFloat(total));
 }
+function totalcostoUP() {
+    var total = 0;
+    $('#allDetailsup tbody tr').each(function() {
 
+
+        $(this).children("td").each(function(index) {
+
+            if (index == 4) {
+
+                total = total + parseFloat($(this).text().trim());
+            }
+
+        });
+
+    });
+
+    $("#totalCup").val(parseFloat(total));
+}
 function showPrice(id, name, active, price) {
 
     $("#productnameP").val(nombre);
@@ -693,7 +764,7 @@ $.fn.pageMe = function(opts) {
 };
 
 function Paginar(numeroP = 10) {
-    $('#proList').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
+    $('#recList').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
 }
 $(document).ready(function() {
 

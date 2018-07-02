@@ -192,8 +192,14 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['TableInfo']=$this->db->query("SELECT * FROM mypostable  where postableid =$tableid ")->row_array();
-		$data['OrderInfo']=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty,c.name itemname,
-		ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid and isitem =1 AND 'DATETIME' <= a.datetime ORDER BY 'datetime' DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid")->result_array();
+	
+		$data['OrderInfo']=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
+            b.isitem
+            from orderslist a 
+            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+            where a.mypostableid=$tableid  and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
 
 		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
 			FROM mystaffpos a
@@ -203,7 +209,7 @@ class POS extends Front_Controller {
 		$data['waiter']=(count($data['OrderInfo'])==0 || $data['OrderInfo'][0]['StaffCode']==0 ?'':$this->db->query("select concat(firstname,' ',lastname) name from mystaffpos where mystaffposid =".$data['OrderInfo'][0]['StaffCode'])->row()->name);
 
 		$data['Categories']=$this->db->query("SELECT * from itemcategory where posid= $posid")->result_array();
-
+		$data['Recipes']=$this->db->query("SELECT * from Recipes where posid= $posid")->result_array();
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
@@ -235,6 +241,28 @@ class POS extends Front_Controller {
 
 		echo $html.' <div class="clearfix"></div>';
 	}
+	function allRecipe($posid='')
+	{
+		$html='';
+		if($posid=='')
+		{
+			$posid=$_POST['posid'];
+		}
+
+		$allRec=$this->db->query("SELECT * from Recipes where posid=$posid  and active=1")->result_array();
+
+
+			foreach ($allRec as  $value) {
+
+				$html .= '<div  class="col-md-4 div-img">
+                                    <a onclick="additem('."this.id".');" id="rec'.$value['recipeid'].'"><img class="img"  src="'.$value['photo'].'"></a>
+                                    <h4> '.$value['name'].' </h4>
+
+                                </div> <br>';
+			}
+
+		echo $html.' <div class="clearfix"></div>';
+	}
 	function additem()
 	{
 
@@ -244,14 +272,17 @@ class POS extends Front_Controller {
 		$ordenid='';
 		$data= array();
 
+
 		$OrderInfo=$this->db->query("SELECT * from orderslist  where mypostableid= $tableid and active =1 limit 1 ")->row_array();
 
 		if(count($OrderInfo)>0)
 		{
 			$ordenid=$OrderInfo['ordersListid'];
 			$info['ordersListid']=$ordenid;
-			$info['itemid']=$itemid;
+			$info['itemid']=(substr($itemid,0,3)=='rec'?str_replace("rec", "", $itemid):$itemid);
 			$info['qty']=1;
+			$info['isitem']=(substr($itemid,0,3)=='rec'?0:1);
+
 			if(!insert_data('orderlistdetails',$info))
 			{
 				$data['success']=true;
@@ -268,8 +299,9 @@ class POS extends Front_Controller {
 			insert_data('orderslist',$main);
 
 			$info['ordersListid']=$this->db->insert_id();
-			$info['itemid']=$itemid;
+			$info['itemid']=(substr($itemid,0,3)=='rec'?str_replace("rec", "", $itemid):$itemid);
 			$info['qty']=1;
+			$info['isitem']=(substr($itemid,0,3)=='rec'?0:1);
 
 			if(!insert_data('orderlistdetails',$info))
 			{
@@ -283,8 +315,13 @@ class POS extends Front_Controller {
 
 		}
 
-			$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty,c.name itemname,
-				ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid and isitem =1 AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid order by b.orderlistdetailid ")->result_array();
+		$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
+            b.isitem
+            from orderslist a 
+            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+            where a.mypostableid=$tableid  and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
 
 
 
@@ -322,8 +359,14 @@ class POS extends Front_Controller {
 
 			$this->db->query("delete from  orderlistdetails where itemid=$itemid and ordersListid=$ordenid  limit 1");
 
-				$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty,c.name itemname,
-				ifnull((SELECT  price FROM itemprice WHERE ITEMID=b.itemid and isitem=1 AND DATETIME <= a.datetime ORDER BY datetime DESC LIMIT 1),0) price from orderslist a left join  orderlistdetails b on a.ordersListid = b.ordersListid left join itempos c on b.itemid=c.itemPosId where a.mypostableid= $tableid and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
+				$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
+            b.isitem
+            from orderslist a 
+            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+            where a.mypostableid=$tableid  and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
+
 		}
 
 
@@ -789,6 +832,7 @@ class POS extends Front_Controller {
 					
 					$datal['itemid']=$this->db->insert_id();
 					$datal['price']=$_POST['pricen'];
+					$datal['isitem']=1;
 					insert_data('itemprice',$datal);
 
 					$result["result"]= "0";
@@ -1177,6 +1221,87 @@ class POS extends Front_Controller {
         		</table>';
 	}
 
+	function saveRecipe()
+	{
+		$result['result']='1';
+
+		$data["name"]= $_POST["name"];
+		$data["posid"]=$_POST["posid"];
+		$data["active"]=1;
+		$data["photo"]="/user_assets/images/Categories/recipedefault.png";
+		insert_data("Recipes",$data);
+		$idRecipe=$this->db->insert_id();
+
+		if($idRecipe)
+		{
+			$datal['itemid']=$idRecipe;
+			$datal['price']=$_POST['price'];
+			$datal['isitem']=0;
+			insert_data('itemprice',$datal);
+
+			foreach ($_POST['info'] as $value) {
+				
+				$datad['recipeid']=$idRecipe;
+				$datad['itemid']=$value['id'];
+				$datad['quantity']=$value['qty'];
+				insert_data('recipedetails',$datad);
+			}
+			$result['result']='0';
+			
+
+		}
+		
+		echo json_encode($result);
+
+	}
+
+	function recipeInfo()
+	{
+		$id=$_POST['id'];
+		$result['html']='';
+		$datos =$this->db->query("select  b.quantity,c.name, (select price from itemprice  where itemid=b.itemid and isitem=1 ORDER BY `datetime` DESC LIMIT 1)  unitary, 
+		b.quantity*(select price from itemprice  where itemid=b.itemid and isitem=1 ORDER BY `datetime` DESC LIMIT 1) importe,
+		d.name UnitName, b.itemid
+		from recipes a
+		left join recipedetails b on a.recipeid =b.recipeid
+		left join itempos c on b.itemid=c.itemposid
+		left join units d on c.unitid =d.unitid
+        where a.recipeid=$id")->result_array();
+
+        foreach ($datos as $value) {
+        	$result['html'] .='<tr id="trup'.trim($value['itemid']).'"> <td> '.$value['name'].'</td><td> '.$value['UnitName'].'</td><td> '.$value['quantity'].'</td><td> '.$value['unitary'].'</td><td> ' .$value['importe']. '</td> <td><a id="'.$value['itemid']. '" onclick="deleteitemup(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>';
+        }
+
+        echo json_encode($result);
+	}
+
+	function updateRecipe()
+	{
+		$result['result']='1';
+		$idRecipe=$_POST["recipeid"];
+		$data["name"]= $_POST["name"];
+		$data["active"]=1;
+		$data["photo"]="/user_assets/images/Categories/recipedefault.png";
+		update_data("Recipes",$data,array("recipeid"=>$idRecipe));
+
+		if($idRecipe)
+		{
+			$this->db->query("delete from recipedetails where recipeid =$idRecipe");
+			foreach ($_POST['info'] as $value) {
+				
+				$datad['recipeid']=$idRecipe;
+				$datad['itemid']=$value['id'];
+				$datad['quantity']=$value['qty'];
+				insert_data('recipedetails',$datad);
+			}
+			$result['result']='0';
+			
+
+		}
+		
+		echo json_encode($result);
+
+	}
 }
 
 

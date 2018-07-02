@@ -70,8 +70,6 @@
 
 							        <li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span  >Point Of Sale (POS)</span> <span class="fa fa-angle-right" ></span></a>
 										 <ul id="menu-academico-sub" >
-											<li id="menu-academico-avaliacoes" ><a href="">Billing configuration</a></li>
-											<li id="menu-academico-boletim" ><a href="">Sales</a></li>
 											<li id="menu-academico-boletim" ><a href="<?php echo base_url();?>channel/managepos">All POS</a></li>
 
 										  </ul>

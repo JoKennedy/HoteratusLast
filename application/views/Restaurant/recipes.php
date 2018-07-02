@@ -125,7 +125,7 @@
                                 <br>
                                 <br>
                                 <div class="buttons-ui">
-                                    <a onclick="walk('allDetails');" class="btn green">Save</a>
+                                    <a onclick="saveRecipe();" class="btn green">Save</a>
                                 </div>
                                 <div class="clearfix"> </div>
                     </form>
@@ -315,30 +315,31 @@ function addProduct()
      
 }
 
-function walk(table="allDetails") {
+function saveRecipe() {
      var data=[];
      var info='';
 
      $('#allDetails tbody tr').each(function(){
        
-        info='{';
+        info='{"id":"'+this.id.replace("tr","")+'"';
         $(this).children("td").each(function (index) {
             
-            if(index==0)
+            if(index==2)
             {
-                 info +="member:"+$(this).text();
+                 info +=',"qty":"'+$(this).text().trim()+'"';
             }
 
                
         });
         info +='}';
-
-        alert(JSON.parse(info));
+        data.push(JSON.parse(info));
+        
       
      
 
      });
 
+alert(data[0]["id"]);
      
   
 }

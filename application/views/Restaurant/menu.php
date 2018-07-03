@@ -8,18 +8,27 @@
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Maintenance <span class="caret"></span></a>
         <ul class="dropdown-menu">
+          <?php
+            if($Posinfo['postypeID']==1 || $Posinfo['postypeID']==3)
+            { ?>
           <li><a href="<?=site_url('pos/viewCreationtable/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tables</a></li>
+          <?php }  ?>
           <li><a href="<?=site_url('pos/viewEmployees/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>"">Employees</a></li>
+          <li><a href="<?=site_url('pos/viewCategories/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Categories</a></li>
+          <li><a href="<?=site_url('pos/viewProducts/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Products</a></li>
+          <?php
+            if($Posinfo['postypeID']==1)
+            { ?>
+
+              <li><a href="<?=site_url('pos/viewRecipes/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Recipes</a></li>
+           <?php }  ?>
+          <li><a href="<?=site_url('pos/viewSuppliers/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Suppliers</a></li>
         </ul>
       </li>
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Inventory<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="<?=site_url('pos/viewCategories/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Categories</a></li>
-          <li><a href="<?=site_url('pos/viewProducts/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Products</a></li>
-          <li><a href="<?=site_url('pos/viewRecipes/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Recipes</a></li>
-          <li><a href="<?=site_url('pos/viewSuppliers/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Suppliers</a></li>
-          <li><a href="#">Inventory</a></li>
+          <li><a href="<?=site_url('pos/viewInventory/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Inventory</a></li>
         </ul>
       </li>
       <li><a href="#" >Configuration</a></li>

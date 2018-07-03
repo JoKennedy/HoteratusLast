@@ -307,7 +307,7 @@ function savePrice()
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/savePrice",
-        data: {"price":$("#newprice").val(),"itemid":$("#itemPosIdP").val()},
+        data: {"price":$("#newprice").val(),"itemid":$("#itemPosIdP").val(),"type":1 },
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);

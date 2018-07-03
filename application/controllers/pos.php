@@ -20,7 +20,7 @@ class POS extends Front_Controller {
 	    foreach ($data as  $value) {
 	        $i++;
 		    $html.=' <tr id="'.$value['itemid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td>'.$value['itemname'].'  </td> <td>'.number_format($value['price'], 2, '.', '').'</td> <td>'.$value['qty'].'</td> <td>'.number_format($value['price']*$value['qty'], 2, '.', '').'</td>
-		    	 <td  align="center"><a id="'.$value['itemid'].'" onclick="additem('."this.id".');"> <i class="fa fa-plus"></i></a> </td> <td align="center"><a id="'.$value['itemid'].'" onclick="deleteitem('."this.id".');"> <i class="fa fa-trash-o"></i></a> </td>  </tr>  ';
+		    	 <td  align="center"><a id="'.$value['itemid'].'" onclick="additem('."'".$value['itemid']."','".$value['isitem']."'".');"> <i class="fa fa-plus"></i></a> </td> <td align="center"><a id="'.$value['itemid'].'" onclick="deleteitem('."'".$value['itemid']."','".$value['isitem']."'".');"> <i class="fa fa-trash-o"></i></a> </td>  </tr>  ';
 		    $grandtotal+=($value['price']*$value['qty']);
 	   }
 	   	$result['grandtotal']=$grandtotal;
@@ -42,7 +42,18 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
-		$this->views('Restaurant/main',$data);
+		switch ($data['Posinfo']['postypeID']) {
+			case '1':
+				$this->views('Restaurant/main',$data);
+				break;
+			case '3':
+				$this->views('Restaurant/main',$data);
+				break;
+			default:
+				$this->views('Restaurant/mainnormal',$data);
+				break;
+		}
+		
 	}
 
 	function viewCreationtable($hotelid,$posid)
@@ -95,7 +106,7 @@ class POS extends Front_Controller {
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
 		$data['AllUnits']=$this->db->query("SELECT * FROM units  order by name ")->result_array();
-		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname, (select price from itemprice  where itemid=a.itemPosId and isitem=1 ORDER BY `datetime` DESC LIMIT 1) price, c.name unitname
+		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname,  precioActual (a.itemPosId ,1) price, c.name unitname
 												FROM itempos a
 												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
 												left join units c on a.unitid = c.unitid
@@ -116,13 +127,12 @@ class POS extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname, (select price from itemprice  where itemid=a.itemPosId and isitem=1 ORDER BY `datetime` DESC LIMIT 1) price, c.name unitname
+		$data['ALLProducts']=$this->db->query("SELECT a.*, b.name Categoryname,precioActual (a.itemPosId ,1)  price, c.name unitname
 												FROM itempos a
 												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
 												left join units c on a.unitid = c.unitid
 												where b.posid=$posid ")->result_array();
-		$data['ALLRecipes']=$this->db->query("SELECT a.*,  (select price from itemprice  where itemid=a.recipeid and isitem=0 ORDER BY `datetime` 
-												DESC LIMIT 1) price
+		$data['ALLRecipes']=$this->db->query("SELECT a.*,  precioActual (a.recipeid ,0)  price
 												FROM recipes a
 												where a.posid=$posid and a.active=1 ")->result_array();
 
@@ -213,6 +223,29 @@ class POS extends Front_Controller {
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
+	function viewInventory($hotelid,$posid)
+	{
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Inventory';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllInventory']=$this->db->query("SELECT a.*, b.name Categoryname,  precioActual (a.itemPosId ,1) price, c.name 
+												unitname,existenciaProducto (a.itemposid) existencia
+												FROM itempos a
+												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
+												left join units c on a.unitid = c.unitid
+												where b.posid=$posid")->result_array();
+
+
+		$this->views('Restaurant/inventory',$data);
+	}
 
 	function allitem($catid='')
 	{
@@ -231,11 +264,11 @@ class POS extends Front_Controller {
 		{
 			foreach ($allitem as  $value) {
 
-				$html .= '<div  class="col-md-4 div-img">
-                                    <a onclick="additem('."this.id".');" id="'.$value['itemPosId'].'"><img class="img"  src="'.$value['photo'].'"></a>
+				$html .= '<div  class="col-md-2 div-img">
+                                    <a onclick="additem('."this.id".',1);" id="'.$value['itemPosId'].'"><img class="img"  src="'.$value['photo'].'"></a>
                                     <h4> '.$value['name'].' </h4>
 
-                                </div> <br>';
+                                </div>';
 			}
 		}
 
@@ -255,7 +288,7 @@ class POS extends Front_Controller {
 			foreach ($allRec as  $value) {
 
 				$html .= '<div  class="col-md-4 div-img">
-                                    <a onclick="additem('."this.id".');" id="rec'.$value['recipeid'].'"><img class="img"  src="'.$value['photo'].'"></a>
+                                    <a onclick="additem('."this.id".',0);" id="rec'.$value['recipeid'].'"><img class="img"  src="'.$value['photo'].'"></a>
                                     <h4> '.$value['name'].' </h4>
 
                                 </div> <br>';
@@ -268,6 +301,7 @@ class POS extends Front_Controller {
 
 		$itemid=$_POST['itemid'];
 		$tableid=$_POST['tableid'];
+		$isitem=$_POST['isitem'];
 		$html='';
 		$ordenid='';
 		$data= array();
@@ -278,15 +312,39 @@ class POS extends Front_Controller {
 		{
 			$ordenid=$OrderInfo['ordersListid'];
 			$info['ordersListid']=$ordenid;
-			$info['itemid']=(substr($itemid,0,3)=='rec'?str_replace("rec", "", $itemid):$itemid);
+			$info['itemid']=$itemid;
 			$info['qty']=1;
-			$info['isitem']=(substr($itemid,0,3)=='rec'?0:1);
+			$info['isitem']=$isitem;
 
-			if(!insert_data('orderlistdetails',$info))
+			if(insert_data('orderlistdetails',$info))
 			{
-				$data['success']=true;
-				echo json_encode($data);
-				return;
+				if($info['isitem']==1)
+				{
+					$kardex['itemid']=$info['itemid'];
+					$kardex['orderid']=$info['ordersListid'];
+					$kardex['qty']=1;
+					$kardex['isitem']=$info['isitem'];
+					$kardex['type']=0;
+					insert_data('kardex',$kardex);
+				}
+				else
+				{
+					$recipe=$this->db->query("select b.itemid,b.quantity 
+											from recipes a
+											left join recipedetails b on a.recipeid=b.recipeid
+											where a.recipeid= ".$info['itemid'])->result_array();
+
+					foreach ($recipe as  $value) {
+
+						$kardex['itemid']=$value['itemid'];
+						$kardex['orderid']=$ordenid;
+						$kardex['qty']=$value['quantity'];
+						$kardex['isitem']=1;
+						$kardex['type']=0;
+						insert_data('kardex',$kardex);
+					}
+				}
+				
 			}
 
 		}
@@ -298,15 +356,39 @@ class POS extends Front_Controller {
 			insert_data('orderslist',$main);
 
 			$info['ordersListid']=$this->db->insert_id();
-			$info['itemid']=(substr($itemid,0,3)=='rec'?str_replace("rec", "", $itemid):$itemid);
+			$info['itemid']=$itemid;
 			$info['qty']=1;
-			$info['isitem']=(substr($itemid,0,3)=='rec'?0:1);
+			$info['isitem']=$isitem;
 
-			if(!insert_data('orderlistdetails',$info))
+			if(insert_data('orderlistdetails',$info))
 			{
-				$data['success']=true;
-				echo json_encode($data);
-				return;
+				if($info['isitem']==1)
+				{
+					$kardex['itemid']=$info['itemid'];
+					$kardex['orderid']=$info['ordersListid'];
+					$kardex['qty']=1;
+					$kardex['isitem']=$info['isitem'];
+					$kardex['type']=0;
+					insert_data('kardex',$kardex);
+				}
+				else
+				{
+					$recipe=$this->db->query("select b.itemid,b.quantity 
+											from recipes a
+											left join recipedetails b on a.recipeid=b.recipeid
+											where a.recipeid= ".$info['itemid'])->result_array();
+
+					foreach ($recipe as  $value) {
+
+						$kardex['itemid']=$value['itemid'];
+						$kardex['orderid']=$ordenid;
+						$kardex['qty']=$value['quantity'];
+						$kardex['isitem']=1;
+						$kardex['type']=0;
+						insert_data('kardex',$kardex);
+					}
+				}
+
 			}
 
 
@@ -343,6 +425,7 @@ class POS extends Front_Controller {
 
 		$itemid=$_POST['itemid'];
 		$tableid=$_POST['tableid'];
+		$isitem=$_POST['isitem'];
 		$html='';
 		$ordenid='';
 		$data= array();
@@ -355,8 +438,35 @@ class POS extends Front_Controller {
 			$info['ordersListid']=$ordenid;
 			$info['itemid']=$itemid;
 			$info['qty']=1;
+			$this->db->query("delete from  orderlistdetails where itemid=$itemid and ordersListid=$ordenid and isitem = $isitem limit 1");
 
-			$this->db->query("delete from  orderlistdetails where itemid=$itemid and ordersListid=$ordenid  limit 1");
+			if($isitem=='1')
+			{
+				
+				$kardex['itemid']=$itemid;
+				$kardex['orderid']=$ordenid;
+				$kardex['qty']=1;
+				$kardex['isitem']=1;
+				$kardex['type']=2;//Delete item de Orden
+				insert_data('kardex',$kardex);
+			}
+			else
+			{
+				$recipe=$this->db->query("select b.itemid,b.quantity 
+											from recipes a
+											left join recipedetails b on a.recipeid=b.recipeid
+											where a.recipeid= ".$itemid)->result_array();
+
+					foreach ($recipe as  $value) {
+
+						$kardex['itemid']=$value['itemid'];
+						$kardex['orderid']=$ordenid;
+						$kardex['qty']=$value['quantity'];
+						$kardex['isitem']=1;
+						$kardex['type']=2;
+						insert_data('kardex',$kardex);
+					}
+			}
 
 				$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
             b.isitem
@@ -1169,7 +1279,7 @@ class POS extends Front_Controller {
 
 		$data['itemid']=$_POST['itemid'];
 		$data['price']=$_POST['price'];
-		$data['isitem']=1;
+		$data['isitem']=$_POST['type'];
 
 		if(insert_data('itemprice',$data))
 		{

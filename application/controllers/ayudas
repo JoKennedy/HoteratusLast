@@ -19,3 +19,17 @@ ayudas tipos de alertas
 zona de horario para ejecutar procesos
 
 select convert_tz(now(),'+01:00','+04:00')
+
+
+CREATE TABLE `kardex` (
+  `kardexid` INT NOT NULL AUTO_INCREMENT,
+  `itemid` INT NULL,
+  `orderid` INT NULL,
+  `isitem` INT NULL,
+  `type` INT NULL,
+  `datetimemove` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`kardexid`));
+
+
+ALTER TABLE `dev20_eagle2`.`kardex` 
+ADD COLUMN `qty` FLOAT NULL AFTER `orderid`;

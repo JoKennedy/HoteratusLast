@@ -111,7 +111,7 @@ stickyNav();
 <h5>Usage </h5> 
 <p>Want to set new property, you would send the following request.
 </p>
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/setProperty</h3>
+<h3>Action URL: https://hoteratus.com/api/setProperty</h3>
 <div>
 
   <!-- Nav tabs -->
@@ -248,7 +248,7 @@ stickyNav();
                     <h5>Usage </h5>
                  
                     <p> Get single and multiple property details.</p>
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/getProperties</h3>
+<h3>Action URL: https://hoteratus.com/api/getProperties</h3>
                     <div>
                       <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
@@ -361,7 +361,7 @@ String/Integer
                     <h5>Usage </h5>
                  
                     <p> Get all and particular channel details.</p>
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/getChannels</h3>
+<h3>Action URL: https://hoteratus.com/api/getChannels</h3>
                     <div>
                       <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
@@ -473,7 +473,7 @@ String/Integer
                     <h5>Usage </h5>
                  
                     <p> Get all and particular channel details.</p>
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/setChannels</h3>
+<h3>Action URL: https://hoteratus.com/api/setChannels</h3>
                     <div>
                       <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
@@ -601,7 +601,7 @@ String/Integer
 <p> For Update room should have to provide RoomTypeId</p>
 
                  
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/setRoom</h3>
+<h3>Action URL: https://hoteratus.com/api/setRoom</h3>
 <div>
 <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -818,7 +818,7 @@ Integer
                     <h5>Usage</h5>
 
                  
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/getRoomTypes</h3>
+<h3>Action URL: https://hoteratus.com/api/getRoomTypes</h3>
 <div>
 <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -955,7 +955,7 @@ Integer
                     <h5>Usage </h5>
                  
                     <p> Get all availability between date.</p>
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/getAvailability</h3>
+<h3>Action URL: https://hoteratus.com/api/getAvailability</h3>
                     <div>
                       <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
@@ -1085,7 +1085,7 @@ Date - YYYY-MM-DD
                  
                     <h5>Usage </h5>
                     <p> Set all availability between date.</p>
-<h3>Action URL: http://channelmanager.osiztechnologies.com/api/setAvailability</h3>
+<h3>Action URL: https://hoteratus.com/api/setAvailability</h3>
                     <div>
                       <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">

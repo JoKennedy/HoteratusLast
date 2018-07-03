@@ -75,7 +75,7 @@
                             foreach ($OrderInfo as  $value) {
                                 $i++;
                                 echo' <tr id="itemid'.$value['itemid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td>'.$value['itemname'].'  </td> <td>'.number_format($value['price'], 2, '.', '').'</td> <td>'.$value['qty'].'</td> <td>'.number_format($value['price']*$value['qty'], 2, '.', '').'</td>
-                                    <td  align="center"><a id="'.$value['itemid'].'" onclick="additem('."this.id".');"> <i class="fa fa-plus"></i></a> </td> <td align="center"><a id="'.$value['itemid'].'" onclick="deleteitem('."this.id".');"> <i class="fa fa-trash-o"></i></a> </td> </tr>  ';
+                                    <td  align="center"><a  onclick="additem('."'".$value['itemid']."','".$value['isitem']."'".');"> <i class="fa fa-plus"></i></a> </td> <td align="center"><a  onclick="deleteitem('."'".$value['itemid']."','".$value['isitem']."'".');"> <i class="fa fa-trash-o"></i></a> </td> </tr>  ';
                                 $grandtotal+=($value['price']*$value['qty']);
                             }
                         } ?>
@@ -403,13 +403,13 @@ function RecipeItem()
     });
     
 }
-function additem(id) {
+function additem(id,isitem) {
 
     $.ajax({
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/additem",
-        data: { "itemid": id, "tableid": tableid },
+        data: { "itemid": id, "tableid": tableid , "isitem":isitem},
         success: function(msg) {
 
             if (msg['success']) {
@@ -426,13 +426,13 @@ function additem(id) {
 
 }
 
-function deleteitem(id) {
+function deleteitem(id,isitem) {
 
     $.ajax({
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/deleteitem",
-        data: { "itemid": id, "tableid": tableid },
+        data: { "itemid": id, "tableid": tableid, "isitem":isitem},
         success: function(msg) {
 
             if (msg['success']) {

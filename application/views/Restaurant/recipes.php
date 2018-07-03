@@ -223,12 +223,11 @@
                         <input type="hidden" name="itemPosIdP" id="itemPosIdP" value="">
                         <div class="graph-form">
                             <div class="col-md-8 form-group1">
-                                <label class="control-label">Product Name</label>
-                                <input style="background:white; color:black;" id="productnameP" type="text" placeholder="Product Name" required="" readonly="true">
+                                <label class="control-label">Recipe Name</label>
+                                <input style="background:white; color:black;" id="recipenameP" type="text" placeholder="Product Name" required="" readonly="true">
                             </div>
                             <div class="col-md-4 form-group1">
-                                <label class="control-label">Imagen </label>
-                                <img style="width:100px;" src="" id="photoP">
+                               <img style="width:100px;" src="<?=$ALLRecipes[0]['photo']?>" id="photoP">
                             </div>
                             <div class="clearfix"> </div>
                         </div>
@@ -270,99 +269,7 @@ function ClearRecipe() {
     $("#Image").val("");
 }
 
-function addProduct() {
-    id = $("#productid").val();
 
-    if (id == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Product!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#qty").val() == 0 || $("#qty").val().length == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Quantity!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#tr" + id).attr('id') != undefined) {
-        swal({
-            title: "upps, Sorry",
-            text: "This ingredient is already included!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
-
-
-    var costo = 0;
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "<?php echo lang_url(); ?>pos/Productinfo",
-        data: { "itemid": id },
-        success: function(msg) {
-            costo = (new Intl.NumberFormat("en-US").format(($("#qty").val() * msg['unitary'])));
-            $("#allDetails").append('<tr id="tr' + (id) + '"> <td> ' + msg['name'] + '</td><td> ' + msg['UnitName'] + '</td><td> ' + $("#qty").val() + '</td><td> ' + msg['unitary'] + '</td><td> ' + costo + '</td> <td><a id="' + (id) + '" onclick="deleteitem(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
-            $("#productid").val("0");
-            $("#qty").val("0");
-            totalcostoC();
-        }
-    });
-
-}
-function addProductup() {
-
-    id = $("#productidup").val();
-
-    if (id == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Product!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#qtyup").val() == 0 || $("#qtyup").val().length == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Quantity!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#trup" + id).attr('id') != undefined) {
-        swal({
-            title: "upps, Sorry",
-            text: "This ingredient is already included!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
-
-
-    var costo = 0;
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "<?php echo lang_url(); ?>pos/Productinfo",
-        data: { "itemid": id },
-        success: function(msg) {
-            costo = (new Intl.NumberFormat("en-US").format(($("#qtyup").val() * msg['unitary'])));
-            $("#allDetailsup").append('<tr id="trup' + (id) + '"> <td> ' + msg['name'] + '</td><td> ' + msg['UnitName'] + '</td><td> ' + $("#qtyup").val() + '</td><td> ' + msg['unitary'] + '</td><td> ' + costo + '</td> <td><a id="up' + (id) + '" onclick="deleteitemup(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
-            $("#productidup").val("0");
-            $("#qtyup").val("0");
-            totalcostoUP();
-        }
-    });
-
-}
 
 function saveRecipe() {
 
@@ -555,7 +462,7 @@ function savePrice() {
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/savePrice",
-        data: { "price": $("#newprice").val(), "itemid": $("#itemPosIdP").val() },
+        data: { "price": $("#newprice").val(), "itemid": $("#itemPosIdP").val(),"type":0 },
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);
@@ -641,9 +548,8 @@ function totalcostoUP() {
 }
 function showPrice(id, name, active, price) {
 
-    $("#productnameP").val(nombre);
+    $("#recipenameP").val(name);
     $("#newprice").val(0.00);
-    $("#photoP").attr('src', $("#img" + id).attr('src'));
     $("#itemPosIdP").val(id);
 
     $.ajax({
@@ -658,6 +564,99 @@ function showPrice(id, name, active, price) {
         success: function(msg) {
             unShowWait();
             $("#tablepriceid").html(msg['html']);
+        }
+    });
+
+}
+function addProduct() {
+    id = $("#productid").val();
+
+    if (id == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Product!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#qty").val() == 0 || $("#qty").val().length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Quantity!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#tr" + id).attr('id') != undefined) {
+        swal({
+            title: "upps, Sorry",
+            text: "This ingredient is already included!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+
+
+    var costo = 0;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/Productinfo",
+        data: { "itemid": id },
+        success: function(msg) {
+            costo = (new Intl.NumberFormat("en-US").format(($("#qty").val() * msg['unitary'])));
+            $("#allDetails").append('<tr id="tr' + (id) + '"> <td> ' + msg['name'] + '</td><td> ' + msg['UnitName'] + '</td><td> ' + $("#qty").val() + '</td><td> ' + msg['unitary'] + '</td><td> ' + costo + '</td> <td><a id="' + (id) + '" onclick="deleteitem(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
+            $("#productid").val("0");
+            $("#qty").val("0");
+            totalcostoC();
+        }
+    });
+
+}
+function addProductup() {
+
+    id = $("#productidup").val();
+
+    if (id == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Product!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#qtyup").val() == 0 || $("#qtyup").val().length == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Quantity!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#trup" + id).attr('id') != undefined) {
+        swal({
+            title: "upps, Sorry",
+            text: "This ingredient is already included!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    }
+
+
+    var costo = 0;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/Productinfo",
+        data: { "itemid": id },
+        success: function(msg) {
+            costo = (new Intl.NumberFormat("en-US").format(($("#qtyup").val() * msg['unitary'])));
+            $("#allDetailsup").append('<tr id="trup' + (id) + '"> <td> ' + msg['name'] + '</td><td> ' + msg['UnitName'] + '</td><td> ' + $("#qtyup").val() + '</td><td> ' + msg['unitary'] + '</td><td> ' + costo + '</td> <td><a id="up' + (id) + '" onclick="deleteitemup(this.id);"> <i class="fa fa-trash-o"></i></a></td></tr>');
+            $("#productidup").val("0");
+            $("#qtyup").val("0");
+            totalcostoUP();
         }
     });
 

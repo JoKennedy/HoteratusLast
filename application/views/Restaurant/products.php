@@ -26,7 +26,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Product Name</th>
+                            <th>Item</th>
                             <th>Category Name</th>
                             <th>Unit</th>
                             <th>Brand</th>
@@ -76,7 +76,7 @@
                     <form id="ProductC">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Product Name</label>
+                            <label class="control-label">Item Name</label>
                             <input style="background:white; color:black;" name="productname" id="productname" type="text" placeholder="Product Name" required="">
                         </div>
                         <div class="col-md-12 form-group1 form-last">

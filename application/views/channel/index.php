@@ -182,8 +182,8 @@
                             if($user_id!=''){ ?>
                         <li><a style="color:#00FF00;" href="<?php echo lang_url(); ?>channel/dashboard">Dashboard </a></li>
                         <?php }else{ ?>
-                        <li><a class="cd-signin" href="#0">Sign in</a></li>
-                        <li><a class="cd-signup" href="#0">Sign up</a></li>
+                        <li><a class="cd-signin" >Sign in</a></li>
+                        <li><a class="cd-signup" >Sign up</a></li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -1128,7 +1128,9 @@
 
         function logiar() {
 
+            //solo produccion
 
+            //event.preventDefault();
 
             var data = { "login_email": $("#signin-email").val(), "login_pwd": $("#signin-password").val() };
 

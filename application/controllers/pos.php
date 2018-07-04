@@ -133,7 +133,7 @@ class POS extends Front_Controller {
 												left join units c on a.unitid = c.unitid
 												where b.posid=$posid ")->result_array();
 		$data['ALLRecipes']=$this->db->query("SELECT a.*,  precioActual (a.recipeid ,0)  price
-												FROM recipes a
+												FROM Recipes a
 												where a.posid=$posid and a.active=1 ")->result_array();
 
 		$this->views('Restaurant/recipes',$data);
@@ -162,7 +162,7 @@ class POS extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype  where  hotelid=$hotelid ")->result_array();
+		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype ")->result_array();
 		$data['AllStaff']=$this->db->query("SELECT a.*, b.name stafftypename, concat(firstname,' ' , lastname) fullname 
 											FROM mystaffpos a
 											left join stafftype b on a.stafftypeid = b.stafftypeid  
@@ -330,7 +330,7 @@ class POS extends Front_Controller {
 				else
 				{
 					$recipe=$this->db->query("select b.itemid,b.quantity 
-											from recipes a
+											from Recipes a
 											left join recipedetails b on a.recipeid=b.recipeid
 											where a.recipeid= ".$info['itemid'])->result_array();
 
@@ -374,7 +374,7 @@ class POS extends Front_Controller {
 				else
 				{
 					$recipe=$this->db->query("select b.itemid,b.quantity 
-											from recipes a
+											from Recipes a
 											left join recipedetails b on a.recipeid=b.recipeid
 											where a.recipeid= ".$info['itemid'])->result_array();
 
@@ -453,7 +453,7 @@ class POS extends Front_Controller {
 			else
 			{
 				$recipe=$this->db->query("select b.itemid,b.quantity 
-											from recipes a
+											from Recipes a
 											left join recipedetails b on a.recipeid=b.recipeid
 											where a.recipeid= ".$itemid)->result_array();
 
@@ -1371,7 +1371,7 @@ class POS extends Front_Controller {
 		$datos =$this->db->query("select  b.quantity,c.name, (select price from itemprice  where itemid=b.itemid and isitem=1 ORDER BY `datetime` DESC LIMIT 1)  unitary, 
 		b.quantity*(select price from itemprice  where itemid=b.itemid and isitem=1 ORDER BY `datetime` DESC LIMIT 1) importe,
 		d.name UnitName, b.itemid
-		from recipes a
+		from Recipes a
 		left join recipedetails b on a.recipeid =b.recipeid
 		left join itempos c on b.itemid=c.itemposid
 		left join units d on c.unitid =d.unitid

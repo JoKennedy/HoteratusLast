@@ -155,7 +155,7 @@
         <div class="dev-table">
             <div class="col-md-4 dev-col">
                 <div class="dev-widget dev-widget-transparent">
-                    <h2 class="inner one">To Day</h2>
+                    <h2 class="inner one">Today</h2>
                     <p>Today's Occupation Percentage</p>
                     <div class="dev-stat"><span class="counter"><?= $Percentage['hoy'] ?></span>%</div>
                     <div class="progress progress-bar-xs">

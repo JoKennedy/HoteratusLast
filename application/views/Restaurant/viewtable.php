@@ -35,11 +35,7 @@
 }
 </style>
 <div class="outter-wp">
-    <div>
-        <h5 id="reloj"></h5></div>
-    <div style="text-align: center;">
-        <h3><?= $Posinfo['description']?></h3>
-    </div>
+  
     <div>
         <?php include("menu.php") ?>
     </div>

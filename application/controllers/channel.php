@@ -1065,8 +1065,8 @@ class Channel extends Front_Controller {
 		switch ($mode)
 		{
 			case 'Login':
-
-			echo $this->channel_model->check_login();
+			$result['result']=$this->channel_model->check_login();
+			echo json_encode($result);
 
 			break;
 

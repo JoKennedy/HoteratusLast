@@ -31,21 +31,26 @@
     </script>
     <link rel="stylesheet" href="<?php echo base_url();?>user_asset/css/lightbox.css">
     <!-- //custom-theme files-->
-    <link rel="stylesheet" href="<?php echo base_url();?>user_asset/css/pricingtable.css" media="all" type="text/css">
-    <link href="<?php echo base_url();?>user_asset/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="<?php echo base_url();?>user_asset/css/aos.css" rel="stylesheet" type="text/css" media="all" />
+     <link rel="stylesheet" href="<?php echo base_url();?>user_asset/css/pricingtable.css" media="all" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- //animation effects-css-->
     <link href="<?php echo base_url();?>user_asset/css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="<?php echo base_url();?>user_asset/css/stylefeatures.css" rel="stylesheet" type="text/css" media="all" />
     <link href="<?php echo base_url();?>user_asset/css/login.css" rel="stylesheet" type="text/css" media="all" />
     <link href="<?php echo base_url();?>user_asset/css/styleprice.css" rel="stylesheet" type="text/css" media="all" />
+
     <!-- //custom-theme files-->
     <!-- font-awesome-icons -->
     <link href="<?php echo base_url();?>user_asset/css/font-awesome.css" rel="stylesheet">
     <!-- //font-awesome-icons -->
-    <script src="<?php echo base_url();?>assets_pms/js/fix-header.js" type="text/javascript"></script>
+
     <script src="<?php echo base_url();?>user_asset/js/modernizr.js"></script>
     <script src="<?php echo base_url();?>user_asset/js/sweetalert.min.js"></script>
+
+    <!-- for gallery js -->
+    <!-- js -->
+    <script type="text/javascript" src="<?php echo base_url();?>user_asset/js/jquery-2.1.4.min.js"></script>
     <!-- Modernizr -->
     <!-- googlefonts -->
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
@@ -53,7 +58,7 @@
     <link href='//fonts.googleapis.com/css?family=Lato:400,100,100italic,300italic,300,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,100,300,600,700' rel='stylesheet' type='text/css'>
     <link href="//fonts.googleapis.com/css?family=Tangerine:400,700" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+
     <!-- //googlefonts -->
 </head>
 
@@ -174,11 +179,11 @@
                         <li><a class="page-scroll scroll" href="#home">Home</a></li>
                         <li><a class="page-scroll scroll" href="#about">About</a></li>
                         <li><a class="page-scroll scroll" href="#services">Features</a></li>
-                        <li><a class="page-scroll scroll" href="#pricing">Prices</a></li>
+                        <li><a class="page-scroll scroll" href="#team">Prices</a></li>
                         <!--<li><a class="page-scroll scroll" href="#food">Our Food</a></li>-->
                         <li><a class="page-scroll scroll" href="#testimonials">Testimonials</a></li>
                         <li><a class="page-scroll scroll" href="#contact">Contact Us</a></li>
-                        <?php $user_id = user_id(); 
+                        <?php $user_id = user_id();
                             if($user_id!=''){ ?>
                         <li><a style="color:#00FF00;" href="<?php echo lang_url(); ?>channel/dashboard">Dashboard </a></li>
                         <?php }else{ ?>
@@ -199,6 +204,7 @@
             <div class="heading">
                 <h2 data-aos="zoom-in">About Us</h2>
             </div>
+
             <!--<p>Hoteratus Hospitality Software Solutions is a product of extensive research and more than 25 years of experience in the hotel industry and online marketing and distribution, incorporating the features that the properties need and asked for, customizing the user experience according to their needs in this ever changing market. We continue to look for new solutions to the hotelier’s every day software issues trying to ease the heavy burden of managing a property in this competitive environment.</p>-->
             <div class="about-grids">
                 <div data-aos="zoom-in" class="col-md-4 aboutgrid1 ">
@@ -279,7 +285,7 @@
                         <img src="user_asset/images/service1.jpg" alt="" />
                         <img src="user_asset/images/service2.jpg" alt="" />
                     </div>
-                    
+
                     <div class="clearfix"> </div>
                 </div>
                 <div class="clearfix"> </div>
@@ -294,14 +300,15 @@
             <div class="heading">
                 <h3 data-aos="zoom-in">Features</h3>
             </div>
-            <div class="services-w3lsrow">
+            <div  class="services-w3lsrow">
+
                 <div data-aos="fade-up" class="col-md-3 col-sm-3 col-xs-6 services-grids">
                     <div class="w3agile-servs-img">
                         <div class="icon-holder hexagon">
                             <span class="fa fa-plug" aria-hidden="true"></span>
                         </div>
                         <h4>2 Way Connectivity</h4>
-                        <p>With the two-way XML connection and via a centralized web (cloud) application, our software helps the accommodation service providers of all sizes maximize their exposure, increase their revenue and reduce the time and cost required to update the availability and prices in online travel agencies (OTA’s).</p>
+                        <p>With the two-way XML connection and via a centralized web (cloud) application, our software helps the accommodation service providers of all sizes  maximize their exposure, increase their revenue and reduce the time and cost required to update the availability and prices in online travel agencies (OTA’s).</p>
                     </div>
                 </div>
                 <div data-aos="zoom-in" class="col-md-3 col-sm-3 col-xs-6 services-grids">
@@ -323,12 +330,14 @@
                     </div>
                 </div>
                 <div class="clearfix"> </div>
+
+
                 <div data-aos="zoom-in" class="col-md-3 col-sm-3 col-xs-6 services-grids">
                     <div class="icon-holder hexagon">
                         <span class="fa fa-bed" aria-hidden="true"></span>
                     </div>
                     <h4>Unlimited Rooms Types, Unlimited Users, Unlimited Possibilities</h4>
-                    <p>Our hotel management system aims to be the most complete property management system in the world catering to all accommodation types from hotels, apartments, lodges, resorts, villas and bed and breakfast, and all types of organizations: Hotel chains, resorts, rental companies, individual properties . You are always in complete control of your operations deciding what employee gets access to what information, what rooms are sold of the specific channels via our super friendly and easy to use platform.</p>
+                    <p>Our hotel management system aims to be the most complete property management system in the world catering to all accommodation types from  hotels, apartments, lodges, resorts, villas and bed and breakfast, and all types of organizations: Hotel chains, resorts, rental companies, individual properties  .  You are always in complete control of your operations deciding what employee gets access to what information, what rooms are sold of the specific channels via our super friendly and easy to use platform.</p>
                 </div>
                 <div data-aos="fade-up" class="col-md-3 col-sm-3 col-xs-6 services-grids">
                     <div class="w3agile-servs-img">
@@ -339,13 +348,15 @@
                         <p>Our hotel and property management system allows you to handle your inventory as you see fit, determining the amount of rooms that each channel can have access to our bulk updates feature presents your with the easiest way to manage the rates, availabilities, minimum stays, close to date and close to arrival or stop sales.</p>
                     </div>
                 </div>
+
                 <div class="clearfix"> </div>
             </div>
         </div>
     </div>
     <!-- //Services -->
     <!-- team -->
-    <div class="team" id="pricing">
+    <div class="team" id="team">
+
         <div class="container">
             <?php include('pricingtable.php') ?>
         </div>
@@ -365,7 +376,7 @@
                                 <figcaption>
                                     <h3>Beef <span>Wellington</span></h3>
                                     <p> Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>   
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -378,7 +389,7 @@
                                 <figcaption>
                                     <h3>Reuben <span>Sandwich</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>   
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -391,11 +402,11 @@
                                 <figcaption>
                                     <h3>Cobb <span>Salad</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
-                </div>  
+                </div>
                 <div data-aos="flip-right" class="col-md-3 gallery-grid">
                     <div class="grid">
                         <figure class="effect-roxy">
@@ -404,7 +415,7 @@
                                 <figcaption>
                                     <h3>Eggs <span>Benedict</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>   
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -417,7 +428,7 @@
                                 <figcaption>
                                     <h3>Fettuccine <span>Alfredo</span></h3>
                                         <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>   
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -430,7 +441,7 @@
                                 <figcaption>
                                     <h3>Salisbury <span>Steak</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -443,7 +454,7 @@
                                 <figcaption>
                                     <h3>Chicken <span>Marengo</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -456,7 +467,7 @@
                                 <figcaption>
                                     <h3>BoliedEgg <span>Mint</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -469,7 +480,7 @@
                                 <figcaption>
                                     <h3>Nachos <span>Food</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -482,7 +493,7 @@
                                 <figcaption>
                                     <h3>Baked <span>Snapper</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -495,7 +506,7 @@
                                 <figcaption>
                                     <h3>Caesar <span>Salad</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -508,7 +519,7 @@
                                 <figcaption>
                                     <h3>Fruit brown <span>Betty</span></h3>
                                     <p>Aenean fermentum nisl ac imperdiet commodo</p>
-                                </figcaption>       
+                                </figcaption>
                             </a>
                         </figure>
                     </div>
@@ -658,7 +669,7 @@
             <h3>Subscribe to get the latest updates right to your inbox</h3>
         </div>
         <div data-aos="flip-left" class="col-md-5 subscribe-right">
-            <form action="#" method="post"> 
+            <form action="#" method="post">
                 <input type="email" name="email" placeholder="Enter your Email..." required="">
                 <input type="submit" value="Subscribe">
             </form>
@@ -817,7 +828,7 @@
             </div>
             <div id="cd-login">
                 <!-- log in form -->
-                <form class="cd-form" id="log_form" onsubmit="return logiar();">
+                <form class="cd-form" id="log_form" >
                     <p class="fieldset">
                         <label class="image-replace cd-username" for="signin-email">User Name</label>
                         <input class="full-width has-padding2 has-border" id="signin-email" type="text" placeholder="User Name">
@@ -834,7 +845,7 @@
                         <label for="remember-me">Remember me</label>
                     </p>
                     <p class="fieldset">
-                        <button class="full-width" type="submit" id="logg">Login</button>
+                        <button class="full-width" onclick="" id="logg">Login</button>
                     </p>
                 </form>
                 <p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
@@ -864,19 +875,22 @@
                                     <label for="phoneup" class="control-label">Phone</label>
                                     <input style="width: 95%" id="phoneup" name="phoneup" class="has-padding has-border" type="text" placeholder="Phone" required="">
                                 </div>
+
                                 <div class="col-md-6 form-group1">
                                     <label for="cityup" class="control-label">City</label>
                                     <input style="width: 95%" id="cityup" name="cityup" class="has-padding has-border" type="text" placeholder="City" required="">
                                 </div>
                                 <div class="col-md-6 form-group1">
                                     <label for="countryup" class="control-label">Country</label>
-                                    <select onchange="clear2()" id="countryup" name="countryup" class="has-padding has-border" style="width: 95%" required="">
-                                        <?php
+
+
+                                    <select onchange="clear2()"  id="countryup" name="countryup" class="has-padding has-border" style="width: 95%" required="">
+                                    <?php
 
                                             if (count($countries)>0) {
                                                 echo '<option value="0" >Select a Country</option>';
                                                 foreach ($countries as $value) {
-                                                    
+
                                                     echo '<option  value="'.$value['id'].'">'.$value['country_name'].'</option>';
 
 
@@ -888,29 +902,30 @@
                                             }
 
                                           ?>
-                                    </select>
+                                </select>
+
                                 </div>
-                                <div class="clearfix"></div>
+                                 <div class="clearfix"></div>
                                 <div class="col-md-6 form-group1">
                                     <label for="websiteup" class="control-label">WebSite</label>
                                     <input style="width: 95%" id="websiteup" name="websiteup" class="has-padding has-border" type="text" placeholder="Website" required="">
                                 </div>
                                 <div class="col-md-6 form-group1">
                                     <label for="emailup" class="control-label">E-mail </label>
-                                    <input style="width: 95%" onblur="return validaremail()" id="emailup" name="emailup" class="has-padding has-border" type="text" placeholder="E-mail" required="">
+                                    <input style="width: 95%" onblur="return validaremail()"  id="emailup" name="emailup" class="has-padding has-border" type="text" placeholder="E-mail" required="">
                                     <span class="error" aria-live="polite"></span>
                                 </div>
                                 <div class="col-md-6 form-group1">
                                     <label for="usernameup" class="control-label">User Name</label>
-                                    <input style="width: 95%" onblur="return validarusername()" id="usernameup" name="usernameup" class="has-padding has-border" type="text" placeholder="User Name" required="">
+                                    <input style="width: 95%" onblur="return validarusername()"  id="usernameup" name="usernameup" class="has-padding has-border" type="text" placeholder="User Name" required="">
                                 </div>
                                 <div class="col-md-6 form-group1">
                                     <label for="passwordup" class="control-label">Password</label>
-                                    <input style="width: 95%" onblur="return verifica_clave()" id="passwordup" name="passwordup" class="has-padding has-border" type="password" placeholder="Password" required="">
+                                    <input style="width: 95%" onblur="return verifica_clave()"  id="passwordup" name="passwordup" class="has-padding has-border" type="password" placeholder="Password" required="">
                                 </div>
                                 <div class="col-md-6 form-group1">
                                     <label for="repasswordup" class="control-label">Re-type Your Password</label>
-                                    <input onblur="return clavesiguales() " style="width: 95%" id="repasswordup" name="repasswordup" class="has-padding has-border" type="password" placeholder="Re-type Your Password" required="">
+                                    <input onblur="return clavesiguales() "  style="width: 95%" id="repasswordup" name="repasswordup" class="has-padding has-border" type="password" placeholder="Re-type Your Password" required="">
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -948,74 +963,78 @@
         </div>
         <!-- cd-user-modal -->
         <!--End Login-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
         <script type="text/javascript">
+
         var base_url = '<?php echo lang_url();?>';
 
-        function clear2() {
+        function clear2()
+        {
 
-            var co = document.getElementById('countryup');
-            if ($("#countryup").val() == 0) {
+                var co = document.getElementById('countryup');
+                if ($("#countryup").val()==0) {
 
-                co.setCustomValidity("Select a Country to Continue");
-                return false;
-            } else {
-                co.setCustomValidity("");
-            }
+                    co.setCustomValidity("Select a Country to Continue");
+                    return false;
+                }
+                else
+                {
+                    co.setCustomValidity("");
+                }
 
         }
-
         function validarsigup() {
 
 
 
-            if ($("#countryup").val() == 0) {
-                var count = document.getElementById('countryup');
-                count.setCustomValidity("Select a Country to Continue");
-                return false;
-            }
+                if ($("#countryup").val()==0) {
+                   var count = document.getElementById('countryup');
+                    count.setCustomValidity("Select a Country to Continue");
+                    return false;
+                }
 
 
-            if (!$("#accept-terms").prop('checked')) {
-                $('#msguser').html('Please accept terms and policy');
-                $('#msguser').toggle("slow");
-                setTimeout(function() {
-                    $('#msguser').fadeOut();
-                }, 5000);
-                return false;
-            }
+                if (!$("#accept-terms").prop('checked')) {
+                    $('#msguser').html('Please accept terms and policy');
+                    $('#msguser').toggle("slow");
+                    setTimeout(function() {
+                        $('#msguser').fadeOut();
+                    }, 5000);
+                    return false;
+                }
 
-            $.ajax({
+                $.ajax({
                 type: "POST",
                 url: base_url + 'channel/newregister',
                 data: $("#signup").serialize(),
                 success: function(html) {
-                    swal({
-                        title: "Done!",
-                        text: "User created Successfully!",
-                        icon: "success",
-                        button: "Ok!",
-                    }).then(ms => {
-                        location.reload();
-                    });
+                swal({
+                title: "Done!",
+                text: "User created Successfully!",
+                icon: "success",
+                button: "Ok!",
+                }).then(ms => {
+                location.reload();
+                });
                 }
-            });
+                });
 
 
 
-            return false;
+                return false;
         }
 
-        function validarpropertyname() {
+        function validarpropertyname()
+        {
 
             var property = $('#propertynameup').val();
             var pro = document.getElementById('propertynameup');
 
-            if (property.length == 0) {
+            if (property.length==0) {
                 return false;
-            }
+             }
 
-            var data = { "propertyname": property };
+           var data = { "propertyname":property };
 
             $.ajax({
                 type: "POST",
@@ -1025,9 +1044,11 @@
 
                     if (html.trim() != '0') {
 
-                        pro.setCustomValidity("This property already exists");
+                       pro.setCustomValidity("This property already exists");
                         return false;
-                    } else {
+                    }
+                    else
+                    {
                         pro.setCustomValidity("");
                         return true;
                     }
@@ -1036,25 +1057,26 @@
         }
 
 
-        function validaremail() {
+         function validaremail()
+        {
 
 
             var email = document.getElementById('emailup');
-            var emailval = $("#emailup").val();
+            var emailval=$("#emailup").val();
 
 
-            if (emailval.length == 0) {
+             if (emailval.length==0) {
                 return false;
-            }
+             }
 
-            if (/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(emailval) == false) {
+            if (/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(emailval)==false){
 
                 email.setCustomValidity("This Email is not valid");
                 return false;
 
             }
 
-            var data = { "email": emailval };
+           var data = { "email": emailval};
             $.ajax({
                 type: "POST",
                 url: base_url + 'channel/emailused',
@@ -1063,21 +1085,23 @@
 
                     if (html.trim() != '0') {
                         email.setCustomValidity("This Email already exists");
-                    } else {
-                        email.setCustomValidity("");
-                        return true;
+                    }
+                    else
+                    {
+                       email.setCustomValidity("");
+                       return true;
                     }
                 }
             });
         }
-
-        function validarusername() {
+        function validarusername()
+        {
             var usern = document.getElementById('usernameup');
             var username = $("#usernameup").val();
-            if (username.length == 0) {
+             if (username.length==0) {
                 return false;
-            }
-            var data = { "username": username };
+             }
+           var data = { "username": username};
             $.ajax({
                 type: "POST",
                 url: base_url + 'channel/usernameused',
@@ -1087,107 +1111,124 @@
                     if (html.trim() != 0) {
                         usern.setCustomValidity("This UserName already exists");
                         return false;
-                    } else {
+                    }
+                    else
+                    {
                         usern.setCustomValidity("");
                         return true;
                     }
                 }
             });
         }
-
-        function verifica_clave() {
-            var cadena = $("#passwordup").val();
+        function verifica_clave(){
+            var cadena=$("#passwordup").val();
             var cad = document.getElementById('passwordup');
 
-            if (cadena.length == 0) { return false; }
-            var expresionR = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)/;
-            var resultado = expresionR.test(cadena);
+            if (cadena.length==0) {return false;}
+            var expresionR=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)/;
+            var resultado=expresionR.test(cadena);
 
-            if (resultado != true || cadena.length < 8) {
-                $('#msguser').html('');
-                cad.setCustomValidity("Minimum 8 characters without spaces, must include uppercase, lowercase and numbers");
-                return false;
-            } else {
-                cad.setCustomValidity("");
+            if(resultado != true || cadena.length < 8){
+                 $('#msguser').html('');
+                 cad.setCustomValidity("Minimum 8 characters without spaces, must include uppercase, lowercase and numbers");
+                 return false;
+            }
+            else
+            {   cad.setCustomValidity("");
                 return true;
             }
         }
-
         function clavesiguales() {
 
             var cad2 = document.getElementById('repasswordup');
 
-            if ($("#passwordup").val() != $("#repasswordup").val()) {
+            if($("#passwordup").val()!=$("#repasswordup").val())
+            {
                 cad2.setCustomValidity("You must repeat the same password");
                 return false;
-            } else {
+            }
+            else
+            {
                 cad2.setCustomValidity("");
                 return true;
             }
         }
-
         function logiar() {
 
-            //solo produccion
+          var data= { "login_email": $("#signin-email").val(), "login_pwd": $("#signin-password").val() };
+            
 
-            //event.preventDefault();
+              $.ajax({
+                  type: "POST",
+                  url: base_url + 'channel/basics/Login',
+                  dataType: "json",
+                  data: data ,
+                  beforeSend: function() {
+                        $('#logg').css('cursor', 'pointer');
+                        //$('#logg').type('');
+                        $('#logg').html('<span class="fa fa-spinner fa-spin"></span> Please wait...');
+                    },
+                  success: function(html) {
+                    console.log(html['result']);
+                    if (html['result'] == 0) {
+                          $('#log_form').trigger("reset");
+                          $("#logg").html('Sign In');
+                          $('#msguser').toggle("slow");
 
-            var data = { "login_email": $("#signin-email").val(), "login_pwd": $("#signin-password").val() };
+                          setTimeout(function() {
+                              $('#msguser').fadeOut();
+                          }, 5000);
+                      } else if (html['result']  == 1) {
+                          // $("#myModal").modal("hide");
+                          document.location = base_url + "channel/dashboard";
+                      } else if (html['result']  == 2) {
+                          document.location = base_url + "channel/account_notify/deactive";
+                      } else if (html['result']  == 3) {
+                          document.location = base_url + "channel/account_notify";
+                      } else if (html['result']  == 8) {
+                          $('#log_form').trigger("reset");
+                          $("#logg").html('Sign In');
+                          $('#msguser').html('Inactive user, please contact your administrator');
+                          $('#msguser').toggle("slow");
+                          setTimeout(function() {
+                              $('#msguser').fadeOut();
+                          }, 5000);
 
-            $('#logg').css('cursor', 'pointer');
-            //$('#logg').type('');
-            $('#logg').html('<span class="fa fa-spinner fa-spin"></span> Please wait...');
+                      }
+                      else if (html['result']  == 10) {
+                          $('#log_form').trigger("reset");
+                          $("#logg").html('Sign In');
+                          $('#msguser').html('You must activate your user to access');
+                          $('#msguser').toggle("slow");
+                          setTimeout(function() {
+                              $('#msguser').fadeOut();
+                          }, 5000);
 
-            $.ajax({
-                type: "POST",
-                url: base_url + 'channel/basics/Login',
-                data: data,
-                success: function(html) {
-                    console.log('repus' + html);
-                    if (html == 0) {
-
-                        $('#log_form').trigger("reset");
+                      }
+                      else
+                      {
+                         $('#msguser').html('User Or Password Invalid');
                         $("#logg").html('Sign In');
-                        $('#msguser').toggle("slow");
+                          $('#msguser').toggle("slow");
 
-                        setTimeout(function() {
-                            $('#msguser').fadeOut();
-                        }, 5000);
+                          setTimeout(function() {
+                              $('#msguser').fadeOut();
+                          }, 5000);
+                      }
+                      return false;
 
+                  }
+              });
+          
 
-
-                    } else if (html == 1) {
-                        // $("#myModal").modal("hide"); 
-                        document.location = base_url + "channel/dashboard";
-                    } else if (html == 2) {
-                        document.location = base_url + "channel/account_notify/deactive";
-                    } else if (html == 3) {
-                        document.location = base_url + "channel/account_notify";
-                    } else if (html == 8) {
-                        $('#log_form').trigger("reset");
-                        $("#logg").html('Sign In');
-                        $('#msguser').html('Inactive user, please contact your administrator');
-                        $('#msguser').toggle("slow");
-                        setTimeout(function() {
-                            $('#msguser').fadeOut();
-                        }, 5000);
-
-                    } else if (html == 10) {
-                        $('#log_form').trigger("reset");
-                        $("#logg").html('Sign In');
-                        $('#msguser').html('You must activate your user to access');
-                        $('#msguser').toggle("slow");
-                        setTimeout(function() {
-                            $('#msguser').fadeOut();
-                        }, 5000);
-
-                    }
-
-                }
-            });
         }
         jQuery(document).ready(function($) {
 
+//aqui estoy
+            $("#logg").on('click', function(event) {
+                event.preventDefault();
+                logiar();
+            });
 
             var formModal = $('.cd-user-modal'),
                 formLogin = formModal.find('#cd-login'),
@@ -1229,12 +1270,12 @@
                 ($(event.target).is(tabLogin)) ? login_selected(): signup_selected();
 
             });
-            $("#menucon").on('click', function() {
+        $("#menucon").on('click',function(){
 
-                if ($("#statusbar").attr("class") == "navbar-collapse navbar-ex1-collapse collapse in") {
+                 if ($("#statusbar").attr("class") == "navbar-collapse navbar-ex1-collapse collapse in") {
                     $("#menuresponsive").click();
                 }
-            });
+         });
             //hide or show password
             $('.hide-password').on('click', function() {
                 var togglePass = $(this),
@@ -1246,7 +1287,7 @@
                 passwordField.putCursorAtEnd();
             });
 
-            //show forgot-password form 
+            //show forgot-password form
             forgotPasswordLink.on('click', function(event) {
                 event.preventDefault();
                 forgot_password_selected();
@@ -1293,7 +1334,7 @@
                 formForgotPassword.addClass('is-selected');
             }
 
-            //REMOVE THIS - it's just to show error messages 
+            //REMOVE THIS - it's just to show error messages
             /*formLogin.find('input[type="submit"]').on('click', function(event){
                 event.preventDefault();
                 formLogin.find('input[type="text"]').toggleClass('has-error').next('span').toggleClass('is-visible');
@@ -1349,11 +1390,7 @@
             });
         };
         </script>
-        <script src="<?php echo base_url();?>user_asset/js/lightbox-plus-jquery.min.js">
-        </script>
-        <!-- for gallery js -->
-        <!-- js -->
-        <script type="text/javascript" src="<?php echo base_url();?>user_asset/js/jquery-2.1.4.min.js"></script>
+
         <!-- for bootstrap working -->
         <script src="<?php echo base_url();?>user_asset/js/bootstrap.js"></script>
         <!-- //for bootstrap working -->
@@ -1404,9 +1441,12 @@
         </script>
         <!-- Responsive slides js -->
         <!-- animation effects-js files-->
-        <script src="<?php echo base_url();?>user_asset/js/aos.js"></script>
+
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <!-- //animation effects-js-->
-        <script src="<?php echo base_url();?>user_asset/js/aos1.js"></script>
+        <script>
+          AOS.init();
+        </script>
         <!-- //animation effects-js-->
         <!-- animation effects-js files-->
         <!-- //here starts scrolling icon -->
@@ -1421,7 +1461,7 @@
                 containerID: 'toTop', // fading element id
                 containerHoverID: 'toTopHover', // fading element hover id
                 scrollSpeed: 1200,
-                easingType: 'linear' 
+                easingType: 'linear'
                 };
             */
 
@@ -1439,6 +1479,10 @@
                 $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
             });
         });
+
+
+
+
         </script>
         <!-- //scrolling script -->
 </body>

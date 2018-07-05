@@ -149,7 +149,7 @@ function getReservation($channel_id)
                                     $data['AmountAfterTax'] = $RoomStay->Total->attributes()->AmountAfterTax;
                                     $data['amountOfTaxes'] = "0.00";
 
-                                       $data['GuaranteeTypeCode'] ="";
+                                        $data['GuaranteeTypeCode'] ="";
                                         $data['expireDate'] = "";
                                         $data['CardType'] ="";
                                         $data['cardCode']="";
@@ -260,9 +260,6 @@ function getReservationCancel($channel_id)
         if($ch_details)
         {
 
-
-
-
                 $xml_data = '<OTA_ReadRQ xmlns="http://www.despegar.com/hotels/ota/v1/" Version="1.0">
                               <ReadRequests>
                                 <HotelReadRequest HotelCode="'.$ch_details->hotel_channel_id.'">
@@ -311,7 +308,7 @@ function getReservationCancel($channel_id)
                                 $result = "";
                                 for($i = 0; $i < 10; $i++) 
                                 {
-                                $result .= mt_rand(0, 9);
+                                    $result .= mt_rand(0, 9);
                                 }
                                 $data['confirmation_number'] =(string)$result;
 

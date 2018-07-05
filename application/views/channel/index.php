@@ -32,8 +32,8 @@
     <link rel="stylesheet" href="<?php echo base_url();?>user_asset/css/lightbox.css">
     <!-- //custom-theme files-->
      <link rel="stylesheet" href="<?php echo base_url();?>user_asset/css/pricingtable.css" media="all" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url();?>user_asset/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="<?php echo base_url();?>user_asset/css/aos.css" rel="stylesheet">
     <!-- //animation effects-css-->
     <link href="<?php echo base_url();?>user_asset/css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="<?php echo base_url();?>user_asset/css/stylefeatures.css" rel="stylesheet" type="text/css" media="all" />

@@ -2,7 +2,6 @@
 .div-img {
     text-align: center;
     background-color: white;
- 
 }
 
 .img {
@@ -35,7 +34,6 @@
 }
 </style>
 <div class="outter-wp">
-  
     <div>
         <?php include("menu.php") ?>
     </div>
@@ -47,7 +45,7 @@
         <div align="center">
             <h4>You are working with: <strong><?=$TableInfo['description']?></strong></h4></div>
         <div class="graph-visual tables-main">
-            <div class="graph" >
+            <div class="graph">
                 <div class="table-responsive">
                     <div class="clearfix"></div>
                     <table id="invoice" class="table table-bordered">
@@ -86,7 +84,7 @@
             </div>
             <div style="float: left;" class="buttons-ui">
                 <a onclick=" cancelorden()" class="btn red">Cancel Order</a>
-                <a class="btn green">Charge</a>
+                <a onclick="ChargeInvoice()" class="btn green">Charge</a>
                 <a href="#addwaiter" data-toggle="modal" class="btn blue">Assign Waiter</a>
                 <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()" data-toggle="modal" class="btn orange">Change Table</a>
             </div>
@@ -132,11 +130,42 @@
         <div class="clearfix"></div>
     </div>
 </div>
+<div id="InvoiceOutHouse" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Invoice</h4>
+            </div>
+            <div>
+
+                    <h4>Solos pagos miembro no esta en el Hotel </h4>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="InvoiceInHouse" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Invoice</h4>
+            </div>
+            <div>
+               <h4>Cargar a Habiatacion on pagar </h4>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
 <div id="addwaiter" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">All Wainer</h4>
             </div>
             <div id="msguser" class="alert alert-warning" style="display: none; text-align: center;">
@@ -157,7 +186,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                        <?php
+                                <?php
 
                             if (count($StaffInfo)>0) {
 
@@ -183,7 +212,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Charge to Room</h4>
             </div>
             <div id="msguser" class="alert alert-warning" style="display: none; text-align: center;">
@@ -196,7 +225,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Charge to Room</h4>
             </div>
             <div id="msguser" class="alert alert-warning" style="display: none; text-align: center;">
@@ -209,7 +238,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Change Table</h4>
             </div>
             <div class="buttons-ui">
@@ -224,12 +253,58 @@
 var tableid = "<?= $TableInfo['postableid']?>";
 var posid = "<?=$Posinfo['myposId']?>";
 
+function ChargeInvoice() {
+
+    swal({
+      buttons: {
+
+        roll: {
+          text: "In-House",
+          value: "inhouse",
+        },
+        catch: {
+          text: "Out-House",
+          value: "outhouse",
+        },
+      },
+    }).then((n)=>{
+        if(n=="outhouse")
+        {
+            $("#InvoiceOutHouse").modal();
+      
+        }
+        else if(n=="inhouse")
+        {
+            $("#InvoiceInHouse").modal();
+        }
+        
+    });
+}
+
+function closeChargetype()
+{
+    $("#ChargeInvoicef").hide('slow/400/fast', function() {
+        $("#chargeToPerson").display();
+    });
+}
 function cleartable() {
     $("#tableavailable").html('');
 }
 
 function cancelorden() {
-    swal({
+
+   swal({
+  text: 'Reason for Cancellation.',
+  content: "input",
+  button: {
+    text: "type Reason!",
+    closeModal: false,
+  },
+})
+.then(name => {
+
+});
+   /* swal({
             title: "Are you sure?",
             text: "Do you want to cancel this order?",
             icon: "info",
@@ -238,44 +313,44 @@ function cancelorden() {
         })
         .then((willDelete) => {
             if (!willDelete) { return; }
+             var motivo ="";
 
-            $.ajax({
+            
+            if(motivo!="")
+            {
+                $.ajax({
                 type: "POST",
                 dataType: "json",
                 url: "<?php echo lang_url(); ?>pos/cancelorden",
                 data: { "tableid": tableid },
                 success: function(msg) {
 
-                    if (msg['result']) {
+                            if (msg['result']) {
 
-                        swal({
-                            title: "Done!",
-                            text: "Orden cancelled Successfully!",
-                            icon: "success",
-                            button: "Ok!",
-                        }).then((nt) => {
-                            window.location.assign($("#btback").attr('href'))
-                        });
-                    } else {
+                                swal({
+                                    title: "Done!",
+                                    text: "Orden cancelled Successfully!",
+                                    icon: "success",
+                                    button: "Ok!",
+                                }).then((nt) => {
+                                    window.location.assign($("#btback").attr('href'))
+                                });
+                            } else {
 
-                        swal({
-                            title: "upps!, something went wrong!",
-                            text: "Please try again!",
-                            icon: "warning",
-                            button: "Ok!",
-                        });
-                    }
-
-
-                }
-            });
+                                swal({
+                                    title: "upps!, something went wrong!",
+                                    text: "Please try again!",
+                                    icon: "warning",
+                                    button: "Ok!",
+                                });
+                            }
 
 
-
-
-
-
-        });
+                        }
+                    });
+            }
+            
+        });*/
 }
 
 function changetable(newtable) {
@@ -387,9 +462,9 @@ function CategoryItem(id) {
         }
     });
 }
-function RecipeItem()
-{
-     $.ajax({
+
+function RecipeItem() {
+    $.ajax({
         type: "POST",
         url: "<?php echo lang_url(); ?>pos/allRecipe",
         data: { "posid": posid },
@@ -397,15 +472,15 @@ function RecipeItem()
             $("#allitem").html(msg)
         }
     });
-    
 }
-function additem(id,isitem) {
+
+function additem(id, isitem) {
 
     $.ajax({
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/additem",
-        data: { "itemid": id, "tableid": tableid , "isitem":isitem},
+        data: { "itemid": id, "tableid": tableid, "isitem": isitem },
         success: function(msg) {
 
             if (msg['success']) {
@@ -422,13 +497,13 @@ function additem(id,isitem) {
 
 }
 
-function deleteitem(id,isitem) {
+function deleteitem(id, isitem) {
 
     $.ajax({
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/deleteitem",
-        data: { "itemid": id, "tableid": tableid, "isitem":isitem},
+        data: { "itemid": id, "tableid": tableid, "isitem": isitem },
         success: function(msg) {
 
             if (msg['success']) {
@@ -441,8 +516,6 @@ function deleteitem(id,isitem) {
     });
 
 }
-
-
 
 function reloj() {
     var now = new Date();

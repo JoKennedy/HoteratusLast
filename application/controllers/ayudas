@@ -33,3 +33,6 @@ CREATE TABLE `kardex` (
 
 ALTER TABLE `dev20_eagle2`.`kardex` 
 ADD COLUMN `qty` FLOAT NULL AFTER `orderid`;
+
+
+<button type="button" class="close" data-dismiss="modal">&times;</button>

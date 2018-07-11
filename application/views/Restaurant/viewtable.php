@@ -134,13 +134,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Invoice</h4>
             </div>
             <div>
-
-                    <h4>Solos pagos miembro no esta en el Hotel </h4>
-
+                <h4>Solos pagos miembro no esta en el Hotel </h4>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -154,18 +152,17 @@
                 <h4 class="modal-title">Invoice</h4>
             </div>
             <div>
-               <h4>Cargar a Habiatacion on pagar </h4>
+                <h4>Cargar a Habiatacion on pagar </h4>
             </div>
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
-
 <div id="addwaiter" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">All Wainer</h4>
             </div>
             <div id="msguser" class="alert alert-warning" style="display: none; text-align: center;">
@@ -249,6 +246,26 @@
         </div>
     </div>
 </div>
+<div id="Reasoncancel" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Reason for Cancellation</h4>
+            </div>
+            
+                <div class="col-md-12 form-group1">
+                    <input style="background:white; color:black;" name="txtreason" id="txtreason" type="text" placeholder="Reason for Cancellation" required="">
+                </div>
+                 <div class="buttons-ui">
+                    <a onclick="applyCancel()" class="btn red">Cancel Order</a>
+                    <a onclick="closereason()" class="btn green">Return</a>
+                </div>
+              <div class="clearfix"></div>         
+        </div>
+       
+    </div>
+</div>
 <script type="text/javascript">
 var tableid = "<?= $TableInfo['postableid']?>";
 var posid = "<?=$Posinfo['myposId']?>";
@@ -256,101 +273,96 @@ var posid = "<?=$Posinfo['myposId']?>";
 function ChargeInvoice() {
 
     swal({
-      buttons: {
+        buttons: {
 
-        roll: {
-          text: "In-House",
-          value: "inhouse",
+            roll: {
+                text: "In-House",
+                value: "inhouse",
+            },
+            catch: {
+                text: "Out-House",
+                value: "outhouse",
+            },
         },
-        catch: {
-          text: "Out-House",
-          value: "outhouse",
-        },
-      },
-    }).then((n)=>{
-        if(n=="outhouse")
-        {
+    }).then((n) => {
+        if (n == "outhouse") {
             $("#InvoiceOutHouse").modal();
-      
-        }
-        else if(n=="inhouse")
-        {
+
+        } else if (n == "inhouse") {
             $("#InvoiceInHouse").modal();
         }
-        
+
     });
 }
 
-function closeChargetype()
-{
-    $("#ChargeInvoicef").hide('slow/400/fast', function() {
-        $("#chargeToPerson").display();
-    });
+function closereason() {
+    $("#Reasoncancel").modal('toggle');
 }
+
 function cleartable() {
     $("#tableavailable").html('');
 }
+function applyCancel()
+{
+    var reasoncancel=$("#txtreason").val();
 
+    if (reasoncancel.length<=5) {
+
+        swal({
+                 title: "You must enter the reason for cancellation!",
+                 text: "Try again!!",
+                 icon: "warning",
+                 button: "Ok!",
+             });
+        return false;
+    }
+
+    swal({
+             title: "Are you sure?",
+             text: "Do you want to cancel this order?",
+             icon: "info",
+             buttons: true,
+             dangerMode: true,
+         }).then((willDelete) => {
+             if (!willDelete) { return; }
+                          
+             $.ajax({
+             type: "POST",
+             dataType: "json",
+             url: "<?php echo lang_url(); ?>pos/cancelorden",
+             data: { "tableid": tableid, "reason":reasoncancel },
+             success: function(msg) {
+
+                         if (msg['result']) {
+
+                             swal({
+                                 title: "Done!",
+                                 text: "Orden cancelled Successfully!",
+                                 icon: "success",
+                                 button: "Ok!",
+                             }).then((nt) => {
+                                 window.location.assign($("#btback").attr('href'))
+                             });
+                         } else {
+
+                             swal({
+                                 title: "upps!, something went wrong!",
+                                 text: "Please try again!",
+                                 icon: "warning",
+                                 button: "Ok!",
+                             });
+                         }
+
+
+                     }
+                 });
+         });
+
+
+}
 function cancelorden() {
-
-   swal({
-  text: 'Reason for Cancellation.',
-  content: "input",
-  button: {
-    text: "type Reason!",
-    closeModal: false,
-  },
-})
-.then(name => {
-
-});
-   /* swal({
-            title: "Are you sure?",
-            text: "Do you want to cancel this order?",
-            icon: "info",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (!willDelete) { return; }
-             var motivo ="";
-
-            
-            if(motivo!="")
-            {
-                $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: "<?php echo lang_url(); ?>pos/cancelorden",
-                data: { "tableid": tableid },
-                success: function(msg) {
-
-                            if (msg['result']) {
-
-                                swal({
-                                    title: "Done!",
-                                    text: "Orden cancelled Successfully!",
-                                    icon: "success",
-                                    button: "Ok!",
-                                }).then((nt) => {
-                                    window.location.assign($("#btback").attr('href'))
-                                });
-                            } else {
-
-                                swal({
-                                    title: "upps!, something went wrong!",
-                                    text: "Please try again!",
-                                    icon: "warning",
-                                    button: "Ok!",
-                                });
-                            }
-
-
-                        }
-                    });
-            }
-            
-        });*/
+    $("#txtreason").val('');
+    $("#Reasoncancel").modal();
 }
 
 function changetable(newtable) {
@@ -362,7 +374,6 @@ function changetable(newtable) {
         data: { "newid": newtable, "oldid": tableid, "posid": posid },
         success: function(msg) {
             if (msg['result'] == 0) {
-                alert(msg['result']);
                 swal({
                     title: "Success",
                     text: "Done!!!, The table was changed",

@@ -288,7 +288,7 @@ class POS extends Front_Controller {
 			foreach ($allRec as  $value) {
 
 				$html .= '<div  class="col-md-4 div-img">
-                                    <a onclick="additem('."this.id".',0);" id="rec'.$value['recipeid'].'"><img class="img"  src="'.$value['photo'].'"></a>
+                                    <a onclick="additem('."this.id".',0);" id="'.$value['recipeid'].'"><img class="img"  src="'.$value['photo'].'"></a>
                                     <h4> '.$value['name'].' </h4>
 
                                 </div> <br>';
@@ -566,6 +566,7 @@ class POS extends Front_Controller {
 
 
 		$tableid=$_POST['tableid'];
+		$reason=$_POST['reason'];
 		$OrderInfo=$this->db->query("SELECT * from orderslist  where mypostableid= $tableid and active =1 limit 1 ")->row_array();
 
 		if (isset($OrderInfo['ordersListid'])) {
@@ -576,7 +577,54 @@ class POS extends Front_Controller {
 			echo json_encode($data);
 			return;
 		}
+
+		$OrdenDetail=$this->db->query("SELECT b.itemid,sum(b.qty) qty, b.isitem
+            from orderslist a 
+            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+            where a.mypostableid=1  and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
+
+		if(count($OrdenDetail)>0)
+		{
+			foreach ($OrdenDetail as  $value) {
+
+				if ($value['isitem']==1) {
+
+						$kardex['itemid']=$value['itemid'];
+						$kardex['orderid']=$orderid;
+						$kardex['qty']=$value['qty'];
+						$kardex['isitem']=1;
+						$kardex['type']=2;
+						insert_data('kardex',$kardex);
+					
+				}
+				else
+				{
+					$recipe=$this->db->query("select b.itemid,b.quantity 
+											from Recipes a
+											left join recipedetails b on a.recipeid=b.recipeid
+											where a.recipeid= ".$value['itemid'])->result_array();
+
+					foreach ($recipe as  $value2) {
+						$kardex['itemid']=$value2['itemid'];
+						$kardex['orderid']=$orderid;
+						$kardex['qty']=$value['qty']*$value2['quantity'];
+						$kardex['isitem']=0;
+						$kardex['type']=2;
+						insert_data('kardex',$kardex);
+					}
+				}
+				# code...
+				# itemid, qty, isitem
+
+			}
+		}
+
 		$update['active']=0;
+		$update['reasoncancelled']=$reason;
+
+
 		if(update_data('orderslist',$update,array('ordersListid'=>$orderid)))
 		{
 			$data['result']=true;
@@ -874,8 +922,7 @@ class POS extends Front_Controller {
 					update_data('itemcategory',$data,array('itemcategoryID' =>$_POST['itemcategoryidup'] ));
 					$result["result"]=$result["result"]="0";
 				}
-				
-
+			
 				echo json_encode($result);
 			
 	}
@@ -1051,8 +1098,6 @@ class POS extends Front_Controller {
 		}
 
 		 echo json_encode($result);
-
-		# supplierID, myposid, companyname, representativename, address, phone, cellphone, email, active
 
 	}
 	function updateSupplier()

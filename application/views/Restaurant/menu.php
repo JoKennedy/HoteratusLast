@@ -53,9 +53,9 @@
                  <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Configurations<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?=site_url('pos/viewStations/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Stations</a></li>
-                        <li><a href="<?=site_url('pos/viewGiftCard/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Stations</a></li>
-                         <li><a href="<?=site_url('pos/viewGiftCard/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tasks</a></li>
+                        <li><a href="<?=site_url('pos/viewAdminGiftCard/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Gift Card</a></li>
+                        <li><a href="<?=site_url('pos/viewAdminStation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Stations</a></li>
+                         <li><a href="<?=site_url('pos/viewTask/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tasks</a></li>
                         <li><a href="<?=site_url('pos/viewBillingConfiguration/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Billing configuration</a></li>
                          
                     </ul>

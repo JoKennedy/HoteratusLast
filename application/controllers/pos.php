@@ -647,7 +647,7 @@ class POS extends Front_Controller {
 
 
 		if (count($available)==0) {
-			$data['html']='<h1 align="center">No Available Table</1>';
+			$data['html']='<h1 align="center">No Available Table</h1>';
 			$data['result']=false;
 			echo json_encode($data);
 			return;
@@ -1282,7 +1282,7 @@ class POS extends Front_Controller {
 		$available=$this->db->query("select * from itemprice where itemid = $itemPosId and isitem=$isitem order by datetime desc ")->result_array();
 
 		if (count($available)==0) {
-			$data['html']='<h1 align="center">No Available Price</1>';
+			$data['html']='<h1 align="center">No Available Price</h1>';
 			$data['result']=false;
 			echo json_encode($data);
 			return;
@@ -1456,6 +1456,99 @@ class POS extends Front_Controller {
 		echo json_encode($result);
 
 	}
+
+	function reservationinhouse()
+	{
+		$hotelid=hotel_id();
+		$totalReservation=array();
+		$hoteratus=$this->db->query("SELECT hotel_id, Roomnumber, guest_name, 0 channelid,reservation_id ,reservation_code reservation_number
+					FROM manage_reservation 
+					where STR_TO_DATE(end_date ,'%d/%m/%Y') >=current_date() and STR_TO_DATE(start_date ,'%d/%m/%Y')  <=current_date()
+					 and hotel_id =$hotelid and  status <>'Canceled' ")->result_array();
+		$totalReservation = array_merge($totalReservation,$hoteratus);
+
+		$booking=$this->db->query("SELECT hotel_hotel_id hotel_id, Roomnumber, guest_name, channel_id channelid,room_res_id reservation_id , concat(reservation_id,'-',roomreservation_id)  reservation_number
+		FROM import_reservation_booking_rooms 
+		where arrival_date <=current_date() and departure_date >=current_date()
+		and status <>'cancelled' and hotel_hotel_id =$hotelid ")->result_array();
+		$totalReservation = array_merge($totalReservation,$booking);
+
+
+		$expedia=$this->db->query("SELECT hotel_id, Roomnumber,`name` guest_name, channel_id channelid,import_reserv_id reservation_id, `number` 						reservation_number
+									FROM import_reservation_EXPEDIA 
+									where departure >=current_date() 
+									and arrival <=current_date() 
+									and type <>'Cancel' and hotel_id =$hotelid ")->result_array();
+		$totalReservation = array_merge($totalReservation,$expedia);
+
+		$despegar=$this->db->query("SELECT hotel_id,'' Roomnumber,`name` guest_name, channel_id channelid,Import_reservation_ID reservation_id,
+									ResID_Value reservation_number
+									FROM import_reservation_DESPEGAR 
+									where departure >=current_date() 
+									and arrival <=current_date() 
+									and ResStatus <>'Cancel' and hotel_id =$hotelid ")->result_array();
+		$totalReservation = array_merge($totalReservation,$despegar);
+
+		$airbnb=$this->db->query("SELECT hotel_id,'' Roomnumber,`name` guest_name, channel_id channelid,Import_reservation_ID reservation_id ,
+								ResID_Value reservation_number
+								FROM import_reservation_AIRBNB 
+								where departure >=current_date() 
+								and arrival <=current_date() 
+								and ResStatus <>'Cancelled' and hotel_id =$hotelid ")->result_array();
+		$totalReservation = array_merge($totalReservation,$airbnb);
+
+
+
+		if(isset($_POST['returnhtml']) || true )
+		{
+
+			if (count($totalReservation)==0) {
+				$data['html']='<h1 align="center">There are not Reservation In House</h1>';
+				$data['result']=false;
+				echo json_encode($data);
+				return;
+			}
+
+			$html='';
+			$html.='<div class="graph">
+					<div class="table-responsive">
+							<div class="clearfix"></div>
+							<table id="inhouse" class="table table-bordered">
+									<thead>
+											<tr>
+													<th>#</th>
+													<th>Full Name</th>
+													<th>Room Number</th>
+													<th>Charge</th>
+											</tr>
+																 </thead>
+									<tbody>';
+						$i=0;
+						foreach ($totalReservation as  $value) {
+							$i++;
+							$html.=' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$value['reservation_number'].
+								' </th> <td>'.$value['guest_name'].'  </td> <td>'.$value['Roomnumber'].'</td>
+									<td  align="center"><a  onclick="chargetoRoom('."'".$value['reservation_id']."','".$value['channelid']."'".');">
+									 <i class="fa fa-check-circle fa-2x"></i></a> </td> </tr>';
+
+
+						}
+						$html.='</tbody>
+										</table>';
+
+
+				$data['html']=$html;
+				$data['result']=true;
+				echo json_encode($data);
+				return;
+
+		}
+		
+
+		
+	}
+
+
 }
 
 

@@ -149,10 +149,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Invoice</h4>
+                <h4 class="modal-title">Charge to Room</h4>
             </div>
             <div>
-                <h4>Cargar a Habiatacion on pagar </h4>
+                <div id="idinhouse">               
+                </div>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -288,8 +289,41 @@ function ChargeInvoice() {
         if (n == "outhouse") {
             $("#InvoiceOutHouse").modal();
 
-        } else if (n == "inhouse") {
-            $("#InvoiceInHouse").modal();
+        } 
+        else if (n == "inhouse") {
+
+            
+
+
+          $.ajax({
+          type: "POST",
+          dataType: "json",
+          url: "<?php echo lang_url(); ?>pos/reservationinhouse",
+          data: {"returnhtml":true},  
+          beforeSend:function() {
+          showWait();
+          setTimeout(function() {unShowWait();}, 10000);},
+          success: function(msg) {
+                unShowWait();
+                if (msg["result"]) {
+
+                $("#idinhouse").html(msg["html"]);
+
+                $("#InvoiceInHouse").modal();
+
+                }else {
+                  
+                  swal({
+                   title: "upps, Sorry",
+                    text: "Error:" + msg["html"],
+                    icon: "warning",
+                    button: "Ok!",});
+                }
+
+              }
+          });
+
+           
         }
 
     });
@@ -389,7 +423,6 @@ function changetable(newtable) {
                     icon: "warning",
                     button: "Ok!",
                 });
-
 
             }
 

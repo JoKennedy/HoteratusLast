@@ -985,6 +985,10 @@ function insert_data($table,$data)
 	else
 	return false;
 }
+function getinsert_id()
+{	$ci =& get_instance();
+	return $ci->db->insert_id();
+}
 function delete_data($table,$where='')
 {
 	$ci =& get_instance();

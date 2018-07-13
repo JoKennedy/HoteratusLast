@@ -1548,6 +1548,63 @@ class POS extends Front_Controller {
 		
 	}
 
+	public function tabledue($tableid)
+	{
+		$data=array();
+		$result=$this->db->query("SELECT sum(b.qty) * ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) totaldue, a.ordersListid
+            from orderslist a 
+            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+            where a.mypostableid=$tableid  and a.active =1 group by b.itemid")->result_array();
+
+			$total=0;
+			foreach ($result as  $value) {
+				
+				$total +=$value['totaldue'];
+				$data['ordenid']=$value['ordersListid'];
+			}
+
+			$data['total']=$total;
+			return $data;
+	}
+
+	function chargeInvoicetoRoom()
+	{	$tableid=$_POST['tableid'];
+		$reservationId=$_POST['resid'];
+		$channelID=$_POST['channelid'];
+		$invoice=get_data('reservationinvoice',array('channelId'=>$channelID ,'reservationId'=>$reservationId))->result_array();
+		
+		if (count($invoice)>0) {
+            $invoice=$invoice[0];
+            $number=$invoice['Number'];
+            $invoiceId=$invoice['reservationinvoiceid'];
+       
+        }
+        else
+        {	$data['result']=2; //no tiene factura creada
+            return json_encode($data);
+        }
+
+        if ( $invoiceId>0) {
+        	
+        }
+        $tabledue=$this->tabledue($_POST['tableid']);
+        $datainvoice= array('reservationinvoiceId'=>$invoiceId,'item' =>'POS' ,'qty' =>1, 'description' =>'Charge from POS '.$_POST['namepos'], 'total'=>$tabledue['total'],'tax'=>0,'productid'=>$tabledue['ordenid']);
+       
+       if(insert_data('reservationinvoicedetails',$datainvoice))
+       {
+       		update_data('orderslist',array("active"=>2),array('mypostableid' =>$tableid,'active'=>1));
+       		$data['result']=0;
+       }
+       else
+       {
+       		$data['result']=1;
+       }
+
+		echo json_encode($data);
+	}
+
 
 }
 

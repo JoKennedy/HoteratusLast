@@ -5,7 +5,7 @@ class api_model extends CI_Model{
   {       
       parent::__construct();
       $this->load->model('inventory_model');
-  }
+  } 
 public function check_partner($apikey,$email){
 	$pass=$apikey;
 	$email=$email;

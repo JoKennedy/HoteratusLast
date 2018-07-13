@@ -541,10 +541,52 @@ class reservation extends Front_Controller {
 		$extrasId=$_POST['extraId'];
 		$reservationId=insep_decode($_POST['reservationId']);
 		$userName=$_POST['userName'];
+		$data=$this->reservation_model->saveExtras($channelID,$extrasId,$reservationId,$userName);
 
-
-		echo json_encode($this->reservation_model->saveExtras($channelID,$extrasId,$reservationId,$userName)).$this->db->insert_id();;
+		echo json_encode($data);
 		return;
+	}
+	function invoiceheader()
+	{	
+
+		$invoice=get_data("reservationinvoice",array('reservationinvoiceid'=>$_POST['id']))->row_array();
+		$billing=get_data("bill_info",array('hotel_id'=>hotel_id()))->row_array();
+		$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
+    
+   		$html='<div class="graph-form">
+					<div class="text-left" style="float: left; width:50%; ">
+						<h4> Invoice</h4>
+					</div>
+					<div class="text-right" style="float: right; width:50%;">
+						<h4>#'.str_repeat('0',8-strlen($invoice['Number'])).$invoice['Number'].'/'.date('M d,Y').'</h4>
+					</div>
+				</div>
+				 <div class="clearfix">
+
+					<div class="graph-form">
+				<div   class="text-left col-md-6 form-group1"> ';
+           
+         $html .='<h4>'.$billing['company_name'].'</h4>
+         		<p>'.$billing['town'].'<br>
+         		'.$billing['address'].'<br>
+         		'.$country.'<br>
+         		<strong>Phone: </strong>'.$billing['mobile'].'<br>
+         		<strong>Email: </strong>'.$billing['email_address'].'</p>';       
+                    
+         $html .='</div> 
+         <div class="text-left col-md-6 form-group1"> 
+         		<h4>Bill To:</h4>
+         		<strong>Name: </strong>'.$_POST['name'].'<br>
+         		<strong>Address: </strong>'.$_POST['address'].'<br>
+         		<strong>City: </strong>'.$_POST['city'].'<br>
+         		<strong>Country: </strong>'.$_POST['country'].'<br>
+         		<strong>Email: </strong>'.$_POST['email'].'<br>
+          </div>
+           <div class="clearfix">
+          </div> ';
+         $data['html']=$html;
+        echo json_encode($data);
+		
 	}
 
 	function reservationdetails($channelID,$ReservationID)

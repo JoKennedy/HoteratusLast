@@ -79,7 +79,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div align="right" id="grandtotal">
-                    <h2><strong>Total Due:</strong> <?=number_format($grandtotal, 2, '.', '')?></h2>
+                    <h2><strong>Total Due:</strong> <o> <?=number_format($grandtotal, 2, '.', '')?> </o> </h2>
                 </div>
             </div>
             <div style="float: left;" class="buttons-ui">
@@ -150,6 +150,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Charge to Room</h4>
+            </div>
+           <div align="center" id="totaltopay">         
+                
             </div>
             <div>
                 <div id="idinhouse">               
@@ -239,6 +242,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Change Table</h4>
             </div>
+
             <div class="buttons-ui">
                 <a onclick=" availabletable(<?=$Posinfo['myposId']?>)" class="btn green">Available Table</a>
             </div>
@@ -270,6 +274,7 @@
 <script type="text/javascript">
 var tableid = "<?= $TableInfo['postableid']?>";
 var posid = "<?=$Posinfo['myposId']?>";
+var namepos = "<?=$Posinfo['description']?>";
 
 function ChargeInvoice() {
 
@@ -292,9 +297,6 @@ function ChargeInvoice() {
         } 
         else if (n == "inhouse") {
 
-            
-
-
           $.ajax({
           type: "POST",
           dataType: "json",
@@ -308,7 +310,7 @@ function ChargeInvoice() {
                 if (msg["result"]) {
 
                 $("#idinhouse").html(msg["html"]);
-
+                $("#totaltopay").html($("#grandtotal").html());
                 $("#InvoiceInHouse").modal();
 
                 }else {
@@ -328,7 +330,50 @@ function ChargeInvoice() {
 
     });
 }
+function chargetoRoom(resid,channelid)
+{
 
+    $.ajax({
+          type: "POST",
+        dataType: "json",
+          url: "<?php echo lang_url(); ?>pos/chargeInvoicetoRoom",
+          data: {"tableid":tableid,"resid":resid,"channelid":channelid,"namepos":namepos},  
+          beforeSend:function() {
+          showWait();
+          setTimeout(function() {unShowWait();}, 10000);},
+          success: function(msg) {
+                unShowWait();
+                if(msg['result']==0)
+                {
+                 swal({  title: "Done!",
+                         text: "Orden Charge Successfully!",
+                         icon: "success",
+                         button: "Ok!",
+                         }).then((nt) => {
+                             window.location.assign($("#btback").attr('href'))
+                    });
+                }else if(msg['result']==1)
+                {
+                    swal({
+                             title: "upps!, something went wrong!",
+                             text: "Please try again!",
+                             icon: "warning",
+                             button: "Ok!",
+                         });
+                }
+                else if(msg['result']==2)
+                {
+                    swal({
+                             title: "upps!, something went wrong!",
+                             text: "This reservation does not have invoices processed!",
+                             icon: "warning",
+                             button: "Ok!",
+                         });
+                }
+
+              }
+          });
+}
 function closereason() {
     $("#Reasoncancel").modal('toggle');
 }

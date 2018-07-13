@@ -1,10 +1,11 @@
 <?php
 ini_set('memory_limit', '-1');
-ini_set('display_errors','1');
+ini_set('display_erros','1');
 class Reservation_model extends CI_Model
 {
     public function __construct()
     {
+
         parent::__construct();
         //date_default_timezone_set('Asia/kolkata');
     }
@@ -402,6 +403,7 @@ class Reservation_model extends CI_Model
 
 
         $invoice=get_data('reservationinvoice',array('channelId'=>$channelID ,'reservationId'=>$reservationId));
+        
 
         if ($invoice->num_rows()>0) {
             $invoice=$invoice->row_array();
@@ -420,7 +422,8 @@ class Reservation_model extends CI_Model
 
             if(insert_data('extras',$data))
             {
-                
+
+                $id=getinsert_id();
                 $description="Add Extra:(".$d[2].") by $userName";
 
 
@@ -429,8 +432,8 @@ class Reservation_model extends CI_Model
             }
 
             if ( $invoiceId>0) {
-              $id='';
-              $datadetails =array("reservationinvoiceId"=>$invoiceId,"item"=>'Extra',"qty"=>1,"description"=>$d[2],"total"=>$d[1],"tax"=>0,'productid'=>$id);
+              
+              $datadetails =array("reservationinvoiceId"=>$invoiceId,"item"=>'Extras',"qty"=>1,"description"=>$d[2],"total"=>$d[1],"tax"=>0,'productid'=>$id);
 
                 
                 insert_data('reservationinvoicedetails',$datadetails);
@@ -473,10 +476,11 @@ class Reservation_model extends CI_Model
 
         $res = $this->db->insert('new_history',$data);
 
+
        if ( $invoiceId>0) {
           
           $monto=$this->db->query("select sum(total) total from  reservationinvoicedetails where item ='Extras' and  reservationinvoiceId = $invoiceId and productid=$extra_id")->row_array();
-         
+
           $this->db->query("delete from reservationinvoicedetails  where item ='Extras' and  reservationinvoiceId = $invoiceId and productid=$extra_id ");
           $this->db->query("update reservationinvoice set amount = amount -".$monto['total']."  where reservationinvoiceid =$invoiceId  ");
 
@@ -3291,7 +3295,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 
                 if(insert_data('manage_reservation',$data))
                 {
-        			$id =  $this->db->insert_id();
+        			$id =  getinsert_id();
 
         			$this->load->model("room_auto_model");
         			$Roomnumber			  = $this->room_auto_model->Assign_room(0,$id,$data['hotel_id'] );

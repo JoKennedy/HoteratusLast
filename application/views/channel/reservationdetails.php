@@ -263,7 +263,8 @@
                                                 </tbody>
                                             </table>
                                             <div align="center">
-                                                <h2><strong>Total Due:</strong> <?=$grandtotal?></h2></div>
+                                                <h2><strong>Total Due:</strong> <?=$grandtotal?></h2>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -276,15 +277,15 @@
                                     <strong>Warning!</strong> Select an invoice to Continue.
                                 </div>
                                 <div class="table-responsive">
-                                    <div class="graph">
+                                    <div class="graph" >
                                         <div class="tables">
                                             <table id="summaryinvoice" class="table">
                                                 <?php
                                                 if( count($Invoice)>0)
                                                 {
-                                                    echo " <thead>
+                                                    echo ' <thead>
                                                                 <tr>
-                                                                    <th>Invoice #</th>
+                                                                    <th width="10%">Invoice #</th>
                                                                     <th>Create Date</th>
                                                                     <th>Invoice total</th>
                                                                     <th>Total Paid</th>
@@ -293,13 +294,13 @@
                                                                     <th>Pay</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>";
+                                                            <tbody>';
                                                     $i=0;
                                                     foreach($Invoice  as $invo)
                                                     {                                                   
                                                         $i++;
                                                         echo '  <tr id="invo'.$i.'" class="'.($invo['due']>0?'active':'success').'">
-                                                                    <td>'.$invo['number'].'</td>
+                                                                    <td align="center"><a onclick="detailInvoice('.$invo['reservationinvoiceid'].')">'.$invo['number'].'</a></td>
                                                                     <td>'.date('m/d/Y', strtotime($invo['datecreate']) ).'</td>
                                                                     <td >'.$currency.' '.number_format($invo['Total'], 2, '.', ',').'</td>
                                                                     <td >'.$currency.' '.number_format($invo['totalPaid'], 2, '.', ',').'</td>
@@ -324,7 +325,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div  style="text-align: center;" id="editInvoice">
+                                <div style="text-align: center;" id="editInvoice">
                                 </div>
                             </div>
                         </section>
@@ -675,44 +676,96 @@ Agregar Extras
         </div>
     </div>
 </div>
+<div id="InvoiceDetail" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Invoice</h4>
+            </div>
+           <div align="center" id="headerinvoice">         
+                
+            </div>
+            <div>
+                <div id="tableinvoice">               
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 <!--//content-inner-->
 <script type="text/javascript">
-     new CBPFWTabs(document.getElementById('tabs'));
+new CBPFWTabs(document.getElementById('tabs'));
 
- function delete_extras(id, res, channelid, des, fila) {
-     swal({
-             title: "Are you sure?",
-             text: "Do you want to Delete this Extra?",
-             icon: "warning",
-             buttons: true,
-             dangerMode: true,
-         })
-         .then((willDelete) => {
-             if (willDelete) {
-                 $.ajax({
-                     type: "POST",
-                     url: "<?php echo lang_url(); ?>reservation/delete_extra",
-                     data: { "extra_id": id, "reservation_id": res, "channelId": channelid, "description": des },
-                     success: function(msg) {
-                         //alert(msg);
-                         fila2 = document.getElementById(fila);
+var channelid='<?=$channelId;?>';
+var resid='<?=$reservatioID;?>';
+function detailInvoice(id)
+{   
+    var address='<?=$address;?>';
+    var name='<?=$guestFullName;?>';
+    var city ='<?=$city;?>';
+    var country='<?=$country;?>';
+    var email ='<?=$email;?>';
+    var data = {'id':id,'email':email,'name':name,'address':address,'city':city,'country':country};
+    $("#headerinvoice").html('');
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/invoiceheader",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            $("#headerinvoice").html(msg['html']);
 
-                         fila2.style.display = "none";
+        }
+    });
+    
 
-                     }
-                 });
-                 swal("Extra removed", {
-                     icon: "success",
-                 }).then(ms => {
-                     location.reload();
-                 });
-             } else {
-                 return false;
-             }
-         });
- }
+    $("#InvoiceDetail").modal();
+}
+function delete_extras(id, res, channelid, des, fila) {
+    swal({
+            title: "Are you sure?",
+            text: "Do you want to Delete this Extra?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo lang_url(); ?>reservation/delete_extra",
+                    data: { "extra_id": id, "reservation_id": res, "channelId": channelid, "description": des },
+                    beforeSend: function() {
+                        showWait();
+                        setTimeout(function() { unShowWait(); }, 10000);
+                    },
+                    success: function(msg) {
+                        unShowWait();
+                        fila2 = document.getElementById(fila);
 
- $('#submitextra').click(function() {
+                        fila2.style.display = "none";
+
+                    }
+                });
+                swal("Extra removed", {
+                    icon: "success",
+                }).then(ms => {
+                    location.reload();
+                });
+            } else {
+                return false;
+            }
+        });
+}
+
+$('#submitextra').click(function() {
     $('#addExtras').submit();
 })
 
@@ -764,8 +817,12 @@ function saveExtra() {
         type: "POST",
         url: "<?php echo lang_url(); ?>reservation/saveExtras",
         data: { "extraId": ids, "reservationId": rid, "channelId": cid, "userName": user },
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
-            alert(msg);
+            unShowWait();
             swal({
                 title: "Done!",
                 text: "Extras Added Successfully!",
@@ -815,10 +872,10 @@ function Method(methodid) {
 
 $("#submitpay").click(function() {
 
-    var pid=$("#paymentTypeId").val();
-    var metid=$("#paymentmethod").val(); 
-    var invoid=$('#invoiceid').val();
-    var amount=$('#amountdue').val();
+    var pid = $("#paymentTypeId").val();
+    var metid = $("#paymentmethod").val();
+    var invoid = $('#invoiceid').val();
+    var amount = $('#amountdue').val();
     var user = '<?php echo $fname." ".$lname;?>';
 
     if (amount <= 0) {
@@ -834,69 +891,67 @@ $("#submitpay").click(function() {
 
     }
 
-    if (pid==0) {
+    if (pid == 0) {
 
         $('#msgpayment').removeClass();
         $('#msgpayment').addClass('alert alert-danger');
         $('#msgpayment').html('Select a Payment Type to Continue');
         $('#msgpayment').toggle("slow");
         setTimeout(function() {
-        $('#msgpayment').fadeOut();
+            $('#msgpayment').fadeOut();
         }, 5000);
-         return;
+        return;
     }
 
-    if (metid==0 && pid.substring(0, 2)!='ca') {
+    if (metid == 0 && pid.substring(0, 2) != 'ca') {
 
         $('#msgpayment').removeClass();
         $('#msgpayment').addClass('alert alert-danger');
         $('#msgpayment').html('Select a Collection Type to Continue');
         $('#msgpayment').toggle("slow");
         setTimeout(function() {
-        $('#msgpayment').fadeOut();
+            $('#msgpayment').fadeOut();
         }, 5000);
-         return;
+        return;
     }
 
     $.ajax({
         type: "POST",
         url: "<?php echo lang_url(); ?>reservation/invoicepaymentapply",
-        data: {  "reservationinvoiceid": invoid, "paymenttypeid": pid,'amount':amount,'paymentmethod':metid,'username':user},
+        data: { "reservationinvoiceid": invoid, "paymenttypeid": pid, 'amount': amount, 'paymentmethod': metid, 'username': user },
         success: function(msg) {
 
-            if (msg==0) {
+            if (msg == 0) {
 
                 swal({
                     title: "Done!",
                     text: "Payment Applied Successfully!",
                     icon: "success",
                     button: "Ok!",
-                    }).then(ms => {
+                }).then(ms => {
                     location.reload();
                 });
-            }
-            else
-            {
+            } else {
                 swal({
                     title: "Warning!",
                     text: msg,
                     icon: "warning",
                     button: "Ok!",
-                    });
+                });
             }
-          
+
         }
     });
 
 })
 
 function processinvoice(channelid, reservationid) {
-    
-      var user = '<?php echo $fname." ".$lname;?>';
-     $.ajax({
+
+    var user = '<?php echo $fname." ".$lname;?>';
+    $.ajax({
         type: "POST",
         url: "<?php echo lang_url(); ?>reservation/reservationinvoicecreate",
-        data: {  "reservationId": reservationid, "channelId": channelid,'username':user},
+        data: { "reservationId": reservationid, "channelId": channelid, 'username': user },
         success: function(msg) {
             swal({
                 title: "Done!",
@@ -910,13 +965,11 @@ function processinvoice(channelid, reservationid) {
     });
 }
 
-function editInvoice(invoiceid)
-{
-    $("#editInvoice").html('<h4> Vamos a editar la factura id '+invoiceid+' </h4>  <a onclick= "saveinvoice('+invoiceid+')" class="btn yellow two" id="saveinvoice">Save Invoice</a>');
+function editInvoice(invoiceid) {
+    $("#editInvoice").html('<h4> Vamos a editar la factura id ' + invoiceid + ' </h4>  <a onclick= "saveinvoice(' + invoiceid + ')" class="btn yellow two" id="saveinvoice">Save Invoice</a>');
 }
 
-function saveinvoice(invoiceid)
-{
+function saveinvoice(invoiceid) {
     alert(invoiceid);
 }
 </script>

@@ -1503,7 +1503,7 @@ class POS extends Front_Controller {
 		{
 
 			if (count($totalReservation)==0) {
-				$data['html']='<h1 align="center">There are not Reservation In House</h1>';
+				$data['html']='There are no In House Reservation';
 				$data['result']=false;
 				echo json_encode($data);
 				return;

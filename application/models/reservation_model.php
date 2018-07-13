@@ -223,7 +223,7 @@ class Reservation_model extends CI_Model
 
        if(insert_data('reservationinvoice',$maininvoice))
         {
-            $invoiceid=$this->db->insert_id();
+            $invoiceid= $this->db->insert_id();
             $description="Creation Invoice #".$number['total']." by $userName";
 
 
@@ -417,9 +417,10 @@ class Reservation_model extends CI_Model
         foreach ($extrasId as  $value) {
             $d=explode(',', $value);
             $data=array('reservation_id' =>$reservationId ,'channel_id' =>$channelID,'description' =>$d[2],'amount' =>$d[1],'extra_date' =>date('Y-m-d H:i:s') );
+
             if(insert_data('extras',$data))
             {
-                $id=$this->db->insert_id();
+                
                 $description="Add Extra:(".$d[2].") by $userName";
 
 
@@ -428,7 +429,7 @@ class Reservation_model extends CI_Model
             }
 
             if ( $invoiceId>0) {
-              
+              $id='';
               $datadetails =array("reservationinvoiceId"=>$invoiceId,"item"=>'Extra',"qty"=>1,"description"=>$d[2],"total"=>$d[1],"tax"=>0,'productid'=>$id);
 
                 

@@ -543,7 +543,7 @@ class reservation extends Front_Controller {
 		$userName=$_POST['userName'];
 
 
-		echo json_encode($this->reservation_model->saveExtras($channelID,$extrasId,$reservationId,$userName));
+		echo json_encode($this->reservation_model->saveExtras($channelID,$extrasId,$reservationId,$userName)).$this->db->insert_id();;
 		return;
 	}
 

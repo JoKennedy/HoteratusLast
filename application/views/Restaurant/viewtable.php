@@ -315,7 +315,7 @@ function ChargeInvoice() {
                   
                   swal({
                    title: "upps, Sorry",
-                    text: "Error:" + msg["html"],
+                    text: msg["html"],
                     icon: "warning",
                     button: "Ok!",});
                 }

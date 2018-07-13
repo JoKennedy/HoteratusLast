@@ -765,6 +765,7 @@ function saveExtra() {
         url: "<?php echo lang_url(); ?>reservation/saveExtras",
         data: { "extraId": ids, "reservationId": rid, "channelId": cid, "userName": user },
         success: function(msg) {
+            alert(msg);
             swal({
                 title: "Done!",
                 text: "Extras Added Successfully!",

@@ -82,9 +82,9 @@
                     <h2><strong>Total Due:</strong> <o> <?=number_format($grandtotal, 2, '.', '')?> </o> </h2>
                 </div>
             </div>
-            <div style="float: left;" class="buttons-ui">
-                <a onclick=" cancelorden()" class="btn red">Cancel Order</a>
-                <a onclick="ChargeInvoice()" class="btn green">Charge</a>
+            <div style="float: left;" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'"  class="buttons-ui">
+                <a id="CANCEL" onclick=" cancelorden()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'"  class="btn red">Cancel Order</a>
+                <a id="CHARGE" onclick="ChargeInvoice()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'"  class="btn green">Charge</a>
                 <a href="#addwaiter" data-toggle="modal" class="btn blue">Assign Waiter</a>
                 <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()" data-toggle="modal" class="btn orange">Change Table</a>
             </div>
@@ -410,8 +410,11 @@ function applyCancel()
              dataType: "json",
              url: "<?php echo lang_url(); ?>pos/cancelorden",
              data: { "tableid": tableid, "reason":reasoncancel },
+             beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
              success: function(msg) {
-
+                        unShowWait();
                          if (msg['result']) {
 
                              swal({
@@ -451,7 +454,11 @@ function changetable(newtable) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/changetable",
         data: { "newid": newtable, "oldid": tableid, "posid": posid },
+        beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
+            unShowWait();
             if (msg['result'] == 0) {
                 swal({
                     title: "Success",
@@ -482,7 +489,11 @@ function availabletable(posid) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/availabletable",
         data: { "posid": posid },
+         beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
+            unShowWait();
             if (msg['result']) {
                 $("#tableavailable").html(msg['html']);
             } else {
@@ -506,7 +517,11 @@ function addstaff(id) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/exists_staff",
         data: { "staffid": id, "tableid": tableid },
+             beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
+            unShowWait();
 
             if (msg['status'] == 1 || msg['status'] == -1) {
                 swal({
@@ -546,7 +561,11 @@ function CategoryItem(id) {
         type: "POST",
         url: "<?php echo lang_url(); ?>pos/allitem",
         data: { "catid": id, "tableid": tableid },
+         beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
+            unShowWait();
             $("#allitem").html(msg)
         }
     });
@@ -557,7 +576,11 @@ function RecipeItem() {
         type: "POST",
         url: "<?php echo lang_url(); ?>pos/allRecipe",
         data: { "posid": posid },
+        beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
+            unShowWait();
             $("#allitem").html(msg)
         }
     });
@@ -570,13 +593,18 @@ function additem(id, isitem) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/additem",
         data: { "itemid": id, "tableid": tableid, "isitem": isitem },
+         beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
-
+            unShowWait();
             if (msg['success']) {
                 $('#noproduct').html('');
                 $('#invoice tbody').html(msg['html']);
                 $('#grandtotal').html(msg['total']);
                 $('#change').attr('style', '');
+                $('#CANCEL').attr('style', '');
+                $('#CHARGE').attr('style', '');
 
             } else {
 
@@ -593,7 +621,11 @@ function deleteitem(id, isitem) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/deleteitem",
         data: { "itemid": id, "tableid": tableid, "isitem": isitem },
+         beforeSend:function() {
+              showWait();
+              setTimeout(function() {unShowWait();}, 10000);},
         success: function(msg) {
+            unShowWait();
 
             if (msg['success']) {
                 $('#invoice tbody').html(msg['html']);
@@ -615,8 +647,8 @@ function reloj() {
     $("#reloj").html('System Time ' + hora + ':' + (minuto <= 9 ? '0' + minuto : minuto) + ':' + (segundo <= 9 ? '0' + segundo : segundo));
 
 }
-reloj();
-setInterval(function() { reloj(); }, 1000);
+//reloj();
+//setInterval(function() { reloj(); }, 1000);
 </script>
 </div>
 </div>

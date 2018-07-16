@@ -678,7 +678,8 @@ class POS extends Front_Controller {
 
 					}
 					$html.='</tbody>
-									</table>';
+									</table>
+									</div> </div>';
 					$data['html']=$html;
 					$data['result']=true;
 					echo json_encode($data);

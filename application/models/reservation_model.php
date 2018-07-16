@@ -248,7 +248,7 @@ class Reservation_model extends CI_Model
                 $string = date('d-m-Y',strtotime(str_replace('/','-',$ran->format('M d, Y'))));
                 $weekday = date('l', strtotime($string));
 
-                $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Stay',"qty"=>1,"description"=>$ran->format('M d, Y'),"total"=>$pricede,"tax"=>0);
+                $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Booking',"qty"=>1,"description"=>$ran->format('M d, Y'),"total"=>$pricede,"tax"=>0);
 
                 
                 insert_data('reservationinvoicedetails',$datadetails);

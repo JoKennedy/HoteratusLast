@@ -700,6 +700,16 @@ new CBPFWTabs(document.getElementById('tabs'));
 
 var channelid='<?=$channelId;?>';
 var resid='<?=$reservatioID;?>';
+
+
+function imprimir(divtoprint){
+  var objeto=document.getElementById(divtoprint);  //obtenemos el objeto a imprimir
+  var ventana=window.open('','_blank');  //abrimos una ventana vacía nueva
+  ventana.document.write(objeto.innerHTML);  //imprimimos el HTML del objeto en la nueva ventana
+  ventana.document.close();  //cerramos el documento
+  ventana.print();  //imprimimos la ventana
+  ventana.close();  //cerramos la ventana
+}
 function detailInvoice(id)
 {   
     var address='<?=$address;?>';

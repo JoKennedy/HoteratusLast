@@ -548,8 +548,9 @@ class reservation extends Front_Controller {
 	}
 	function invoiceheader()
 	{	
-
+		$this->is_login();
 		$invoice=get_data("reservationinvoice",array('reservationinvoiceid'=>$_POST['id']))->row_array();
+		$invoicedetails=get_data("reservationinvoicedetails",array('reservationinvoiceId'=>$_POST['id']))->result_array();
 		$billing=get_data("bill_info",array('hotel_id'=>hotel_id()))->row_array();
 		$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
     
@@ -584,11 +585,88 @@ class reservation extends Front_Controller {
           </div>
            <div class="clearfix">
           </div> ';
-         $data['html']=$html;
+
+
+          $table='<div class="graph">
+				<div class="table-responsive">
+						<div class="clearfix"></div>
+						<table id="tablestaff" class="table table-bordered">
+								<thead>
+										<tr>
+												<th>#</th>
+												<th>Item</th>
+												<th>Description</th>
+												<th>Total</th>
+										</tr>
+															 </thead>
+								<tbody>';
+					$i=0;
+					$totaltax=0;
+					$subtotal=0;
+					if(count($invoicedetails)>0)
+					{
+						foreach ($invoicedetails as  $value) {
+							$i++;
+							$table.=' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
+								' </th> <td>'.$value['item'].'  </td> <td>'.$value['description'].'</td>
+									<td  align="right"> '.number_format($value['total'], 2, '.', '').' </td> </tr>';
+
+								$totaltax +=$value['tax'];
+								$subtotal +=$value['total'];
+						}
+					}
+					
+					$table.='</tbody>
+									</table>
+									</div> </div>';
+
+					$footer='<div class="col-md-6 graph-2 second">
+							    <div class="panel panel-primary">
+							        <div class="panel-heading"></div>
+							        <div class="panel-body">
+							            <div class="tables">
+							                <table class="table">
+							                    <tbody>
+							                        <tr>
+							                            <td> <strong>Sub Total:&nbsp</strong></td>
+							                            <td style="text-align: right;">
+							                                '.number_format($subtotal, 2, '.', '').'
+							                            </td>
+							                        </tr>
+							                        <tr>
+							                            <td> <strong>Total Tax:&nbsp</strong></td>
+							                            <td style="text-align: right;">
+							                                '.number_format($totaltax, 2, '.', '').'
+							                            </td>
+							                        </tr>
+							                    </tbody>
+							                </table>
+							                <div align="center">
+							                    <h2><strong>Total Due:</strong> '.number_format($totaltax+$subtotal, 2, '.', '').'</h2>
+							                </div>
+							            </div>
+							        </div>
+							    </div>
+							</div>
+
+							<div class="text-left col-md-6 form-group1">
+								<a onclick="imprimir('."'InvoiceDetail'".')" class="btn btn-lg blue hidden-print margin-bottom-5">
+			                      Print <i class="fa fa-print"></i>
+			                      </a>
+							</div>
+							<div class="clearfix"></div>';
+
+//number_format($value['price'], 2, '.', '')
+
+         $data['html']=$html.$table.$footer;
         echo json_encode($data);
 		
 	}
 
+	function invoicebody()
+	{
+		$_POST['id'];
+	}
 	function reservationdetails($channelID,$ReservationID)
 	{
 		$this->is_login();

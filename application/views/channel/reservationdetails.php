@@ -47,7 +47,7 @@
                     <div class="content tab">
                         <section id="section-1">
                             <div style="text-align: center;">
-                                <a class="btn green two">Edit Reservation</a>
+                                <a href="#EditReservation" data-toggle="modal" class="btn green two">Edit Reservation</a>
                             </div>
                             <div class="col-md-6 profile-info">
                                 <h3>Reservation Details </h3>
@@ -277,7 +277,7 @@
                                     <strong>Warning!</strong> Select an invoice to Continue.
                                 </div>
                                 <div class="table-responsive">
-                                    <div class="graph" >
+                                    <div class="graph">
                                         <div class="tables">
                                             <table id="summaryinvoice" class="table">
                                                 <?php
@@ -683,11 +683,95 @@ Agregar Extras
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Invoice</h4>
             </div>
-           <div align="center" id="headerinvoice">         
-                
+            <div align="center" id="headerinvoice">
             </div>
             <div>
-                <div id="tableinvoice">               
+                <div id="tableinvoice">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="EditReservation" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Reservation Details</h4>
+                 <div class="profile-widget" style="background-color: white;">
+        <img src="data:image/png;base64,<?=$LogoReservation?>" alt=" " />
+        <h2 style="color: black;"> Reservation from <?=$ChannelName?> </h2>
+        <strong>Reservation Number</strong>
+        <p class="text-muted">
+            <?=$reservationNumber?>
+        </p>
+    </div>
+
+            </div>
+            <div id="EditingInfo">
+                <div class="graph-form">
+                    <form id="SupplierC">
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Check-In</strong></label>
+                            <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" 
+                            value="<?=date('Y-m-d',strtotime($checkin))?>" required="" >
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Check-Out</strong></label>
+                            <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" 
+                            value="<?=date('Y-m-d',strtotime($checkout))?>" required="" >
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Room Type</strong></label>
+                            <input style="background:white; color:black;" name="roomtype" id="roomtype" type="text" placeholder="Room Type" value="<?=$roomTypeName?>" required="">
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Room Number</strong></label>
+                            <input style="background:white; color:black;" name="roomnumber" id="roomnumber" value="<?=$roomNumber?>" type="text" placeholder="Room Number" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label"><strong>Guest Name</strong></label>
+                            <input style="background:white; color:black;" name="guestname" id="guestname" type="text" placeholder="Guest Name" required="" value="<?=$guestFullName?>">
+                        </div>
+                       
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Email</strong></label>
+                            <input style="background:white; color:black;" name="Email" id="Email" type="text" placeholder="Email" required="" value="<?=$email?>">
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Phone</strong></label>
+                            <input style="background:white; color:black;" name="Phone" id="Phone" type="text" placeholder="Phone" required="" value="<?=$mobiler?>">
+                        </div>
+                         <div class="col-md-12 form-group1">
+                            <label class="control-label"><strong>Address</strong></label>
+                            <input style="background:white; color:black;" name="Address" id="Address" type="text" placeholder="Address" required="" value="<?=$address?>">
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>City</strong></label>
+                            <input style="background:white; color:black;" name="City" id="City" type="text" placeholder="City" required="" value="<?=$city?>">
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>State</strong></label>
+                            <input style="background:white; color:black;" name="State" id="State" type="text" placeholder="State" required="" value="<?=$state?>"> 
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Country</label>
+                            <input style="background:white; color:black;" name="Country" id="Country" type="text" placeholder="Country" required="" value="<?=$country?>">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Zip Code</strong></label>
+                            <input style="background:white; color:black;" name="ZipCode" id="ZipCode" type="text" placeholder="Zip Code" required="" value="<?=$zipCode?>">
+                        </div>
+                        <div id="respuesta"></div>
+                        <div class="clearfix"> </div>
+                        <br>
+                        <br>
+                        <div class="buttons-ui">
+                            <a onclick="UpdateReservation()" class="btn green">Update</a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </form>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -698,26 +782,30 @@ Agregar Extras
 <script type="text/javascript">
 new CBPFWTabs(document.getElementById('tabs'));
 
-var channelid='<?=$channelId;?>';
-var resid='<?=$reservatioID;?>';
+var channelid = '<?=$channelId;?>';
+var resid = '<?=$reservatioID;?>';
 
 
-function imprimir(divtoprint){
-  var objeto=document.getElementById(divtoprint);  //obtenemos el objeto a imprimir
-  var ventana=window.open('','_blank');  //abrimos una ventana vacía nueva
-  ventana.document.write(objeto.innerHTML);  //imprimimos el HTML del objeto en la nueva ventana
-  ventana.document.close();  //cerramos el documento
-  ventana.print();  //imprimimos la ventana
-  ventana.close();  //cerramos la ventana
+function imprimir(divtoprint) {
+
+    var objeto = document.getElementById(divtoprint); //obtenemos el objeto a imprimir
+    var ventana = window.open('', '_blank', 'height=792,width=800'); //abrimos una ventana vacía nueva
+    ventana.document.write('<!DOCTYPE HTML><html><head><link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  <link href="<?php echo base_url();?>user_asset/back/css/style.css" rel="stylesheet" type="text/css" /></head><body>');
+    ventana.document.write(objeto.innerHTML); //imprimimos el HTML del objeto en la nueva ventana
+    ventana.document.getElementById("botonprint").remove();
+    ventana.document.write('</body></html>');
+    ventana.document.close(); //cerramos el documento
+    ventana.print(); //imprimimos la ventana
+    ventana.close(); //cerramos la ventana
 }
-function detailInvoice(id)
-{   
-    var address='<?=$address;?>';
-    var name='<?=$guestFullName;?>';
-    var city ='<?=$city;?>';
-    var country='<?=$country;?>';
-    var email ='<?=$email;?>';
-    var data = {'id':id,'email':email,'name':name,'address':address,'city':city,'country':country};
+
+function detailInvoice(id) {
+    var address = '<?=$address;?>';
+    var name = '<?=$guestFullName;?>';
+    var city = '<?=$city;?>';
+    var country = '<?=$country;?>';
+    var email = '<?=$email;?>';
+    var data = { 'id': id, 'email': email, 'name': name, 'address': address, 'city': city, 'country': country };
     $("#headerinvoice").html('');
     $.ajax({
         type: "POST",
@@ -734,10 +822,11 @@ function detailInvoice(id)
 
         }
     });
-    
+
 
     $("#InvoiceDetail").modal();
 }
+
 function delete_extras(id, res, channelid, des, fila) {
     swal({
             title: "Are you sure?",

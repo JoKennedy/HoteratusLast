@@ -439,8 +439,6 @@ function applyCancel()
                      }
                  });
          });
-
-
 }
 function cancelorden() {
     $("#txtreason").val('');

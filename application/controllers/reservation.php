@@ -554,7 +554,7 @@ class reservation extends Front_Controller {
 		$billing=get_data("bill_info",array('hotel_id'=>hotel_id()))->row_array();
 		$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
     
-   		$html='<div class="graph-form">
+   		$html='<div  class="graph-form">
 					<div class="text-left" style="float: left; width:50%; ">
 						<h4> Invoice</h4>
 					</div>
@@ -620,7 +620,7 @@ class reservation extends Front_Controller {
 									</table>
 									</div> </div>';
 
-					$footer='<div class="col-md-6 graph-2 second">
+					$footer='<div id="footerfac" class="col-md-6 graph-2 second">
 							    <div class="panel panel-primary">
 							        <div class="panel-heading"></div>
 							        <div class="panel-body">
@@ -649,8 +649,8 @@ class reservation extends Front_Controller {
 							    </div>
 							</div>
 
-							<div class="text-left col-md-6 form-group1">
-								<a onclick="imprimir('."'InvoiceDetail'".')" class="btn btn-lg blue hidden-print margin-bottom-5">
+							<div id="botonprint" class="text-left col-md-6 form-group1">
+								<a onclick="imprimir('."'headerinvoice'".')" class="btn btn-lg blue hidden-print margin-bottom-5">
 			                      Print <i class="fa fa-print"></i>
 			                      </a>
 							</div>

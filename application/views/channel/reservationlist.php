@@ -10,7 +10,7 @@
     <div style="float: right;" class="buttons-ui">
         <a class="btn orange">Imports New</a>
         <a class="btn green">Export XLSX</a>
-        <a class="btn blue">Add Reservation</a>
+        <a id="addreservation" href="#CreateReservation" data-toggle="modal" class="btn blue">Add Reservation</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
@@ -97,6 +97,18 @@
 <!--footer section start-->
 <!--footer section end-->
 </div>
+</div>
+<div id="CreateReservation" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div align="center" id="headerinvoice">
+            </div>
+            <?php include("creationreservation.php")?>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
 </div>
 <script language="javascript" type="text/javascript">
 //<![CDATA[ 

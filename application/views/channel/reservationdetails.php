@@ -706,6 +706,10 @@ Agregar Extras
         <p class="text-muted">
             <?=$reservationNumber?>
         </p>
+         <strong>Total Stay</strong>
+        <p id="totalstayedit" class="text-muted">
+            <?=$totalStay?>
+        </p>
     </div>
 
             </div>
@@ -715,12 +719,12 @@ Agregar Extras
                         <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Check-In</strong></label>
                             <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" 
-                            value="<?=date('Y-m-d',strtotime($checkin))?>" required="" >
+                            value="<?=date('Y-m-d',strtotime($checkin))?>" required="" id="date1Edit" name="date1Edit">
                         </div>
                         <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Check-Out</strong></label>
                             <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" 
-                            value="<?=date('Y-m-d',strtotime($checkout))?>" required="" >
+                            value="<?=date('Y-m-d',strtotime($checkout))?>" required="" id="date2Edit" name="date2Edit">
                         </div>
                          <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Room Type</strong></label>
@@ -785,6 +789,26 @@ new CBPFWTabs(document.getElementById('tabs'));
 var channelid = '<?=$channelId;?>';
 var resid = '<?=$reservatioID;?>';
 
+
+
+$(document).ready(function(){
+
+    var fecha = new Date($.now());
+    var dias = 1; // Número de días a agregar
+    $("#date1Edit").attr('min', formatDate(fecha));
+    fecha.setDate(fecha.getDate() + dias);
+    $("#date2Edit").attr('min', formatDate(fecha));
+    
+});
+
+
+$("#date1Edit").change(function(event) {
+    var fecha = new Date($("#date1Edit").val());
+    var dias = 2; // Número de días a agregar
+    fecha.setDate(fecha.getDate() + dias);
+    $("#date2Edit").attr('min', formatDate(fecha));
+    $("#date2Edit").val(formatDate(fecha));
+});
 
 function imprimir(divtoprint) {
 
@@ -1065,10 +1089,10 @@ function processinvoice(channelid, reservationid) {
 }
 
 function editInvoice(invoiceid) {
-    $("#editInvoice").html('<h4> Vamos a editar la factura id ' + invoiceid + ' </h4>  <a onclick= "saveinvoice(' + invoiceid + ')" class="btn yellow two" id="saveinvoice">Save Invoice</a>');
+  //  $("#editInvoice").html('<h4> Vamos a editar la factura id ' + invoiceid + ' </h4>  <a onclick= "saveinvoice(' + invoiceid + ')" class="btn yellow two" id="saveinvoice">Save Invoice</a>');
 }
 
 function saveinvoice(invoiceid) {
-    alert(invoiceid);
+    //alert(invoiceid);
 }
 </script>

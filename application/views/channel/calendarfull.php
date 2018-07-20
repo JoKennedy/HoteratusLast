@@ -71,7 +71,7 @@
 
 
 	function Calendario() {
-		$('#preloader').fadeIn("slow");
+		showWait();
 		var base_url = '<?php echo lang_url();?>';
 		var data={"show":($("#show").prop('checked')?1:0),"sales":($("#Sales").prop('checked')?1:0),"cta":($("#cta").prop('checked')?1:0),"ctd":($("#ctd").prop('checked')?1:0),};
 		
@@ -79,10 +79,14 @@
 			type: "POST",
 			url:  base_url+'channel/Calendarview',
 			data: data,
+			beforeSend:function() {
+          showWait();
+          setTimeout(function() {unShowWait();}, 100000);
+        },
 			success: function(html)
-			{
+			{	
 				$("#calendario").html(html);
-				$('#preloader').fadeOut();
+				unShowWait();
 			 
 		   	}
 		});

@@ -48,6 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+/*$db['default']['hostname'] = 'hoteratus.com';
+$db['default']['username'] = 'dev20_eagle';
+$db['default']['password'] = 's~{m,Sic$5w-';
+$db['default']['database'] = 'dev20_eagle';*/
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';

@@ -12,7 +12,7 @@
 <div class="col-md-12 ">
     <div class="col-md-6 form-group1">
         <label class="control-label"><strong>Check-In</strong></label>
-        <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="<?=date('Y-m-d')?>" required="" id="date1Edit" name="date1Edit">
+        <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="" required="" id="date1Edit" name="date1Edit">
     </div>
     <div class="col-md-6 form-group1">
         <label class="control-label"><strong>Check-Out</strong></label>
@@ -47,8 +47,9 @@
     <div class="col-md-6 form-group1">
         <label class="control-label"><strong>Child Qty</strong></label>
         <select style="width: 100%; padding: 9px; " id="numchild" name="numchild">
-            <?php
 
+            <?php
+                echo '<option value="0">No Children</option>';
 				for ($i=1; $i<=$childrenmax; $i++) { 
 					  echo '<option value="'.$i.'">'.$i.($i==1?' Child':' Children'). '</option>';
 					}
@@ -64,6 +65,7 @@ $("#addreservation").click(function(event) {
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar
     $("#date1Edit").attr('min', formatDate(fecha));
+    $("#date1Edit").val(formatDate(fecha));
     fecha.setDate(fecha.getDate() + dias);
     $("#date2Edit").attr('min', formatDate(fecha));
     $("#date2Edit").val(formatDate(fecha));

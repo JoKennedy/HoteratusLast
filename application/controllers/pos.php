@@ -223,6 +223,119 @@ class POS extends Front_Controller {
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
+	function viewTask($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Table';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
+			from task a
+			left join  mystaffpos b on a.staffid=mystaffposid
+			where a.hotelid =$hotelid ")->result_array();
+
+		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
+			FROM mystaffpos a
+			left join stafftype b on a.stafftypeid = b.stafftypeid
+			where a.hotelid =$hotelid ")->result_array();
+
+	
+		
+		$this->views('Restaurant/task',$data);
+	}
+	function viewAdminGiftCard($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Table';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
+			from task a
+			left join  mystaffpos b on a.staffid=mystaffposid
+			where a.hotelid =$hotelid ")->result_array();
+
+		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
+			FROM mystaffpos a
+			left join stafftype b on a.stafftypeid = b.stafftypeid
+			where a.hotelid =$hotelid ")->result_array();
+
+	
+		
+		$this->views('Restaurant/giftcard',$data);
+	}
+
+	function viewAdminStation($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Table';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
+			from task a
+			left join  mystaffpos b on a.staffid=mystaffposid
+			where a.hotelid =$hotelid ")->result_array();
+
+		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
+			FROM mystaffpos a
+			left join stafftype b on a.stafftypeid = b.stafftypeid
+			where a.hotelid =$hotelid ")->result_array();
+
+	
+		
+		$this->views('Restaurant/adminstation',$data);
+	}
+	function viewBillingConfiguration($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Table';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
+			from task a
+			left join  mystaffpos b on a.staffid=mystaffposid
+			where a.hotelid =$hotelid ")->result_array();
+
+		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
+			FROM mystaffpos a
+			left join stafftype b on a.stafftypeid = b.stafftypeid
+			where a.hotelid =$hotelid ")->result_array();
+
+	
+		
+		$this->views('Restaurant/giftcard',$data);
+	}
 	function viewInventory($hotelid,$posid)
 	{
 		$hotelid= unsecure($hotelid);

@@ -1,4 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+$lugar=0;
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -48,14 +50,24 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-/*$db['default']['hostname'] = 'hoteratus.com';
-$db['default']['username'] = 'dev20_eagle';
-$db['default']['password'] = 's~{m,Sic$5w-';
-$db['default']['database'] = 'dev20_eagle';*/
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'dev20_eagle2';
+switch ($lugar) {
+	case 0:
+		$db['default']['hostname'] = 'localhost';
+		$db['default']['username'] = 'root';
+		$db['default']['password'] = '';
+		$db['default']['database'] = 'dev20_eagle2';
+		break;
+	
+	default:
+		$db['default']['hostname'] = 'hoteratus.com';
+		$db['default']['username'] = 'dev20_eagle';
+		$db['default']['password'] = 's~{m,Sic$5w-';
+		$db['default']['database'] = 'dev20_eagle';
+		break;
+}
+
+
+
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

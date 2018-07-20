@@ -107,19 +107,34 @@
                             <ul class="nofitications-dropdown">
                                 <li class="dropdown note dra-down">
                                     <div id="dd" class="wrapper-dropdown-3" tabindex="1" >
+                                    
+                                        
+                                   
                                         <span><?= "ID [".$HotelInfo['hotel_id']."]" ?></span>
-
-                                        <ul class="dropdown" style="height:500px; overflow:auto;" >
-
+                                    
+                                        <ul class="dropdown"  >
+                                            <div style="height:500px; " id="boxscroll4">
+                                                <div class="wrapper">
+                                                    
+                                               
                                                 <?php
                                                 foreach ($AllHotel as  $value) {
 													echo '<li><a  href="'.lang_url().'channel/change_property/'.insep_encode($value['hotel_id']).'" id="'.$value['hotel_id'].'" class="english">'.$value['property_name'].' [id:'.$value['hotel_id'].']</a></li>';
 												}
 
 												?>
-
+                                            </div>
+                                             </div>
                                         </ul>
                                     </div>
+                                     
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+
+                                            $("#boxscroll4").niceScroll("#boxscroll4 .wrapper", { boxzoom: true }); // hw acceleration enabled when using wrapper
+
+                                        });
+                                    </script>
                                     <script type="text/javascript">
                                     function DropDown(el) {
                                         this.dd = el;

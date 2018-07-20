@@ -474,7 +474,7 @@
                 <!-- /tabs -->
             </div>
         </div>
-        <script src="<?php echo base_url();?>user_asset/back/js/cbpFWTabs.js"></script>
+       
     </div>
 </div>
 <!--Paginas modales
@@ -693,7 +693,7 @@ Agregar Extras
         </div>
     </div>
 </div>
-<div id="EditReservation" class="modal fade" role="dialog" aria-hidden="true">
+<div id="EditReservation" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -783,13 +783,12 @@ Agregar Extras
     </div>
 </div>
 <!--//content-inner-->
+ <script src="<?php echo base_url();?>user_asset/back/js/cbpFWTabs.js"></script>
 <script type="text/javascript">
 new CBPFWTabs(document.getElementById('tabs'));
 
 var channelid = '<?=$channelId;?>';
 var resid = '<?=$reservatioID;?>';
-
-
 
 $(document).ready(function(){
 

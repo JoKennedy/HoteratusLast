@@ -45,7 +45,7 @@
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['staffname'].'  </td> 
                                 <td> '.$value['Description'].'  </td> <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active"><div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
-                                  <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updatesupplier" onclick ="showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                  <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
 
                             }
 
@@ -92,8 +92,7 @@
                                     }
                                     
                                 ?>
-                            </select>
-                            
+                            </select>  
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Task Description</label>
@@ -445,7 +444,7 @@ $.fn.pageMe = function(opts) {
 };
 
 function Paginar(numeroP = 10) {
-    $('#suppList').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
+    $('#tabletask').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
 }
 $(document).ready(function() {
 

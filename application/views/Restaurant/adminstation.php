@@ -15,38 +15,39 @@
         <?php include("menu.php") ?>
     </div>
     <div style="float: right; " class="buttons-ui">
-        <a href="#createtask" data-toggle="modal" class="btn blue">Add New Station</a>
+        <a onclick="return createstations();" class="btn blue">Add New Station</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
         <div class="graph">
             <div class="table-responsive">
                 <div class="clearfix"></div>
-                <table id="tabletask" class="table table-bordered">
+                <table id="tablestation" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th  width="5%">#</th>
-                            <th>Staff Name</th>
-                            <th>Task Description</th>
-                            <th>Process</th>
+                            <th width="5%">#</th>
+                            <th>Station Name</th>
+                            <th>Manager</th>
                             <th>Status</th>
                             <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (count($ALLTask)>0) {
-# taskid, hotelid, staffid, Description, proccess, active
+                        <?php if (count($ALLStations)>0) {
+   
 
                             $i=0;
-                            foreach ($ALLTask as  $value) {
+                            foreach ($ALLStations as  $value) {
                                 $i++;
-                                $class=($value['proccess']<=10?'danger':($value['proccess']<=20?'warning':($value['proccess']<=50?'info':($value['proccess']<100?'inverse':'success'))));
                                 
-                                $update="'".$value['staffname']."','".$value['Description']."','".  $value['proccess']."','".$value['active']."','".$value['taskid']."'";
+                                $update="'".$value['stationid']."','".$value['name']."','".$value['supervisorid']."','".$value['active']."'";
 
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['staffname'].'  </td> 
-                                <td> '.$value['Description'].'  </td> <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active"><div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
-                                  <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updatesupplier" onclick ="showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> 
+                                    <td> '.$value['name'].'  </td> 
+                                    <td> '.$value['supervisor'].'  </td> 
+                                    <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> 
+                                    <td><a href="#updatesupplier" onclick ="showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> 
+                                    </tr> ';
 
                             }
 
@@ -56,7 +57,7 @@
                         } ?>
                     </tbody>
                 </table>
-                <?php if (count($ALLTask)==0) {echo '<h4>No Task Created!</h4>';} 
+                <?php if (count($ALLStations)==0) {echo '<h4>No Station Created!</h4>';} 
                   else
                   { echo ' <div style"float:right;> <ul " class="pagination pagination-sm pager" id="myPager"></ul> </div>';}
                  ?>
@@ -65,47 +66,54 @@
         </div>
     </div>
 </div>
-<div id="createsupplier" class="modal fade" role="dialog" aria-hidden="true">
+<div id="createstation" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Create a Supplier</h4>
+                <h4 class="modal-title">Create a Station</h4>
             </div>
             <div>
                 <div class="graph-form">
-                    <form id="SupplierC">
+                    <form id="StationC">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Company Name</label>
-                            <input style="background:white; color:black;" name="cname" id="cname" type="text" placeholder="Company Name" required="">
+                            <label class="control-label">Station Name</label>
+                            <input style="background:white; color:black;" name="name" id="name" type="text" placeholder="Station Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Representative Name</label>
-                            <input style="background:white; color:black;" name="rname" id="rname" type="text" placeholder="Representative Name" required="">
+                            <label class="control-label">Manager</label>
+                            <select style="width: 100%; padding: 9px; " id="staffid" name="staffid">
+                                <?php
+                                    if(count($StaffInfo)>0)
+                                    {
+                                        echo '<option value="0">Select a employee </option>'; 
+                                        foreach ($StaffInfo as  $value) {
+                                            echo '<option value="'.$value['mystaffposid'].'">'.$value['firstname'].' '.$value['lastname'].'=>'.$value['occupation'].'</option>';
+                                        }
+                                    }
+                                    else
+                                    {
+                                        echo '<option value="0">there are no employees created</option>'; 
+                                    }
+                                    
+                                ?>
+                            </select>
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Address</label>
-                            <input style="background:white; color:black;" name="address" id="address" type="text" placeholder="Address" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Phone</label>
-                            <input style="background:white; color:black;" name="phone" id="phone" type="text" placeholder="Phone" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Cell Phone</label>
-                            <input style="background:white; color:black;" name="cphone" id="cphone" type="text" placeholder="Cell Phone" required="">
+                            <label class="control-label">Available Tables</label>
+                            <div id="tableavailible"></div>
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Email</label>
-                            <input style="background:white; color:black;" name="email" id="email" type="text" placeholder="Email" required="">
+                            <label class="control-label">Available Employees</label>
+                            <div id="staffavailible"></div>
                         </div>
                         <div id="respuesta"></div>
                         <div class="clearfix"> </div>
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="saveSupplier()" class="btn green">Save</a>
+                            <a onclick="saveStation()" class="btn green">Save</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -114,48 +122,54 @@
         </div>
     </div>
 </div>
-<div id="updatesupplier" class="modal fade" role="dialog" aria-hidden="true">
+<div id="updatestation" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Update a Supplier</h4>
+                <h4 class="modal-title">Create a Station</h4>
             </div>
             <div>
                 <div class="graph-form">
-                    <form id="Supplierup">
+                    <form id="StationUP">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
-                        <input type="hidden" name="supplierID" id="supplierID" value="">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Company Name</label>
-                            <input style="background:white; color:black;" name="cnameup" id="cnameup" type="text" placeholder="Company Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Representative Name</label>
-                            <input style="background:white; color:black;" name="rnameup" id="rnameup" type="text" placeholder="Representative Name" required="">
+                            <label class="control-label">Station Name</label>
+                            <input style="background:white; color:black;" name="nameup" id="nameup" type="text" placeholder="Station Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Address</label>
-                            <input style="background:white; color:black;" name="addressup" id="addressup" type="text" placeholder="Address" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Phone</label>
-                            <input style="background:white; color:black;" name="phoneup" id="phoneup" type="text" placeholder="Phone" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Cell Phone</label>
-                            <input style="background:white; color:black;" name="cphoneup" id="cphoneup" type="text" placeholder="Cell Phone" required="">
+                            <label class="control-label">Manager</label>
+                            <select style="width: 100%; padding: 9px; " id="staffidup" name="staffidup">
+                                <?php
+                                    if(count($StaffInfo)>0)
+                                    {
+                                        echo '<option value="0">Select a employee </option>'; 
+                                        foreach ($StaffInfo as  $value) {
+                                            echo '<option value="'.$value['mystaffposid'].'">'.$value['firstname'].' '.$value['lastname'].'=>'.$value['occupation'].'</option>';
+                                        }
+                                    }
+                                    else
+                                    {
+                                        echo '<option value="0">There are no employees created</option>'; 
+                                    }
+                                    
+                                ?>
+                            </select>
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Email</label>
-                            <input style="background:white; color:black;" name="emailup" id="emailup" type="text" placeholder="Email" required="">
+                            <label class="control-label">Available Tables</label>
+                            <div id="tableavailibleup"></div>
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Available Employees</label>
+                            <div id="staffavailibleup"></div>
                         </div>
                         <div id="respuesta"></div>
                         <div class="clearfix"> </div>
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="updateSupplier()" class="btn green">Update</a>
+                            <a onclick="updateStation()" class="btn green">Update</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -167,6 +181,33 @@
 </div>
 </div>
 <script type="text/javascript">
+var posid = '<?php echo $Posinfo["myposId"]; ?>';
+
+function createstations() {
+
+    var data = { "stationid": 0, "posid": posid };
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/infoStation",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            $("#tableavailible").html(msg['htmltable']);
+            $("#staffavailible").html(msg['htmlstaff']);
+
+
+        }
+    });
+
+    $("#createstation").modal();
+}
+
 function saveSupplier() {
 
 
@@ -331,14 +372,40 @@ function updateSupplier() {
 
 }
 
-function showupdate(cname, rname, address, phone, cphone, email, id) {
-    $("#cnameup").val(cname);
-    $("#rnameup").val(rname);
-    $("#addressup").val(address);
-    $("#phoneup").val(phone);
-    $("#cphoneup").val(cphone);
-    $("#emailup").val(email);
-    $("#supplierID").val(id);
+function showupdate(stationid, name, supervisorid, active) {
+
+    var data = { "stationid": stationid, "posid": posid };
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/infoStation",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            $("#tableavailibleup").html(msg['htmltable']);
+            $("#staffavailibleup").html(msg['htmlstaff']);
+        }
+    });
+
+
+
+
+    //poner las mesas sin asignar y las asignadas a esta station stationid
+
+    $("#nameup").val(name);
+    $("#staffidup").val(supervisorid);
+
+    $("#updatestation").modal();
+    /*  $("#addressup").val(address);
+      $("#phoneup").val(phone);
+      $("#cphoneup").val(cphone);
+      $("#emailup").val(email);
+      $("#supplierID").val(id);*/
 
 }
 
@@ -444,7 +511,7 @@ $.fn.pageMe = function(opts) {
 };
 
 function Paginar(numeroP = 10) {
-    $('#suppList').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
+    $('#tablestation').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
 }
 $(document).ready(function() {
 

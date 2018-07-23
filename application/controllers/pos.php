@@ -238,7 +238,7 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
-			from task a
+			from Task a
 			left join  mystaffpos b on a.staffid=mystaffposid
 			where a.hotelid =$hotelid ")->result_array();
 
@@ -266,7 +266,7 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
-			from task a
+			from Task a
 			left join  mystaffpos b on a.staffid=mystaffposid
 			where a.hotelid =$hotelid ")->result_array();
 
@@ -288,23 +288,27 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'Table';
+    	$data['page_heading'] = 'Stations';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
-			from task a
-			left join  mystaffpos b on a.staffid=mystaffposid
-			where a.hotelid =$hotelid ")->result_array();
+		$data['ALLStations']=$this->db->query("select a.* , concat(firstname,' ', lastname) supervisor
+			from stations a
+			left join  mystaffpos b on a.supervisorid=b.mystaffposid
+			where a.posid =$posid ")->result_array();
 
 		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
 			FROM mystaffpos a
 			left join stafftype b on a.stafftypeid = b.stafftypeid
 			where a.hotelid =$hotelid ")->result_array();
 
-	
+
+		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();
+
+	# stationid, name, supervisorid, staffids, tableids, active
+
 		
 		$this->views('Restaurant/adminstation',$data);
 	}
@@ -323,7 +327,7 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
-			from task a
+			from Task a
 			left join  mystaffpos b on a.staffid=mystaffposid
 			where a.hotelid =$hotelid ")->result_array();
 
@@ -1731,7 +1735,7 @@ class POS extends Front_Controller {
 
 
 
-		if(insert_data('task',$data))
+		if(insert_data('Task',$data))
 		{
 			$result["result"]= "0";
 		}
@@ -1754,7 +1758,7 @@ class POS extends Front_Controller {
 
 
 
-		if(update_data('task',$data,array("taskid"=>$_POST['taskid'])))
+		if(update_data('Task',$data,array("taskid"=>$_POST['taskid'])))
 		{
 			$result["result"]= "0";
 		}
@@ -1765,6 +1769,109 @@ class POS extends Front_Controller {
 
 		 echo json_encode($result);
 
+	}
+
+	function infoStation()
+	{
+
+		$stationid=$_POST['stationid'];
+		$posid=$_POST['posid'];
+		$hotelid=hotel_id();
+
+
+		$sql=$this->db->query("SELECT *,  case when b.tableid is null then 0 else 1 end used
+					FROM mypostable a
+					left join  stationtable b on a.postableid=b.tableid
+					where  myposId=$posid
+					and postableid  not in (select  ifnull(`tableid`,0) 
+					from stations c
+					left join  stationtable d on c.stationid=d.stationid
+					where posid =$posid and c.stationid <> $stationid)")->result_array();
+
+		$sql2=$this->db->query("SELECT *,  case when b.staffid is null then 0 else 1 end used
+								FROM mystaffpos a
+								left join  stationstaff b on a.mystaffposid=b.staffid
+								where  hotelid=$hotelid
+								and a.mystaffposid  not in (select ifnull(`staffid`,0)
+								from stations c
+								left join  stationstaff d on c.stationid=d.stationid
+								where posid =$posid and c.stationid <> $stationid))")->result_array();
+
+		$html='';
+
+		if (count($sql)==0) {
+
+			$result['htmltable']='<h3>All tables are assigned </h3>';
+		}
+		else
+		{
+			$html='<div class="graph">
+				<div class="table-responsive">
+						<div class="clearfix"></div>
+						<table id="tablestaff" class="table table-bordered">
+								<thead>
+										<tr>
+												<th>#</th>
+												<th>Table Name</th>
+												<th>Capacity</th>
+												<th>Select</th>
+										</tr>
+															 </thead>
+								<tbody>';
+					$i=0;
+					foreach ($sql as  $value) {
+						$i++;
+						$html.=' <tr id="table'.$value['postableid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
+							' </th> <td>'.$value['description'].'  </td> <td>'.$value['qtyPerson'].'</td>
+								<td  align="center"> <input type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
+
+
+					}
+					$html.='</tbody>
+									</table>
+									</div> </div>';
+	
+			$result['htmltable']=$html;
+		}
+
+		if (count($sql)==0) {
+
+			$result['htmlstaff']='<h3>All tables are assigned </h3>';
+		}
+		else
+		{
+			$html2='<div class="graph">
+				<div class="table-responsive">
+						<div class="clearfix"></div>
+						<table id="tablestaff" class="table table-bordered">
+								<thead>
+										<tr>
+												<th>#</th>
+												<th>Employee Name</th>
+												<th>Position</th>
+												<th>Select</th>
+										</tr>
+															 </thead>
+								<tbody>';
+					$i=0;
+					foreach ($sql2 as  $value) {
+						$i++;
+						$html2.=' <tr id="table'.$value['mystaffposid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
+							' </th> <td>'.$value['firstname'].' '.$value['lastname'].'  </td> <td>'.$value['qtyPerson'].'</td>
+								<td  align="center"> <input type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
+
+
+					}
+					$html2.='</tbody>
+									</table>
+									</div> </div>';
+	
+			$result['htmlstaff']=$html;
+		}
+
+		
+			echo json_encode($result);
+			return;
 	}
 
 }

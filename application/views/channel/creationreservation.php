@@ -64,11 +64,11 @@
 $("#addreservation").click(function(event) {
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar
-    $("#date1Edit").attr('min', formatDate(fecha));
-    $("#date1Edit").val(formatDate(fecha));
+    $("#date1Edit").attr('min', formatoDate(fecha));
+    $("#date1Edit").val(formatoDate(fecha));
     fecha.setDate(fecha.getDate() + dias);
-    $("#date2Edit").attr('min', formatDate(fecha));
-    $("#date2Edit").val(formatDate(fecha));
+    $("#date2Edit").attr('min', formatoDate(fecha));
+    $("#date2Edit").val(formatoDate(fecha));
 });
 
 
@@ -76,7 +76,7 @@ $("#date1Edit").change(function(event) {
     var fecha = new Date($("#date1Edit").val());
     var dias = 2; // Número de días a agregar
     fecha.setDate(fecha.getDate() + dias);
-    $("#date2Edit").attr('min', formatDate(fecha));
-    $("#date2Edit").val(formatDate(fecha));
+    $("#date2Edit").attr('min', formatoDate(fecha));
+    $("#date2Edit").val(formatoDate(fecha));
 });
 </script>

@@ -35,14 +35,13 @@
                     </thead>
                     <tbody>
                         <?php if (count($ALLTask)>0) {
-# taskid, hotelid, staffid, Description, proccess, active
 
                             $i=0;
                             foreach ($ALLTask as  $value) {
                                 $i++;
                                 $class=($value['proccess']<=10?'danger':($value['proccess']<=20?'warning':($value['proccess']<=50?'info':($value['proccess']<100?'inverse':'success'))));
                                 
-                                $update="'".$value['staffname']."','".$value['Description']."','".  $value['proccess']."','".$value['active']."','".$value['taskid']."'";
+                                $update="'".$value['staffid']."','".$value['Description']."','".  $value['proccess']."','".$value['enddate']."','".$value['taskid']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['staffname'].'  </td> 
                                 <td> '.$value['Description'].'  </td> <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active"><div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
@@ -65,47 +64,56 @@
         </div>
     </div>
 </div>
-<div id="createsupplier" class="modal fade" role="dialog" aria-hidden="true">
+<div id="createtask" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Create a Supplier</h4>
+                <h4 class="modal-title">Create a Task</h4>
             </div>
             <div>
                 <div class="graph-form">
-                    <form id="SupplierC">
+                    <form id="taskC">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Company Name</label>
-                            <input style="background:white; color:black;" name="cname" id="cname" type="text" placeholder="Company Name" required="">
+                            <label class="control-label">Assigned to</label>
+                            <select style="width: 100%; padding: 9px; " id="staffid" name="staffid">
+                                <?php
+                                    if(count($StaffInfo)>0)
+                                    {
+                                        echo '<option value="0">Select a employee </option>'; 
+                                        foreach ($StaffInfo as  $value) {
+                                            echo '<option value="'.$value['mystaffposid'].'">'.$value['firstname'].' '.$value['lastname'].'=>'.$value['occupation'].'</option>';
+                                        }
+                                    }
+                                    else
+                                    {
+                                        echo '<option value="0">there are no employees created</option>'; 
+                                    }
+                                    
+                                ?>
+                            </select>
+                            
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Representative Name</label>
-                            <input style="background:white; color:black;" name="rname" id="rname" type="text" placeholder="Representative Name" required="">
+                            <label class="control-label">Task Description</label>
+                            <input style="background:white; color:black;" name="description" id="description" type="text" placeholder="Task Description (TODO)" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Address</label>
-                            <input style="background:white; color:black;" name="address" id="address" type="text" placeholder="Address" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Phone</label>
-                            <input style="background:white; color:black;" name="phone" id="phone" type="text" placeholder="Phone" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Cell Phone</label>
-                            <input style="background:white; color:black;" name="cphone" id="cphone" type="text" placeholder="Cell Phone" required="">
+                            <label class="control-label">DeadLine To Complete</label>
+                            <input style="background:white; color:black; text-align: center;" name="deadline" id="deadline" type="date" placeholder="DeadLine" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Email</label>
-                            <input style="background:white; color:black;" name="email" id="email" type="text" placeholder="Email" required="">
+                            <label class="control-label">Process Status</label>
+                            <input  style="background:white; color:black; text-align: center;" name="process" id="process" type="text" onkeypress="return justNumbers(event);" required="" value="0" minlength="1" maxlength="3">
                         </div>
+
                         <div id="respuesta"></div>
                         <div class="clearfix"> </div>
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="saveSupplier()" class="btn green">Save</a>
+                            <a onclick="saveTask()" class="btn green">Save</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -114,48 +122,56 @@
         </div>
     </div>
 </div>
-<div id="updatesupplier" class="modal fade" role="dialog" aria-hidden="true">
+<div id="updatetask" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Update a Supplier</h4>
+                <h4 class="modal-title">Update a Task</h4>
             </div>
             <div>
                 <div class="graph-form">
-                    <form id="Supplierup">
-                        <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
-                        <input type="hidden" name="supplierID" id="supplierID" value="">
+                    <form id="taskUP">
+                        <input type="hidden" name="taskid" id="taskid" value="">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Company Name</label>
-                            <input style="background:white; color:black;" name="cnameup" id="cnameup" type="text" placeholder="Company Name" required="">
+                            <label class="control-label">Assigned to</label>
+                            <select style="width: 100%; padding: 9px; " id="staffidup" name="staffidup">
+                                <?php
+                                    if(count($StaffInfo)>0)
+                                    {
+                                        echo '<option value="0">Select a employee </option>'; 
+                                        foreach ($StaffInfo as  $value) {
+                                            echo '<option value="'.$value['mystaffposid'].'">'.$value['firstname'].' '.$value['lastname'].'=>'.$value['occupation'].'</option>';
+                                        }
+                                    }
+                                    else
+                                    {
+                                        echo '<option value="0">there are no employees created</option>'; 
+                                    }
+                                    
+                                ?>
+                            </select>
+                            
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Representative Name</label>
-                            <input style="background:white; color:black;" name="rnameup" id="rnameup" type="text" placeholder="Representative Name" required="">
+                            <label class="control-label">Task Description</label>
+                            <input style="background:white; color:black;" name="descriptionup" id="descriptionup" type="text" placeholder="Task Description (TODO)" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Address</label>
-                            <input style="background:white; color:black;" name="addressup" id="addressup" type="text" placeholder="Address" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Phone</label>
-                            <input style="background:white; color:black;" name="phoneup" id="phoneup" type="text" placeholder="Phone" required="">
-                        </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Cell Phone</label>
-                            <input style="background:white; color:black;" name="cphoneup" id="cphoneup" type="text" placeholder="Cell Phone" required="">
+                            <label class="control-label">DeadLine To Complete</label>
+                            <input style="background:white; color:black; text-align: center;" name="deadlineup" id="deadlineup" type="date" placeholder="DeadLine" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Email</label>
-                            <input style="background:white; color:black;" name="emailup" id="emailup" type="text" placeholder="Email" required="">
+                            <label class="control-label">Process Status</label>
+                            <input  style="background:white; color:black; text-align: center;" name="processup" id="processup" type="text" onkeypress="return justNumbers(event);" required="" value="0" minlength="1" maxlength="3">
                         </div>
+
                         <div id="respuesta"></div>
                         <div class="clearfix"> </div>
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="updateSupplier()" class="btn green">Update</a>
+                            <a onclick="updateTask()" class="btn green">Update</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -167,52 +183,46 @@
 </div>
 </div>
 <script type="text/javascript">
-function saveSupplier() {
+     var fecha = new Date($.now());
+    $("#deadline").attr('min', formatoDate(fecha));
+function saveTask() {
 
+    var data = new FormData($("#taskC")[0]);
 
-
-    var data = new FormData($("#SupplierC")[0]);
-
-    if ($("#cname").val().length < 3) {
+    if ($("#staffid").val()==0) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Company Name!",
+            text: "Selected a employee Firts To Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#rname").val() <= 0) {
+    } else if ($("#description").val() <= 5) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Representative Name!",
+            text: "Type a Description to Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#address").val() <= 0) {
+    } else if ($("#deadline").val().length <= 0) {
+
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Address!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#phone").val() <= 0 && $("#cphone").val() <= 0 && $("#email").val() <= 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "You must enter a contact method (phone, mobile or email)!",
+            text: "Type a DeadLine To Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
     }
 
+
     $.ajax({
         type: "POST",
         dataType: "json",
         contentType: false,
         processData: false,
-        url: "<?php echo lang_url(); ?>pos/saveSupplier",
+        url: "<?php echo lang_url(); ?>pos/saveTask",
         data: data,
         beforeSend: function() {
             showWait();
@@ -223,7 +233,7 @@ function saveSupplier() {
             if (msg["result"] == "0") {
                 swal({
                     title: "Success",
-                    text: "Supplier Created!",
+                    text: "Task Created!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
@@ -233,7 +243,7 @@ function saveSupplier() {
 
                 swal({
                     title: "upps, Sorry",
-                    text: "Supplier was not Created! Error:" + msg["result"],
+                    text: "Task was not Created! Error:" + msg["result"],
                     icon: "warning",
                     button: "Ok!",
                 });
@@ -246,55 +256,45 @@ function saveSupplier() {
         }
     });
 
-
 }
+function updateTask() {
 
-function updateSupplier() {
+    var data = new FormData($("#taskUP")[0]);
 
-
-
-    var data = new FormData($("#Supplierup")[0]);
-
-    if ($("#cnameup").val().length < 3) {
+    if ($("#staffidup").val()==0) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Company Name!",
+            text: "Selected a employee Firts To Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#rnameup").val() <= 0) {
+    } else if ($("#descriptionup").val() <= 5) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Representative Name!",
+            text: "Type a Description to Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#addressup").val() <= 0) {
+    } else if ($("#deadlineup").val().length <= 0) {
+
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Address!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#phoneup").val() <= 0 && $("#cphoneup").val() <= 0 && $("#emailup").val() <= 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "You must enter a contact method (phone, mobile or email)!",
+            text: "Type a DeadLine To Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
     }
 
+
     $.ajax({
         type: "POST",
         dataType: "json",
         contentType: false,
         processData: false,
-        url: "<?php echo lang_url(); ?>pos/updateSupplier",
+        url: "<?php echo lang_url(); ?>pos/updateTask",
         data: data,
         beforeSend: function() {
             showWait();
@@ -305,7 +305,7 @@ function updateSupplier() {
             if (msg["result"] == "0") {
                 swal({
                     title: "Success",
-                    text: "Supplier Updated!",
+                    text: "Task Updated!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
@@ -315,7 +315,7 @@ function updateSupplier() {
 
                 swal({
                     title: "upps, Sorry",
-                    text: "Supplier was not Updated! Error:" + msg["result"],
+                    text: "Task was not Updated! Error:" + msg["result"],
                     icon: "warning",
                     button: "Ok!",
                 });
@@ -328,17 +328,18 @@ function updateSupplier() {
         }
     });
 
-
 }
 
-function showupdate(cname, rname, address, phone, cphone, email, id) {
-    $("#cnameup").val(cname);
-    $("#rnameup").val(rname);
-    $("#addressup").val(address);
-    $("#phoneup").val(phone);
-    $("#cphoneup").val(cphone);
-    $("#emailup").val(email);
-    $("#supplierID").val(id);
+
+function showupdate(staffid, task, processu, enddate, id) {
+
+
+    $("#staffidup").val(staffid);
+    $("#descriptionup").val(task);
+    $("#processup").val(processu);
+    $("#taskid").val(id);
+    $("#deadlineup").val(enddate.substr(0,10));
+    $("#updatetask").modal();
 
 }
 

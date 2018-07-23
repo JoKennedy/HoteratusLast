@@ -1,6 +1,6 @@
 
 
-function formatDate(date) {
+function formatoDate(date) {
   var monthNames = [
     "January", "February", "March",
     "April", "May", "June", "July",

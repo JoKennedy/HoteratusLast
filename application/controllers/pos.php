@@ -231,7 +231,7 @@ class POS extends Front_Controller {
 		$this->is_login();
 		$hotelid=hotel_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'Table';
+    	$data['page_heading'] = 'Task';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
@@ -349,8 +349,7 @@ class POS extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllInventory']=$this->db->query("SELECT a.*, b.name Categoryname,  precioActual (a.itemPosId ,1) price, c.name 
-												unitname,existenciaProducto (a.itemposid) existencia
+		$data['AllInventory']=$this->db->query("SELECT a.*, b.name Categoryname,  precioActual (a.itemPosId ,1) price, c.name unitname,existenciaProducto (a.itemposid) existencia
 												FROM itempos a
 												left join itemcategory b on a.itemcategoryID = b.itemcategoryid
 												left join units c on a.unitid = c.unitid
@@ -1719,6 +1718,54 @@ class POS extends Front_Controller {
 		echo json_encode($data);
 	}
 
+	function saveTask()
+	{		
+		$result["result"]='';
+
+	    $data['hotelid']=hotel_id();
+		$data['staffid']=$_POST['staffid'];
+		$data['Description']=$_POST['description'];
+		$data['proccess']=$_POST['process'];
+		$data['active']=1;
+		$data['enddate']=$_POST['deadline'];
+
+
+
+		if(insert_data('task',$data))
+		{
+			$result["result"]= "0";
+		}
+		else 
+		{
+			$result["result"]= "1";
+		}
+
+		 echo json_encode($result);
+
+	}
+	function updateTask()
+	{		
+		$result["result"]='';
+
+		$data['staffid']=$_POST['staffidup'];
+		$data['Description']=$_POST['descriptionup'];
+		$data['proccess']=$_POST['processup'];
+		$data['enddate']=$_POST['deadlineup'];
+
+
+
+		if(update_data('task',$data,array("taskid"=>$_POST['taskid'])))
+		{
+			$result["result"]= "0";
+		}
+		else 
+		{
+			$result["result"]= "1";
+		}
+
+		 echo json_encode($result);
+
+	}
 
 }
 

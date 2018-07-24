@@ -1788,14 +1788,15 @@ class POS extends Front_Controller {
 					left join  stationtable d on c.stationid=d.stationid
 					where posid =$posid and c.stationid <> $stationid)")->result_array();
 
-		$sql2=$this->db->query("SELECT *,  case when b.staffid is null then 0 else 1 end used
+		$sql2=$this->db->query("SELECT *,  case when b.staffid is null then 0 else 1 end used,c.name position
 								FROM mystaffpos a
 								left join  stationstaff b on a.mystaffposid=b.staffid
-								where  hotelid=$hotelid
+								left join stafftype c on a.stafftypeid = c.stafftypeid  
+								where  a.hotelid=$hotelid
 								and a.mystaffposid  not in (select ifnull(`staffid`,0)
 								from stations c
 								left join  stationstaff d on c.stationid=d.stationid
-								where posid =$posid and c.stationid <> $stationid))")->result_array();
+								where posid =$posid and c.stationid <> $stationid)")->result_array();
 
 		$html='';
 
@@ -1834,7 +1835,7 @@ class POS extends Front_Controller {
 			$result['htmltable']=$html;
 		}
 
-		if (count($sql)==0) {
+		if (count($sql2)==0) {
 
 			$result['htmlstaff']='<h3>All tables are assigned </h3>';
 		}
@@ -1857,16 +1858,17 @@ class POS extends Front_Controller {
 					foreach ($sql2 as  $value) {
 						$i++;
 						$html2.=' <tr id="table'.$value['mystaffposid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
-							' </th> <td>'.$value['firstname'].' '.$value['lastname'].'  </td> <td>'.$value['qtyPerson'].'</td>
+							' </th> <td>'.$value['firstname'].' '.$value['lastname'].'  </td> <td>'.$value['position'].'</td>
 								<td  align="center"> <input type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
 
 
 					}
 					$html2.='</tbody>
 									</table>
-									</div> </div>';
+									</div> </div>
+									 <div style"float:right;> <ul " class="pagination pagination-sm pager" id="myPagerstaff"></ul> </div>';
 	
-			$result['htmlstaff']=$html;
+			$result['htmlstaff']=$html2;
 		}
 
 		

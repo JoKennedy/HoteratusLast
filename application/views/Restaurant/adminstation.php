@@ -208,11 +208,11 @@ function createstations() {
     $("#createstation").modal();
 }
 
-function saveSupplier() {
+function saveStation() {
 
 
 
-    var data = new FormData($("#SupplierC")[0]);
+    var data = new FormData($("#StationC")[0]);
 
     if ($("#cname").val().length < 3) {
         swal({
@@ -392,14 +392,8 @@ function showupdate(stationid, name, supervisorid, active) {
         }
     });
 
-
-
-
-    //poner las mesas sin asignar y las asignadas a esta station stationid
-
     $("#nameup").val(name);
     $("#staffidup").val(supervisorid);
-
     $("#updatestation").modal();
     /*  $("#addressup").val(address);
       $("#phoneup").val(phone);
@@ -511,7 +505,7 @@ $.fn.pageMe = function(opts) {
 };
 
 function Paginar(numeroP = 10) {
-    $('#tablestation').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
+    $('#tablestation').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: true, perPage: numeroP });
 }
 $(document).ready(function() {
 

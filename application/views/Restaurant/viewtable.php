@@ -138,7 +138,7 @@
                 <h4 class="modal-title">Invoice</h4>
             </div>
             <div>
-                <h4>Solos pagos miembro no esta en el Hotel </h4>
+                
             </div>
             <div class="clearfix"></div>
         </div>

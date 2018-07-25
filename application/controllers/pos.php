@@ -41,7 +41,9 @@ class POS extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		
 		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
+
 		switch ($data['Posinfo']['postypeID']) {
 			case '1':
 				$this->views('Restaurant/main',$data);
@@ -251,33 +253,39 @@ class POS extends Front_Controller {
 		
 		$this->views('Restaurant/task',$data);
 	}
-	function viewAdminGiftCard($hotelid,$posid)
+	function viewSellGiftCard($hotelid,$posid)
 	{
-
+		$this->is_login();
 		$hotelid= unsecure($hotelid);
 		$posid =insep_decode($posid);
-		$this->is_login();
-		$hotelid=hotel_id();
+		$userid=user_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'Table';
-    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+    	$data['page_heading'] = 'Sell Gift Card';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>$userid))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>$userid))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['ALLTask']=$this->db->query("select a.* , concat(firstname,' ', lastname) staffname
-			from Task a
-			left join  mystaffpos b on a.staffid=mystaffposid
-			where a.hotelid =$hotelid ")->result_array();
-
-		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
-			FROM mystaffpos a
-			left join stafftype b on a.stafftypeid = b.stafftypeid
-			where a.hotelid =$hotelid ")->result_array();
-
-	
+		$data['AllGiftCard']=$this->db->query("select * from giftcard where hotelid =$hotelid and userid=$userid")->result_array();
 		
 		$this->views('Restaurant/giftcard',$data);
+	}
+	function viewAdminGiftCard($hotelid,$posid)
+	{
+		$this->is_login();
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$userid=user_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Admin Gift Card';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>$userid))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>$userid))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllGiftCard']=$this->db->query("select *,giftcardamountused(giftcardid) amountused from giftcard where hotelid =$hotelid order by giftcardnumber desc")->result_array();
+		
+		$this->views('Restaurant/admingiftcard',$data);
 	}
 
 	function viewAdminStation($hotelid,$posid)
@@ -307,9 +315,7 @@ class POS extends Front_Controller {
 
 		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();
 
-	# stationid, name, supervisorid, staffids, tableids, active
-
-		
+	
 		$this->views('Restaurant/adminstation',$data);
 	}
 	function viewBillingConfiguration($hotelid,$posid)
@@ -362,6 +368,35 @@ class POS extends Front_Controller {
 
 		$this->views('Restaurant/inventory',$data);
 	}
+	function viewReservation($hotelid,$posid)
+	{
+		$this->is_login();
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$userid=user_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Inventory';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>$userid))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>$userid))->result_array();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['ALLReservation']=$this->db->query("select a.*, b.description tablename,case when Roomid is null then 'Out House' else 'In House' end marketingp from mypostablereservation a
+			left join mypostable b on a.mypostableid=b.postableid
+            left join mypos c on a.mypostableid =c.myposId
+			where c.hotelid=$hotelid
+            order by datetimereservation desc,starttime desc")->result_array();
+
+		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation 
+			FROM mystaffpos a
+			left join stafftype b on a.stafftypeid = b.stafftypeid
+			where a.hotelid =$hotelid ")->result_array();
+
+
+		$this->views('Restaurant/reservation',$data);
+	}
+
+	
 
 	function allitem($catid='')
 	{
@@ -841,6 +876,8 @@ class POS extends Front_Controller {
 			$data['active']=1;
 			$data['qtyPerson']=$_POST['Capacity'];
 			$data['description']=$_POST['tablename'];
+			$data['averagetimeuse']=$_POST['usetime'];
+
 			if(insert_data('mypostable',$data))
 			{
 				echo "0";
@@ -856,6 +893,7 @@ class POS extends Front_Controller {
 			$data['active']=1;
 			$data['qtyPerson']=$_POST['Capacityup'];
 			$data['description']=$_POST['tablenameup'];
+			$data['averagetimeuse']=$_POST['usetimeup'];
 			
 			if(update_data('mypostable',$data,array('postableid' =>$_POST['tableidup'] )))
 			{
@@ -1964,7 +2002,31 @@ class POS extends Front_Controller {
 		return;
 
 	}
+	function saveGiftCard()
+	{
+		# giftcardid, hotelid, giftcardnumber, amount, secrectcode, userid, creationdate
+		$hotelid=hotel_id();
+		$number=$this->db->query("select count(*)+1 number from giftcard where hotelid=$hotelid")->row_array()['number'];
+	    $str =  uniqid('');
+		$data['amount']=$_POST['amount'];
+		$data['hotelid']=$hotelid;
+		$data['giftcardnumber']=$number;
+		$data['secrectcode']=strtoupper(sprintf('%04s-%04s-%05s',substr($str, 0, 4),substr($str, 4, 4),substr($str, 8, 6))); 
+		$data['userid']=user_id();
 
+		if(insert_data('giftcard',$data))
+		{
+			$result['success']=true;
+		}
+		else
+		{
+			$result['success']=false;
+		}
+
+
+		echo json_encode($result);
+		return;
+	}
 }
 
 

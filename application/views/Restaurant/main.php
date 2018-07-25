@@ -23,20 +23,28 @@
                     $fecha2='';
                     $timellegada='';
                     if ($value['appointment']>0) {
-                        $time = date("h:i:s");
+                        $time = date("H:i:s");
                         $today=date("Y-m-d");
                         $appointment=$this->db->query("Select  * from mypostablereservation where mypostableid = ".$value['postableid']." and datetimereservation='$today' and starttime>='$time' order by starttime asc Limit 1")->row_array();
 
-                        if( $appointment['starttime']-$time==1)
-                        {
-                            $value['active']=4;
+                    if(count($appointment)>0)
+                    {
+                            
                             $fecha1 = new DateTime("$today $time");//fecha inicial
                             $fecha2 = new DateTime("$today ".$appointment['starttime']);//fecha de cierre
 
                             $intervalo = $fecha1->diff($fecha2);
 
-                            $timellegada=$intervalo->format('00:%i:%s');
-                        }
+                            $timellegada=$intervalo->format('%h:%i:%s');
+                            if($intervalo->format('%h')<2)
+                            {
+                                
+                                $value['active']=4;
+                            }
+                    }
+                            
+                            
+
 
                     }
 

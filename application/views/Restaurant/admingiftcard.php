@@ -29,6 +29,8 @@
                             <th>Gift Number</th>
                             <th>Secret Code</th>
                             <th>Amount</th>
+                            <th>Amount Used</th>
+                            <th>Amount Available</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,13 +41,11 @@
                             foreach ($AllGiftCard as  $value) {
                                 $i++;
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['giftcardnumber'].'  </td> 
-                                <td> '.$value['secrectcode'].'  </td><td>'.number_format($value['amount'], 2, '.', '').' </td> </tr>   ';
+                                <td> '.$value['secrectcode'].'  </td><td>'.number_format($value['amount'], 2, '.', '').' </td> 
+                                <td>'.number_format($value['amountused'], 2, '.', '').'</td><td>'.number_format($value['amount']-$value['amountused'], 2, '.', '').'</td>
+                                </tr>   ';
 
                             }
-
-                                                                
-                                                              
-                           
                         } ?>
                     </tbody>
                 </table>

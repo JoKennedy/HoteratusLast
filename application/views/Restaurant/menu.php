@@ -1,12 +1,8 @@
 <nav class="navbar navbar-default ">
-    
-    
-    <div >
-
-            <a class="navbar-brand active">
+    <div>
+        <a class="navbar-brand active">
                       <b><?= $Posinfo['description']?></b>
             </a>
-
         <div class="navbar-header page-scroll">
             <button id="menuresponsive" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="icon-bar"></span>
@@ -44,25 +40,35 @@
                         <li><a href="<?=site_url('pos/viewInventory/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Inventory</a></li>
                     </ul>
                 </li>
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" >Sales<span class="caret"></span></a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Sales<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="<?=site_url('pos/viewSales/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Sales</a></li>
                     </ul>
                 </li>
-                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Configurations<span class="caret"></span></a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Gift Card<span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><a href="<?=site_url('pos/viewSellGiftCard/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Sell Gift Card</a></li>
                         <li><a href="<?=site_url('pos/viewAdminGiftCard/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Gift Card</a></li>
-                        <li><a href="<?=site_url('pos/viewAdminStation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Stations</a></li>
-                         <li><a href="<?=site_url('pos/viewTask/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tasks</a></li>
-                        <li><a href="<?=site_url('pos/viewBillingConfiguration/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Billing configuration</a></li>
-                         
                     </ul>
                 </li>
-               
+                 <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Reservation<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?=site_url('pos/viewReservation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Book</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Configurations<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?=site_url('pos/viewAdminStation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Stations</a></li>
+                        <li><a href="<?=site_url('pos/viewTask/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tasks</a></li>
+                        <li><a href="<?=site_url('pos/viewBillingConfiguration/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Billing configuration</a></li>
+                    </ul>
+                </li>
             </ul>
-            <ul  class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?php echo base_url();?>channel/managepos">All POS</a></li>
             </ul>
         </div>

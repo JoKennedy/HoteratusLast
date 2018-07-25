@@ -1824,7 +1824,7 @@ class POS extends Front_Controller {
 						$i++;
 						$html.=' <tr id="table'.$value['postableid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
 							' </th> <td>'.$value['description'].'  </td> <td>'.$value['qtyPerson'].'</td>
-								<td  align="center"> <input type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
+								<td  align="center"> <input id="selectedtableid[]" name="selectedtableid[]" value="'.$value['postableid'].'" type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
 
 
 					}
@@ -1857,9 +1857,9 @@ class POS extends Front_Controller {
 					$i=0;
 					foreach ($sql2 as  $value) {
 						$i++;
-						$html2.=' <tr id="table'.$value['mystaffposid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
+						$html2.=' <tr id="'.$value['mystaffposid'].'"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
 							' </th> <td>'.$value['firstname'].' '.$value['lastname'].'  </td> <td>'.$value['position'].'</td>
-								<td  align="center"> <input type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
+								<td  align="center"> <input name="selectedstaffid[]" value="'.$value['mystaffposid'].'" type="checkbox" '.($value['used']==1?'checked':'').'> </td> </tr>';
 
 
 					}
@@ -1874,6 +1874,95 @@ class POS extends Front_Controller {
 		
 			echo json_encode($result);
 			return;
+	}
+	function saveStation()
+	{
+
+
+		//validaciones
+		if (!isset($_POST['selectedtableid'])) {
+			$result['success']=false;
+			$result['msg']='Select a Table to Continue!!';
+			echo json_encode($result);
+			return;
+		}
+		else if (!isset($_POST['selectedstaffid'])) {
+			
+			$result['success']=false;
+			$result['msg']='Select a Employee to Continue!!';
+			echo json_encode($result);
+			return;
+		}
+
+		$data['name']=$_POST['name'];
+		$data['supervisorid']=$_POST['staffid'];
+		$data['active']=1;
+		$data['posid']=$_POST['posid'];
+
+
+
+		if(insert_data('stations',$data))
+		{
+			$id=getinsert_id();
+
+			foreach ($_POST['selectedtableid'] as  $value) {
+				insert_data("stationtable",array('stationid'=>$id,'tableid'=>$value));
+			}
+			foreach ($_POST['selectedstaffid'] as  $value) {
+				insert_data("stationstaff",array('stationid'=>$id,'staffid'=>$value));
+			}
+
+			$result['success']=true;
+		}
+		else
+		{
+			$result['success']=false;
+			$result['msg']='Something went wrong!!';
+		}
+		echo json_encode($result);
+		return;
+
+	}
+	function updateStation()
+	{
+
+
+		//validaciones
+		if (!isset($_POST['selectedtableid'])) {
+			$result['success']=false;
+			$result['msg']='Select a Table to Continue!!';
+			echo json_encode($result);
+			return;
+		}
+		else if (!isset($_POST['selectedstaffid'])) {
+			
+			$result['success']=false;
+			$result['msg']='Select a Employee to Continue!!';
+			echo json_encode($result);
+			return;
+		}
+
+		$data['name']=$_POST['nameup'];
+		$data['supervisorid']=$_POST['staffidup'];
+		$data['active']=1;
+
+		update_data('stations',$data,array("stationid"=>$_POST['stationid']));
+		$id=$_POST['stationid'];
+		$this->db->query("delete from stationtable where stationid=$id; ");
+		$this->db->query("delete from stationstaff where stationid=$id;  ");
+		
+
+		foreach ($_POST['selectedtableid'] as  $value) {
+			insert_data("stationtable",array('stationid'=>$id,'tableid'=>$value));
+		}
+		foreach ($_POST['selectedstaffid'] as  $value) {
+			insert_data("stationstaff",array('stationid'=>$id,'staffid'=>$value));
+		}
+
+		$result['success']=true;
+		echo json_encode($result);
+		return;
+
 	}
 
 }

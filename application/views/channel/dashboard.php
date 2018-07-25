@@ -4,8 +4,8 @@
         <div class="row-one">
             <div class="col-md-3 widget">
                 <div class="stats-left ">
-                    <h5>Today</h5>
-                    <h4> New Reservations</h4>
+                    <h4>Today</h4>
+                    <h5> New Reservations</h5>
                 </div>
                 <div class="stats-right">
                     <label>
@@ -16,8 +16,8 @@
             </div>
             <div class="col-md-3 widget states-mdl">
                 <div class="stats-left">
-                    <h5>Today</h5>
-                    <h4>New Cancelations</h4>
+                    <h4>Today</h4>
+                    <h5>New Cancelations</h5>
                 </div>
                 <div class="stats-right">
                     <label>
@@ -28,8 +28,8 @@
             </div>
             <div class="col-md-3 widget states-thrd">
                 <div class="stats-left">
-                    <h5>Today</h5>
-                    <h4>Arrivals</h4>
+                    <h4>Today</h4>
+                    <h5>Arrivals</h5>
                 </div>
                 <div class="stats-right">
                     <label>
@@ -40,8 +40,8 @@
             </div>
             <div class="col-md-3 widget states-last">
                 <div class="stats-left">
-                    <h5>Today</h5>
-                    <h4>Departure</h4>
+                    <h4>Today</h4>
+                    <h5>Departure</h5>
                 </div>
                 <div class="stats-right">
                     <label>

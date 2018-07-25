@@ -132,7 +132,7 @@
             <div>
                 <div class="graph-form">
                     <form id="StationUP">
-                        <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
+                        <input type="hidden" name="stationid" id="stationid" value="">
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Station Name</label>
                             <input style="background:white; color:black;" name="nameup" id="nameup" type="text" placeholder="Station Name" required="">
@@ -198,6 +198,8 @@ function createstations() {
         },
         success: function(msg) {
             unShowWait();
+            $("#tableavailibleup").html('');
+            $("#staffavailibleup").html('');
             $("#tableavailible").html(msg['htmltable']);
             $("#staffavailible").html(msg['htmlstaff']);
 
@@ -210,50 +212,31 @@ function createstations() {
 
 function saveStation() {
 
-
-
-    var data = new FormData($("#StationC")[0]);
-
-    if ($("#cname").val().length < 3) {
+    if ($("#name").val().length < 3) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Company Name!",
+            text: "Missing Field Station Name!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#rname").val() <= 0) {
+    } else if ($("#staffid").val() <= 0) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Representative Name!",
+            text: "Select a Manager to Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#address").val() <= 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Address!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#phone").val() <= 0 && $("#cphone").val() <= 0 && $("#email").val() <= 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "You must enter a contact method (phone, mobile or email)!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
+    } 
 
-    $.ajax({
+    var data = $("#StationC").serialize();
+
+
+     $.ajax({
         type: "POST",
         dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/saveSupplier",
+        url: "<?php echo lang_url(); ?>pos/saveStation",
         data: data,
         beforeSend: function() {
             showWait();
@@ -261,81 +244,60 @@ function saveStation() {
         },
         success: function(msg) {
             unShowWait();
-            if (msg["result"] == "0") {
-                swal({
+
+            if(msg['success'])
+            {
+                 swal({
                     title: "Success",
-                    text: "Supplier Created!",
+                    text: "Station Created!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
                     location.reload();
                 });
-            } else {
-
-                swal({
+            }
+            else
+            {
+                 swal({
                     title: "upps, Sorry",
-                    text: "Supplier was not Created! Error:" + msg["result"],
+                    text: msg["msg"],
                     icon: "warning",
                     button: "Ok!",
                 });
             }
 
 
-
-
-
         }
     });
 
-
 }
+function updateStation() {
 
-function updateSupplier() {
-
-
-
-    var data = new FormData($("#Supplierup")[0]);
-
-    if ($("#cnameup").val().length < 3) {
+    if ($("#nameup").val().length < 3) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Company Name!",
+            text: "Missing Field Station Name!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#rnameup").val() <= 0) {
+    } else if ($("#staffidup").val() <= 0) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Representative Name!",
+            text: "Select a Manager to Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#addressup").val() <= 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Address!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#phoneup").val() <= 0 && $("#cphoneup").val() <= 0 && $("#emailup").val() <= 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "You must enter a contact method (phone, mobile or email)!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
+    } 
 
-    $.ajax({
+    var data = $("#StationUP").serialize();
+
+
+     $.ajax({
         type: "POST",
         dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/updateSupplier",
+        url: "<?php echo lang_url(); ?>pos/updateStation",
         data: data,
         beforeSend: function() {
             showWait();
@@ -343,34 +305,34 @@ function updateSupplier() {
         },
         success: function(msg) {
             unShowWait();
-            if (msg["result"] == "0") {
-                swal({
+
+            if(msg['success'])
+            {
+                 swal({
                     title: "Success",
-                    text: "Supplier Updated!",
+                    text: "Station Updated!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
                     location.reload();
                 });
-            } else {
-
-                swal({
+            }
+            else
+            {
+                 swal({
                     title: "upps, Sorry",
-                    text: "Supplier was not Updated! Error:" + msg["result"],
+                    text: msg["msg"],
                     icon: "warning",
                     button: "Ok!",
                 });
             }
 
 
-
-
-
         }
     });
 
-
 }
+
 
 function showupdate(stationid, name, supervisorid, active) {
 
@@ -387,6 +349,8 @@ function showupdate(stationid, name, supervisorid, active) {
         },
         success: function(msg) {
             unShowWait();
+            $("#tableavailible").html('');
+            $("#staffavailible").html('');
             $("#tableavailibleup").html(msg['htmltable']);
             $("#staffavailibleup").html(msg['htmlstaff']);
         }
@@ -394,6 +358,7 @@ function showupdate(stationid, name, supervisorid, active) {
 
     $("#nameup").val(name);
     $("#staffidup").val(supervisorid);
+    $("#stationid").val(stationid);
     $("#updatestation").modal();
     /*  $("#addressup").val(address);
       $("#phoneup").val(phone);
@@ -505,7 +470,7 @@ $.fn.pageMe = function(opts) {
 };
 
 function Paginar(numeroP = 10) {
-    $('#tablestation').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: true, perPage: numeroP });
+    $('#tablestation').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
 }
 $(document).ready(function() {
 

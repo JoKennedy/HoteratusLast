@@ -64,7 +64,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="<?=site_url('pos/viewAdminStation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Admin Stations</a></li>
                         <li><a href="<?=site_url('pos/viewTask/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Tasks</a></li>
-                        <li><a href="<?=site_url('pos/viewBillingConfiguration/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Billing configuration</a></li>
+                        <!--<li><a href="<?=site_url('pos/viewBillingConfiguration/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Billing configuration</a></li>-->
                     </ul>
                 </li>
             </ul>

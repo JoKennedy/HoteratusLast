@@ -40,8 +40,7 @@
                             $i=0;
                             foreach ($ALLReservation as  $value) {
                                 $i++;
-                                $update="'";
-                                //$update="'".$value['staffid']."','".$value['Description']."','".  $value['proccess']."','".$value['enddate']."','".$value['taskid']."'" <td>'' </td> ;
+                                $update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;
                                 $date = date_create($value['datetimereservation']);
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['signer'].'  </td> 
                                 <td> '.$value['marketingp'].'  </td> <td>'.$value['tablename'].' </td> <td>'.date_format($date, 'm/d/Y').' </td>
@@ -81,50 +80,13 @@
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Table</label>
-                            <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Date</label>
-                            <input style="background:white; color:black;" name="deadline" id="deadline" type="date" placeholder="Main Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Hour</label>
-                            <input style="background:white; color:black;" name="signer" id="signer" type="time" placeholder="Main Name" required="">
-                        </div>
-                        <div id="respuesta"></div>
-                        <div class="clearfix"> </div>
-                        <br>
-                        <br>
-                        <div class="buttons-ui">
-                            <a onclick="saveTask()" class="btn green">Save</a>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="updatetask" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Update a Task</h4>
-            </div>
-            <div>
-                <div class="graph-form">
-                    <form id="taskUP">
-                        <input type="hidden" name="taskid" id="taskid" value="">
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Assigned to</label>
-                            <select style="width: 100%; padding: 9px; " id="staffidup" name="staffidup">
+                            <select style="width: 100%; padding: 9px; " id="tableid" name="tableid">
                                 <?php
-                                    if(count($StaffInfo)>0)
+                                    if(count($AllTable)>0)
                                     {
-                                        echo '<option value="0">Select a employee </option>'; 
-                                        foreach ($StaffInfo as  $value) {
-                                            echo '<option value="'.$value['mystaffposid'].'">'.$value['firstname'].' '.$value['lastname'].'=>'.$value['occupation'].'</option>';
+                                        echo '<option value="0">Select a Table </option>'; 
+                                        foreach ($AllTable as  $value) {
+                                            echo '<option value="'.$value['postableid'].'">'.$value['description'].'==>Cap:'.$value['qtyPerson'].'</option>';
                                         }
                                     }
                                     else
@@ -136,23 +98,83 @@
                             </select>
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Task Description</label>
-                            <input style="background:white; color:black;" name="descriptionup" id="descriptionup" type="text" placeholder="Task Description (TODO)" required="">
+                            <label class="control-label">Date</label>
+                            <input style="background:white; color:black;" name="deadline" id="deadline" type="date" placeholder="Main Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">DeadLine To Complete</label>
-                            <input style="background:white; color:black; text-align: center;" name="deadlineup" id="deadlineup" type="date" placeholder="DeadLine" required="">
+                            <label class="control-label">Hour [18:00]</label>
+                            <input style="background:white; color:black; width: 100%" name="hourtime" id="hourtime" type="time" placeholder="Main Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Process Status</label>
-                            <input style="background:white; color:black; text-align: center;" name="processup" id="processup" type="text" onkeypress="return justNumbers(event);" required="" value="0" minlength="1" maxlength="3">
+                            <label class="control-label">Room Number</label>
+                            <input style="background:white; color:black; " name="roomid" id="roomid" type="text" placeholder="Room Number" required="">
                         </div>
                         <div id="respuesta"></div>
                         <div class="clearfix"> </div>
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="updateTask()" class="btn green">Update</a>
+                            <a onclick="saveReservation()" class="btn green">Save</a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="updatebook" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Create a Reservation</h4>
+            </div>
+            <div>
+                <div class="graph-form">
+                    <form id="bookUP">
+                        <input type="hidden" name="resid" id="resid" value="">
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Main Name</label>
+                            <input style="background:white; color:black;" name="signerup" id="signerup" type="text" placeholder="Main Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Table</label>
+                            <select style="width: 100%; padding: 9px; " id="tableidup" name="tableidup">
+                                <?php
+                                    if(count($AllTable)>0)
+                                    {
+                                        echo '<option value="0">Select a Table </option>'; 
+                                        foreach ($AllTable as  $value) {
+                                            echo '<option value="'.$value['postableid'].'">'.$value['description'].'==>Cap:'.$value['qtyPerson'].'</option>';
+                                        }
+                                    }
+                                    else
+                                    {
+                                        echo '<option value="0">there are no employees created</option>'; 
+                                    }
+                                    
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Date</label>
+                            <input style="background:white; color:black;" name="deadlineup" id="deadlineup" type="date" placeholder="Main Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Hour [18:00]</label>
+                            <input style="background:white; color:black; width: 100%" name="hourtimeup" id="hourtimeup" type="time" placeholder="Main Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Room Number</label>
+                            <input style="background:white; color:black; " name="roomidup" id="roomidup" type="text" placeholder="Room Number" required="">
+                        </div>
+                        <div id="respuesta"></div>
+                        <div class="clearfix"> </div>
+                        <br>
+                        <br>
+                        <div class="buttons-ui">
+                            <a onclick="updateReservation()" class="btn green">Save</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -167,22 +189,22 @@
 var fecha = new Date($.now());
 $("#deadline").attr('min', formatoDate(fecha));
 
-function saveTask() {
+function saveReservation() {
 
-    var data = new FormData($("#taskC")[0]);
+    var data = $("#bookC").serialize();
 
-    if ($("#staffid").val() == 0) {
+    if ($("#signer").val() <= 3) {
         swal({
             title: "upps, Sorry",
-            text: "Selected a employee Firts To Continue!",
+            text: "Missing Field Main Name!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#description").val() <= 5) {
+    } else if ($("#tableid").val() == 0) {
         swal({
             title: "upps, Sorry",
-            text: "Type a Description to Continue!",
+            text: "Selected a Table  To Continue!",
             icon: "warning",
             button: "Ok!",
         });
@@ -191,7 +213,16 @@ function saveTask() {
 
         swal({
             title: "upps, Sorry",
-            text: "Type a DeadLine To Continue!",
+            text: "Selected a Date To Continue!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#hourtime").val().length <= 0) {
+
+        swal({
+            title: "upps, Sorry",
+            text: "Type a Hour To Continue!",
             icon: "warning",
             button: "Ok!",
         });
@@ -202,9 +233,7 @@ function saveTask() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/saveTask",
+        url: "<?php echo lang_url(); ?>pos/saveReservation",
         data: data,
         beforeSend: function() {
             showWait();
@@ -212,10 +241,10 @@ function saveTask() {
         },
         success: function(msg) {
             unShowWait();
-            if (msg["result"] == "0") {
+            if (msg["success"] ) {
                 swal({
                     title: "Success",
-                    text: "Task Created!",
+                    text: "Book Created!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
@@ -225,7 +254,7 @@ function saveTask() {
 
                 swal({
                     title: "upps, Sorry",
-                    text: "Task was not Created! Error:" + msg["result"],
+                    text: msg["msg"],
                     icon: "warning",
                     button: "Ok!",
                 });
@@ -240,22 +269,22 @@ function saveTask() {
 
 }
 
-function updateTask() {
+function updateReservation() {
 
-    var data = new FormData($("#taskUP")[0]);
+    var data = $("#bookUP").serialize();
 
-    if ($("#staffidup").val() == 0) {
+    if ($("#signerup").val() <= 3) {
         swal({
             title: "upps, Sorry",
-            text: "Selected a employee Firts To Continue!",
+            text: "Missing Field Main Name!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#descriptionup").val() <= 5) {
+    } else if ($("#tableidup").val() == 0) {
         swal({
             title: "upps, Sorry",
-            text: "Type a Description to Continue!",
+            text: "Selected a Table  To Continue!",
             icon: "warning",
             button: "Ok!",
         });
@@ -264,7 +293,16 @@ function updateTask() {
 
         swal({
             title: "upps, Sorry",
-            text: "Type a DeadLine To Continue!",
+            text: "Selected a Date To Continue!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#hourtimeup").val().length <= 0) {
+
+        swal({
+            title: "upps, Sorry",
+            text: "Type a Hour To Continue!",
             icon: "warning",
             button: "Ok!",
         });
@@ -275,9 +313,7 @@ function updateTask() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/updateTask",
+        url: "<?php echo lang_url(); ?>pos/updateReservation",
         data: data,
         beforeSend: function() {
             showWait();
@@ -285,10 +321,10 @@ function updateTask() {
         },
         success: function(msg) {
             unShowWait();
-            if (msg["result"] == "0") {
+            if (msg["success"] ) {
                 swal({
                     title: "Success",
-                    text: "Task Updated!",
+                    text: "Book Update!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
@@ -298,7 +334,7 @@ function updateTask() {
 
                 swal({
                     title: "upps, Sorry",
-                    text: "Task was not Updated! Error:" + msg["result"],
+                    text: msg["msg"],
                     icon: "warning",
                     button: "Ok!",
                 });
@@ -314,15 +350,16 @@ function updateTask() {
 }
 
 
-function showupdate(staffid, task, processu, enddate, id) {
+function showupdate(id, tableid, dateti, signer, roomid,startime) {
 
-
-    $("#staffidup").val(staffid);
-    $("#descriptionup").val(task);
-    $("#processup").val(processu);
-    $("#taskid").val(id);
-    $("#deadlineup").val(enddate.substr(0, 10));
-    $("#updatetask").modal();
+  /*$update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;*/
+    $("#signerup").val(signer);
+    $("#tableidup").val(tableid);
+    $("#deadlineup").val(dateti);
+    $("#roomidup").val(roomid);
+    $("#hourtimeup").val(startime);
+    $("#resid").val(id);
+    $("#updatebook").modal();
 
 }
 

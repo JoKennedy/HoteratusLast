@@ -164,7 +164,7 @@ class POS extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype ")->result_array();
+		$data['AllStaffType']=$this->db->query("SELECT * FROM stafftype where hotelid=$hotelid ")->result_array();
 		$data['AllStaff']=$this->db->query("SELECT a.*, b.name stafftypename, concat(firstname,' ' , lastname) fullname 
 											FROM mystaffpos a
 											left join stafftype b on a.stafftypeid = b.stafftypeid  
@@ -387,12 +387,7 @@ class POS extends Front_Controller {
 			where c.hotelid=$hotelid
             order by datetimereservation desc,starttime desc")->result_array();
 
-		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation 
-			FROM mystaffpos a
-			left join stafftype b on a.stafftypeid = b.stafftypeid
-			where a.hotelid =$hotelid ")->result_array();
-
-
+		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();
 		$this->views('Restaurant/reservation',$data);
 	}
 
@@ -2027,6 +2022,122 @@ class POS extends Front_Controller {
 		echo json_encode($result);
 		return;
 	}
+	function saveReservation()
+	{
+		
+		$data['datetimereservation']=$_POST['deadline'];
+		$data['starttime']=$_POST['hourtime'];
+		$data['mypostableid']=$_POST['tableid'];
+		$data['Roomid']=(strlen($_POST['roomid'])==0?null:$_POST['roomid']);
+		$data['signer']=$_POST['signer'];
+		$total=$this->db->query("SELECT count(*) total
+							FROM mypostablereservation a
+							left join mypostable b on a.mypostableid=b.postableid
+							where mypostableid=".$data['mypostableid']."
+							and datetimereservation='".$data['datetimereservation']."' 
+							and time('".$data['starttime']."') between starttime and time(time(starttime) + time(averagetimeuse))")->row()->total;
+
+		if($total>0)
+		{
+			$result['success']=false;
+			$result['msg']='This table is occupied for that date and time, Select other Table or Time';
+		}
+		else
+		{
+			if(insert_data('mypostablereservation',$data))
+			{
+				$result['success']=true;
+			}
+			else
+			{
+				$result['success']=false;
+				$result['msg']='Something went wrong!!';
+			}
+		}
+		
+
+		echo json_encode($result);
+		return;
+	}
+	
+	function updateReservation()
+	{
+		
+		$data['datetimereservation']=$_POST['deadlineup'];
+		$data['starttime']=$_POST['hourtimeup'];
+		$data['mypostableid']=$_POST['tableidup'];
+		$data['Roomid']=(strlen($_POST['roomidup'])==0?null:$_POST['roomidup']);
+		$data['signer']=$_POST['signerup'];
+		$resid=$_POST['resid'];
+		$total=$this->db->query("SELECT count(*) total
+							FROM mypostablereservation a
+							left join mypostable b on a.mypostableid=b.postableid
+							where mypostableid=".$data['mypostableid']."
+							and datetimereservation='".$data['datetimereservation']."' 
+							and mypostablereservationid <> $resid
+							and time('".$data['starttime']."') between starttime and time(time(starttime) + time(averagetimeuse))")->row()->total;
+
+		if($total>0)
+		{
+			$result['success']=false;
+			$result['msg']='This table is occupied for that date and time, Select other Table or Time';
+		}
+		else
+		{
+			if(update_data('mypostablereservation',$data,array('mypostablereservationid'=>$resid)))
+			{
+				$result['success']=true;
+			}
+			else
+			{
+				$result['success']=false;
+				$result['msg']='Something went wrong!!';
+			}
+		}
+		
+
+		echo json_encode($result);
+		return;
+	}
+	function saveRole()
+	{
+		
+		$data['name']=$_POST['rolename'];
+		$data['active']=1;
+		$data['hotelID']=hotel_id();
+
+			if(insert_data('stafftype',$data))
+			{
+				$result['success']=true;
+			}
+			else
+			{
+				$result['success']=false;
+				$result['msg']='Something went wrong!!';
+			}
+		
+		echo json_encode($result);
+		return;
+	}
+	function updateRole()
+	{
+		
+		$data['name']=$_POST['rolenameup'];
+
+			if(update_data('stafftype',$data,array("stafftypeid"=>$_POST['roleidup'])))
+			{
+				$result['success']=true;
+			}
+			else
+			{
+				$result['success']=false;
+				$result['msg']='Something went wrong!!';
+			}
+		
+		echo json_encode($result);
+		return;
+	}
+	
 }
 
 

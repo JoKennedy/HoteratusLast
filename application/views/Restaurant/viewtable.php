@@ -82,9 +82,9 @@
                     <h2><strong>Total Due:</strong> <o> <?=number_format($grandtotal, 2, '.', '')?> </o> </h2>
                 </div>
             </div>
-            <div style="float: left;" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'"  class="buttons-ui">
-                <a id="CANCEL" onclick=" cancelorden()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'"  class="btn red">Cancel Order</a>
-                <a id="CHARGE" onclick="ChargeInvoice()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'"  class="btn green">Charge</a>
+            <div style="float: left;" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" class="buttons-ui">
+                <a id="CANCEL" onclick=" cancelorden()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" class="btn red">Cancel Order</a>
+                <a id="CHARGE" onclick="ChargeInvoice()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" class="btn green">Charge</a>
                 <a href="#addwaiter" data-toggle="modal" class="btn blue">Assign Waiter</a>
                 <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()" data-toggle="modal" class="btn orange">Change Table</a>
             </div>
@@ -131,14 +131,16 @@
     </div>
 </div>
 <div id="InvoiceOutHouse" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content graph-form">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Invoice</h4>
+                <div style="text-align:center;">
+                    <h2 class="modal-title">Invoice</h2>
+                </div>
             </div>
-            <div>
-                <h4>dadadasddasdasdas</h4>
+            <div id="invoiceout" >
+
             </div>
             <div class="clearfix"></div>
         </div>
@@ -151,11 +153,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Charge to Room</h4>
             </div>
-           <div align="center" id="totaltopay">         
-                
+            <div align="center" id="totaltopay">
             </div>
             <div>
-                <div id="idinhouse">               
+                <div id="idinhouse">
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -242,7 +243,6 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Change Table</h4>
             </div>
-
             <div class="buttons-ui">
                 <a onclick=" availabletable(<?=$Posinfo['myposId']?>)" class="btn green">Available Table</a>
             </div>
@@ -258,17 +258,98 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Reason for Cancellation</h4>
             </div>
-            
-                <div class="col-md-12 form-group1">
-                    <input style="background:white; color:black;" name="txtreason" id="txtreason" type="text" placeholder="Reason for Cancellation" required="">
-                </div>
-                 <div class="buttons-ui">
-                    <a onclick="applyCancel()" class="btn red">Cancel Order</a>
-                    <a onclick="closereason()" class="btn green">Return</a>
-                </div>
-              <div class="clearfix"></div>         
+            <div class="col-md-12 form-group1">
+                <input style="background:white; color:black;" name="txtreason" id="txtreason" type="text" placeholder="Reason for Cancellation" required="">
+            </div>
+            <div class="buttons-ui">
+                <a onclick="applyCancel()" class="btn red">Cancel Order</a>
+                <a onclick="closereason()" class="btn green">Return</a>
+            </div>
+            <div class="clearfix"></div>
         </div>
-       
+    </div>
+</div>
+<div id="PaymentP" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Payment Application</h4>
+            </div>
+            <div id="msgpayment" class="alert alert-warning" style="display: none; text-align: center;">
+                <strong>Warning!</strong> Select an Extra to Continue.
+            </div>
+            <div class="modal-body form">
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="paymentTypeId" style="text-align: right; " class="col-sm-4 control-label">Payment Type</label>
+                            <div class="col-sm-6">
+                                <select name="paymentTypeId" id="paymentTypeId" class="form-control1">
+                                    <?php
+
+                                            if (count($payment['type'])>0) {
+                                                echo '<option value="0" onclick="Method(0)"  >Select a payment Type</option>';
+                                                foreach ($payment['type'] as $value) {
+                                                    
+                                                    echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['method'].','.$value['paymenttypeid'].'">'.$value['description'].'</option>';
+
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                echo '<option value="0">Does not have types of payments</option>';
+                                            }
+
+                                          ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: none;" id="metocc">
+                            <label for="paymentmethod" style="text-align: right; " class="col-sm-4 control-label">Collection Type</label>
+                            <div class="col-sm-6">
+                                <select name="paymentmethod" id="paymentmethod" class="form-control1">
+                                    <?php
+
+                                            if (count($payment['method'])>0) {
+                                                echo '<option value="0" onclick="Method(0)"  >Select a Collection Type</option>';
+                                                foreach ($payment['method'] as $value) {
+                                                    
+                                                    echo '<option  value="'.$value['paymentmethodid'].'">'.$value['descripcion'].'</option>';
+
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                echo '<option value="0">Does not have Collection Type</option>';
+                                            }
+
+                                          ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="amountdue" style="text-align: right; " class="col-sm-4 control-label">Amount Due</label>
+                            <div class="col-sm-6">
+                                <input style="text-align: right; " id="amountdue" name="" value="0" readonly="true">
+                                <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="buttons-ui">
+                        <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
+                        <a id="submitpay" name="add" value="save" class="btn green"><i class="fa fa-check"></i> Apply</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -276,6 +357,19 @@ var tableid = "<?= $TableInfo['postableid']?>";
 var posid = "<?=$Posinfo['myposId']?>";
 var namepos = "<?=$Posinfo['description']?>";
 
+function payInvoice()
+{   $("#amountdue").val($("#totaltopay").html());
+    $("#PaymentP").modal();
+}
+function Method(methodid) {
+
+    if (methodid == 'cc') {
+        $("#metocc").show();
+    } else {
+        $("#metocc").hide();
+        return;
+    }
+}
 function ChargeInvoice() {
 
     swal({
@@ -292,88 +386,117 @@ function ChargeInvoice() {
         },
     }).then((n) => {
         if (n == "outhouse") {
-            $("#InvoiceOutHouse").modal();
 
-        } 
-        else if (n == "inhouse") {
+              $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "<?php echo lang_url(); ?>pos/InvoicePOS",
+                data: { "tableid": tableid,"posid":posid },
+                beforeSend: function() {
+                    showWait();
+                    setTimeout(function() { unShowWait(); }, 10000);
+                },
+                success: function(msg) {
+                    unShowWait();
+                    if (msg["result"]) {
+                        $("#invoiceout").html(msg["html"]);
+                        $("#InvoiceOutHouse").modal();
 
-          $.ajax({
-          type: "POST",
-          dataType: "json",
-          url: "<?php echo lang_url(); ?>pos/reservationinhouse",
-          data: {"returnhtml":true},  
-          beforeSend:function() {
-          showWait();
-          setTimeout(function() {unShowWait();}, 10000);},
-          success: function(msg) {
-                unShowWait();
-                if (msg["result"]) {
+                    } else {
 
-                $("#idinhouse").html(msg["html"]);
-                $("#totaltopay").html($("#grandtotal").html());
-                $("#InvoiceInHouse").modal();
+                        swal({
+                            title: "upps, Sorry",
+                            text: msg["html"],
+                            icon: "warning",
+                            button: "Ok!",
+                        });
+                    }
 
-                }else {
-                  
-                  swal({
-                   title: "upps, Sorry",
-                    text: msg["html"],
-                    icon: "warning",
-                    button: "Ok!",});
                 }
+            });
+            
+            
 
-              }
-          });
+        } else if (n == "inhouse") {
 
-           
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "<?php echo lang_url(); ?>pos/reservationinhouse",
+                data: { "returnhtml": true },
+                beforeSend: function() {
+                    showWait();
+                    setTimeout(function() { unShowWait(); }, 10000);
+                },
+                success: function(msg) {
+                    unShowWait();
+                    if (msg["result"]) {
+
+                        $("#idinhouse").html(msg["html"]);
+                        $("#totaltopay").html($("#grandtotal").html());
+                        $("#InvoiceInHouse").modal();
+
+                    } else {
+
+                        swal({
+                            title: "upps, Sorry",
+                            text: msg["html"],
+                            icon: "warning",
+                            button: "Ok!",
+                        });
+                    }
+
+                }
+            });
+
+
         }
 
     });
 }
-function chargetoRoom(resid,channelid)
-{
+
+function chargetoRoom(resid, channelid) {
 
     $.ajax({
-          type: "POST",
+        type: "POST",
         dataType: "json",
-          url: "<?php echo lang_url(); ?>pos/chargeInvoicetoRoom",
-          data: {"tableid":tableid,"resid":resid,"channelid":channelid,"namepos":namepos},  
-          beforeSend:function() {
-          showWait();
-          setTimeout(function() {unShowWait();}, 10000);},
-          success: function(msg) {
-                unShowWait();
-                if(msg['result']==0)
-                {
-                 swal({  title: "Done!",
-                         text: "Orden Charge Successfully!",
-                         icon: "success",
-                         button: "Ok!",
-                         }).then((nt) => {
-                             window.location.assign($("#btback").attr('href'))
-                    });
-                }else if(msg['result']==1)
-                {
-                    swal({
-                             title: "upps!, something went wrong!",
-                             text: "Please try again!",
-                             icon: "warning",
-                             button: "Ok!",
-                         });
-                }
-                else if(msg['result']==2)
-                {
-                    swal({
-                             title: "upps!, something went wrong!",
-                             text: "This reservation does not have invoices processed!",
-                             icon: "warning",
-                             button: "Ok!",
-                         });
-                }
+        url: "<?php echo lang_url(); ?>pos/chargeInvoicetoRoom",
+        data: { "tableid": tableid, "resid": resid, "channelid": channelid, "namepos": namepos },
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg['result'] == 0) {
+                swal({
+                    title: "Done!",
+                    text: "Orden Charge Successfully!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((nt) => {
+                    window.location.assign($("#btback").attr('href'))
+                });
+            } else if (msg['result'] == 1) {
+                swal({
+                    title: "upps!, something went wrong!",
+                    text: "Please try again!",
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            } else if (msg['result'] == 2) {
+                swal({
+                    title: "upps!, something went wrong!",
+                    text: "This reservation does not have invoices processed!",
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
 
-              }
-          });
+        }
+    });
 }
+
 function closereason() {
     $("#Reasoncancel").modal('toggle');
 }
@@ -381,65 +504,67 @@ function closereason() {
 function cleartable() {
     $("#tableavailable").html('');
 }
-function applyCancel()
-{
-    var reasoncancel=$("#txtreason").val();
 
-    if (reasoncancel.length<=5) {
+function applyCancel() {
+    var reasoncancel = $("#txtreason").val();
+
+    if (reasoncancel.length <= 5) {
 
         swal({
-                 title: "You must enter the reason for cancellation!",
-                 text: "Try again!!",
-                 icon: "warning",
-                 button: "Ok!",
-             });
+            title: "You must enter the reason for cancellation!",
+            text: "Try again!!",
+            icon: "warning",
+            button: "Ok!",
+        });
         return false;
     }
 
     swal({
-             title: "Are you sure?",
-             text: "Do you want to cancel this order?",
-             icon: "info",
-             buttons: true,
-             dangerMode: true,
-         }).then((willDelete) => {
-             if (!willDelete) { return; }
-                          
-             $.ajax({
-             type: "POST",
-             dataType: "json",
-             url: "<?php echo lang_url(); ?>pos/cancelorden",
-             data: { "tableid": tableid, "reason":reasoncancel },
-             beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
-             success: function(msg) {
-                        unShowWait();
-                         if (msg['result']) {
+        title: "Are you sure?",
+        text: "Do you want to cancel this order?",
+        icon: "info",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (!willDelete) { return; }
 
-                             swal({
-                                 title: "Done!",
-                                 text: "Orden cancelled Successfully!",
-                                 icon: "success",
-                                 button: "Ok!",
-                             }).then((nt) => {
-                                 window.location.assign($("#btback").attr('href'))
-                             });
-                         } else {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "<?php echo lang_url(); ?>pos/cancelorden",
+            data: { "tableid": tableid, "reason": reasoncancel },
+            beforeSend: function() {
+                showWait();
+                setTimeout(function() { unShowWait(); }, 10000);
+            },
+            success: function(msg) {
+                unShowWait();
+                if (msg['result']) {
 
-                             swal({
-                                 title: "upps!, something went wrong!",
-                                 text: "Please try again!",
-                                 icon: "warning",
-                                 button: "Ok!",
-                             });
-                         }
+                    swal({
+                        title: "Done!",
+                        text: "Orden cancelled Successfully!",
+                        icon: "success",
+                        button: "Ok!",
+                    }).then((nt) => {
+                        window.location.assign($("#btback").attr('href'))
+                    });
+                } else {
+
+                    swal({
+                        title: "upps!, something went wrong!",
+                        text: "Please try again!",
+                        icon: "warning",
+                        button: "Ok!",
+                    });
+                }
 
 
-                     }
-                 });
-         });
+            }
+        });
+    });
 }
+
 function cancelorden() {
     $("#txtreason").val('');
     $("#Reasoncancel").modal();
@@ -452,9 +577,10 @@ function changetable(newtable) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/changetable",
         data: { "newid": newtable, "oldid": tableid, "posid": posid },
-        beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
             if (msg['result'] == 0) {
@@ -487,9 +613,10 @@ function availabletable(posid) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/availabletable",
         data: { "posid": posid },
-         beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
             if (msg['result']) {
@@ -515,9 +642,10 @@ function addstaff(id) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/exists_staff",
         data: { "staffid": id, "tableid": tableid },
-             beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
 
@@ -559,9 +687,10 @@ function CategoryItem(id) {
         type: "POST",
         url: "<?php echo lang_url(); ?>pos/allitem",
         data: { "catid": id, "tableid": tableid },
-         beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
             $("#allitem").html(msg)
@@ -574,9 +703,10 @@ function RecipeItem() {
         type: "POST",
         url: "<?php echo lang_url(); ?>pos/allRecipe",
         data: { "posid": posid },
-        beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
             $("#allitem").html(msg)
@@ -591,9 +721,10 @@ function additem(id, isitem) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/additem",
         data: { "itemid": id, "tableid": tableid, "isitem": isitem },
-         beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
             if (msg['success']) {
@@ -619,9 +750,10 @@ function deleteitem(id, isitem) {
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/deleteitem",
         data: { "itemid": id, "tableid": tableid, "isitem": isitem },
-         beforeSend:function() {
-              showWait();
-              setTimeout(function() {unShowWait();}, 10000);},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
         success: function(msg) {
             unShowWait();
 

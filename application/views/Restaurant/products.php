@@ -46,7 +46,7 @@
                             foreach ($ALLProducts as  $value) {
                                 $i++;
                                 $update="'".$value['name']."','".$value['itemPosId']."','".$value['itemcategoryid']."','".$value['type']."','".
-                                $value['brand']."','".$value['model']."','".$value['stock']."','".$value['unitid']."'";
+                                $value['brand']."','".$value['model']."','".$value['stock']."','".$value['unitid']."','".$value['description']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
                                 <td> '.$value['Categoryname'].'  </td> <td>'.$value['unitname'].'</td><td>'.$value['brand'].'</td> <td>'.$value['model'].'</td> <td>'.$value['stock'].'</td> <td>'.$value['price'].'</td> <td> <img id="img'.$value['itemPosId'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td> <td><a href="#updateproduct" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
@@ -76,8 +76,12 @@
                     <form id="ProductC">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Item Name</label>
+                            <label class="control-label">Product Name</label>
                             <input style="background:white; color:black;" name="productname" id="productname" type="text" placeholder="Product Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Description</label>
+                            <input style="background:white; color:black;" name="description" id="description" type="text" placeholder="Description" required="">
                         </div>
                         <div class="col-md-12 form-group1 form-last">
                             <label style="padding:4px;" class="control-label controls">Type of Category </label>
@@ -166,6 +170,10 @@
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Product Name</label>
                             <input style="background:white; color:black;" name="productnameup" id="productnameup" type="text" placeholder="Product Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Description</label>
+                            <input style="background:white; color:black;" name="descriptionup" id="descriptionup" type="text" placeholder="Description" required="">
                         </div>
                         <div class="col-md-12 form-group1 form-last">
                             <label style="padding:4px;" class="control-label controls">Type of Category </label>
@@ -465,7 +473,7 @@ function updateProduct() {
         });
         return;
     }
-    else if ($("#unitidup").val() == 0) {
+    else if ($("#unitidup").val() == 0 || $("#unitidup").val().length==0) {
         swal({
             title: "upps, Sorry",
             text: "Select a Unit of Measurement!",
@@ -488,9 +496,9 @@ function updateProduct() {
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
-
             unShowWait();
             if (msg["result"] == "0") {
+               
                 swal({
                     title: "Success",
                     text: "Product Updated!",
@@ -518,7 +526,7 @@ function updateProduct() {
 
 }
 
-function showupdate(nombre, id, category, type, brand, model, stock,unitid) {
+function showupdate(nombre, id, category, type, brand, model, stock,unitid,description) {
 
     $("#productnameup").val(nombre);
     $("#itemPosId").val(id);
@@ -528,6 +536,7 @@ function showupdate(nombre, id, category, type, brand, model, stock,unitid) {
     $("#modelup").val(model);
     $("#stockup").val(stock);
     $("#unitidup").val(unitid);
+    $("#descriptionup").val(description);
     $("#photo").attr('src', $("#img" + id).attr('src'));
 }
 

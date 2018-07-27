@@ -204,7 +204,7 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['TableInfo']=$this->db->query("SELECT * FROM mypostable  where postableid =$tableid ")->row_array();
-	
+		$data['payment']=$this->reservation_model->payment();
 		$data['OrderInfo']=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
             b.isitem
             from orderslist a 
@@ -1130,6 +1130,7 @@ class POS extends Front_Controller {
 				$data['model']=$_POST['model'];;
 				$data['stock']=$_POST['stock'];;
 				$data['unitid']=$_POST['unitid'];
+				$data['description']=$_POST['description'];
 				$data['active']=1;
 
 				if(insert_data('itempos',$data))
@@ -1158,7 +1159,9 @@ class POS extends Front_Controller {
 	function updateProduct()
 	{		
 		$result["result"]='';
-		if (strlen($_FILES["Imageup"]["name"])>0)
+
+
+		if (isset($_FILES["Imageup"]["name"]) && $_FILES["Imageup"]["size"] >0 )
 		{
 
 		    $file = $_FILES["Imageup"];
@@ -1207,18 +1210,19 @@ class POS extends Front_Controller {
 		    }
 		}
 
-				if(strlen( $result["result"])==0)
-				{
-					$data['itemcategoryid']=(int)$_POST['Categoryidup'];
-					$data['type']=$_POST['typeup'];
-					$data['name']=$_POST['productnameup'];
-					$data['brand']=$_POST['brandup'];
-					$data['model']=$_POST['modelup'];
-					$data['stock']=$_POST['stockup'];
-					$data['unitid']=$_POST['unitidup'];
-					update_data('itempos',$data,array('itemPosId' =>$_POST['itemPosId'] ));
-					$result["result"]="0";
-				}
+		if(strlen( $result["result"])==0)
+		{
+			$data['itemcategoryid']=(int)$_POST['Categoryidup'];
+			$data['type']=$_POST['typeup'];
+			$data['name']=$_POST['productnameup'];
+			$data['brand']=$_POST['brandup'];
+			$data['model']=$_POST['modelup'];
+			$data['stock']=$_POST['stockup'];
+			$data['unitid']=$_POST['unitidup'];
+			$data['description']=$_POST['descriptionup'];
+			update_data('itempos',$data,array('itemPosId' =>$_POST['itemPosId'] ));
+			$result["result"]="0";
+		}
 
 
 				echo json_encode($result);
@@ -2136,6 +2140,126 @@ class POS extends Front_Controller {
 		
 		echo json_encode($result);
 		return;
+	}
+	function InvoicePOS()
+	{
+		$posid=$_POST['posid'];
+		$tableid=$_POST['tableid'];
+
+		$Posinfo=get_data('mypos',array('myposId'=>$posid))->row_array();
+		$billing=get_data("bill_info",array('hotel_id'=>hotel_id()))->row_array();
+		$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
+		$userdata=get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		 $html='<div   style="float: left;">
+                    <h3><b>'.$Posinfo['description'].'</b></h3>
+
+                </div>
+                <div  style="float: right;">
+                    <img id="logo" src="'.base_url().'user_assets/images/logo.png" alt="Logo" />
+                </div>
+                <div class="clearfix"></div>
+                	<hr>
+                <div>
+                    <p class="col-md-8">'.$billing['town'].'<br>
+	         		'.$billing['address'].'<br>
+	         		'.$country.'<br>
+	         		<strong>Phone: </strong>'.$billing['mobile'].'<br>
+	         		<strong>Email: </strong>'.$billing['email_address'].'</p  
+					<p class="col-md-4" >
+						<table>
+							<tbody>
+								<tr><td><strong>Date:</strong> </td> <td>'.date('M d,Y').' </td></tr>
+								<tr><td><strong>INVOICE#: </strong> </td> <td> </td></tr>
+							</tbody>
+						</table> 
+					</p>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+              <div class="col-md-8">
+				    <div class="col-md-12 form-group1">
+				        <strong>BILL TO:</strong>
+				    </div>
+				    <div class="col-md-8 form-group1">
+				        <label class="control-label">Customer Name</label>
+				        <input style="background:white; color:black;" name="address" id="address" type="text" placeholder="Customer Name" required="">
+				    </div>
+				    <div class="col-md-4 form-group1">
+				        <label class="control-label">No. of Persons</label>
+				        <input style="background:white; color:black;" name="address" id="address" type="text" placeholder="No. of Persons" onkeypress="return justNumbers(event);" required="">
+				    </div>
+				</div>
+				<div class="col-md-4">
+				<table>
+						<tbody>
+							<tr><td><strong>Time:</strong> </td> <td>'.date('m/d/Y H:m').' </td></tr>
+							<tr><td><strong>Serve: </strong> </td> <td>'.$userdata['fname'].' '.$userdata['lname'].' </td></tr>
+						</tbody>
+					</table>
+				</div>
+				<hr>
+				<div class="col-md-12" style="text-align:center;">
+					<h5> Welcome to '.$Posinfo['description'].'</h5>
+				</div>
+				';
+
+		$table='';
+
+		$OrderInfo=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
+            b.isitem, case when b.isitem=1 then  c.description else '' end description
+            from orderslist a 
+            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+            where a.mypostableid=$tableid  and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
+
+		if(count($OrderInfo)>0)
+		{
+			$table='<div class="clearfix"></div>
+			<div class="graph">
+				<div class="table-responsive">
+						
+						<table id="tablestaff" class="table table-bordered">
+								<thead>
+										<tr>
+												<th>Item</th>
+												<th>Description</th>
+												<th>Qty</th>
+												<th>Rate</th>
+												<th>Amount</th>
+										</tr>
+								</thead>
+								<tbody>';
+					$i=0;
+					$subtotal=0;
+					foreach ($OrderInfo as  $value) {
+						$i++;
+						$table.=' <tr  class="'.($i%2?'active':'success').'">  <td>'.$value['itemname'].'  </td> <td>'.$value['description'].'</td> <td> '.number_format($value['qty'], 2, '.', '').'</td> <td>'.number_format($value['price'], 2, '.', '').' </td> <td style="text-align:right; width:10%;">'.number_format($value['qty']*$value['price'], 2, '.', ''). '</td></tr>';
+						$subtotal+=($value['qty']*$value['price']);
+
+					}
+					$table.=' <tr >  <td  style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>SUBTOTAL</strong> </td> <td style="text-align:right;">'.number_format($subtotal, 2, '.', '').' </td> </tr>
+					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>TAX RATE</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event);"  type="text" value="0.00" > </td> </tr>
+					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>SALES TAX</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event);"  type="text" value="0.00" ></td> </tr>
+					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>OTHER</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event);"  type="text" value="0.00" ></td> </tr>
+					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>TOTAL</strong> </td> <td id="totaltopay" style="text-align:right;">'.number_format($subtotal, 2, '.', '').' </td> </tr>';
+					$table.='</tbody>
+									</table>
+									</div> </div> <div class="clearfix"></div>
+									<div class="buttons-ui">
+			                            <a onclick="payInvoice()" class="btn blue"><i class="fa fa-credit-card"></i> Pay</a>
+			                        </div>
+									';
+		}
+
+
+        $result['html']=$html.$table;
+        $result['result']=true;
+
+        echo json_encode($result);
+
+
+
 	}
 	
 }

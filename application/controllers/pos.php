@@ -384,7 +384,7 @@ class POS extends Front_Controller {
 		$data['ALLReservation']=$this->db->query("select a.*, b.description tablename,case when Roomid is null then 'Out House' else 'In House' end marketingp from mypostablereservation a
 			left join mypostable b on a.mypostableid=b.postableid
             left join mypos c on a.mypostableid =c.myposId
-			where c.hotelid=$hotelid
+			where b.myposId=$posid
             order by datetimereservation desc,starttime desc")->result_array();
 
 		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();

@@ -91,7 +91,7 @@
                                     }
                                     else
                                     {
-                                        echo '<option value="0">there are no employees created</option>'; 
+                                        echo '<option value="0">there are no Table created</option>'; 
                                     }
                                     
                                 ?>
@@ -151,7 +151,7 @@
                                     }
                                     else
                                     {
-                                        echo '<option value="0">there are no employees created</option>'; 
+                                        echo '<option value="0">there are no Table created</option>'; 
                                     }
                                     
                                 ?>

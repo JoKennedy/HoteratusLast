@@ -1590,6 +1590,14 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 	{
 		echo $this->channel_model->calendarFull();
 	}
+	function useraccess($user_details)
+	{
+		if($user_details['User_Type']==1)
+		{
+			return get_data('menuitem', array('active'=>1))->result_array();
+		}
+
+	}
     function dashboard()
     {
     	$this->is_login();
@@ -1602,6 +1610,7 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 		$data['allConection'] = $this->channel_model->get_connect_channels();
 		$data['TopChannel']=$this->reservation_model->TopChannel();
 		$data['Percentage']=$this->reservation_model->TopChannelPercentage();
+		$data['menudata']=$this->useraccess($user_details);
 
     	$this->views('channel/dashboard',$data);
 

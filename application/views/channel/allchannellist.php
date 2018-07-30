@@ -28,10 +28,11 @@
 							<thead> <tr>  <th>Channel</th> <th>Active</th> <th>Status</th>  </tr> 
 							</thead> 
 							<tbody> 
+
 								<?php if (count($AllChannel)>0) {
-
+											$i=0;
 											foreach ($AllChannel as  $value) {
-
+												$i++;
 												if ($type=='') {
 													$imagen=base64_encode(file_get_contents("uploads/".($value['image']==''?'168050.jpg':$value['image'])));
 												$class_status=($value['status']==1?'success':($value['status']==2?'warning':($value['status']==3?'danger':'info')));
@@ -42,7 +43,7 @@
 												$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-chain-broken':'fa fa-link'));
 												$link=($value['status']==1?lang_url().'channel/config_channel/'.insep_encode($value['channel_id']):'#');
 
-												echo' <tr  class="'.$class_status.'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td>'.$show_status.' </td> <td style="text-align: left !important;"><a   href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a></td> </tr>  ';
+												echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td>'.$show_status.' </td> <td style="text-align: left !important;"><a   href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a></td> </tr>  ';
 												}
 												else if((insep_decode($type)==2?0:insep_decode($type))==$value['conect'])
 												{

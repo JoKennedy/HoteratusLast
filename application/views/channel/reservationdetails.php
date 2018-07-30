@@ -37,15 +37,15 @@
                 <div class="">
                     <nav>
                         <ul>
-                            <li><a href="#section-1" class="icon-shop"><i class="fa fa-info-circle"></i> <span>Details</span></a></li>
-                            <li><a href="#section-2" class="icon-cup"><i class="fa fa-file-text-o"></i> <span>Invoices</span></a></li>
-                            <li><a href="#section-3" class="icon-food"><i class="fa fa-envelope"></i> <span>Emails</span></a></li>
-                            <li><a href="#section-4" class="icon-lab"><i class="fa fa-plus"></i> <span>Extras</span></a></li>
-                            <li><a href="#section-5" class="icon-truck"> <i class="lnr lnr-history"></i><span> History</span></a></li>
+                            <li><a onclick="test();" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>Details</span></a></li>
+                            <li><a  class="icon-cup"><i class="fa fa-file-text-o"></i> <span>Invoices</span></a></li>
+                            <li><a  class="icon-food"><i class="fa fa-envelope"></i> <span>Emails</span></a></li>
+                            <li><a  class="icon-lab"><i class="fa fa-plus"></i> <span>Extras</span></a></li>
+                            <li><a class="icon-truck"> <i class="lnr lnr-history"></i><span> History</span></a></li>
                         </ul>
                     </nav>
                     <div class="content tab">
-                        <section id="section-1">
+                        <section  id="section-1" class="content-current">
                             <div style="text-align: center;">
                                 <a href="#EditReservation" data-toggle="modal" class="btn green two">Edit Reservation</a>
                             </div>
@@ -587,12 +587,7 @@ Agregar Extras
         </div>
     </div>
 </div>
-<!--//outer-wp-->
-<!--footer section start
-                                        <footer>
-                                           <p>&copy 2016 Augment . All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">W3layouts.</a></p>
-                                        </footer>
-                                    //footer section end-->
+
 <div id="PaymentP" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -783,10 +778,13 @@ Agregar Extras
     </div>
 </div>
 <!--//content-inner-->
- <script src="<?php echo base_url();?>user_asset/back/js/cbpFWTabs.js"></script>
-<script type="text/javascript">
-new CBPFWTabs(document.getElementById('tabs'));
 
+<script type="text/javascript">
+
+function test(id)
+{
+    alert(id);
+}
 var channelid = '<?=$channelId;?>';
 var resid = '<?=$reservatioID;?>';
 
@@ -1094,4 +1092,5 @@ function editInvoice(invoiceid) {
 function saveinvoice(invoiceid) {
     //alert(invoiceid);
 }
+
 </script>

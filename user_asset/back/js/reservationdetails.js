@@ -1,4 +1,4 @@
- new CBPFWTabs(document.getElementById('tabs'));
+ 
 
  function delete_extras(id, res, channelid, des, fila) {
      swal({

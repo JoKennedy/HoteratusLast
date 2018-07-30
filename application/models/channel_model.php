@@ -305,6 +305,32 @@ class channel_model extends CI_Model
 			}
 
 	}
+	function addnewuserassg()
+	{	
+		$hasherpass = new PasswordHash(8, FALSE);
+		$data['User_Type']=2;
+		$data['owner_id']=$_POST[''];
+		$data['multiproperty']='Deactive';
+		$data['user_name']=$_POST[''];
+		$data['fname']=$_POST[''];
+		$data['lname']=$_POST[''];
+		$data['email_address']=$_POST[''];
+		$data['password']=$hasherpass->HashPassword($_POST['']);
+		$data['ipaddress']=$_SERVER['REMOTE_ADDR'];
+		$data['user_agent']= $_SERVER['HTTP_USER_AGENT'];
+		$data['status']=1;
+		$data['acc_active']=1;
+
+		if(insert_data('manage_users',$data))
+		{
+			$id=getinsert_id();
+		}
+
+		# User_Type, owner_id, access, multiproperty, user_name, fname, lname, password, spass, mobile, town, address, zip_code, property_name, connected_channel, web_site, email_address, country, currency, tax_office, tax_id, transaction_id, plan_id, plan_price, plan_from, plan_to, user_password, payment_method, subscribe_status, status, acc_active, created_date, channel_subscribe_txnid, channel_subscribe_planid, channel_subscribe_price, channel_subscribe_from, channel_subscribe_to, channel_subscribe_method, channel_subscribe_status, ipaddress, user_agent, attempt_cnt, pw_ck
+
+
+
+	}
 
 	function propertyinfoupdate($propertyinfo)
 	{
@@ -366,8 +392,11 @@ class channel_model extends CI_Model
 
 		for ($i=0; $i <=29 ; $i++) { 
 			$fecha=date('Y-m-d',strtotime($date1."+$i days"));
-			$result = $this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber FROM `manage_reservation` WHERE STR_TO_DATE(start_date ,'%d/%m/%Y') ='$fecha'
-			and hotel_id=$hotel_id and RoomNumber=$roomnumber")->row_array();
+
+
+			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber FROM `manage_reservation` WHERE STR_TO_DATE(start_date ,'%d/%m/%Y') ='$fecha'
+			and hotel_id=$hotel_id and RoomNumber='$roomnumber'")->row_array();
+
 
 			if (isset($result['noche'])){
 				
@@ -442,7 +471,7 @@ class channel_model extends CI_Model
 		 
 
 
-		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by property_name ")->result_array();
+		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by property_id ")->result_array();
 
 		$body='<tbody>';
 
@@ -456,25 +485,49 @@ class channel_model extends CI_Model
 			$body .='<tr>  <td ROWSPAN="'.(4+$ss+$ctd+$cta+($showr==1?$value['existing_room_count']:0)).'" style="margin: 5px; padding:5px;">'.$value['property_name'].'</td> </tr> ';
 			$room2='';
 			$roomnumber=explode(",", $value['existing_room_number']);
+
 			foreach ($roomnumber as  $rooms) {
 					$room2 .='<tr>  <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
-					$room2 .=$this->ReservationShow($rooms,$date1);
+					$room2 .= $this->ReservationShow($rooms,$date1);
 
 				}
 
+			$dato=null;
+
+			$datos= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_update where hotel_id = $hotel_id  and room_id =".$value['property_id']  ." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y')  ")->result_array(); 	
+
+			 for ($i=0; $i <=29 ; $i++) { 
+		 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
+
+			 		foreach ($datos as $value) {
+
+			 			
+			 			if(date('Y-m-d',strtotime($value['datereal']))==date('Y-m-d',strtotime($datereal)))
+			 			{
+			 				$dato=$value;
+			 				break;
+			 			}
+			 			else
+			 			{
+			 				$dato=null;
+			 			}
+			 			
+			 		}
+
+		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.(isset($dato['price'])?$dato['price']:'Null').'</td>';  
+				$avai.='<td style="font-size: 12px;  text-align:center; " bgcolor = "'.(isset($dato['availability'])<1?'#C0392B':'#F8F9F9').'" > '.
+				(isset($dato['availability'])?$dato['availability']:'Null').' </td>';
+				$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dato['minimum_stay'])?$dato['minimum_stay']:'Null').' </td>';
+				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])==1?'checked':'').' /> </td>';
+				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])==1?'checked':'').' /> </td>';
+				$sss.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['stop_sell'])==1?'checked':'').' /> </td>';
 
 
-			$datos= $this->db->query("select * from room_update where hotel_id = $hotel_id  and room_id =".$value['property_id']  ." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y')  ")->result_array(); 			
-			foreach ($datos as $dato) {
-							$precio.='<td style="font-size: 12px; text-align:center;" >'.$dato['price'].'</td>';  
-							$avai.='<td style="font-size: 12px;  text-align:center; " bgcolor = "'.($dato['availability']<1?'#C0392B':'#F8F9F9').'" > '.$dato['availability'].' </td>';
-							$min.='<td style="font-size: 12px; text-align:center; "> '.$dato['minimum_stay'].' </td>';
-							$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.($dato['cta']==1?'checked':'').' /> </td>';
-							$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.($dato['ctd']==1?'checked':'').' /> </td>';
-							$sss.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.($dato['stop_sell']==1?'checked':'').' /> </td>';
-							//print_r($dato);
-						}		
+
+
+		 	}
+	
 				$precio.='</tr>';
 				$avai.='</tr>';
 				$min .='</tr>';

@@ -80,7 +80,7 @@
 			url:  base_url+'channel/Calendarview',
 			data: data,
 			beforeSend:function() {
-          showWait();
+          showWait('Update Calendar, Please Wait');
           setTimeout(function() {unShowWait();}, 100000);
         },
 			success: function(html)

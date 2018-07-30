@@ -57,7 +57,7 @@
     <!--//charts-->
     <div class="area-charts">
         <div class="col-md-6 panel-chrt">
-            <h3 class="sub-tittle">Channel Status </h3>
+            <h4 class="sub-tittle">Channel Status </h4>
             <div style="height:315px; overflow:auto; ">
                 <?php  if ($allConection) {         
 
@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="col-md-6 tini-time-line">
-            <h3 class="sub-tittle">Top Channels, Last 30 days</h3>
+            <h4 class="sub-tittle">Top Channels, Last 30 days</h4>
             <div class="stats-info graph">
                 <div class="stats">
                     <ul class="list-unstyled">

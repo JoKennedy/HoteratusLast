@@ -4029,15 +4029,18 @@ function filenotfound(){
        force_download('mybackup.zip', $backup);
 	}
 
-	function change_property($hotel_id,$admin_id='',$admin_type='')
+	function change_property()
 	{
 
 
 
 			$this->is_login();
 			$this->session->unset_userdata('ch_hotel_id');
-			$this->session->set_userdata('ch_hotel_id',insep_decode($hotel_id));
-			redirect('channel/dashboard','refresh');
+			$this->session->set_userdata('ch_hotel_id',insep_decode($_POST['hotelid']));
+			$result['success']=true;
+			echo json_encode($result);
+			return;
+			//redirect('channel/dashboard','refresh');
 
 
 

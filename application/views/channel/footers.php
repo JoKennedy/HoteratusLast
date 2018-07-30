@@ -1,16 +1,18 @@
 				<div class="sidebar-menu">
+
 					
-				<header class="logo">
-					<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="<?php echo base_url();?>channel/dashboard"> <span id="logo"> <h1>Hoteratus</h1></span> 
-						<!--<img id="logo" src="<?php echo base_url();?>user_asset/back/images/178254.jpg" alt="Logo"/>-->
+				<div class="logo">
+						
+					<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="<?php echo base_url();?>channel/dashboard"> <span id="logo"> <img style="width: 120px; height: 50px;" src="<?php echo base_url();?>user_assets/images/logo.png" alt="Logo"/></span> 
+						
 					</a> 
-				</header>
+				</div>
 			<div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
 			<!--/down-->
 							<div class="down">	
 									  <a href="<?php echo base_url();?>channel/dashboard"><img src="<?php echo base_url();?>user_asset/back/images/admin.jpg"></a>
 									  <a href="<?php echo base_url();?>channel/dashboard"><span class=" name-caret"><?=$fname.' '.$lname ?> </span></a>
-									 <p><?= ($User_Type==1?'System Administrator':'Designated User')?> </p>
+									 <!--<p><?= ($User_Type==1?'System Administrator':'Designated User')?> </p>-->
 									<p style="font-size: 10px;"> <b><?= $HotelInfo['property_name'] ?></b></p>
 									<ul>
 										<link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/icon-font.min.css" type='text/css' />

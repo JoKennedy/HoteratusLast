@@ -119,7 +119,7 @@
                                                
                                                 <?php
                                                 foreach ($AllHotel as  $value) {
-													echo '<li><a  href="'.lang_url().'channel/change_property/'.insep_encode($value['hotel_id']).'" id="'.$value['hotel_id'].'" class="english">'.$value['property_name'].' [id:'.$value['hotel_id'].']</a></li>';
+													echo '<li><a onclick="changeproperty('."'".insep_encode($value['hotel_id'])."'".')" href="'.lang_url().'channel/change_property/'.insep_encode($value['hotel_id']).'" id="'.$value['hotel_id'].'" class="english">'.$value['property_name'].' [id:'.$value['hotel_id'].']</a></li>';
 												}
 
 												?>
@@ -129,6 +129,26 @@
                                     </div>
                                      
                                     <script type="text/javascript">
+
+                                        function changeproperty(hotelid)
+                                        {
+                                            var data={"hotelid":hotelid};
+                                             $.ajax({
+                                                    type: "POST",
+                                                    dataType: "json",
+                                                    url: "<?php echo lang_url(); ?>channel/change_property",
+                                                    data: data,
+                                                    beforeSend: function() {
+                                                        showWait();
+                                                        setTimeout(function() { unShowWait(); }, 10000);
+                                                    },
+                                                    success: function(msg) {
+
+                                                         location.reload();
+
+                                                       }
+                                                });
+                                        }
                                         $(document).ready(function() {
 
                                             $("#boxscroll4").niceScroll("#boxscroll4 .wrapper", { boxzoom: true }); // hw acceleration enabled when using wrapper
@@ -181,7 +201,7 @@
                                     });
                                     </script>
                                 </li>
-                                <li class="dropdown note">
+                                <!--<li class="dropdown note">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope-o"></i> <span class="badge">3</span></a>
                                     <ul class="dropdown-menu two first" style="width: 5px">
                                         <li>
@@ -225,7 +245,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
                                 <li class="dropdown note">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell-o"></i> <span class="badge">5</span></a>
                                     <ul class="dropdown-menu two">

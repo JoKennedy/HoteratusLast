@@ -120,8 +120,8 @@ a:hover { transition: all 200ms ease-in-out; }
 
 .page-container.sidebar-collapsed-back .logo {
   width: 100%;
-      padding: 13px 14px;
-  height:60px;
+      padding: 20px 20px;
+  height:70px;
   box-sizing: border-box;
   transition: all 100ms ease-in-out;
 }
@@ -170,7 +170,7 @@ a:hover { transition: all 200ms ease-in-out; }
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 #menu li {
@@ -323,7 +323,7 @@ span.name-caret {
 }
 
 .down{
-	padding: 26px 0 30px;
+	padding: 5px 0 5px;
     text-align: center;
       background: #fff;
 }

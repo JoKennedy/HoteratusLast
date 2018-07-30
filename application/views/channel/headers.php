@@ -144,7 +144,28 @@
                                                     },
                                                     success: function(msg) {
 
-                                                         location.reload();
+                                                        var repeticion=0;
+                                                        for(i=0;i<location.href.length;i++){
+                                                            if(location.href.charAt(i) == "/"){
+                                                                repeticion++;
+                                                                if(repeticion>5)
+                                                                {
+                                                                    
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+
+                                                        if (repeticion>5) {
+                                                            location.href="<?php echo lang_url(); ?>channel/Dashboard";
+                                                        }
+                                                        else
+                                                        {
+                                                            location.reload();
+                                                        }
+                                                       
+                                                        
+                                                         
 
                                                        }
                                                 });

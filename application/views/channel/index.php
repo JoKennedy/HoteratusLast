@@ -899,7 +899,7 @@
                                 <div class="col-md-6 form-group1">
                                     <label for="emailup" class="control-label">E-mail </label>
                                     <input style="width: 95%" onblur="return validaremail()" id="emailup" name="emailup" class="has-padding has-border" type="text" placeholder="E-mail" required="">
-                                    <span class="error" aria-live="polite"></span>
+                                    <span class="error" aria-live="polite"></span> 
                                 </div>
                                 <div class="col-md-6 form-group1">
                                     <label for="usernameup" class="control-label">User Name</label>

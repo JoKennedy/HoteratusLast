@@ -141,7 +141,6 @@ class Channel extends Front_Controller {
 	function usernameused()
 	{
 		$username = $_POST['username'];
-
 		echo $this->channel_model->usernameused($username);
 	}
 	function newregister()

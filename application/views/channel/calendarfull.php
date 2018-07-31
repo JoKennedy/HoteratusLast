@@ -36,8 +36,7 @@
 		 	</div>
 			<div  class="clearfix"></div>	
 
-		<div style="width: 100%; height: 4+9-*
-		00px;"  class="table-responsive">
+		<div style="width: 100%; height:400px;"  class="table-responsive">
 
 			<div id="calendario"> </div>
 			<!--<?= $calendar ?>-->
@@ -48,13 +47,13 @@
 				<label class="check"><input onclick=" Calendario()" id="show" type="checkbox" > Show Reservation</label>
 			</div>
 			<div class="col-sm-2">
-				<label class="check"><input onclick=" Calendario()" id="Sales" type="checkbox" > Stop Sales</label>
+				<label class="check"><input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox" > Stop Sales</label>
 			</div>
 			<div class="col-sm-2">
-				<label class="check"><input onclick=" Calendario()" id="cta" type="checkbox" > CTA</label>
+				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="cta" type="checkbox" > CTA</label>
 			</div>
 			<div class="col-sm-2">
-				<label class="check"><input onclick=" Calendario()" id="ctd" type="checkbox" > CTD</label>
+				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox" > CTD</label>
 			</div>
 			<div class="clearfix"> </div>
 				
@@ -70,7 +69,12 @@
 <script type="text/javascript">
 	
 
-
+	function showoption(id,value)
+	{
+		$("."+id).css({
+			display: (value?'':'none')
+		});
+	}
 	function Calendario() {
 		showWait();
 		var base_url = '<?php echo lang_url();?>';

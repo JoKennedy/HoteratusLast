@@ -34,7 +34,6 @@
                     <tbody>
                         <?php if (count($AllGiftCard)>0) {
 
-# giftcardid, hotelid, giftcardnumber, amount, secrectcode, userid, creationdate
                             $i=0;
                             foreach ($AllGiftCard as  $value) {
                                 $i++;
@@ -57,18 +56,15 @@
             </div>
         </div>
     </div>
-    <?php
-
-
-
-?>
 </div>
 <div id="createGiftCard" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+               
                 <h4 class="modal-title">Create a Gift Card</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span> 
             </div>
             <div>
                 <div class="graph-form">

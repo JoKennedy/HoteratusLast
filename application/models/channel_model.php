@@ -441,7 +441,7 @@ class channel_model extends CI_Model
 		$hotel_id=hotel_id();
 
 		
-		$html='<table id="Channellist"   class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB"> ';
+		$html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB"> ';
 		 $header1='<thead> <tr> <th style="text-align:center;"> Room Name </th>';
 		 $header2=' <thead> <tr> <th bgcolor="#E5E7E9"> </th> <th bgcolor="#E5E7E9"></th>';
 
@@ -486,12 +486,16 @@ class channel_model extends CI_Model
 			$room2='';
 			$roomnumber=explode(",", $value['existing_room_number']);
 
-			foreach ($roomnumber as  $rooms) {
+
+			if ($showr==1) {
+				foreach ($roomnumber as  $rooms) {
 					$room2 .='<tr>  <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
 					$room2 .= $this->ReservationShow($rooms,$date1);
 
 				}
+			}
+			
 
 			$dato=null;
 

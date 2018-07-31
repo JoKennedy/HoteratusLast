@@ -36,7 +36,8 @@
 		 	</div>
 			<div  class="clearfix"></div>	
 
-		<div class="table-responsive">
+		<div style="width: 100%; height: 4+9-*
+		00px;"  class="table-responsive">
 
 			<div id="calendario"> </div>
 			<!--<?= $calendar ?>-->

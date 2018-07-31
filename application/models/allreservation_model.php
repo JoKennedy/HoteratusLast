@@ -31,10 +31,10 @@ class allreservation_model extends CI_Model
 			left join manage_property e on d.property_id = e.property_id
 		 where a.hotel_id=".hotel_id()." order by arrival desc"
 
-"select a.type as status,  concat(a.givenName,' ',a.surname) as guest_name,'AIRBNB' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.ImportDate as booking_date, a.ResID_Value reservation_code,
-			a.AmountAfterTax as price, '' as user_email, '' as mobile, 
+"select a.type as status,  concat(a.givenName,' ',a.surname) as guest_name,'EXPEDIA' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.created_time as booking_date, a.booking_id reservation_code,
+			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile, 
 			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
-			9 as channel_id , a.Currency  as currency_id
+			1 as channel_id , a.currency  as currency_id
 			from import_reservation_EXPEDIA a
 			left join import_mapping_AIRBNB c on a.RoomTypeCode=c.Roomid
 			left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=9

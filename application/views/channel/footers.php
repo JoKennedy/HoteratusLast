@@ -47,7 +47,7 @@
 					if ($value['order2']==0 && $value['order3']==0) {
 						
 						echo '<li><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'"><i class="'.$value['iconclass'].'"></i> <span>'.$value['description'].'</span>
-						'.($value['flecha']==1?'<span class="fa fa-angle-right" style="float: right"></span>':'').'</a>';
+						'.($value['flecha']==1?'<span class="fa fa-angle-right" style="text-align: right; "></span>':'').'</a>';
 						$sub=0;
 						$item1=$value['order1'];
 					}

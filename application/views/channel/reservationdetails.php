@@ -37,15 +37,15 @@
                 <div class="">
                     <nav>
                         <ul>
-                            <li><a onclick="test();" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>Details</span></a></li>
-                            <li><a  class="icon-cup"><i class="fa fa-file-text-o"></i> <span>Invoices</span></a></li>
-                            <li><a  class="icon-food"><i class="fa fa-envelope"></i> <span>Emails</span></a></li>
-                            <li><a  class="icon-lab"><i class="fa fa-plus"></i> <span>Extras</span></a></li>
-                            <li><a class="icon-truck"> <i class="lnr lnr-history"></i><span> History</span></a></li>
+                            <li><a onclick="showtab(1);" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>Details</span></a></li>
+                            <li><a onclick="showtab(2);" class="icon-cup"><i class="fa fa-file-text-o"></i> <span>Invoices</span></a></li>
+                            <li><a onclick="showtab(3);" class="icon-food"><i class="fa fa-envelope"></i> <span>Emails</span></a></li>
+                            <li><a onclick="showtab(4);" class="icon-lab"><i class="fa fa-plus"></i> <span>Extras</span></a></li>
+                            <li><a onclick="showtab(5);" class="icon-truck"> <i class="lnr lnr-history"></i><span> History</span></a></li>
                         </ul>
                     </nav>
                     <div class="content tab">
-                        <section  id="section-1" class="content-current">
+                        <section  id="section-1" class="content-current sec">
                             <div style="text-align: center;">
                                 <a href="#EditReservation" data-toggle="modal" class="btn green two">Edit Reservation</a>
                             </div>
@@ -270,7 +270,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section id="section-2">
+                        <section id="section-2" class="sec">
                             <h2 align="center">Invoice</h2>
                             <div>
                                 <div id="msginvoice" class="alert alert-warning" style="display: none; text-align: center;">
@@ -329,7 +329,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section id="section-3">
+                        <section id="section-3" class="sec">
                             <div class="col-md-8 tab-content tab-content-in">
                                 <div class="inbox-right">
                                     <div class="mailbox-content">
@@ -381,7 +381,7 @@
                             </div>
                             <div class="clearfix"> </div>
                         </section>
-                        <section id="section-4">
+                        <section id="section-4" class="sec">
                             <div class="clearfix"></div>
                             <div class="graph-visual tables-main">
                                 <h2 class="inner-tittle">Extras Details</h2>
@@ -430,7 +430,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section id="section-5">
+                        <section id="section-5" class="sec">
                             <div class="area-charts">
                                 <div class="col-md-6 panel-chrt">
                                     <h3 class="sub-tittle">History</h3>
@@ -781,9 +781,10 @@ Agregar Extras
 
 <script type="text/javascript">
 
-function test(id)
+function showtab(id)
 {
-    alert(id);
+    $(".sec").removeClass("content-current");
+    $("#section-"+id).addClass("content-current");
 }
 var channelid = '<?=$channelId;?>';
 var resid = '<?=$reservatioID;?>';
@@ -887,7 +888,7 @@ function delete_extras(id, res, channelid, des, fila) {
 
 $('#submitextra').click(function() {
     $('#addExtras').submit();
-})
+});
 
 function saveExtra() {
     var formulariop = document.getElementById('addExtras');
@@ -1063,7 +1064,7 @@ $("#submitpay").click(function() {
         }
     });
 
-})
+});
 
 function processinvoice(channelid, reservationid) {
 

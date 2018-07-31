@@ -15,29 +15,49 @@
     <div class="clearfix"></div>
 </div>
 <div id="adduserid" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Create a Employee</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>   
+                
             </div>
-            <div>
+
+
                 <div class="graph-form">
                     <form id="EmployeeC">
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">First Name</label>
-                            <input style="background:white; color:black;" name="name" id="name" type="text" placeholder="First Name" required="">
+                       <div class="tab-main">
+                            <div class="tab-inner">
+                                <div id="tabs" class="tabs">
+                                    <div class="">
+                                        <nav >
+                                            <ul>
+                                                <li><a onclick="showtab(1);" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>User Informations</span></a></li>
+                                                <li><a onclick="showtab(2);" class="icon-cup"><i class="fa fa-check-square"></i> <span>Hotel Access</span></a></li>
+                                                <li><a onclick="showtab(3);" class="icon-food"><i class="fa fa-check-square-o"></i> <span>Options Access</span></a></li>
+                                            </ul>
+                                        </nav>
+                                        <div class="content tab">
+                                            <section  id="section-1" class="content-current sec">
+                                                <div style="text-align: center"><h4>User Details</h4></div>
+                                                
+                                            </section>
+                                            <section id="section-2" class="sec">
+                                                <h4>Hotel Access</h4>
+                                            </section>
+                                            <section id="section-3" class="sec">
+                                                <h4>Options Access</h4>
+                                            </section>
+
+                                        </div>
+                                        <!-- /content -->
+                                    </div>
+                                    <!-- /tabs -->
+                                </div>
+                            </div>
+                           
                         </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Last Name</label>
-                            <input style="background:white; color:black;" name="lastname" id="lastname" type="text" placeholder="Last Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Imagen</label>
-                            <input style="background:white; color:black;" type="file" id="Image" name="Image">
-                        </div>
-                        <div id="respuesta"></div>
-                        <div class="clearfix"> </div>
                         <br>
                         <br>
                         <div class="buttons-ui">
@@ -50,8 +70,16 @@
         </div>
     </div>
 </div>
+
 </div>
+</div>
+
 <script type="text/javascript">
+function showtab(id)
+{
+    $(".sec").removeClass("content-current");
+    $("#section-"+id).addClass("content-current");
+}
 function adduser() {
     $("#adduserid").modal();
 }

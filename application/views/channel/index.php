@@ -1142,7 +1142,7 @@
                     $('#logg').html('<span class="fa fa-spinner fa-spin"></span> Please wait...');
                 },
                 success: function(html) {
-                    console.log(html['result']);
+                
                     if (html['result'] == 0) {
                         $('#log_form').trigger("reset");
                         $("#logg").html('Sign In');

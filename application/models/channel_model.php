@@ -60,39 +60,20 @@ class channel_model extends CI_Model
 						}
 						elseif($result->User_Type=='2')
 						{
-							$assingn_hotel = get_data(ASSIGN,array('user_id'=>$result->user_id))->row_array();
+							$assingn_hotel = $this->db->query("select * from assignedhotels where userid=".$result->user_id)->row_array();
 							// print_r($assingn_hotel);die;
-							if(count($assingn_hotel)!=0)
-							{
-								$hotel_id = get_data(HOTEL,array('hotel_id'=>$assingn_hotel['hotel_id']))->row_array();
-								if(count($hotel_id)!=0)
-								{
-									$this->session->set_userdata('ch_user_id',$result->user_id);
-									$this->session->set_userdata('ch_user_type',$result->User_Type);
-									$this->session->set_userdata('ch_hotel_id',$hotel_id['hotel_id']);
-									$this->session->set_userdata('owner_id',$hotel_id['owner_id']);
-									//return 1;
+							$hotel_id = $this->db->query("select * from manage_hotel where hotel_id in (".$assingn_hotel['hotelids'].") limit 1")->row()->hotel_id;
 
-								if($result->pw_ck=='1' || $result->pw_ck=='2')
-								{
-								   return 1;
-								}
-								elseif($result->pw_ck=='0')
-								{
-								   return 12;
-								}	
-								}
-								else
-								{
-								   $this->session->set_userdata('ch_hotel_id','No_Hotel');
-								   return 4;
-								}
+							$this->session->set_userdata('ch_user_id',$result->user_id);
+							$this->session->set_userdata('ch_ownerid',$result->owner_id);
+							$this->session->set_userdata('ch_user_type',$result->User_Type);
+							$this->session->set_userdata('ch_hotel_id',$hotel_id);
+							if($result->pw_ck=='2')
+							{							
+							   return 1;
 							}
-							else
-							{
-								$this->session->set_userdata('ch_hotel_id','No_Hotel');
-								return 4;
-							}
+
+							return 12;
 						}
 					}
 				}
@@ -305,30 +286,70 @@ class channel_model extends CI_Model
 			}
 
 	}
-	function addnewuserassg()
+	function savenewuserassg($infouser)
 	{	
 		$hasherpass = new PasswordHash(8, FALSE);
 		$data['User_Type']=2;
-		$data['owner_id']=$_POST[''];
+		$data['owner_id']=user_id();
 		$data['multiproperty']='Deactive';
-		$data['user_name']=$_POST[''];
-		$data['fname']=$_POST[''];
-		$data['lname']=$_POST[''];
-		$data['email_address']=$_POST[''];
-		$data['password']=$hasherpass->HashPassword($_POST['']);
+		$data['user_name']=$infouser['username'];
+		$data['fname']=$infouser['fname'];
+		$data['lname']=$infouser['lname'];
+		$data['email_address']=$infouser['email'];
+		$data['password']=$hasherpass->HashPassword($infouser['password']);
 		$data['ipaddress']=$_SERVER['REMOTE_ADDR'];
 		$data['user_agent']= $_SERVER['HTTP_USER_AGENT'];
 		$data['status']=1;
 		$data['acc_active']=1;
+		$data['pw_ck']=2;
 
 		if(insert_data('manage_users',$data))
 		{
 			$id=getinsert_id();
+
+			$data2['userid']=$id;
+			$data2['hotelids']=implode(",", $infouser['hotelid']);
+			$data2['menuitemids']=implode(",", $infouser['menuitemid']);
+			$data2['specialpermitids']='';
+
+			insert_data('assignedhotels',$data2);
+
+			return true;
+
 		}
+		return false;
 
 		# User_Type, owner_id, access, multiproperty, user_name, fname, lname, password, spass, mobile, town, address, zip_code, property_name, connected_channel, web_site, email_address, country, currency, tax_office, tax_id, transaction_id, plan_id, plan_price, plan_from, plan_to, user_password, payment_method, subscribe_status, status, acc_active, created_date, channel_subscribe_txnid, channel_subscribe_planid, channel_subscribe_price, channel_subscribe_from, channel_subscribe_to, channel_subscribe_method, channel_subscribe_status, ipaddress, user_agent, attempt_cnt, pw_ck
 
 
+
+	}
+		function updatenewuserassg($infouser)
+	{	
+		$hasherpass = new PasswordHash(8, FALSE);
+		$data['fname']=$infouser['fnameup'];
+		$data['lname']=$infouser['lnameup'];
+		$data['email_address']=$infouser['emailup'];
+		if(strlen($infouser['passwordup'])>5)
+		{
+			$data['password']=$hasherpass->HashPassword($infouser['passwordup']);
+		}
+		
+
+
+
+		if(update_data('manage_users',$data,array('user_id'=>$infouser['useridup'])))
+		{
+			$data2['hotelids']=implode(",", $infouser['hotelidup']);
+			$data2['menuitemids']=implode(",", $infouser['menuitemidup']);
+			$data2['specialpermitids']='';
+
+			update_data('assignedhotels',$data2,array('userid'=>$infouser['useridup']));
+
+			return true;
+
+		}
+		return false;
 
 	}
 
@@ -1644,18 +1665,12 @@ function get_connect_channels(){
 	$userid='';
 	$hotelid=hotel_id();
 	$today=date('Y-m-d');
-    if(user_type()=='1' || admin_id()!='' && admin_type()=='1')
-    {
-    	$userid=user_id();	
-    }else if(user_type()=='2'){
-        $userid=owner_id();
-    }
-	
+  
 	$sql = "SELECT a.status,b.channel_name,  
 			(select error_message from channel_error where channel_id  = a.channel_id  and STR_TO_DATE(error_date_time ,'%m/%d/%Y') = '$today' ORDER BY error_date_time DESC LIMIT 1  ) message
 			FROM user_connect_channel a 
 			left join manage_channel b on a.channel_id =b.channel_id
-			where a.user_id = $userid and a.hotel_id = $hotelid ";
+			where  a.hotel_id = $hotelid ";
 	$ver = $this->db->query($sql);
         if($ver->num_rows()>0){
     		return $ver->result();

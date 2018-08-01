@@ -118,6 +118,16 @@
                                                     
                                                
                                                 <?php
+
+                                                if($User_Type==1)
+                                                {
+                                                    $AllHotel= get_data('manage_hotel', array('owner_id'=>$user_id))->result_array();
+                                                }
+                                                else if($User_Type==2)
+                                                {
+                                                    $r=$this->db->query("select * from assignedhotels where userid =".$user_id)->row_array();
+                                                    $AllHotel=$this->db->query("select * from manage_hotel where hotel_id in (".$r['hotelids'].")")->result_array();
+                                                }
                                                 foreach ($AllHotel as  $value) {
 													echo '<li><a onclick="changeproperty('."'".insep_encode($value['hotel_id'])."'".')" href="'.lang_url().'channel/change_property/'.insep_encode($value['hotel_id']).'" id="'.$value['hotel_id'].'" class="english">'.$value['property_name'].' [id:'.$value['hotel_id'].']</a></li>';
 												}

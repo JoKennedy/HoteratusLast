@@ -308,6 +308,32 @@ class Channel extends Front_Controller {
 			echo $this->channel_model->changerPassword($oldpass,$newpass);
 		}
 	}
+	function savenewuserassg()
+	{
+
+		$result['success']=false;
+		$result['msg']='something went Wrong';
+		 if($this->channel_model->savenewuserassg($_POST))
+		{
+			$result['success']=true;
+
+		}
+
+		echo json_encode($result);
+	}
+	function updatenewuserassg()
+	{
+		
+		$result['success']=false;
+		$result['msg']='something went Wrong';
+		 if($this->channel_model->updatenewuserassg($_POST))
+		{
+			$result['success']=true;
+
+		}
+
+		echo json_encode($result);
+	}
 	function propertyinfoupdate()
 	{
 
@@ -1421,7 +1447,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Changer Password';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$this->views('channel/changepassword',$data);
 	}
@@ -1432,7 +1457,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage Rooms';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
 		$this->views('channel/managerooms',$data);
@@ -1444,7 +1468,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage POS';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['Postype']= get_data('postype')->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 
@@ -1460,7 +1483,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage Rooms';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['Roominfo']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid and  property_id =$roomid")->row_array();
 		$data['mealplan']=get_data('meal_plan')->result_array();
@@ -1514,8 +1536,8 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage Users';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['UsersInfo']=$this->db->query("select *,concat(a.fname,' ',lname) fullname from ".TBL_USERS." a left join assignedhotels b on a.user_id = b.userid where a.owner_id=".user_id())->result_array();
 		$this->views('channel/manageusers',$data);
 	}
 	function billingdetails()
@@ -1524,7 +1546,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Billing Details';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$this->views('channel/billingdetails',$data);
 	}
@@ -1534,7 +1555,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage Policies';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$this->views('channel/managepolicies',$data);
 	}
@@ -1544,7 +1564,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage Membership';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$this->views('channel/managemembership',$data);
 	}
@@ -1554,7 +1573,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Manage Channels';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$this->views('channel/managechannels',$data);
 	}
@@ -1565,7 +1583,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotelInfo']=$this->reservation_model->reservationQtyAllHotel();
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['AllChannel']=$this->channel_model->allChannelList();
 		$data['type']=$type;
@@ -1580,7 +1597,6 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$data['page_heading'] = 'Calendar';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$this->views('channel/calendarfull',$data);
 	}
@@ -1604,13 +1620,11 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotelInfo']=$this->reservation_model->reservationQtyAllHotel();
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['allConection'] = $this->channel_model->get_connect_channels();
 		$data['TopChannel']=$this->reservation_model->TopChannel();
 		$data['Percentage']=$this->reservation_model->TopChannelPercentage();
-		$data['menudata']=$this->useraccess($user_details);
-
+		
     	$this->views('channel/dashboard',$data);
 
 
@@ -1730,7 +1744,6 @@ function profile()
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotelInfo']=$this->reservation_model->reservationQtyAllHotel();
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
     	$this->views('channel/profile',$data);
 }
@@ -1741,7 +1754,6 @@ function settingsProperty()
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['AllHotelInfo']=$this->reservation_model->reservationQtyAllHotel();
-		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['countries']=$this->db->query("SELECT * FROM country where country_status= 'active'")->result_array();
 		$data['currency']=$this->db->query("SELECT * FROM currency ")->result_array();

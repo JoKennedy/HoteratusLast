@@ -25,7 +25,8 @@
                             <th>User Name</th>
                             <th>Email</th>
                             <th>Status</th>
-                            <th>Edit</th>
+                            <th style="text-align:center;">Edit</th>
+                            <th width="5%" style="text-align:center;">Activate/Inactivate</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,7 +39,9 @@
 
                                                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['fullname'].'  </td> 
                                                                 <td> '.$value['user_name'].'  </td>  <td> '.$value['email_address'].'  </td>
-                                                                <td> '.($value['status']==1?'Active':'Deactive').'</td> <td><a  onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                                                <td> '.($value['status']==1?'Active':'Deactive').'</td> <td style="text-align:center;"><a  onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> 
+                                                                <td style="text-align:center;"><a  onclick =" activeInactive('.$value['user_id'].','.$value['status'].')" data-toggle="modal"><i class="fa fa-unlock-alt"></i></a></td>
+                                                                </tr>   ';
 
                                                         }
                                                 } ?>
@@ -121,9 +124,10 @@
                                                         
                                                         foreach ($hoteles as $hotel) {
 
-                                                           echo '<div class="col-md-6">
+                                                           echo '<div class="col-md-6 checkbox">
+                                                           <label>
                                                            <input type="checkbox" name="hotelid[]" id="hotelid" value="'.$hotel['hotel_id'].'" >
-                                                                    <label for="brand"><span></span>'.$hotel['property_name'].'.</label>
+                                                                    '.$hotel['property_name'].'.</label>
                                                                     </div>';
                                                         }
                                                         echo ' <div class="clearfix"> </div> </div>';
@@ -133,6 +137,7 @@
                                                     <h4>Options Access</h4>
                                                     <?php
                                                         $item1=1;
+                                                        $main=0;
                                                        $menudata= get_data('menuitem', array('active'=>1))->result_array();
                                                         
                                                         foreach ($menudata as  $value) {
@@ -143,18 +148,21 @@
                                                             if ($value['order2']==0 && $value['order3']==0) {
                                                                 echo '<div class="graph" >';
 
-                                                                echo '<div class="col-md-6">
-                                                                    <input onchange="changeval('."'item".$value['order1']."'".')" id="menuitemid" type="checkbox" name="menuitemid[]" value="'.$value['menuitemid'].'" >
-                                                                    <label for="brand"><span></span><strong>'.$value['description'].'</strong></label>
+                                                                echo '<div class="col-md-6 checkbox">
+                                                                    <label >
+                                                                    <input class="'."main".$value['order1'].'" onchange="'.($value['menuitemid']==1?'this.checked=!this.checked;':'changeval('."'item".$value['order1']."'".',this)').'" id="menuitemid" type="checkbox" name="menuitemid[]" value="'.$value['menuitemid'].'" '.($value['menuitemid']==1?'checked':'').'>
+                                                                    <strong>'.$value['description'].'</strong></label>
                                                                     </div>';
                                                                 $sub=0;
                                                                 $item1=$value['order1'];
+                                                                $main=$value['menuitemid'];
                                                             }
                                                             else if($value['order2']>0 && $value['order3']==0)
                                                             {   
-                                                                 echo '<div class="col-md-6">
-                                                                    <input class="item'.$value['order1'].'" onchange="checkmain('."'item".$value['order1']."'".',this.checked)" type="checkbox" id="menuitemid" name="menuitemid[]" value="'.$value['menuitemid'].'" >
-                                                                    <label for="brand"><span></span>'.$value['description'].'</label>
+                                                                 echo '<div class="col-md-6 checkbox">
+                                                                 <label>
+                                                                    <input class="item'.$value['order1'].'" onchange="checkmain('."'main".$value['order1']."'".',this.checked)" type="checkbox" id="menuitemid" name="menuitemid[]" value="'.$value['menuitemid'].'" >
+                                                                    '.$value['description'].'</label>
                                                                     </div>';
                                                             }
 
@@ -253,9 +261,10 @@
                                                         
                                                         foreach ($hoteles as $hotel) {
 
-                                                           echo '<div class="col-md-6">
+                                                           echo '<div class="col-md-6 checkbox">
+                                                           <label>
                                                            <input type="checkbox" name="hotelidup[]" id="hotelidup" value="'.$hotel['hotel_id'].'" >
-                                                                    <label for="brand"><span></span>'.$hotel['property_name'].'.</label>
+                                                                    '.$hotel['property_name'].'.</label>
                                                                     </div>';
                                                         }
                                                         echo ' <div class="clearfix"> </div> </div>';
@@ -275,23 +284,24 @@
                                                             if ($value['order2']==0 && $value['order3']==0) {
                                                                 echo '<div class="graph" >';
 
-                                                                echo '<div class="col-md-6">
-                                                                    <input class="menuitemidup" onchange="changeval(this.id)" id="items'.$value['order1'].'" type="checkbox" name="menuitemidup[]" value="'.$value['menuitemid'].'" >
-                                                                    <label for="brand"><span></span><strong>'.$value['description'].'</strong></label>
+                                                                echo '<div class="col-md-6 checkbox">
+                                                                    <label>
+                                                                    <input class="'."mains".$value['order1'].'" onchange="'.($value['menuitemid']==1?'this.checked=!this.checked;':'changeval('."'items".$value['order1']."'".',this)').'" id="menuitemidup" type="checkbox" name="menuitemidup[]" value="'.$value['menuitemid'].'" '.($value['menuitemid']==1?' checked':'').' >
+                                                                    <strong>'.$value['description'].'</strong></label>
                                                                     </div>';
                                                                 $sub=0;
                                                                 $item1=$value['order1'];
                                                             }
                                                             else if($value['order2']>0 && $value['order3']==0)
                                                             {   
-                                                                 echo '<div class="col-md-6">
-                                                                    <input class="items'.$value['order1'].' menuitemidup" onchange="checkmain('."'items".$value['order1']."'".',this.checked)" type="checkbox" id="menuitemidup" name="menuitemidup[]" value="'.$value['menuitemid'].'" >
-                                                                    <label for="brand"><span></span>'.$value['description'].'</label>
+                                                                 echo '<div class="col-md-6 checkbox">
+                                                                    <label>
+                                                                    <input class="items'.$value['order1'].'" onchange="checkmain('."'mains".$value['order1']."'".',this.checked)" type="checkbox" id="menuitemidup" name="menuitemidup[]" value="'.$value['menuitemid'].'" >'.$value['description'].'</label>
                                                                     </div>';
                                                             }
 
                                                         }
-                                                      
+                                                                                        
                                                         echo ' <div class="clearfix"> </div> </div>';
 
     
@@ -391,7 +401,7 @@ function saveUser() {
      else if (!$("input[id=menuitemid]").is(":checked")) {
         swal({
             title: "upps, Sorry",
-            text: "Select a Hotel Access to continue!",
+            text: "Select a Menu Item Access to continue!",
             icon: "warning",
             button: "Ok!",
         });
@@ -464,7 +474,7 @@ function showupdate(id,fname,lname,email,username,menuid,hotelid)
         });
 
     });
-    $("input[class=menuitemidup]").each(function (index) {  
+    $("input[id=menuitemidup]").each(function (index) {  
        valori=$(this).val();
        id=this;
 
@@ -520,7 +530,7 @@ function updateUser() {
         });
         return;
     }
-     else if (!$("input[class=menuitemidup]").is(":checked")) {
+     else if (!$("input[id=menuitemidup]").is(":checked")) {
         swal({
             title: "upps, Sorry",
             text: "Select a Menu Item Access to continue!",
@@ -533,7 +543,7 @@ function updateUser() {
     var data=$("#formuserinfoup").serialize();
         $.ajax({
         type: "POST",
-        //dataType: "json",
+        dataType: "json",
         url: "<?php echo lang_url(); ?>channel/updatenewuserassg",
         data: data,
         beforeSend: function() {
@@ -542,8 +552,6 @@ function updateUser() {
         },
         success: function(msg) {
             unShowWait();
-            alert(msg);
-            return;
             if (msg["success"]) {
                 swal({
                     title: "Success",
@@ -571,7 +579,51 @@ function updateUser() {
     });
    
 }
+function activeInactive(id,status)
+{
+    swal({
+      title: "Are you sure?",
+      text: "You will change the status of this user!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "<?php echo lang_url(); ?>channel/updatenewuserassg",
+                data: data,
+                beforeSend: function() {
+                    showWait();
+                    setTimeout(function() { unShowWait(); }, 10000);
+                },
+                success: function(msg) {
+                    unShowWait();
+                    if (msg["success"]) {
+                        swal("User "+(status==0?'activated':'disabled'), {
+                          icon: "success",
+                        }).then((n) => {
+                                location.reload();
+                        });
+                    } else {
 
+                        swal({
+                            title: "upps, Sorry",
+                            text: msg["msg"],
+                            icon: "warning",
+                            button: "Ok!",
+                        });
+                    }
+                }
+            });
+
+      } else {
+        swal("No change made!");
+      }
+    });
+}
 function showtab(id) {
     $(".sec").removeClass("content-current");
     $("#section-" + id).addClass("content-current");
@@ -582,18 +634,16 @@ function showtab2(id) {
 }
 function checkmain(id, value) {
 
-    if ($("#" + id).prop("checked") == false && value) {
-        $("#" + id).prop("checked", true);
+    if ( $("input[class=" + id + "]").is(":checked") == false && value) {
+        $("input[class=" + id + "]").prop("checked", true);
     }
 
 }
 
-function changeval(id) {
-    alert(id);
-    alert($("input[class=" + id + "]").is(":checked"));
+function changeval(id,opt) { 
 
     if ($("input[class=" + id + "]").is(":checked")) {
-        $("#" + id).prop("checked", true);
+        $(opt).prop("checked", true);
     }
 
 }
@@ -607,8 +657,6 @@ function validaremail(id) {
 
     var email = document.getElementById(id);
     var emailval = $("#"+id).val();
-
-    email.setCustomValidity("Test");
 
     if (emailval.length == 0) {
         return false;
@@ -652,12 +700,8 @@ function validarusername(id) {
         type: "POST",
         url: '<?php echo lang_url(); ?>channel/usernameused',
         data: { "username": username },
-         beforeSend: function() {
-            showWait();
-            setTimeout(function() { unShowWait(); }, 10000);
-        },
         success: function(html) {
-            unShowWait();
+          
             if (html.trim() != 0) {
                 usern.setCustomValidity("This UserName already exists");
                 return false;

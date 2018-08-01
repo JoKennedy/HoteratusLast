@@ -323,7 +323,6 @@ class Channel extends Front_Controller {
 	}
 	function updatenewuserassg()
 	{
-		
 		$result['success']=false;
 		$result['msg']='something went Wrong';
 		 if($this->channel_model->updatenewuserassg($_POST))
@@ -1506,6 +1505,7 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 		echo $this->channel_model->saveBasicInfoRoom($data);
 
 	}
+
 	function saveRoomNumber()
 	{
 		$roomid=insep_decode($_POST['roomid']);
@@ -1547,7 +1547,16 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['BillInfo']= get_data('bill_info',array('hotel_id'=>hotel_id()))->row_array();
+		$data['Allcountry']= get_data('country',array('country_status'=>'active'))->result_array();
 		$this->views('channel/billingdetails',$data);
+	}
+	function saveBillingDetails()
+	{
+		$info=$this->channel_model->saveBillingDetails($_POST);
+		$data['value']=$info;
+		$data['success']=true;
+		echo json_encode($data);
 	}
 	function managepolicies()
 	{

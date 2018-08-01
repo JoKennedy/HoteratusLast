@@ -43,6 +43,7 @@
     <script src="<?php echo base_url();?>user_asset/back/js/serial.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/light.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/radar.js"></script>
+    <script src="<?php echo base_url();?>user_asset/back/js/jquery.validate.js"></script>
     <link href="<?php echo base_url();?>user_asset/back/css/barChart.css" rel='stylesheet' type='text/css' />
     <link href="<?php echo base_url();?>user_asset/back/css/fabochart.css" rel='stylesheet' type='text/css' />
     <!--clock init-->

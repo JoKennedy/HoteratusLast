@@ -293,7 +293,7 @@ function saveRole() {
 
     var data = $("#RoleC").serialize();
 
-    if ($("#rolename").val().length < 3) {
+    if ($("#rolename").val().length < 1) {
         swal({
             title: "upps, Sorry",
             text: "Missing Field Role Name!",
@@ -346,7 +346,7 @@ function updateRole() {
 
     var data = $("#RoleUp").serialize();
 
-    if ($("#rolenameup").val().length < 3) {
+    if ($("#rolenameup").val().length < 1) {
         swal({
             title: "upps, Sorry",
             text: "Missing Field Role Name!",
@@ -399,7 +399,7 @@ function saveStaff() {
 
     var data = new FormData($("#EmployeeC")[0]);
 
-    if ($("#name").val().length < 3) {
+    if ($("#name").val().length < 1) {
         swal({
             title: "upps, Sorry",
             text: "Missing Field First Name!",
@@ -480,7 +480,7 @@ function updateStaff() {
 
     var data = new FormData($("#EmployeeUP")[0]);
 
-    if ($("#nameup").val().length < 3) {
+    if ($("#nameup").val().length < 1) {
         swal({
             title: "upps, Sorry",
             text: "Missing Field First Name!",

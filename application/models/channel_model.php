@@ -324,7 +324,7 @@ class channel_model extends CI_Model
 
 
 	}
-		function updatenewuserassg($infouser)
+	function updatenewuserassg($infouser)
 	{	
 		$hasherpass = new PasswordHash(8, FALSE);
 		$data['fname']=$infouser['fnameup'];
@@ -352,7 +352,32 @@ class channel_model extends CI_Model
 		return false;
 
 	}
+	function saveBillingDetails($billd)
+	{
+		$hotelid=hotel_id();
+		$exist=get_data('bill_info',array('hotel_id'=>$hotelid))->result_array();
+		$data['company_name']=$billd['cname'];
+		$data['town']=$billd['city'];
+		$data['address']=$billd['address'];
+		$data['zip_code']=$billd['zipcode'];
+		$data['mobile']=$billd['phone'];
+		$data['vat']=$billd['vat'];
+		$data['reg_num']=$billd['rnumber'];
+		$data['email_address']=$billd['bemail'];
+		$data['country']=$billd['country'];
 
+		if (count($exist)>0) {
+			
+			update_data('bill_info',$data,array('hotel_id'=>$hotelid));
+			return 2;
+		}
+		else
+		{	$data['hotel_id']=$hotelid;
+			$data['user_id']=user_id();
+			insert_data('bill_info',$data);
+			return 1;
+		}
+	}
 	function propertyinfoupdate($propertyinfo)
 	{
 		$localidad=str_replace(array('(',')'), '', $propertyinfo['localidad']);

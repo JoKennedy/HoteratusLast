@@ -31,12 +31,12 @@
 				{
 					if($User_Type==1)
 					{
-						$menudata= get_data('menuitem', array('active'=>1))->result_array();
+						$menudata= $this->db->query("select * from menuitem order by order1,order2,order3")->result_array();
 					}
 					else if($User_Type==2)
 					{
 						$r=$this->db->query("select * from assignedhotels where userid =".$user_id)->row_array();
-						$menudata=$this->db->query("select * from menuitem where menuitemid in (".$r['menuitemids'].")")->result_array();
+						$menudata=$this->db->query("select * from menuitem where menuitemid in (".$r['menuitemids'].") order by order1,order2,order3")->result_array();
 					}
 				}
 				foreach ($menudata as  $value) {

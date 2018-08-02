@@ -138,7 +138,8 @@
                                                     <?php
                                                         $item1=1;
                                                         $main=0;
-                                                       $menudata= get_data('menuitem', array('active'=>1))->result_array();
+                                                       $menudata= $this->db->query("select * from menuitem where active=1 order by order1,order2,order3")->result_array();
+
                                                         
                                                         foreach ($menudata as  $value) {
                     
@@ -257,7 +258,7 @@
                                                     <h4>Hotel Access</h4>
                                                     <?php
                                                          echo '<div class="graph" >';
-                                                        $hoteles=get_data('manage_hotel',array('owner_id' => $user_id ))->result_array();
+                                                    
                                                         
                                                         foreach ($hoteles as $hotel) {
 
@@ -274,7 +275,7 @@
                                                     <h4>Options Access</h4>
                                                     <?php
                                                         $item1=1;
-                                                       $menudata= get_data('menuitem', array('active'=>1))->result_array();
+                                                    
                                                         
                                                         foreach ($menudata as  $value) {
                     

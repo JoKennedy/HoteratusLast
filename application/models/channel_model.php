@@ -65,7 +65,7 @@ class channel_model extends CI_Model
 							$hotel_id = $this->db->query("select * from manage_hotel where hotel_id in (".$assingn_hotel['hotelids'].") limit 1")->row()->hotel_id;
 
 							$this->session->set_userdata('ch_user_id',$result->user_id);
-							$this->session->set_userdata('ch_ownerid',$result->owner_id);
+							$this->session->set_userdata('owner_id',$result->owner_id);
 							$this->session->set_userdata('ch_user_type',$result->User_Type);
 							$this->session->set_userdata('ch_hotel_id',$hotel_id);
 							if($result->pw_ck=='2')

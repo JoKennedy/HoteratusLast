@@ -1418,8 +1418,8 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 				$udata['pw_ck'] = '2';
 				if(update_data('manage_users',$udata,array('user_id'=>insep_decode($id))))
 				{
-$hdata['status'] = '1';
-update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
+					$hdata['status'] = '1';
+					update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 					$data['page_heading'] = 'Home';
 					$data['confirm'] ='confirm';
 					$this->view('channel/index',$data);
@@ -1516,14 +1516,14 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 
 	function activeRevenue()
 	{
-
+		$this->is_login();
 		$roomid=insep_decode($_POST['roomid']);
 		$hotelId=insep_decode($_POST['hotelId']);
 		$Status=$_POST['revenuestatus'];
 		echo $this->channel_model->activeRevenue($roomid,$hotelId,$Status);
 	}
 	function updateRevenue()
-	{
+	{	$this->is_login();
 		$roomid=insep_decode($_POST['roomid']);
 		$hotelId=insep_decode($_POST['hotelId']);
 		$maximo=$_POST['max'];
@@ -1552,7 +1552,7 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 		$this->views('channel/billingdetails',$data);
 	}
 	function saveBillingDetails()
-	{
+	{	$this->is_login();
 		$info=$this->channel_model->saveBillingDetails($_POST);
 		$data['value']=$info;
 		$data['success']=true;
@@ -1570,10 +1570,24 @@ update_data('manage_hotel',$hdata,array('owner_id'=>insep_decode($id)));
 	function managemembership()
 	{
 		$this->is_login();
+		$ownerid=0;
+		if(user_type()==1)
+		{
+			$ownerid=user_id();
+		}
+		else if (user_type()==2)
+		{
+			$ownerid=owner_id();
+		}
+	
     	$data['page_heading'] = 'Manage Membership';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['Membership']=$this->db->query("SELECT b.*,plan_from,plan_to
+		FROM user_membership_plan_details a
+		left join subscribe_plan  b on a.buy_plan_id=b.plan_id
+		where user_id=$ownerid and plan_from<='".date('Y-m-d')."' and plan_to>='".date('Y-m-d')."' order by plan_to desc limit 1;")->row_array();
 		$this->views('channel/managemembership',$data);
 	}
 	function managechannels()

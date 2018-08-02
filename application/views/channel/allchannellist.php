@@ -37,26 +37,28 @@
 													$imagen=base64_encode(file_get_contents("uploads/".($value['image']==''?'168050.jpg':$value['image'])));
 												$class_status=($value['status']==1?'success':($value['status']==2?'warning':($value['status']==3?'danger':'info')));
 
-												$show_status=($value['status']==1?'Live':($value['status']==2?'New':($value['status']==3?'Construction':'Unchecked')));
+												$show_status=($value['status']==1?'<h5><span class="label label-success">Live</span></h5>':($value['status']==2?'<h5><span class="label label-warning">New</span></h5>':($value['status']==3?'<h5><span class="label label-danger">Construction</span></h5>':'Unchecked')));
+
 												$conect= ($value['status']==3?'Conect': ($value['conect']==0?'Connect':'Connected'));
 
 												$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-chain-broken':'fa fa-link'));
 												$link=($value['status']==1?lang_url().'channel/config_channel/'.insep_encode($value['channel_id']):'#');
 
-												echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td>'.$show_status.' </td> <td style="text-align: left !important;"><a   href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a></td> </tr>  ';
+												echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td style="text-align:center;">'.$show_status.' </td> 
+												<td style="text-align: center !important;" ><a class="label btn-info"   href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a></td> </tr>  ';
 												}
 												else if((insep_decode($type)==2?0:insep_decode($type))==$value['conect'])
 												{
 													$imagen=base64_encode(file_get_contents("uploads/".($value['image']==''?'168050.jpg':$value['image'])));
 													$class_status=($value['status']==1?'success':($value['status']==2?'warning':($value['status']==3?'danger':'info')));
 
-													$show_status=($value['status']==1?'Live':($value['status']==2?'New':($value['status']==3?'Construction':'Unchecked')));
+													$show_status=($value['status']==1?'<h5><span class="label label-success">Live</span></h5>':($value['status']==2?'<h5><span class="label label-warning">New</span></h5>':($value['status']==3?'<h5><span class="label label-danger">Construction</span></h5>':'Unchecked')));
 													$conect= ($value['status']==3?'Conect': ($value['conect']==0?'Connect':'Connected'));
 
 													$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-chain-broken':'fa fa-link'));
 													$link=($value['status']==1?lang_url().'channel/config_channel/'.insep_encode($value['channel_id']):'#');
 
-													echo' <tr  class="'.$class_status.'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td>'.$show_status.' </td> <td style="text-align: left !important;"><a   href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a></td> </tr>  ';
+													echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td style="text-align:center;">'.$show_status.' </td> <td style="text-align: center !important;">  <a class="label btn-info"  href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a> </td> </tr> ';
 												}
 
 											}

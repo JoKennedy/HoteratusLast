@@ -12,11 +12,11 @@
 <div class="col-md-12 ">
     <div class="col-md-6 form-group1">
         <label class="control-label"><strong>Check-In</strong></label>
-        <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="" required="" id="date1Edit" name="date1Edit">
+        <input style="background:white; color:black; text-align: center;" type="date" class="btn blue"  required="" id="date1Edit" name="date1Edit">
     </div>
     <div class="col-md-6 form-group1">
         <label class="control-label"><strong>Check-Out</strong></label>
-        <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="" required="" id="date2Edit" name="date2Edit">
+        <input style="background:white; color:black; text-align: center;" type="date" class="btn blue"  required="" id="date2Edit" name="date2Edit">
     </div>
     <div class="col-md-6 form-group1">
         <label class="control-label"><strong>Room Qty</strong></label>
@@ -61,7 +61,9 @@
     <button type="button" id="seach_reserve" class="btn btn-lg btn-info warning_1">Search</button>
 </div>
 <script type="text/javascript">
-$("#addreservation").click(function(event) {
+
+function setcalendar()
+{
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar
     $("#date1Edit").attr('min', formatoDate(fecha));
@@ -69,7 +71,8 @@ $("#addreservation").click(function(event) {
     fecha.setDate(fecha.getDate() + dias);
     $("#date2Edit").attr('min', formatoDate(fecha));
     $("#date2Edit").val(formatoDate(fecha));
-});
+    $("#CreateReservation").modal();
+}
 
 
 $("#date1Edit").change(function(event) {
@@ -78,5 +81,7 @@ $("#date1Edit").change(function(event) {
     fecha.setDate(fecha.getDate() + dias);
     $("#date2Edit").attr('min', formatoDate(fecha));
     $("#date2Edit").val(formatoDate(fecha));
+
+    alert($("#date2Edit").val());
 });
 </script>

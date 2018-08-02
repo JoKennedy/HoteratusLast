@@ -68,6 +68,7 @@ class channel_model extends CI_Model
 							$this->session->set_userdata('owner_id',$result->owner_id);
 							$this->session->set_userdata('ch_user_type',$result->User_Type);
 							$this->session->set_userdata('ch_hotel_id',$hotel_id);
+							$this->session->set_userdata('specialpermitid',$assingn_hotel['specialpermitids']);
 							if($result->pw_ck=='2')
 							{							
 							   return 1;
@@ -557,14 +558,26 @@ class channel_model extends CI_Model
 			$room2='';
 			$roomnumber=explode(",", $value['existing_room_number']);
 
+			if(count($roomnumber)<$value['existing_room_count'])
+			{
+				$faltan=$value['existing_room_count']-count($roomnumber);
+
+				for ($i=0; $i < $faltan; $i++) { 
+					array_push($roomnumber, "f$i");
+				}
+			}
+
 
 			if ($showr==1) {
-				foreach ($roomnumber as  $rooms) {
-					$room2 .='<tr>  <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
-					$room2 .= $this->ReservationShow($rooms,$date1,$value['property_id']);
+					foreach ($roomnumber as  $rooms) {
+						$room2 .='<tr>  <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
-				}
+						$room2 .= $this->ReservationShow($rooms,$date1,$value['property_id']);
+
+					}	
+
+
 			}
 			
 

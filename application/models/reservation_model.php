@@ -746,6 +746,16 @@ class Reservation_model extends CI_Model
           }
         }
 
+
+          if(count($result)>0)
+            {
+
+                uasort($result,function($a,$b)
+                {
+                    return strtotime($a['current_date_time'])<strtotime($b['current_date_time'])?1:-1;
+                });
+            }
+
         $re['info']=$result;
         $re['logo']=$alllogo;
         return $re;

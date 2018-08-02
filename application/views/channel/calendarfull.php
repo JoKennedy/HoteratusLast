@@ -1,20 +1,3 @@
-<div class="loading-circle-overlay" id="heading_loader" style="display:none">
-  <div id="model-back">
-    <div class="loadinh_bg">
-      <div class="main_content_bg">
-        <div class="details_bg">
-          <div style="overflow:hidden;clear:both;">
-            <div align="center" style="color:#003580; float: left; font-size: 15px; text-align:center; font-weight:bold;"><br> <!--<font size="-1" color="#A2A2A2" style="margin-left: 26px;">Please Wait...</font>-->
-            <br>
-            <img src="http://localhost/channel_live/user_assets/loader/loader.gif">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <div class="outter-wp">
 		<!--sub-heard-part-->
@@ -26,15 +9,33 @@
 		   </div>
 	  <!--//sub-heard-part-->
 
-	  		
-			
+		
+		
 
 	        <div style="float: right;" class="buttons-ui">
-        		<a class="btn orange">Full Update</a>
-        		<a class="btn green">Bulk Update</a>
-				<a class="btn blue">Add Reservation</a>
+
+	        	<?php
+	        		$specialpermit=array();
+					if ($User_Type==2) {
+						$specialpermit=specialpermitids();
+					}
+
+					if ($User_Type==1 || in_array(1, $specialpermit)) {
+						echo '<a class="btn orange">Full Update</a>';
+					}
+					if ($User_Type==1 || in_array(2, $specialpermit)) {
+						echo '<a class="btn green">Bulk Update</a>';
+					}
+					if ($User_Type==1 || in_array(3, $specialpermit)) {
+						echo '<a onclick="setcalendar()" class="btn blue">Add Reservation</a>';
+					}
+				?>
+        		
+        		
+				
 		 	</div>
 			<div  class="clearfix"></div>	
+
 
 		<div style="width: 100%; height:400px;"  class="table-responsive">
 
@@ -60,6 +61,19 @@
 		</div>
 		
 </div>
+<div id="CreateReservation" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div align="center" id="headerinvoice">
+            </div>
+            <?php include("creationreservation.php")?>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
 </div>
 </div>
 

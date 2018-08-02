@@ -266,6 +266,11 @@ function hotel_id()
 		return $ci->session->userdata('ch_hotel_id');
 	}
 }
+function specialpermitids()
+{
+	$ci =& get_instance();
+	return explode(',',$ci->session->userdata('specialpermitid'));
+}
 function owner_id()
 {
 	$ci =& get_instance();

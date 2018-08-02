@@ -12,7 +12,7 @@ function formatoDate(date) {
   var monthIndex = date.getMonth()+1;
   var year = date.getFullYear();
 
-  return  year+ '-' + (monthIndex<=9?'0':'')+ monthIndex+ '-' + day;
+  return  year+ '-' + (monthIndex<=9?'0':'')+ monthIndex+ '-' + (day<=9?'0':'')+day;
 }
    function justNumbers(e)
     {

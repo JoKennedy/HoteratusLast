@@ -6954,7 +6954,7 @@ class inventory_model extends CI_Model
     }
     
     function user_room_count()
-    {
+    { 
         if (user_type() == '1') {
             $count = $this->db->select('property_id')->from(TBL_PROPERTY)->where(array(
                 'owner_id' => user_id(),

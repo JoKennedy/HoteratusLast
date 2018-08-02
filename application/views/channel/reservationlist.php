@@ -8,9 +8,10 @@
     </div>
     <!--//sub-heard-part-->
     <div style="float: right;" class="buttons-ui">
+     
         <a class="btn orange">Imports New</a>
         <a class="btn green">Export XLSX</a>
-        <a id="addreservation" href="#CreateReservation" data-toggle="modal" class="btn blue">Add Reservation</a>
+        <a onclick="setcalendar()" class="btn blue">Add Reservation</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">

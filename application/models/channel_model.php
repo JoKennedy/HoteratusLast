@@ -513,8 +513,8 @@ class channel_model extends CI_Model
 		$hotel_id=hotel_id();
 
 		
-		$html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB"> ';
-		 $header1='<thead> <tr> <th style="text-align:center;"> Room Name </th>';
+		$html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB" > ';
+		 $header1='<thead> <tr> <th style="text-align:center; "> Room Name </th>';
 		 $header2=' <thead> <tr> <th bgcolor="#E5E7E9"> </th> <th bgcolor="#E5E7E9"></th>';
 
 		 $mes= '';

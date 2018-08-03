@@ -10,7 +10,7 @@
         <a><img src="<?php echo base_url();?>user_asset/back/images/admin.jpg"></a>
         <a><span class=" name-caret"><?=$fname.' '.$lname ?> </span></a>
         <!--<p><?= ($User_Type==1?'System Administrator':'Designated User')?> </p>-->
-        <p style="font-size: 10px;"> <b><?= $HotelInfo['property_name'] ?></b></p>
+        <p style="font-size: 14px;"> <b><?= $HotelInfo['property_name'] ?></b></p>
         <ul>
             <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/icon-font.min.css" type='text/css' />
             <li><a class="tooltips" href="<?php echo base_url();?>channel/profile"><span>Profile</span><i class="lnr lnr-user"></i></a></li>

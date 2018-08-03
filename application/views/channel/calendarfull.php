@@ -44,16 +44,16 @@
 		</div>
 		<div class="form-group ">
 			<br>
-			<div class="col-sm-2">
+			<div class="col-md-2">
 				<label class="check"><input onclick=" Calendario()" id="show" type="checkbox" > Show Reservation</label>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-md-2">
 				<label class="check"><input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox" > Stop Sales</label>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-md-2">
 				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="cta" type="checkbox" > CTA</label>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-md-2">
 				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox" > CTD</label>
 			</div>
 			<div class="clearfix"> </div>

@@ -1588,6 +1588,10 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		FROM user_membership_plan_details a
 		left join subscribe_plan  b on a.buy_plan_id=b.plan_id
 		where user_id=$ownerid and plan_from<='".date('Y-m-d')."' and plan_to>='".date('Y-m-d')."' order by plan_to desc limit 1;")->row_array();
+
+		$Free =$this->db->query("select count(*) used from user_membership_plan_details where buy_plan_id=1 and user_id =$ownerid")->row_array()['used'];
+
+		$data['ALLMembership']=$this->db->query("select * from subscribe_plan where status =1 and plan_id*45 <> case when $Free=0 then 0 else 1 end    order by Grouptype, plan_price desc")->result_array();
 		$this->views('channel/managemembership',$data);
 	}
 	function managechannels()

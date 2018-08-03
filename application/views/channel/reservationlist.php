@@ -49,9 +49,9 @@
                     <input class="btn blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Write something to filter" />
                 </div>
                 <div class="clearfix"></div>
-                <table id="Reservationlist" class="table table-bordered">
+                <table id="Reservationlist" class="table table-bordered" >
                     <thead>
-                        <tr>
+                        <tr style="height:2px;">
                             <th>Status</th>
                             <th>Full Name</th>
                             <th>Room Booked</th>
@@ -61,7 +61,7 @@
                             <th>Checkout</th>
                             <th>Booked</th>
                             <th>Reservation #</th>
-                            <th>Total Amount</th>
+                            <th >Total Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,8 @@
 
 												$show_status=($value['status']==0?'Canceled':($value['status']==1?'Reserved':($value['status']==2?'Modified':($value['status']==3?'No Show':($value['status']==4?'Confirmed':'Unchecked')))));
 
-												echo' <tr  class="'.$class_status.'"> <th scope="row">'.$show_status.' </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$value['roomName'].'</td> <td>'.$value['RoomNumber'].'</td> <td> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'"> 	<p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';
+												echo' <tr scope="row" class="'.$class_status.'"> <th scope="row">'.$show_status.' </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$value['roomName'].'</td> <td>'.$value['RoomNumber'].'</td> 
+                                                <td style="text-align:center;"> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'"> 	<p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';
 
 											}
 									} ?>

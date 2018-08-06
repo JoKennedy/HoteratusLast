@@ -66,12 +66,12 @@
 
 
 
-<div style="z-index: 50000;" id="roomsavailable" class="modal fade" role="dialog" >
+<div  id="roomsavailable" class="modal fade" role="dialog"  >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
                 
-              <h2><span class="label label-primary">FEchas</span></h2>
+              <h2><span id="fechas" class="label label-primary">FEchas</span></h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span> 
             </div>
@@ -82,6 +82,85 @@
              <div class="clearfix"></div>
         </div>
     </div>
+</div>
+<div  id="infoReservation" class="modal fade" role="dialog" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span> 
+            </div>
+            <div class="label-primary">
+                <h2><span id="fechas" class="label">Make a Reservation</span></h2>         
+            </div> 
+
+           <div class="graph-form">
+                    <form id="ReserveC">
+                        <h2><span id="fechas" class="label">Guest Information</span></h2>   
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Full Name</label>
+                            <input style="background:white; color:black;" name="recipename" id="recipename" type="text" placeholder="Recipe Name" required="">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Phone</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="pricen" id="pricen" type="text" placeholder="Price" required="">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">E-mail</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="totalC" id="totalC" type="text" placeholder="0.00" required="" readonly="true">
+                        </div>
+                        <div class="col-md-6 form-group1 form-last">
+                            <label style="padding:4px;" class="control-label controls">Product List </label>
+                            <select style="width: 100%; padding: 9px;" name="productid" id="productid">
+                                <?php
+
+                                    echo '<option  value="0" >Select a Product</option>';
+                                    foreach ($ALLProducts as $value) {
+                                        $i++;
+                                        echo '<option value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
+                                    }
+                              ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Quantity</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="qty" id="qty" type="text" placeholder="Quantity" required="">
+                        </div>
+                        <div class="buttons-ui">
+                            <a onclick="addProduct()" class="btn blue">Add</a>
+                        </div>
+                        <div class="graph">
+                            <div class="table-responsive">
+                                <div class="clearfix"></div>
+                                <table id="allDetails" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Unit</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Amount</th>
+                                            <th width="2%">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <div class="clearfix"> </div>
+                                <br>
+                                <br>
+                                <div class="buttons-ui">
+                                    <a onclick="saveRecipe();" class="btn green">Save</a>
+                                </div>
+                                <div class="clearfix"> </div>
+                    </form>
+                    </div>
+                    </div>
+                </div>
+             <div class="clearfix"></div>
+        </div>
+    </div>
+    
 </div>
 
 </div>
@@ -114,7 +193,9 @@ $("#date1Edit").change(function(event) {
 function findroomavailable()
 {
 
-   
+     $("#infoReservation").modal('show');  
+
+   return;
      var data=$("#findroomavailable").serialize();
         $.ajax({
         type: "POST",
@@ -126,32 +207,10 @@ function findroomavailable()
             setTimeout(function() { unShowWait(); }, 100000);
         },
         success: function(msg) {
+        $("#fechas").html(msg['header']);
           $("#availabledetails").html(msg['detail']);
           $("#roomsavailable").modal()
             unShowWait();
-          /*  if (msg["success"]) {
-                swal({
-                    title: "Success",
-                    text: "User Created!",
-                    icon: "success",
-                    button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
-            } else {
-
-                swal({
-                    title: "upps, Sorry",
-                    text: msg["msg"],
-                    icon: "warning",
-                    button: "Ok!",
-                });
-            }
-*/
-
-
-
-
         }
     });
 }
@@ -168,5 +227,10 @@ function showdetails(id)
     }
     
 }
-
+function reservethis(roomid,rateid,date1,date2,adult,numroom,numchild,numnight)
+{
+  
+  $("#Createreservation").modal();  
+  
+}
 </script>

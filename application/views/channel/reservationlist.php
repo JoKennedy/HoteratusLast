@@ -9,7 +9,7 @@
     <!--//sub-heard-part-->
     <div style="float: right;" class="buttons-ui">
      
-        <a class="btn orange">Imports New</a>
+        <a class="btn orange">Import Resevations Now</a>
         <a class="btn green">Export XLSX</a>
         <a onclick="setcalendar()" class="btn blue">Add Reservation</a>
     </div>
@@ -46,7 +46,7 @@
                     </select>
                     <input id="date1" style="background-color: white; width:200px; " type="date" class="btn blue" value="" placeholder="">
                     <input id="date2" style="background-color: white; width:200px;" type="date" class="btn blue" value="" placeholder="">
-                    <input class="btn blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Write something to filter" />
+                    <input class="btn blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Type to filter" />
                 </div>
                 <div class="clearfix"></div>
                 <table id="Reservationlist" class="table table-bordered" >
@@ -100,7 +100,7 @@
 <!--footer section end-->
 </div>
 </div>
-<div id="CreateReservation" class="modal fade" role="dialog" aria-hidden="true">
+<div id="CreateReservation" class="modal fade" role="dialog" aria-hidden="true" style="overflow-y: scroll;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             

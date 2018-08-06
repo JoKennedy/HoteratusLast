@@ -202,24 +202,6 @@ class reservation extends Front_Controller {
 	{
 			
 
-			/*$checkin_date	=	str_replace("/","-",$this->input->get('dp1'));
-
-			
-
-			$checkout_date	=	str_replace("/","-",$this->input->get('dp2'));
-
-			$start 			=	strtotime($checkin_date);
-
-			$end 			= 	strtotime($checkout_date);
-
-			
-
-			$rooms 			=	$this->input->get('num_rooms');
-
-			$adult 			=	$this->input->get('num_person');
-
-			$child 			=	$this->input->get('num_child');*/
-
 			$rooms          =  $_POST['numrooms'];
 			$adult          =   $_POST['numadult'];
 			$start_date     = date('d-m-Y', strtotime( $_POST['date1Edit'])); ;
@@ -234,6 +216,9 @@ class reservation extends Front_Controller {
 			if($available)
 			{
 				foreach ($available as $key => $value) {
+
+				$bookininfo="'".$value['room_id']."','0','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
+				"','".$_POST['numchild']."','".$nights."'";
 				$html .= '<div>
 				<div class="row">
                     <div class="col-md-3">
@@ -253,7 +238,7 @@ class reservation extends Front_Controller {
                     <div class="col-md-4" style="text-align: right;">
                         <label>Avg. per night</label>
                         <h3>'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
-                         <button type="button"  class="btn btn-xs btn-info">Book This Room</button>
+                         <button onclick="reservethis('.$bookininfo.')" type="button"  class="btn btn-xs btn-info">Book This Room</button>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -264,11 +249,11 @@ class reservation extends Front_Controller {
 					<hr style="color: #148dec;" align="center" noshade="noshade" size="14" width="80%" />
                     <div class="col-md-6" style="margin-left:5px; float: left;">
                         <h4 style="color:#148dec;">Descripcion</h4>
-                        <p>'.$value['description'].'</p>
+                        <p style="text-align:justify">'.$value['description'].'</p>
                     </div>
                     <div class="col-md-4" style="text-align: left; float: right;">
                         <div>
-                            <label ><strong>&nbsp;Check-in:</strong>'.$start_date.'</label> 
+                            <label ><strong>Check-in:</strong>'.$start_date.'&nbsp;</label> 
                         </div>
                         <div>
                             <label><strong>Check-out:</strong>:'.$end_date.'</label> 
@@ -283,7 +268,7 @@ class reservation extends Front_Controller {
                             <label><strong>Nights:</strong>'.$nights.'</label> 
                         </div>
                         <div>
-                            <label><strong>Total:</strong>'.$value['totalprice'].'</label> 
+                            <label><strong>Total:</strong>'.number_format ( $value['totalprice'] , 2 ,  "." , "," ).'</label> 
                         </div>
                       
                     </div>
@@ -299,12 +284,12 @@ class reservation extends Front_Controller {
 			else
 			{
 				$html .= '<div class="room_info">
-						<div class="row" style="padding:30px;"> No Rooms are available..</div></div>';
+						<div class="row" style="padding:30px; text-align:center;"> No Rooms are available..</div></div>';
 				
 			}
 
 	$data['detail']=$html;
-	$data['header']='hotass';
+	$data['header']="Date Range: $start_date To $end_date";
 
 	echo json_encode($data);
 

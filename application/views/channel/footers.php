@@ -24,9 +24,17 @@
         <ul id="menu">
 			
 			<?php 
+
+			$channelConnected=$this->db->query("SELECT a.*,b.channel_name 
+					FROM user_connect_channel a
+					left join manage_channel b on a.channel_id=b.channel_id
+					where hotel_id=".hotel_id().";")->result_array();
+
+
 				$sub=0;
 				$item1=0;
 				$item2=0;
+				$order4=0;
 				if(!isset($menudata))
 				{
 					if($User_Type==1)
@@ -62,13 +70,40 @@
 
 						if($value['flecha']==2)
 						{
+							if (count($channelConnected)==0) {
+								echo '<li id="menu-academico-avaliacoes"><a href="#">No Channel Conected</a></li>';
+							}
+							else
+							{
+								echo '<div style="width:200px; height:150px; overflow:auto; "  >';
+								foreach ($channelConnected as  $channel) {
+								echo '<li id="menu-academico-avaliacoes"><a href="#">'.$channel['channel_name'].'</a></li>';
+								}
+								echo '</div>';
+							}
+							
 
-                    		echo '<li id="menu-academico-avaliacoes"><a href="">All</a></li>';
+                    		
 
 						}
+						else if ($value['order1']==4) {
+
+								
+								if ($order4==0) {
+									echo '<div style="width:200px; height:250px; overflow:auto; "  >';
+									$order4=1;
+								}
+								
+								
+								echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
+								
+								
+						}
 						else
-						{
+						{	
+
 							echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
+							
 						}
 						
 

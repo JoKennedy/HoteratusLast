@@ -420,6 +420,7 @@ function saveUser() {
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
+            alert(msg);
             unShowWait();
             if (msg["success"]) {
                 swal({

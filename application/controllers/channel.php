@@ -1591,7 +1591,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 
 		$Free =$this->db->query("select count(*) used from user_membership_plan_details where buy_plan_id=1 and user_id =$ownerid")->row_array()['used'];
 
-		$data['ALLMembership']=$this->db->query("select * from subscribe_plan where status =1 and plan_id*45 <> case when $Free=0 then 0 else 1 end    order by Grouptype, plan_price desc")->result_array();
+		$data['ALLMembership']=$this->db->query("select * from subscribe_plan where status =1 and plan_id <> case when $Free=0 then 0 else 1 end    order by Grouptype, plan_price desc")->result_array();
 		$this->views('channel/managemembership',$data);
 	}
 	function managechannels()
@@ -1601,7 +1601,15 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['AllChannelConected']=$this->db->query("SELECT a.*,b.channel_name 
+					FROM user_connect_channel a
+					left join manage_channel b on a.channel_id=b.channel_id
+					where hotel_id=".hotel_id().";")->result_array();
 		$this->views('channel/managechannels',$data);
+	}
+	function changestatus()
+	{
+		echo json_encode($this->channel_model->changestatus($_POST['id']));
 	}
 	function allChannelList($type='')
 	{
@@ -1629,7 +1637,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	}
 
 	public function Calendarview()
-	{
+	{	
 		echo $this->channel_model->calendarFull();
 	}
 	function useraccess($user_details)

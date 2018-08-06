@@ -198,6 +198,118 @@ class reservation extends Front_Controller {
 		return;
 	}
 
+	function findRoomsAvailable()
+	{
+			
+
+			/*$checkin_date	=	str_replace("/","-",$this->input->get('dp1'));
+
+			
+
+			$checkout_date	=	str_replace("/","-",$this->input->get('dp2'));
+
+			$start 			=	strtotime($checkin_date);
+
+			$end 			= 	strtotime($checkout_date);
+
+			
+
+			$rooms 			=	$this->input->get('num_rooms');
+
+			$adult 			=	$this->input->get('num_person');
+
+			$child 			=	$this->input->get('num_child');*/
+
+			$rooms          =  $_POST['numrooms'];
+			$adult          =   $_POST['numadult'];
+			$start_date     = date('d-m-Y', strtotime( $_POST['date1Edit'])); ;
+
+        	$end_date       =   date('d-m-Y', strtotime( $_POST['date2Edit'])); ;
+        	$nights         =   ceil(abs($end_date - $start_date) / 86400);
+
+			$available		=	$this->reservation_model->findRoomsAvailable();
+			
+			$html='';
+
+			if($available)
+			{
+				foreach ($available as $key => $value) {
+				$html .= '<div>
+				<div class="row">
+                    <div class="col-md-3">
+                        <div>
+                            <a href="javascript:;"><img src="'.base_url().'uploads/room_photos/noimage.jpg" class="img-responsive" alt=""></a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3 style="text-align: center;"><span class="label label-primary">'.$value['property_name'].'</span></h3>
+                        <p>Maximun Adult:'.$value['member_count'].'</p>
+                         <p>Maximun Child:'.$value['children'].'</p>
+                        <p>Rooms Available:'.$value['roomAvailability'].'</p>
+                        <button type="button" onclick="showdetails('."'room".$value['room_id']."'".')" class="btn btn-xs btn-info">Room Details</button>
+                    </div>
+
+                    <div class="col-md-4" style="text-align: right;">
+                        <label>Avg. per night</label>
+                        <h3>'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
+                         <button type="button"  class="btn btn-xs btn-info">Book This Room</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                 
+                  <div class="clearfix"></div>
+                 <div id="room'.$value['room_id'].'" class="row" style="display: none;">
+					<hr style="color: #148dec;" align="center" noshade="noshade" size="14" width="80%" />
+                    <div class="col-md-6" style="margin-left:5px; float: left;">
+                        <h4 style="color:#148dec;">Descripcion</h4>
+                        <p>'.$value['description'].'</p>
+                    </div>
+                    <div class="col-md-4" style="text-align: left; float: right;">
+                        <div>
+                            <label ><strong>&nbsp;Check-in:</strong>'.$start_date.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>Check-out:</strong>:'.$end_date.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>Rooms:</strong>'. $rooms .'</label> 
+                        </div>
+                        <div>
+                            <label><strong>Guest:</strong>'.$adult.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>Nights:</strong>'.$nights.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>Total:</strong>'.$value['totalprice'].'</label> 
+                        </div>
+                      
+                    </div>
+                    
+                </div>
+                <hr size="10">
+                </div>
+                 <div class="clearfix"></div>' ;
+
+               
+				}
+			}
+			else
+			{
+				$html .= '<div class="room_info">
+						<div class="row" style="padding:30px;"> No Rooms are available..</div></div>';
+				
+			}
+
+	$data['detail']=$html;
+	$data['header']='hotass';
+
+	echo json_encode($data);
+
+
+	}
 	
 	function Reservation_changedate($reservationid)
 	{
@@ -696,11 +808,10 @@ class reservation extends Front_Controller {
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$alllist=$this->reservation_model->AllReservationList();
+
 		$data['AllReservationList']=$alllist['info'];
 		$data['allLogo']=$alllist['logo'];
 		$data['AllChannel']=$this->channel_model->allChannelsConnect();
-
-
 		$this->views('channel/reservationlist',$data);
 
 	/*	$data['page_heading'] = 'ReservationList';

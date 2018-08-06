@@ -42,23 +42,24 @@
 			<div id="calendario"> </div>
 			<!--<?= $calendar ?>-->
 		</div>
-		<div class="form-group ">
+		<div style="text-align: left;">
 			<br>
 			<div class="col-md-2">
-				<label class="check"><input onclick=" Calendario()" id="show" type="checkbox" > Show Reservation</label>
+				<label class="check"><input onclick=" Calendario()" id="show" type="checkbox" >Show Reservation</label>
 			</div>
 			<div class="col-md-2">
-				<label class="check"><input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox" > Stop Sales</label>
+				<label class="check"><input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox" >Stop Sales</label>
 			</div>
 			<div class="col-md-2">
-				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="cta" type="checkbox" > CTA</label>
+				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="cta" type="checkbox" >CTA</label>
 			</div>
 			<div class="col-md-2">
-				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox" > CTD</label>
+				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox" >CTD</label>
 			</div>
 			<div class="clearfix"> </div>
 				
 		</div>
+
 		
 </div>
 <div id="CreateReservation" class="modal fade" role="dialog" aria-hidden="true">
@@ -90,6 +91,9 @@
 		});
 	}
 	function Calendario() {
+
+
+
 		showWait();
 		var base_url = '<?php echo lang_url();?>';
 		var data={"show":($("#show").prop('checked')?1:0),"sales":($("#Sales").prop('checked')?1:0),"cta":($("#cta").prop('checked')?1:0),"ctd":($("#ctd").prop('checked')?1:0),};

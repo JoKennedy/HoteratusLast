@@ -19,7 +19,7 @@
 					<div class="table-responsive">
 						<div style="float: right;" class="buttons-ui">
 
-								<input class="btn blue"  style="background-color: white; color: black;" id="buscar" type="text"  placeholder="Write to filter" />
+								<input class="btn blue"  style="background-color: white; color: black;" id="buscar" type="text"  placeholder="Search" />
 							
         					
 		 				</div>
@@ -65,7 +65,10 @@
 									} ?> 
 							</tbody> 
 						</table> 
-						<?php if (count($AllChannel)==0) {echo '<h4> No channels available!</h4>';} ?> 
+						<?php if (count($AllChannel)==0) {echo '<h4> No channels available!</h4>';}
+						else{
+							echo '<div style"float:right;> <ul " class="pagination pagination-sm pager" id="myPager"></ul> </div>';
+						} ?> 
 						<div  class="clearfix"></div>
 					</div>
 		
@@ -81,3 +84,13 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+function Paginar(numeroP = 10) {
+    $('#Channellist').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
+}
+$(document).ready(function() {
+
+    Paginar(10);
+
+});
+</script>

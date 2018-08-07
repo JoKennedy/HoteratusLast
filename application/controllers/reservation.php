@@ -207,7 +207,7 @@ class reservation extends Front_Controller {
 			$start_date     = date('d-m-Y', strtotime( $_POST['date1Edit'])); ;
 
         	$end_date       =   date('d-m-Y', strtotime( $_POST['date2Edit'])); ;
-        	$nights         =   ceil(abs($end_date - $start_date) / 86400);
+        	$nights         =   ceil(abs(strtotime( $_POST['date2Edit']) - strtotime( $_POST['date1Edit'])) / 86400);
 
 			$available		=	$this->reservation_model->findRoomsAvailable();
 			
@@ -218,7 +218,7 @@ class reservation extends Front_Controller {
 				foreach ($available as $key => $value) {
 
 				$bookininfo="'".$value['room_id']."','0','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
-				"','".$_POST['numchild']."','".$nights."'";
+				"','".$_POST['numchild']."','".$nights."','".number_format ( $value['totalprice'] , 2 ,  "." , "," )."'";
 				$html .= '<div>
 				<div class="row">
                     <div class="col-md-3">

@@ -62,7 +62,7 @@
 
 		
 </div>
-<div id="CreateReservation" class="modal fade" role="dialog" aria-hidden="true">
+<div id="CreateReservation" class="modal fade" role="dialog"  style="z-index: 1400;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             
@@ -70,10 +70,9 @@
             </div>
             <?php include("creationreservation.php")?>
 
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
+
+
+
 
 </div>
 </div>

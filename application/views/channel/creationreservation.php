@@ -86,6 +86,8 @@
                     <input type="hidden" name="child" id="child">
                     <input type="hidden" name="numroom" id="numroom">
                     <input type="hidden" name="adult" id="adult">
+                    <input type="hidden" name="username" id="username" value="<?=$fname.' '.$lname?>">
+                    
 
                     <div style="float: left; width: 65%;">
                         <h4><span >Guest Information</span></h4>

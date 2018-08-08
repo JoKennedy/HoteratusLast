@@ -556,10 +556,10 @@ class channel_model extends CI_Model
 			$precio='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 			$avai='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
 			$min = '<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
-			$ctas = '<tr class="cta" style="display:none; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
-			$ctds = '<tr class="ctd" style="display:none; "> <td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
-			$sss = '<tr class="ss" style="display:none; "> <td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
-			$body .='<tr>  <td ROWSPAN="'.(4+$ss+$ctd+$cta+($showr==1?$value['existing_room_count']:0)).'" style="margin: 5px; padding:5px;">'.$value['property_name'].'</td> </tr> ';
+			$ctas = '<tr class="cta" style="display:'.($cta==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
+			$ctds = '<tr class="ctd" style="display:'.($ctd==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
+			$sss = '<tr class="ss" style="display:'.($ss==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
+			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['property_name'].'</td> </tr> ';
 			$room2='';
 			$roomnumber=explode(",", $value['existing_room_number']);
 
@@ -576,7 +576,7 @@ class channel_model extends CI_Model
 			if ($showr==1) {
 
 					foreach ($roomnumber as  $rooms) {
-						$room2 .='<tr>  <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
+						$room2 .='<tr> <td></td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
 						$room2 .= $this->ReservationShow($rooms,$date1,$value['property_id']);
 
@@ -611,9 +611,9 @@ class channel_model extends CI_Model
 		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.(isset($dato['price'])?$dato['price']:'Null').'</td>';  
 				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.(isset($dato['availability'])?$dato['availability']:'Null').' </td>';
 				$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dato['minimum_stay'])?$dato['minimum_stay']:'Null').' </td>';
-				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])==1?'checked':'').' /> </td>';
-				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])==1?'checked':'').' /> </td>';
-				$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dato['stop_sell'])==1?'checked':'').' /> </td>';
+				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' /> </td>';
+				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' /> </td>';
+				$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dato['stop_sell'])?($dato['stop_sell']==1?'checked':''):'').' /> </td>';
 
 
 

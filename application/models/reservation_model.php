@@ -3085,14 +3085,14 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
                 U.minimum_stay , sum( U.price ) totalprice,
                sum( U.price  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
-                count(*)-1 available, min(U.availability) roomAvailability
+                count(*) available, min(U.availability) roomAvailability
                 FROM room_update U 
                 LEFT JOIN manage_property P ON U.room_id = P.property_id 
                 WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
                 AND U.availability >=$rooms  
                 AND U.minimum_stay <= $nights AND P.member_count >=$adult 
                 AND P.children >=$child AND individual_channel_id =0 
-                AND stop_sell=0 AND P.hotel_id=".hotel_id()."
+                AND stop_sell='0' AND P.hotel_id=".hotel_id()."
                 GROUP BY U.room_id ORDER BY U.room_id DESC")->result_array();
        
         return $result;
@@ -3127,18 +3127,30 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 AND P.children >=".$_POST['child']." AND individual_channel_id =0 
                 AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
                 ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
-        return $result;
-
-        $available= array();
-
-
-        if(count($available)>0)
+    
+        if(count($result)>0)
         {
-            if ($available['roomAvailability']>=$_POST['numroom']) {
-              
-               $code    = $this->db->query("SELECT max(reservation_code) code FROM manage_reservation where hotel_id=".hotel_id()."")->row_array();
+            if (count($result)>=$_POST['numroom']) {
 
-                 if(isset($code['code'])){$reservation_code   =   sprintf('%08d',$code['code']+1);}else{$reservation_code = sprintf('%08d',1);}
+                $currencycodes=0;
+               $currencycodes = get_data(HOTEL,array('hotel_id'=>hotel_id()))->row()->currency;
+               $prices=0;
+               $pricesdetails='';
+               foreach ($result as $value) {
+                   
+                   $prices += $value['price'];
+
+                   $pricesdetails .= $value['price'].',';
+               }
+               
+
+                if  ($currencycodes==0)   {
+                   $currencycodes   = 1;
+                }
+
+               $code = $this->db->query("SELECT max(reservation_code) code FROM manage_reservation where hotel_id=".hotel_id()."")->row_array();
+
+                if(isset($code['code'])){$reservation_code   =   sprintf('%08d',$code['code']+1);}else{$reservation_code = sprintf('%08d',1);}
                 
 
                 $data['hotel_id']=hotel_id();
@@ -3146,59 +3158,67 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $data['reservation_code']=$reservation_code;
                 $data['guest_name']=$_POST['firstname'];
                 $data['last_name']=$_POST['lastname'];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
-                $data['']=$_POST[''];
+                $data['mobile']=$_POST['phone'];
+                $data['country']=$_POST['countryid'];
+                $data['province']=$_POST['state'];
+                $data['street_name']=$_POST['address'];
+                $data['city_name']=$_POST['city'];
+                $data['zipcode']=$_POST['zipcode'];
+                $data['email']=$_POST['email'];
+                $data['description']=$_POST['note'];
+                $data['room_id']=$_POST['roomid'];
+                $data['rate_types_id']=$_POST['rateid'];
+                $data['num_rooms']=1;
+                $data['num_nights']=$nights;
+                $data['members_count']=$_POST['adult'];
+                $data['children']=$_POST['child'];
+                $data['start_date']=date('d/m/Y',strtotime($_POST['checkin']));
+                $data['end_date']=date('d/m/Y',strtotime($_POST['checkout']));
+                $data['booking_date']=date('Y-m-d');
+                $data['channel_id']=0;
+                $data['arrivaltime']=$_POST['arrival'];
+                $data['price']=$prices;
+                $data['price_details']=$pricesdetails;
+                $data['currency_id']=$currencycodes;
+
+                if(insert_data('manage_reservation',$data))
+                {
+                    $id =  getinsert_id();
+
+                    $history = array('channel_id'=>0,'Userid'=> $data['user_id'],'reservation_id'=>$id,'description'=>'Reservation Created by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>$prices,'extra_id'=>0);
+                    insert_data('new_history',$history);
+
+                    $this->load->model("room_auto_model");
+                   
+                    $indata['RoomNumber'] =  $this->room_auto_model->Assign_room($data['hotel_id'],$data['room_id'],$_POST['checkin'],$_POST['checkout'] );
+
+                   if (strlen($indata['RoomNumber'])>0) {
+                        $roomnumberdata['hotelid']=$data['hotel_id'];
+                        $roomnumberdata['roomid']=$data['room_id'];
+                        $roomnumberdata['checkin']=$_POST['checkin'];
+                        $roomnumberdata['checkout']=$_POST['checkout'];
+                        $roomnumberdata['roomnumber']=$indata['RoomNumber'];
+                        $roomnumberdata['reservationid']=$id;
+                        $roomnumberdata['channelid']=0;
+                        $roomnumberdata['active']=1;
+                        insert_data('roomnumberused',$roomnumberdata);
+                        update_data('manage_reservation',$indata,array('hotel_id'=> $data['hotel_id'],'reservation_id' => $id));
+                    }
+                    
+                        require_once(APPPATH.'controllers/arrivalreservations.php');
+                        $callAvailabilities = new arrivalreservations();
+                        
+                        $callAvailabilities->updateavailability(0,$data['room_id'], $data['rate_types_id'],hotel_id(),$_POST['checkin'], $checkout_date ,'new');              
+
+                    $response['success']=true;
+                    $response['reservationid']=$id;
+                    return $response;
+
+                }
+                
             }
             else
-            {
-                # reservation_id, user_id, hotel_id, reservation_code, guest_name, last_name, family_name, mobile, country, province, street_name, city_name, zipcode, currency_id, email, description, room_id, rate_types_id, num_rooms, num_nights, members_count, children, start_date, end_date, booking_date, price, price_details, reservation_status, channel_id, modified_date, created_date, cancel_date, payment_method, transaction_id, bank_id, reference_code, bank_details, status, user_status, RoomNumber, comments, arrivaltime
-                
-
-                 /* array(17) {
-  ["roomid"]=>
-  string(2) "16"
-  ["rateid"]=>
-  string(1) "0"
-  ["checkin"]=>
-  string(10) "2018-08-08"
-  ["checkout"]=>
-  string(10) "2018-08-10"
-  ["child"]=>
-  string(1) "0"
-  ["numroom"]=>
-  string(1) "1"
-  ["adult"]=>
-  string(1) "1"
-  ["fullname"]=>
-  string(6) "fafsdf"
-  ["phone"]=>
-  string(0) ""
-  ["email"]=>
-  string(21) "dahernandez@gmail.com"
-  ["address"]=>
-  string(0) ""
-  ["city"]=>
-  string(0) ""
-  ["state"]=>
-  string(0) ""
-  ["countryid"]=>
-  string(1) "0"
-  ["zipcode"]=>
-  string(0) ""
-  ["arrival"]=>
-  string(5) "20:20"
-  ["note"]=>
-  string(0) ""
-}*/
-
+            {            
                 return false;
             }
         }

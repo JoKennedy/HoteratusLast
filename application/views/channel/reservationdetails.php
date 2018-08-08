@@ -245,25 +245,25 @@
                                                     <tr>
                                                         <td> <strong>Total Stay:&nbsp</strong></td>
                                                         <td style="text-align: right;">
-                                                            <?=$totalStay?>
+                                                            <?=number_format($totalStay, 2, '.', ',')?>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td> <strong>Total Extras:&nbsp</strong></td>
                                                         <td style="text-align: right;">
-                                                            <?=$extrasInfo['total']?>
+                                                            <?=number_format($extrasInfo['total'], 2, '.', ',')?>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td> <strong>Gran Total:&nbsp</strong></td>
                                                         <td style="text-align: right;">
-                                                            <?=$grandtotal?>
+                                                            <?= number_format($grandtotal, 2, '.', ',')?>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <div align="center">
-                                                <h2><strong>Total Due:</strong> <?=$grandtotal?></h2>
+                                                <h2><strong>Total Due:</strong> <?=number_format($grandtotal, 2, '.', ',') ?></h2>
                                             </div>
                                         </div>
                                     </div>
@@ -703,7 +703,7 @@ Agregar Extras
         </p>
          <strong>Total Stay</strong>
         <p id="totalstayedit" class="text-muted">
-            <?=$totalStay?>
+            <?=number_format($totalStay, 2, '.', ',')?>
         </p>
     </div>
 

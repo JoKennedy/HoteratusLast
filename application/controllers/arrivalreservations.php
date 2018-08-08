@@ -58,7 +58,7 @@ class arrivalreservations extends CI_Controller{
 			}
 
 
-			
+			return;
 
 			$canales= $this->db->query(" select * from user_connect_channel where hotel_id=$hotelid and status='enabled'" )->result_array();
 

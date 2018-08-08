@@ -3,81 +3,45 @@ ini_set('memory_limit', '-1');
 ini_set('display_errors','1');
 class room_auto_model extends CI_Model
 {
-	function Assign_room($ChannelID='',$ReservationID='',$HotelID='')
+	function Assign_room($HotelID='',$roomid,$checkin,$checkout)
 	{
+			$checkout= date('Y-m-d',strtotime($checkout."-1 days"));
+			$AllRoomNumbers=$this->db->query("select existing_room_number from manage_property where property_id=$roomid")->row_array();
 
-		$RoomNumbers='';
-		$RoomUsed ='';
-
-
-		if($ChannelID==2)
-		{
-			$RoomNumbers = $this->db->query('select d.existing_room_number,a.*,d.property_id
-			from  import_reservation_BOOKING_ROOMS a 
-			left join import_mapping_BOOKING b on a.id=b.B_room_id and a.rate_id = b.B_rate_id
-			left join roommapping c on b.import_mapping_id = c.import_mapping_id 
-			left join manage_property d on c.property_id=d.property_id
-			where  a.hotel_hotel_id ='.$HotelID.' and a.roomreservation_id ='.$ReservationID)->row_array();
-
-			$RoomUsed = $this->RoomUsed($RoomNumbers['property_id'],$RoomNumbers['arrival_date'],$RoomNumbers['departure_date'],$HotelID);
-
-		}
-		elseif($ChannelID==1)
-		{
-			$RoomNumbers = $this->db->query('select d.existing_room_number,a.*,d.property_id
-			from  import_reservation_EXPEDIA a 
-			left join import_mapping b on a.roomTypeID=b.roomtype_id 
-			left join roommapping c on b.map_id = c.import_mapping_id 
-			left join manage_property d on c.property_id=d.property_id
-			where  a.hotel_id ='.$HotelID.' and a.booking_id ='.$ReservationID)->row_array();
-			$RoomUsed = $this->RoomUsed($RoomNumbers['property_id'],$RoomNumbers['arrival'],$RoomNumbers['departure'],$HotelID);
-
-		}
-
-		elseif($ChannelID==0)
-		{
-			$RoomNumbers = $this->db->query('select d.existing_room_number,d.property_id,start_date as arrival , end_date as departure
-			from  manage_reservation a
-			left join manage_property d on a.room_id=d.property_id
-			where  a.hotel_id ='.$HotelID.' and a.reservation_id ='.$ReservationID)->row_array();
-
-			$RoomUsed = $this->RoomUsed($RoomNumbers['property_id'],$RoomNumbers['arrival'],$RoomNumbers['departure'],$HotelID);
-		}
-
-
-
-			$AllRoomNumbers= explode(',',$RoomNumbers['existing_room_number'] );
-			$AllRoomUsed='';
-			$valor='';
-
-			foreach ($RoomUsed as  $value) {
-					$AllRoomUsed .= $value['RoomNumber'].',';
-
-			
-			}
-
-			 $AllRoomUsed = explode(',', $AllRoomUsed  );
-			 
-
-
-			foreach ($AllRoomNumbers as  $value2) 
+			if(isset($AllRoomNumbers['existing_room_number']))
 			{
-				
-				if(in_array($value2, $AllRoomUsed))
-				{
+				$AllRoomNumbers= explode(',', $AllRoomNumbers['existing_room_number'] );
 
-					
+				$AllRoomUseds=$this->db->query("select roomnumber from roomnumberused where roomid=$roomid and (checkin between '$checkin' and  '$checkout' or checkout-1 between '$checkin' and  '$checkout')")->result_array();
+				$AllRoomUsed='';
+				
+				foreach ($AllRoomUseds as $value) {
+					$AllRoomUsed .= $value['roomnumber'].',';
 				}
-				else
+				$AllRoomUsed = explode(',',$AllRoomUsed );
+
+				
+				$valor='';
+				foreach ($AllRoomNumbers as  $value) 
 				{
-					$valor= $value2;
-					return $valor;
-					break;
+					
+					if(!in_array($value, $AllRoomUsed))
+					{
+						$valor= $value;
+						return $valor;
+						break;
+						
+					}
 				}
+
+
+				return $valor;
 
 			}
-
-			
+			else
+			{
+				return '';
+			}			
 			
 	}
 

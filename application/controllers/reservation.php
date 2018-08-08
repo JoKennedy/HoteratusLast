@@ -214,7 +214,7 @@ class reservation extends Front_Controller {
 			$html='';
 
 			if($available)
-			{
+			{ 
 				foreach ($available as $key => $value) {
 
 				$bookininfo="'".$value['room_id']."','0','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
@@ -645,7 +645,13 @@ class reservation extends Front_Controller {
 	}
 	function saveReservation()
 	{
-		echo print_r($this->reservation_model->saveReservation());
+		$result=$this->reservation_model->saveReservation();
+		$channelID=0;
+		$ReservationID=$result['reservationid'];
+		$userName=$_POST['username'];
+		$reservationdetails=$this->reservation_model->reservationdetails($channelID,$ReservationID);
+		$this->reservation_model->reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails);
+		echo $result; 
 	}
 	function invoiceheader()
 	{	
@@ -653,7 +659,20 @@ class reservation extends Front_Controller {
 		$invoice=get_data("reservationinvoice",array('reservationinvoiceid'=>$_POST['id']))->row_array();
 		$invoicedetails=get_data("reservationinvoicedetails",array('reservationinvoiceId'=>$_POST['id']))->result_array();
 		$billing=get_data("bill_info",array('hotel_id'=>hotel_id()))->row_array();
-		$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
+		if(!isset($billing['country']))
+		{
+			$billing['company_name']='No config';
+			$billing['address']='No config';
+			$country='No config';
+			$billing['mobile']='No config';
+			$billing['email_address']='No config';
+			$billing['town']='No config';
+
+		}
+		else
+		{
+			$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
+		}
     
    		$html='<div  class="graph-form">
 					<div class="text-left" style="float: left; width:50%; ">

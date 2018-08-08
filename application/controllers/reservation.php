@@ -643,6 +643,10 @@ class reservation extends Front_Controller {
 		echo json_encode($data);
 		return;
 	}
+	function saveReservation()
+	{
+		echo print_r($this->reservation_model->saveReservation());
+	}
 	function invoiceheader()
 	{	
 		$this->is_login();

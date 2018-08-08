@@ -3066,7 +3066,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
     
         $start_date     =   $_POST['date1Edit'];
 
-        $end_date       =   $_POST['date2Edit'];
+        $end_date       =  date('Y-m-d',strtotime($_POST['date2Edit']."-1 days")); 
 
         $rooms          =  $_POST['numrooms'];
 
@@ -3076,19 +3076,20 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         $start          =   strtotime($start_date);
 
-        $end            =   strtotime($end_date);
+        $end            =   strtotime($_POST['date2Edit']);
 
         $nights         =   ceil(abs($end - $start) / 86400);
 
+
    
         $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
-                U.minimum_stay , sum(case when str_to_date(U.separate_date,'%d/%m/%Y') = '$end_date' then 0 else U.price end ) totalprice,
-               sum(case when str_to_date(U.separate_date,'%d/%m/%Y') = '$end_date' then 0 else U.price end )/(count(*)-1) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
+                U.minimum_stay , sum( U.price ) totalprice,
+               sum( U.price  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
                 count(*)-1 available, min(U.availability) roomAvailability
                 FROM room_update U 
                 LEFT JOIN manage_property P ON U.room_id = P.property_id 
                 WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
-                AND U.availability >=1 
+                AND U.availability >=$rooms  
                 AND U.minimum_stay <= $nights AND P.member_count >=$adult 
                 AND P.children >=$child AND individual_channel_id =0 
                 AND stop_sell=0 AND P.hotel_id=".hotel_id()."
@@ -3098,11 +3099,11 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         $available= array();
 
-        if (count($result)>0) {
+        if (count($result)>=0 ) {
             
             foreach ($result as $value) {
                 
-                if ( $value['available']>=$value['minimum_stay']) {
+                if ( $value['available']>=$nights) {
                     $available=array_merge($available,$value );
                 }
             }
@@ -3110,6 +3111,101 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         return $available;
 
+    }
+    function saveReservation()
+    {
+         $nights  =   ceil(abs(strtotime($_POST['checkout'] )- strtotime($_POST['checkin'] )) / 86400);
+
+        $checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
+
+        $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
+                FROM room_update U 
+                LEFT JOIN manage_property P ON U.room_id = P.property_id 
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
+                AND U.availability >=".$_POST['numroom']." 
+                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
+                AND P.children >=".$_POST['child']." AND individual_channel_id =0 
+                AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
+                ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
+        return $result;
+
+        $available= array();
+
+
+        if(count($available)>0)
+        {
+            if ($available['roomAvailability']>=$_POST['numroom']) {
+              
+               $code    = $this->db->query("SELECT max(reservation_code) code FROM manage_reservation where hotel_id=".hotel_id()."")->row_array();
+
+                 if(isset($code['code'])){$reservation_code   =   sprintf('%08d',$code['code']+1);}else{$reservation_code = sprintf('%08d',1);}
+                
+
+                $data['hotel_id']=hotel_id();
+                $data['user_id']=user_id();
+                $data['reservation_code']=$reservation_code;
+                $data['guest_name']=$_POST['firstname'];
+                $data['last_name']=$_POST['lastname'];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+                $data['']=$_POST[''];
+            }
+            else
+            {
+                # reservation_id, user_id, hotel_id, reservation_code, guest_name, last_name, family_name, mobile, country, province, street_name, city_name, zipcode, currency_id, email, description, room_id, rate_types_id, num_rooms, num_nights, members_count, children, start_date, end_date, booking_date, price, price_details, reservation_status, channel_id, modified_date, created_date, cancel_date, payment_method, transaction_id, bank_id, reference_code, bank_details, status, user_status, RoomNumber, comments, arrivaltime
+                
+
+                 /* array(17) {
+  ["roomid"]=>
+  string(2) "16"
+  ["rateid"]=>
+  string(1) "0"
+  ["checkin"]=>
+  string(10) "2018-08-08"
+  ["checkout"]=>
+  string(10) "2018-08-10"
+  ["child"]=>
+  string(1) "0"
+  ["numroom"]=>
+  string(1) "1"
+  ["adult"]=>
+  string(1) "1"
+  ["fullname"]=>
+  string(6) "fafsdf"
+  ["phone"]=>
+  string(0) ""
+  ["email"]=>
+  string(21) "dahernandez@gmail.com"
+  ["address"]=>
+  string(0) ""
+  ["city"]=>
+  string(0) ""
+  ["state"]=>
+  string(0) ""
+  ["countryid"]=>
+  string(1) "0"
+  ["zipcode"]=>
+  string(0) ""
+  ["arrival"]=>
+  string(5) "20:20"
+  ["note"]=>
+  string(0) ""
+}*/
+
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 	function save_reservation($transaction_id)
     {

@@ -184,7 +184,7 @@
                             </div>
                             <div class="col-md-6 graph-2 second">
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">Notes (Max 1000 chars)</div>
+                                    <div class="panel-heading">Notes</div>
                                     <div class="panel-body">
                                         <p>
                                             <?=$notes?>
@@ -782,7 +782,9 @@ Agregar Extras
 <script type="text/javascript">
 
 function showtab(id)
+
 {
+
     $(".sec").removeClass("content-current");
     $("#section-"+id).addClass("content-current");
 }
@@ -808,25 +810,14 @@ $("#date1Edit").change(function(event) {
     $("#date2Edit").val(formatDate(fecha));
 });
 
-function imprimir(divtoprint) {
-
-    var objeto = document.getElementById(divtoprint); //obtenemos el objeto a imprimir
-    var ventana = window.open('', '_blank', 'height=792,width=800'); //abrimos una ventana vacía nueva
-    ventana.document.write('<!DOCTYPE HTML><html><head><link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel="stylesheet" type="text/css" />  <link href="<?php echo base_url();?>user_asset/back/css/style.css" rel="stylesheet" type="text/css" /></head><body>');
-    ventana.document.write(objeto.innerHTML); //imprimimos el HTML del objeto en la nueva ventana
-    ventana.document.getElementById("botonprint").remove();
-    ventana.document.write('</body></html>');
-    ventana.document.close(); //cerramos el documento
-    ventana.print(); //imprimimos la ventana
-    ventana.close(); //cerramos la ventana
-}
 
 function detailInvoice(id) {
     var address = '<?=$address;?>';
-    var name = '<?=$guestFullName;?>';
+    var name = "<?=$guestFullName;?>";
     var city = '<?=$city;?>';
     var country = '<?=$country;?>';
     var email = '<?=$email;?>';
+
     var data = { 'id': id, 'email': email, 'name': name, 'address': address, 'city': city, 'country': country };
     $("#headerinvoice").html('');
     $.ajax({

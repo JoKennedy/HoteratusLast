@@ -79,11 +79,23 @@
             </div>
             <div class="graph-form">
                 <form id="ReserveC">
+                    <input type="hidden" name="roomid" id="roomid">
+                    <input type="hidden" name="rateid" id="rateid">
+                    <input type="hidden" name="checkin" id="checkin">
+                    <input type="hidden" name="checkout" id="checkout">
+                    <input type="hidden" name="child" id="child">
+                    <input type="hidden" name="numroom" id="numroom">
+                    <input type="hidden" name="adult" id="adult">
+
                     <div style="float: left; width: 65%;">
                         <h4><span >Guest Information</span></h4>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Full Name</label>
-                            <input style="background:white; color:black;" name="fullname" id="fullname" type="text" placeholder="Full Name" required="">
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">First Name</label>
+                            <input style="background:white; color:black;" name="firstname" id="firstname" type="text" placeholder="First Name" required="">
+                        </div>
+                         <div class="col-md-6 form-group1">
+                            <label class="control-label">Last Name</label>
+                            <input style="background:white; color:black;" name="lastname" id="lastname" type="text" placeholder="Last Name" required="">
                         </div>
                         <div class="col-md-6 form-group1">
                             <label class="control-label">Phone</label>
@@ -109,24 +121,27 @@
                         </div>
                         <div class="col-md-6 form-group1">
                             <label style="padding:4px;" class="control-label controls">Country</label>
-                            <select style="width: 100%; padding: 9px;" name="productidup" id="productidup">
+                            <select style="width: 100%; padding: 9px;" name="countryid" id="countryid">
                                 <?php
+
+                                    $Country=$this->db->query("select * from country order by country_name")->result_array();
 
                                     echo '<option  value="0" >Select a Country</option>';
                                     foreach ($Country as $value) {
                                         $i++;
-                                        echo '<option value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
+                                        echo '<option value="'.$value['id'].'" >'.$value['country_name'].'</option>';
                                     }
                               ?>
                             </select>
                         </div>
-                        <div class="col-md-6 form-group1">
+                        <div class="col-md-8 form-group1">
                             <label class="control-label">Zip Code</label>
-                            <input style="background:white; color:black;"  name="zipcode" id="zipcode" type="text" placeholder="Zip Code" required="">
+                            <br>
+                            <input style="background:white; color:black; "  name="zipcode" id="zipcode" type="text" placeholder="Zip Code" required="">
                         </div>
-                        <div class="col-md-6 form-group1">
-                            <label class="control-label">Arrival Time</label>
-                            <input style="background:white; color:black;" name="arrival" id="arrival" type="time"  required="">
+                        <div class="col-md-4 form-group1">
+                            <label class="control-label" style=" padding: 3px; " >Arrival Time</label>
+                            <input style="width: 100%; padding: 9px; background:white; color:black;" name="arrival" id="arrival" type="time"  required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Notes</label>
@@ -150,7 +165,7 @@
                             </tbody>
                         </table>
                         <hr size="20">
-                        <h5><span >Charges</span></h5>
+                        <h5><strong >Charges</strong></h5>
                         <table>
                             <tbody>
                                 <tr style="padding-bottom: 5px;">
@@ -258,6 +273,13 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
     $("#chargeinfo").html(numnight + (numnight>1?' Nights':' Night') + ' x ' + numroom + (numroom>1?' Rooms':' Room'));
     $("#totalstay").html(totalstay);
     $("#totaldue").html(totalstay);
+    $("#roomid").val(roomid);
+    $("#rateid").val(rateid);
+    $("#checkin").val(date1);
+    $("#checkout").val(date2);
+    $("#child").val(numchild);
+    $("#numroom").val(numroom);
+    $("#adult").val(adult);
     
     $("#infoReservation").modal();
 
@@ -266,6 +288,61 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
 function saveReservation()
 {
 
+    if ($("#firstname").val()=="") {
+        $("#firstname").focus();
+        document.getElementById('firstname').setCustomValidity("First Name is required");
+        return;
+    }
+    else
+    {
+        document.getElementById('firstname').setCustomValidity("");
+    }
+     if ($("#lastname").val()=="") {
+        $("#lastname").focus();
+        document.getElementById('lastname').setCustomValidity("Last Name is required");
+        return;
+    }
+    else
+    {
+        document.getElementById('lastname').setCustomValidity("");
+    }
+   
+    if (/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test($("#email").val()) == false) {
+        $("#email").focus();
+        document.getElementById('email').setCustomValidity("This Email is not valid");
+        return;
 
+    }
+    else
+    {
+         document.getElementById('email').setCustomValidity("");
+    }
+    if ($("#arrival").val()=="") {
+        $("#arrival").focus();
+        document.getElementById('arrival').setCustomValidity("The Arrival Time is required");
+        return;
+    }
+    else
+    {
+        document.getElementById('arrival').setCustomValidity("");
+    }
+   
+
+    var data = $("#ReserveC").serialize();
+    $.ajax({
+        type: "POST",
+        //dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/saveReservation",
+        data: data,
+        beforeSend: function() {
+            showWait('Saving Reservation');
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+
+            unShowWait();
+            alert(msg);
+        }
+    });
 }
 </script>

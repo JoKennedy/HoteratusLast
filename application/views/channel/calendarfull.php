@@ -24,7 +24,7 @@
 						echo '<a class="btn orange">Full Update</a>';
 					}
 					if ($User_Type==1 || in_array(2, $specialpermit)) {
-						echo '<a class="btn green">Bulk Update</a>';
+						echo '<a href="'.base_url().'bulkupdate/viewBulkUpdate" class="btn green">Bulk Update</a>';
 					}
 					if ($User_Type==1 || in_array(3, $specialpermit)) {
 						echo '<a onclick="setcalendar()" class="btn blue">Add Reservation</a>';

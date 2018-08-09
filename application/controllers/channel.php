@@ -1607,6 +1607,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 					where hotel_id=".hotel_id().";")->result_array();
 		$this->views('channel/managechannels',$data);
 	}
+
 	function changestatus()
 	{
 		echo json_encode($this->channel_model->changestatus($_POST['id']));

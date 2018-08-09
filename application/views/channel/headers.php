@@ -370,8 +370,20 @@
                         <!--//profile_details-->
                     </div>
                     <!--//menu-right-->
-                    <div class="clearfix"></div>
+                    <div class="clearfix"></div >
                 </div>
                 <!-- //header-ends -->
                 <!--//content-inner-->
                 <!--/sidebar-menu-->
+                <?php
+                    if($this->session->flashdata('bulk_success')!='')
+                    {
+                        echo '<div class="alert alert-success" style="align-content: center; " >
+                                <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">&times; </i></span></button>
+                                '.$this->session->flashdata('bulk_success').'
+                                </div>';
+                    }
+
+
+                    
+                ?>

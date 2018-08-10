@@ -19,7 +19,7 @@
                             <tbody>
 
                                 <tr>
-                                    <td><input type="checkbox" name="channelid[]" id="channelid" value="0" checked></td><td><label >&nbsp Hoteratus</label></td>
+                                    <td><input class="channelid" type="checkbox" name="channelid[]" id="channelid" value="0" checked></td><td><label >&nbsp Hoteratus</label></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -33,7 +33,7 @@
                                      <table>
                                         <tbody>
                                         <tr>
-                                        <td><input type="checkbox" name="channelid[]" id="channelid" value="'.$channel['channel_id'].'" checked ></td>
+                                        <td><input class="channelid" type="checkbox" name="channelid[]" id="channelid" value="'.$channel['channel_id'].'" checked ></td>
                                         <td><label>&nbsp '.$channel['channel_name'].'</label></td>
                                         </tr>
                                         </tbody>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" >
                 <?php
                 echo '<div class="panel-default"> <div class="panel-heading"> <h3 class="panel-title">Days Of The Week</h3> </div> ';
                  echo '<div class="panel-body">';
@@ -107,7 +107,7 @@
                                              <table>
                                                 <tbody>
                                                 <tr>
-                                                <td><input type="checkbox" name="days[]" id="days" value="'.$key.'" ></td>
+                                                <td><input onchange="showcol(this)" type="checkbox" name="opt[]" id="opt" value="'.$key.'" ></td>
                                                 <td><label>&nbsp '.$opt.'</label></td>
                                                 </tr>
                                                 </tbody>
@@ -125,32 +125,45 @@
                 {
                     echo '<div class="col-md-12 graph">
                             <div class="tables ">
-                                 <table class="table">
+                                 <table  class="table">
                                     <tbody>';
                     $i=0;
                     foreach ($Rooms as $value) {
                              $i++;   
                                
                                 echo '<tr class="'.($i%2?'active':'success').'"> 
-                                            <td width="10%">'.$value['property_name'].'<td> 
-                                            <td class="form-group1 availa">
-                                                <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][availability]" id="availability" type="text" placeholder="Availability" >
-                                            <td>
-                                            <td class="form-group1">
-                                                <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][price]" id="price" type="text" placeholder="Price" >
-                                            <td>
-                                            <td class="form-group1">
-                                                <input style="background:white; color:black;" name="room['.$value['property_id'].'][minimumstay]" id="signer" type="text" placeholder="Main Name" >
-                                            <td>
-                                            <td class="form-group1">
-                                                <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" >
-                                            <td>
-                                            <td class="form-group1">
-                                                <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" >
-                                            <td>
-                                            <td class="form-group1">
-                                                <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" >
-                                            <td> 
+                                            <td width="10%" >'.$value['property_name'].'</td> 
+
+                                            <td  class="form-group1 availa" style="display:none;width:18%; " id="availa">
+                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][availability]" id="availability" type="text" placeholder="Availability" >
+                                            </td>
+                                            <td  class="form-group1 price" style="display:none;width:15%;" id="pricet">
+                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][price]" id="price" type="text" placeholder="Price" >
+                                            </td>
+                                            <td  class="form-group1 minimum" style="display:none;width:18%;" id=minimumt>
+                                                <input  style="background:white; color:black; " name="room['.$value['property_id'].'][minimumstay]" id="minimum" type="text" placeholder=Minimum Stay" >
+                                            </td>
+                                            <td width="14%" class="form-group1 cta" style="display:none; text-align:center;" id="ctat">
+                                                <label for="cta" >CTA</label> <br>
+                                                <input  name="room['.$value['property_id'].'][cta]" id="cta" type="radio" value="1" >
+                                                <label for="cta">Y</label>
+                                                <input   name="room['.$value['property_id'].'][cta]" id="cta" type="radio" value="0" >
+                                                <label for="cta">N</label>
+                                            </td>
+                                            <td width="14%" class="form-group1 ctd" style="display:none; text-align:center;" id="ctdt">
+                                                <label for="ctd" >CTD</label> <br>
+                                                <input  name="room['.$value['property_id'].'][ctd]" id="ctd" type="radio" value="1" >
+                                                <label for="ctd">Y</label>
+                                                <input name="room['.$value['property_id'].'][ctd]" id="ctd" type="radio" value="0" >
+                                                <label for="ctd">N</label>
+                                            </td>
+                                            <td width="15%" class="form-group1 stops" style="display:none; text-align:center;" id="sst">
+                                                <label for="stops" >Stop Sales</label> <br>
+                                                <input  name="room['.$value['property_id'].'][stops]" id="stops" type="radio" value="1" >
+                                                <label for="stops">Y</label>
+                                                <input  name="room['.$value['property_id'].'][stops]" id="stops" type="radio" value="0" >
+                                                <label for="stops">N</label>
+                                            </td> 
                                         </tr>';
 
                                }           
@@ -178,7 +191,18 @@
 </div>
 <script type="text/javascript">
 var cantidad = 1;
+ var falta = 0;
+function showcol(id)
+{
+    var va= id.value;
+    var type=(va==1?'availa':(va==2?'price':(va==3?'minimum':(va==4?'cta':(va==5?'ctd':'stops')))))
+    $("."+type).css({
+        display: (id.checked?'':'none')
+    });
 
+
+    
+}
 function addDate() {
     cantidad++;
     $("#allDate").append('<hr style="border:2px;"> <h3>Range Date ' + cantidad + '</h3> <div class=" form-group1"> <label class="control-label"><strong>Start Date</strong></label><input onchange="cambio(' + cantidad + ')" class="date1" style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date' + cantidad + '" name="date1Edit[]" > </div><div class=" form-group1">   <label class="control-label"><strong>End Date</strong></label><input class="date2" style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date' + cantidad + 's" name="date2Edit[]" > </div>');
@@ -207,47 +231,172 @@ function cambio(id) {
     $("#date" + id + "s").attr('min', formatoDate(fecha));
     $("#date" + id + "s").val(formatoDate(fecha));
 }
+function verificarupdate()
+{
+    if($("td[id=availa]").css("display")!='none' && $("input[id=availability]").val()==""  )
+    {      
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Type the availability to continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+            
+    }
+     if($("td[id=pricet]").css("display")!='none' && $("input[id=price]").val()==""  )
+    {      
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Type the Price to continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+    }
+     if($("td[id=minimumt]").css("display")!='none' && $("input[id=minimum]").val()==""  )
+    {      
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Type the Minimum to continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+    }
+     if($("td[id=ctat]").css("display")!='none' && !$("input[id=cta]").is(":checked")  )
+    {      
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Select a CTA Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+    }
+     if($("td[id=ctdt]").css("display")!='none' && !$("input[id=ctd]").is(":checked")  )
+    {      
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Select a CTD Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+    }
+     if($("td[id=sst]").css("display")!='none' && !$("input[id=stops]").is(":checked")  )
+    {      
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Select a Stop Sales Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+    }
 
+}
 function sendbulk() {
     falta = 0;
+
+    if(verificarupdate()) return;
+
+
+    if(!$("input[id=opt]").is(":checked"))
+    {
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Select what you want to update!",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return;
+    }
+
+    if(!$("input[id=days]").is(":checked"))
+    {
+            falta=1;
+            swal({
+                title: "upps, Sorry",
+                text: "Select a Day To Continue!",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return;
+    }
+      $(".date2").each(function(index, el) {
+        if ($(el).val() == '') {
+            $(el).focus();
+
+            swal({
+                title: "upps, Sorry",
+                text: "Complete a Date Range To Continue!",
+                icon: "warning",
+                button: "Ok!",
+            })
+            return;
+        }
+
+
+    });
+
 
     $(".date1").each(function(index, el) {
         if ($(el).val() == '') {
             $(el).focus();
+            falta=1;
             swal({
                 title: "upps, Sorry",
                 text: "Complete a Date Range To Continue!",
                 icon: "warning",
                 button: "Ok!",
             });
+
             return;
         }
 
 
     });
-    $(".date2").each(function(index, el) {
-        if ($(el).val() == '') {
-            $(el).focus();
+
+   if(!$("input[id=channelid]").is(":checked"))
+    {
+            falta=1;
             swal({
                 title: "upps, Sorry",
-                text: "Complete a Date Range To Continue!",
+                text: "Select a Channel To Continue!",
                 icon: "warning",
                 button: "Ok!",
             });
-            return;
-        }
+    }
+    
+       
 
 
-    });
-
+if(falta==1)return;
     var data = $("#bulkinfo").serialize();
     $.ajax({
         type: "POST",
         //dataType: "json",
         url: "<?php echo lang_url(); ?>bulkupdate/bulkUpdateProcess",
         data: data,
+        beforeSend: function() {
+            swal({
+                title: "upps, Sorry",
+                text: "Update sent, when it is completed a message will be displayed on top!",
+                icon: "warning",
+                button: "Ok!",
+            });
+        },
+        
         success: function(msg) {
-            alert(msg);
+           
         }
     });
 

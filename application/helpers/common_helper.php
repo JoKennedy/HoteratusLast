@@ -34,7 +34,115 @@ function replace_content_hex($content)
     $content = preg_replace('/\@/is', "%40", $content);
     return ($content);
 }
+function getDatespecificas($start, $end, $weekday)
+{
+    if($weekday != ""){
+        $weekdays="Day,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday";
+        $arr_weekdays=explode(",", $weekdays);
+        $string = "";
+        $arr_weekdays_day = $weekday;
+        $i = 1;
+        foreach($arr_weekdays_day as $weekdays)
+        {
+            $weekday = @$arr_weekdays[$weekdays];
+            if(!$weekday){echo 'noin';}
+          
 
+            $starts= strtotime("+0 day", strtotime($start) );
+            $ends= strtotime($end);
+            //$dateArr = array();
+            $friday = strtotime($weekday, $starts);
+
+            while($friday <= $ends)
+            {
+                $dateArr[] = date("Y-m-d", $friday);
+                $date = date("Y-m-d", $friday);
+                $string .= "value".$i."='".$date."' ";
+                $friday = strtotime("+1 weeks", $friday);
+                $i++;
+            }
+            //$dateArr[] = date("Y-m-d", $friday);
+        }
+        
+
+        uasort($dateArr,function($a,$b)
+                {
+                    return strtotime($a)>strtotime($b)?1:-1;
+                });
+
+        $dif=0;
+        $oldif=0;
+        $i=0;
+        $i2=0;
+        $datea='';
+        
+        foreach ($dateArr as  $value) {
+        	
+        	if($i2==0)$rangos[$i]['startdate']=$value;
+
+        	$i2=1;
+        	$dif=date_diff(date_create($value), date_create($start) )->format('%d');
+        
+        	if($dif-$oldif>1)
+        	{
+        		$rangos[$i]['enddate']=$datea;
+        		$rangos[$i]['separate']=getseparate($rangos[$i]['startdate'],$rangos[$i]['enddate'],$arr_weekdays_day);
+        		$i++;
+        		$rangos[$i]['startdate']=$value;
+
+        	}
+
+        	$oldif=$dif;
+        	$datea=$value;
+
+        }
+        $rangos[$i]['enddate']=$value;
+        $rangos[$i]['separate']=getseparate($rangos[$i]['startdate'],$rangos[$i]['enddate'],$arr_weekdays_day);
+
+        $result['rangos']=$rangos;
+        $result['separate']=$dateArr;
+
+        return $result;
+    }
+}
+function getseparate($start, $end, $weekday)
+{
+    if($weekday != ""){
+        $weekdays="Day,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday";
+        $arr_weekdays=explode(",", $weekdays);
+        $string = "";
+        $arr_weekdays_day = $weekday;
+        $i = 1;
+        foreach($arr_weekdays_day as $weekdays)
+        {
+            $weekday = @$arr_weekdays[$weekdays];
+            if(!$weekday){echo 'noin';}
+          
+
+            $starts= strtotime("+0 day", strtotime($start) );
+            $ends= strtotime($end);
+            //$dateArr = array();
+            $friday = strtotime($weekday, $starts);
+
+            while($friday <= $ends)
+            {
+                $dateArr[] = date("Y-m-d", $friday);
+                $date = date("Y-m-d", $friday);
+                $string .= "value".$i."='".$date."' ";
+                $friday = strtotime("+1 weeks", $friday);
+                $i++;
+            }
+            //$dateArr[] = date("Y-m-d", $friday);
+        }
+        
+
+        uasort($dateArr,function($a,$b)
+                {
+                    return strtotime($a)>strtotime($b)?1:-1;
+                });
+        return $dateArr;
+    }
+}
 function put($url, $data, $headers)
 {
     // print "url $url \n\n";

@@ -3,6 +3,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class bulkupdate extends Front_Controller
 {
+	 public function __construct()
+    {
+        
+        parent::__construct();
+        
+        //load base libraries, helpers and models
+        $this->load->model('bulkupdate_model');
+        
+      
+        
+    }
 	function is_login()
     { 
         if(!user_id())
@@ -27,22 +38,113 @@ class bulkupdate extends Front_Controller
 
 
 	function bulkUpdateProcess()
-	{
-		echo var_dump($_POST);
+	{	
+		 $this->is_login();
 
-
-		return;
-
-		$daterange=count($_POST['date1Edit']);
-		for ($i=0; $i < $daterange; $i++) { 
-
-			echo 'Range'.($i+1).'<br>';
-			echo 'start'.$_POST['date1Edit'][$i].'<br>';
-			echo 'End'.$_POST['date2Edit'][$i].'<br>';
-			echo'---------------------<br>';
+		$countdate=count($_POST['date1Edit']);
+		$DatesRange=array();
+		
+		for ($i=0; $i < $countdate ; $i++) { 
+			$DatesRange[$i]['startdate']=$_POST['date1Edit'][$i];
+			$DatesRange[$i]['enddate']=$_POST['date2Edit'][$i];
 		}
 
-		$this->session->set_flashdata('bulk_success', 'Bulk update has been updated successfully!!!');
+
+
+		$rooms=cleanArray($_POST['room']);
+
+		if(count($rooms)>0)
+		{
+			foreach ($rooms as $roomid => $room) {
+				
+				$room['room_id']=$roomid;
+
+				if (isset($room['availability'])) {
+                                
+                    if ($room['availability'] == 0) {
+                        $room['stops'] = 1;
+                    }
+                                
+                }
+                //confirmar lo de revenue
+
+                foreach ($DatesRange as  $fechas) {
+
+
+            			$periodo=getDatespecificas($fechas['startdate'],$fechas['enddate'],$_POST['days']);
+            		
+
+            			foreach ($periodo['rangos'] as $date) {
+            				
+            			
+	          			                		
+	                		$room['startdate']=$date['startdate'];
+	                		$room['enddate']=$date['enddate'];
+	                		$room['separate']=$date['separate'];
+	                	
+		                    if(isset($room['price'])!=0 && isset($room['price']) !='')
+		                    {
+
+		                        $this->db->query("Update  room_update                                  
+		                            set PriceRevenue= ".$room['price']."
+		                            where hotel_id=".hotel_id()."
+		                            and room_id=".$room['room_id']."
+		                            and individual_channel_id=0
+		                            and STR_TO_DATE(separate_date ,'%d/%m/%Y')   between STR_TO_DATE('".$date['startdate']."' ,'%d/%m/%Y')  and STR_TO_DATE('".$date['enddate']."' ,'%d/%m/%Y') " );
+		                    }
+
+		                    if(isset($room['availability']) && !isset($room['price']))
+		                    {
+		                        $revenueprice=  @$this->db->query("select  case when ((((percentage/100)*PriceRevenue)/existing_room_count)*(existing_room_count-".$room['availability'].")) + PriceRevenue > maximun then maximun else ((((percentage/100)*PriceRevenue)/existing_room_count)*(existing_room_count-".$room['availability'].")) + PriceRevenue end precio
+		                                from
+		                                room_update b 
+		                                left join manage_property a on a.property_id=b.room_id 
+		                                where 
+		                                a.hotel_id =".hotel_id()."  
+		                                and b.hotel_id=".hotel_id()."   
+		                                AND a.revenuertatus =1 
+		                                and a.property_id=".$room['room_id']."
+		                                and b.individual_channel_id=0
+		                                and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between STR_TO_DATE('".$date['startdate']."' ,'%d/%m/%Y')  and STR_TO_DATE('".$date['enddate']."' ,'%d/%m/%Y') " )->row_array()['precio'];
+		                    }
+
+		                    $room['channelids'] =  $_POST['channelid'];
+
+		                    $result= $this->bulkupdate_model->saveRoomInfo($room);
+		                    $this->session->set_flashdata('bulk_success', $result);
+		                }    
+	                
+                }
+                        
+
+              
+
+			}
+		}
+
+		 /*
+			["availability"]=>
+      string(3) "100"
+      ["price"]=>
+      string(3) "200"
+      ["minimumstay"]=>
+      string(3) "100"
+      ["cta"]=>
+      string(1) "1"
+      ["ctd"]=>
+      string(1) "1"
+      ["stops"]=>
+      string(1) "1"
+
+
+		 if (isset($price_error)) {
+		        $this->session->set_flashdata("bulk_error", $price_error);
+		    } else {
+		        if ($this->session->flashdata('bulk_error') == '') {
+		            $this->session->set_flashdata('bulk_success', 'Bulk update has been updated successfully!!!');
+		        }
+		    }*/
 	}
 
+	
 }

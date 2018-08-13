@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-3 widget states-thrd">
                 <div class="stats-left">
-                    <h4>Today</h4>
+                    <h4>Today</h4> 
                     <h5>Arrivals</h5>
                 </div>
                 <div class="stats-right">

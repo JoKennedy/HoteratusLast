@@ -1660,7 +1660,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['allConection'] = $this->channel_model->get_connect_channels();
 		$data['TopChannel']=$this->reservation_model->TopChannel();
-		$data['Percentage']=$this->reservation_model->TopChannelPercentage();
+		$data['Percentage']=$this->reservation_model->TopChannelPercentage(); 
 		
     	$this->views('channel/dashboard',$data);
 

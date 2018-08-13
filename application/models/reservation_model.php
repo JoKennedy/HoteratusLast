@@ -240,6 +240,14 @@ class Reservation_model extends CI_Model
             $ends = new DateTime($reservationdetails['checkout']);
             $daterange = new DatePeriod($begin, new DateInterval('P1D'), $ends);
             $i=0;
+            if(isset($reservationdetails['totalTax']))
+            {
+               $totaltax=$reservationdetails['totalTax']/ count($reservationdetails['rateDetailsPrice']);
+            }
+            else
+            {
+                $totaltax=0;
+            }
             foreach($daterange as $ran)
             {
                 $pricede = $reservationdetails['rateDetailsPrice'][$i];
@@ -248,11 +256,12 @@ class Reservation_model extends CI_Model
                 $string = date('d-m-Y',strtotime(str_replace('/','-',$ran->format('M d, Y'))));
                 $weekday = date('l', strtotime($string));
 
-                $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Booking',"qty"=>1,"description"=>$ran->format('M d, Y'),"total"=>$pricede,"tax"=>0);
+                $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Booking',"qty"=>1,"description"=>$ran->format('M d, Y'),"total"=>$pricede,"tax"=>$totaltax);
 
                 
                 insert_data('reservationinvoicedetails',$datadetails);
             }
+
         $extras=$this->db->query("select * from extras where reservation_id =$ReservationID and channel_id =$channelID ")->result_array();
         if(count($extras)>0)
         {
@@ -272,7 +281,7 @@ class Reservation_model extends CI_Model
     {
         $hotelid=hotel_id();
 
-        $result=$this->db->query("SELECT  a.reservationinvoiceid, sum(b.total) Total, a.number,a.datecreate, 0.00 totalPaid  FROM 
+        $result=$this->db->query("SELECT  a.reservationinvoiceid, sum(b.total)+sum(b.tax) Total, a.number,a.datecreate, 0.00 totalPaid  FROM 
                                     reservationinvoice a
                                     left join reservationinvoicedetails b on a.reservationinvoiceid=b.reservationinvoiceid
                                     where channelid=$channelID and reservationid=$ReservationID and hotelid=$hotelid
@@ -353,7 +362,8 @@ class Reservation_model extends CI_Model
         }
         else if($channelId==1)
         {
-
+            $this->load->model('expedia_model');
+            $data=$this->expedia_model->reservationdetails($channelId,$reservationId,$hotelid);
         }
         else if($channelId==2)
         {
@@ -738,7 +748,14 @@ class Reservation_model extends CI_Model
           foreach ($allchannel as  $value) {
               $canalid=$value['channel_id'];
               if ($canalid==1) {
-                  
+                
+                $this->load->model('expedia_model');
+                $expedia=$this->expedia_model->ReservationList($hotelid);
+                 if(count($expedia)>0)
+                 {
+                    $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
+                     $result= array_merge($result,$expedia);
+                 }
               }
               elseif ($canalid==2) {
                  $booking=$this->booking_model->ReservationList($hotelid);
@@ -4563,18 +4580,18 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         //fin nuevas llegadas
         
         //CAncelaciones
-             $det=$this->db->query('SELECT * FROM `manage_reservation` WHERE `modified_date`="'.$bdate.'" AND hotel_id='.$hotel_id.' AND status="Canceled"');
+             $det=$this->db->query("SELECT * FROM `manage_reservation` WHERE `modified_date`='".$bdate."' AND hotel_id=".$hotel_id." AND status='Canceled'");
             $manaul_cancel = $det->num_rows();
             $data['cancel'] = $manaul_cancel+all_reservation_count('cancel',$bdate,$hotel_id);
         //fin 
             
         //llegadas
-            $det=$this->db->query('SELECT * FROM `manage_reservation` WHERE str_to_date(`start_date`, "%d/%m/%Y") = str_to_date("'.$date.'", "%d/%m/%Y") AND hotel_id='.$hotel_id.' AND user_status="Arrival"');
+            $det=$this->db->query("SELECT * FROM `manage_reservation` WHERE str_to_date(`start_date`, '%d/%m/%Y') ='".$bdate."' AND hotel_id=".$hotel_id." AND user_status='Booking'");
             $manaul_arr = $det->num_rows();
             $data['arrival'] = $manaul_arr + all_reservation_count('arrival',$bdate,$hotel_id);
         //fin 
         //Salidas
-            $det=$this->db->query('SELECT * FROM `manage_reservation` WHERE str_to_date(`end_date`, "%d/%m/%Y") = str_to_date("'.$date.'", "%d/%m/%Y") AND hotel_id='.$hotel_id.' AND user_status="Departure"');
+            $det=$this->db->query("SELECT * FROM `manage_reservation` WHERE str_to_date(`end_date`, '%d/%m/%Y') = '".$bdate."' AND hotel_id=".$hotel_id." AND user_status='Booking'");
             $manaul_dep = $det->num_rows();
             $data['depature'] = $manaul_dep + all_reservation_count('depature',$bdate,$hotel_id);
         //fin 

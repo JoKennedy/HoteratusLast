@@ -690,6 +690,106 @@ class expedia_model extends CI_Model
         return "Syncro Done Expedia";
     }
     
+    function ReservationList($hotelid)
+    {
+            $expedia=$this->db->query("SELECT a.import_reserv_id reservation_id, booking_id reservation_code, case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,
+                 a.name Full_Name , d.property_id room_id , 1 channel_id, arrival start_date,a.RoomNumber RoomNumber, departure end_date,
+                a.created_time booking_date, f.currency_id currency_id, a.amountAfterTaxes price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,a.current_date_time,
+                g.channel_name channel_name, d.property_name roomName FROM 
+                import_reservation_EXPEDIA a
+                left join import_mapping b on a.roomTypeID=b.roomtype_id and  a.ratePlanID= b.rate_type_id
+                left join roommapping c on c.channel_id=1 and  b.map_id=c.import_mapping_id 
+                left join manage_property d on c.property_id = d.property_id
+                left join manage_channel g on  c.channel_id=g.channel_id
+                left join currency f on a.currency=f.currency_code
+                where 
+                a.hotel_id=$hotelid
+                order by a.current_date_time desc;")->result_array();
+
+            return $expedia;
+    }
+     function reservationdetails($channelId,$reservationId,$hotelid)
+    {
+
+            $data['LogoReservation']=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$channelId))->row()->logo_channel));
+
+     
+
+            $result=$this->db->query("SELECT a.import_reserv_id reservation_id, booking_id reservation_code, case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end statusId, a.type status,
+                 a.name Full_Name , d.property_id room_id , 1 channel_id, arrival checkin,a.RoomNumber RoomNumber, departure checkout,
+                a.created_time booking_date, f.currency_id currency_id, a.amountAfterTaxes price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,a.amountAfterTaxes,a.baseRate,amountOfTaxes,
+                a.current_date_time, a.child max_children, a.currency currencycode, adult , a.email,`number`,a.address,a.city,stateProv,a.country,postalCode,SpecialRequest,
+                g.channel_name channel_name, d.property_name roomName FROM 
+                import_reservation_EXPEDIA a
+                left join import_mapping b on a.roomTypeID=b.roomtype_id and  a.ratePlanID= b.rate_type_id
+                left join roommapping c on c.channel_id=1 and  b.map_id=c.import_mapping_id 
+                left join manage_property d on c.property_id = d.property_id
+                left join manage_channel g on  c.channel_id=g.channel_id
+                left join currency f on a.currency=f.currency_code
+                where 
+                a.hotel_id=$hotelid and a.import_reserv_id =$reservationId")->row_array();
+
+
+
+            $data['ChannelName']='Expedia';
+            $data['channelId']=$channelId;
+            $data['reservatioID']=$result['reservation_id'];
+            $data['reservationNumber']=$result['reservation_code'];
+            $data['roomTypeID']=$result['room_id'];
+            $data['roomTypeName']=$result['roomName'];
+            $data['statusId']=$result['statusId'];
+            $data['status']=$result['status'];
+            $data['roomNumber']=$result['RoomNumber'];
+            $data['checkin']=$result['checkin'];
+            $data['checkout']=$result['checkout'];
+            $data['arrivalTime']='Undefined';
+            $data['numberNight']=$result['num_nights'];
+            $data['numberAdults']=$result['adult'];
+            $data['numberChilds']=$result['max_children'];
+            $data['guestFullName']=$result['Full_Name'];
+            $data['email']=$result['email'];
+            $data['mobiler']=$result['number'];
+            $data['address']=$result['address'];
+            $data['city']=$result['city'];
+            $data['state']=$result['stateProv'];
+            $data['country']=$result['country'];
+            $data['zipCode']=$result['postalCode'];
+            $data['notes']=$result['SpecialRequest'];
+            $data['commision']=0.00;
+            $data['discount']=0.00;
+            $data['channelRoomName']=$result['roomName'];
+            $data['mealsInclude']='';
+            $inbwdays = explode(',',$result['baseRate']);
+            $price = 0;
+
+            $data['promoCode'] = "No";
+            for($i=0; $i<count($inbwdays); $i++){
+                if($inbwdays[$i] != ""){
+                    $baseRate = explode('~', $inbwdays[$i]);
+                    $price = $price + end($baseRate);
+                    $searchword = 'rewritten_from_name=';
+                    $matches = array_values(array_filter($baseRate, function($var) use ($searchword) { return preg_match("/\b$searchword\b/i", $var); }));
+                    if(count($matches)=='0')
+                    {
+                        $data['rateDetailsPrice'][] =number_format((float)end($baseRate), 2, '.', '') ;
+                    }
+                    else
+                    {
+                        $data['promoCode'] = "Yes";
+                        $data['rateDetailsPrice'][] =number_format((float)end($baseRate), 2, '.', '').'-'.str_replace('rewritten_from_name=','',$matches[0]);
+                    }
+                }
+            }
+
+            
+            $data['currency']=$result['currencycode'];
+            $data['extrasInfo']=$this->reservation_model->extrasAllTotal($channelId,$result['reservation_id']);
+            $data['totalStay']=number_format((float)$result['amountAfterTaxes'], 2, '.', ''); 
+            $data['grandtotal']=number_format(($data['totalStay']+$data['extrasInfo']['total']), 2, '.', '');
+            $data['totalTax']=number_format(($result['amountOfTaxes']), 2, '.', ',');
+            $data['extrastoroom']=get_data("room_extras", array("room_id"=>$data['roomTypeID']))->result_array();
+            return $data;
+    }
 }
 
 ?> 

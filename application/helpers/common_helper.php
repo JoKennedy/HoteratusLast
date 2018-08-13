@@ -374,6 +374,7 @@ function hotel_id()
 		return $ci->session->userdata('ch_hotel_id');
 	}
 }
+
 function specialpermitids()
 {
 	$ci =& get_instance();

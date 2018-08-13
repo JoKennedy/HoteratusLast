@@ -303,8 +303,12 @@ class Reservation_model extends CI_Model
             
             $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
             $data['LogoReservation']=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
-            $result=$this->db->query("select *, case status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout
-                from manage_reservation where reservation_id = $reservationId and hotel_id=$hotelid ")->row_array();
+            
+            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname
+                from manage_reservation a
+                left join country b on a.country=b.id
+                where reservation_id = $reservationId and hotel_id=$hotelid ")->row_array();
+
             $currency= $this->db->query("select currency_code from currency where currency_id = ".$result['currency_id'])->row_array();            
 
             $roomtype= $this->db->query("select * from manage_property where property_id = ".$result['room_id'])->row_array();
@@ -330,7 +334,8 @@ class Reservation_model extends CI_Model
             $data['address']=$result['street_name'];
             $data['city']=$result['city_name'];
             $data['state']=$result['province'];
-            $data['country']=$result['country'];
+            $data['country']=$result['countryname'];
+            $data['countryid']=$result['country'];
             $data['zipCode']=$result['zipcode'];
             $data['notes']=$result['description'];
             $data['commision']=0.00;
@@ -3127,6 +3132,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 AND P.children >=".$_POST['child']." AND individual_channel_id =0 
                 AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
                 ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
+
     
         if(count($result)>0)
         {
@@ -3212,6 +3218,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                     $response['success']=true;
                     $response['reservationid']=$id;
+                    $response['url']=site_url('reservation/reservationdetails/'.secure(0).'/'.insep_encode($id));
                     return $response;
 
                 }
@@ -3219,11 +3226,14 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
             }
             else
             {            
+                $response['success']=false;
+                $response['availability']=0;
                 return false;
             }
         }
         else
-        {
+        {   $response['success']=false;
+            $response['availability']=0;
             return false;
         }
     }

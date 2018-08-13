@@ -387,3 +387,13 @@
 
                     
                 ?>
+                <div id="mensagesincro" class="alert alert-warning" style="text-align: center; display: none " >
+                    <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">&times; </i></span></button>
+                    Updating calendars
+                </div>
+                <div id="mensagedone" class="alert alert-success" style="text-align: center; display: none " >
+                    <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">&times; </i></span></button>
+                    Correctly updated calendar
+                </div>
+
+

@@ -646,12 +646,17 @@ class reservation extends Front_Controller {
 	function saveReservation()
 	{
 		$result=$this->reservation_model->saveReservation();
+		if(!$result['success'])
+		{
+			echo json_encode($result);
+		}
 		$channelID=0;
 		$ReservationID=$result['reservationid'];
 		$userName=$_POST['username'];
 		$reservationdetails=$this->reservation_model->reservationdetails($channelID,$ReservationID);
 		$this->reservation_model->reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails);
-		echo $result; 
+		
+		echo json_encode($result);
 	}
 	function invoiceheader()
 	{	
@@ -659,6 +664,7 @@ class reservation extends Front_Controller {
 		$invoice=get_data("reservationinvoice",array('reservationinvoiceid'=>$_POST['id']))->row_array();
 		$invoicedetails=get_data("reservationinvoicedetails",array('reservationinvoiceId'=>$_POST['id']))->result_array();
 		$billing=get_data("bill_info",array('hotel_id'=>hotel_id()))->row_array();
+
 		if(!isset($billing['country']))
 		{
 			$billing['company_name']='No config';

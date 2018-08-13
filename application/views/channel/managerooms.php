@@ -12,7 +12,7 @@
 
 
         <div style="float: right;" class="buttons-ui">
-        <a class="btn blue">Add Room Type</a>
+        <a href="#createroom" data-toggle="modal" class="btn blue">Add Room Type</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
@@ -53,3 +53,44 @@
 </div>
 </div>
 </div>
+<div id="createroom" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">Create a Room</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span> 
+            </div>
+            <div>
+                <div class="graph-form">
+                    <form id="roomC">
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Room Name</label>
+                            <input style="background:white; color:black;" name="name" id="name" type="text" placeholder="Room Name" required="">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Occupancy Adults</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="adult" id="adult" type="text" placeholder="Occupancy Adults" required="">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label">Occupancy Children</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="children" id="children" type="text" placeholder="Occupancy Children" required="">
+                        </div>
+                        <div class="clearfix"> </div>
+                        <br>
+                        <br>
+                        <div class="buttons-ui">
+                            <a onclick="saveReservation()" class="btn green">Save</a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+
+</script>

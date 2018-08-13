@@ -7,6 +7,8 @@ class bulkupdate_model extends CI_Model
 	
 	function saveRoomInfo($room)
 	{	
+
+		
 		$ChannelsInfo='';
 		$ChannelsErros='';
 		foreach ($room['channelids'] as  $channelid) {

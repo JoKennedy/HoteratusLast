@@ -48,8 +48,7 @@ class bulkupdate extends Front_Controller
 			$DatesRange[$i]['startdate']=$_POST['date1Edit'][$i];
 			$DatesRange[$i]['enddate']=$_POST['date2Edit'][$i];
 		}
-
-
+		
 
 		$rooms=cleanArray($_POST['room']);
 
@@ -110,8 +109,8 @@ class bulkupdate extends Front_Controller
 
 		                    $room['channelids'] =  $_POST['channelid'];
 
-		                    $result= $this->bulkupdate_model->saveRoomInfo($room);
-		                    $this->session->set_flashdata('bulk_success', $result);
+		                    $result .= $this->bulkupdate_model->saveRoomInfo($room);
+		                   
 		                }    
 	                
                 }
@@ -122,28 +121,13 @@ class bulkupdate extends Front_Controller
 			}
 		}
 
-		 /*
-			["availability"]=>
-      string(3) "100"
-      ["price"]=>
-      string(3) "200"
-      ["minimumstay"]=>
-      string(3) "100"
-      ["cta"]=>
-      string(1) "1"
-      ["ctd"]=>
-      string(1) "1"
-      ["stops"]=>
-      string(1) "1"
+		$this->session->set_flashdata('bulk_success', '');
+	
+	}
 
-
-		 if (isset($price_error)) {
-		        $this->session->set_flashdata("bulk_error", $price_error);
-		    } else {
-		        if ($this->session->flashdata('bulk_error') == '') {
-		            $this->session->set_flashdata('bulk_success', 'Bulk update has been updated successfully!!!');
-		        }
-		    }*/
+	function verifysincro()
+	{
+		echo getsincro();
 	}
 
 	

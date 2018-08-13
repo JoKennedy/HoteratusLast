@@ -64,9 +64,6 @@
     <div class="clearfix"></div>
 </div>
 <div class="clearfix"></div>
-</div>
-</div>
-</div>
 <div id="infoReservation" class="modal fade" role="dialog" style="z-index: 1800;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -199,8 +196,6 @@
         </div>
     </div>
     <div class="clearfix"></div>
-</div>
-</div>
 </div>
 <div id="roomsavailable" class="modal fade" role="dialog" style="z-index: 1600;">
     <div class="modal-dialog modal-lg">
@@ -335,7 +330,7 @@ function saveReservation()
     var data = $("#ReserveC").serialize();
     $.ajax({
         type: "POST",
-        //dataType: "json",
+        dataType: "json",
         url: "<?php echo lang_url(); ?>reservation/saveReservation",
         data: data,
         beforeSend: function() {
@@ -345,7 +340,25 @@ function saveReservation()
         success: function(msg) {
 
             unShowWait();
-            alert(msg);
+           if (msg['success']) {
+             swal({
+                    title: "Success",
+                    text: "Reservation successfully created!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    window.location.href =msg['url'];
+                });
+           }
+           else
+           {
+                swal({
+                    title: "Error",
+                    text: "Reservation was not created!",
+                    icon: "danger",
+                    button: "Ok!",
+                });
+           }
         }
     });
 }

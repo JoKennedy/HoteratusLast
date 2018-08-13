@@ -506,9 +506,11 @@ class channel_model extends CI_Model
 		$cta=$_POST['cta'];;
 		$ctd=$_POST['ctd'];;
 		$showr=$_POST['show'];
+		$dataini=(date('m')==$_POST['monthid'] && date('Y')==$_POST['yearid']?date('Y-m-d'):date('Y-m-d',strtotime($_POST['yearid'].'-'.$_POST['monthid'].'-01')));
 
-		$date1=date('Y-m-d');
-		$date2=date('Y-m-d',strtotime($date1.'+29 days'));
+
+		$date1=$dataini;
+		$date2=date('Y-m-d',strtotime($date1.'+31 days'));
 		$fecha = new DateTime();
 		$fecha->modify('last day of this month');
 		$lastday= $fecha->format('d');

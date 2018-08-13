@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lugar=0;//0 trabajo 1 casa
+$lugar=1;//0 trabajo 1 casa
 
 /*
 |--------------------------------------------------------------------------

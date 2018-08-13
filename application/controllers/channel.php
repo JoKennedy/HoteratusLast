@@ -1634,6 +1634,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['YearM']=$this->db->query("select max(STR_TO_DATE(separate_date ,'%d/%m/%Y')) mayor from room_update where hotel_id=".hotel_id())->row()->mayor;
 		$this->views('channel/calendarfull',$data);
 	}
 
@@ -1804,6 +1805,8 @@ function filenotfound(){
 }
 
 	function logout(){
+
+		$this->session->unset_userdata('sincro');
 		$this->session->unset_userdata('ch_user_id');
 		redirect(base_url());
 	}

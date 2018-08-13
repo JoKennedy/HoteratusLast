@@ -98,17 +98,19 @@
 <!--//outer-wp-->
 <!--footer section start-->
 <!--footer section end-->
-</div>
-</div>
+
 <div id="CreateReservation" class="modal fade" role="dialog"  style="z-index: 1400;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             
-            <div align="center" id="headerinvoice">
-            </div>
             <?php include("creationreservation.php")?>
 
+        </div>
+    </div>
+</div>
 
+</div>
+</div>
 
 
 <script language="javascript" type="text/javascript">
@@ -420,15 +422,3 @@ $(document).ready(function(){
     
 });
 </script>
-
-</div>
-</div>
-</div>
-</div>
-</div>
-</div></div>
-</div>
-</div>
-</div>
-</div>
-</div>

@@ -9,7 +9,36 @@
 		   </div>
 	  <!--//sub-heard-part-->
 
-		
+			<div style="float: left;" class="buttons-ui">
+
+	            <div class="col-md-7 form-group1">
+	                
+					<select onchange="Calendario()" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
+					<?php
+
+						$month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
+						$hoy=array('dia' =>date('d') , 'mes' =>date('m'),'year' =>date('Y'));
+					    foreach ($month as $key=> $value) {
+					        $i++;
+					        echo '<option   value="'.$key.'"'.($key==$hoy['mes']?'selected':'').' >'.$value.'</option>';
+					    }
+					?>
+					</select>
+	            </div>
+	             <div class="col-md-5 form-group1">
+	                
+					<select onchange="Calendario()" style="width: 100%; padding: 9px;" name="yearid" id="yearid">
+					<?php
+
+						$lastyear=date('Y',strtotime($YearM));
+						
+					    for ($i=$hoy['year']; $i <= $lastyear ; $i++) { 
+					     	 echo '<option  value="'.$i.'"'.($i==$hoy['year']?'selected':'').' >'.$i.'</option>';
+					     } 
+					?>
+					</select>
+	            </div>
+            </div>
 		
 
 	        <div style="float: right;" class="buttons-ui">
@@ -45,7 +74,7 @@
 		<div style="text-align: left;">
 			<br>
 			<div class="col-md-2">
-				<label class="check"><input onclick=" Calendario()" id="show" type="checkbox" >Show Reservation</label>
+				<label class="check"><input  onclick=" Calendario()" id="show" type="checkbox" >Show Reservation</label>
 			</div>
 			<div class="col-md-2">
 				<label class="check"><input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox" >Stop Sales</label>
@@ -66,11 +95,11 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             
-            <div align="center" id="headerinvoice">
-            </div>
-            <?php include("creationreservation.php")?>
-
-
+              <?php include("creationreservation.php")?>
+          
+		</div>
+	</div>
+</div>
 
 
 
@@ -95,7 +124,7 @@
 
 		showWait();
 		var base_url = '<?php echo lang_url();?>';
-		var data={"show":($("#show").prop('checked')?1:0),"sales":($("#Sales").prop('checked')?1:0),"cta":($("#cta").prop('checked')?1:0),"ctd":($("#ctd").prop('checked')?1:0),};
+		var data={"show":($("#show").prop('checked')?1:0),"sales":($("#Sales").prop('checked')?1:0),"cta":($("#cta").prop('checked')?1:0),"ctd":($("#ctd").prop('checked')?1:0),'yearid':$("#yearid").val(),'monthid':$("#monthid").val()};
 		
 		$.ajax({
 			type: "POST",

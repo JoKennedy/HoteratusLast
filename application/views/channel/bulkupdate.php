@@ -135,7 +135,7 @@
                                             <td width="10%" >'.$value['property_name'].'</td> 
 
                                             <td  class="form-group1 availa" style="display:none;width:18%; " id="availa">
-                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][availability]" id="availability" type="text" placeholder="Availability" >
+                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][availability]" id="availability" type="text" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
                                             </td>
                                             <td  class="form-group1 price" style="display:none;width:15%;" id="pricet">
                                                 <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][price]" id="price" type="text" placeholder="Price" >
@@ -387,10 +387,12 @@ if(falta==1)return;
         url: "<?php echo lang_url(); ?>bulkupdate/bulkUpdateProcess",
         data: data,
         beforeSend: function() {
+           
+            $("#mensagesincro").css("display","");
             swal({
-                title: "upps, Sorry",
+                title: "Proccess",
                 text: "Update sent, when it is completed a message will be displayed on top!",
-                icon: "warning",
+                icon: "info",
                 button: "Ok!",
             });
         },
@@ -401,6 +403,14 @@ if(falta==1)return;
     });
 
 
+}
+function validarmaximo(maximo,id)
+{
+    if (maximo<$(id).val()) {
+
+        $(id).val(maximo);
+
+    }
 }
 setcalendar(1);
 </script>

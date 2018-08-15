@@ -3237,7 +3237,7 @@ function resend_confirmation()
 
 	// export to excel...
 
-	function export_reservation()
+		function export_reservation()
 	{
 		if(admin_id()=='')
 		{
@@ -3252,61 +3252,45 @@ function resend_confirmation()
 
 		$chaReserCheckCount = array();
 
-		$query = $this->db->query("select e.status,e.guest_name, 'Hoteratus' AS channel, e.start_date,e.end_date,e.created_date as booking_date,e.reservation_code,e.price,e.email as user_email,e.mobile,e.room_id,e.channel_id,e.currency_id FROM `manage_reservation`   AS e 
-			where e.user_id = ".current_user_type()." and e.hotel_id = ".hotel_id()." order by e.reservation_id desc");
-		
+		$query = $this->db->query("select e.status,e.guest_name, 'Hoteratus' AS channel, e.start_date,e.end_date,e.created_date as booking_date,e.reservation_code,e.price,e.email as user_email,e.mobile,e.room_id,e.channel_id,e.currency_id ,
+			case when b.property_name is null then 'No Room Set' else b.property_name end  roomname
+			FROM `manage_reservation`   AS e 
+			left join manage_property b on e.room_id = b.property_id
+			where  e.hotel_id = ".hotel_id()." order by DATE_FORMAT(STR_TO_DATE(e.start_date,'%d/%m/%Y'),'%Y-%m-%d') desc");
+
+		$booking=$this->db->query("select a.status,a.guest_name,'Booking.com' AS channel, DATE_FORMAT(a.arrival_date,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure_date,'%d/%m/%Y') as end_date, a.date_time as booking_date, concat(a.reservation_id,'-',a.roomreservation_id) reservation_code,
+			a.totalprice as price, b.email as user_email, telephone as mobile, 
+			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
+			2 as channel_id , b.currencycode  as currency_id
+			from import_reservation_BOOKING_ROOMS a
+			left join import_reservation_BOOKING b on a.import_reserv_id=b.import_reserv_id
+			left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
+			left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=2
+			left join manage_property e on d.property_id = e.property_id
+		 where a.hotel_hotel_id=".hotel_id()." order by arrival_date desc")->result();
+		$airbnb=$this->db->query("select a.ResStatus as status,a.name as guest_name,'AIRBNB' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.ImportDate as booking_date, a.ResID_Value reservation_code,
+			a.AmountAfterTax as price, '' as user_email, '' as mobile, 
+			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
+			9 as channel_id , a.Currency  as currency_id
+			from import_reservation_AIRBNB a
+			left join import_mapping_AIRBNB c on a.RoomTypeCode=c.Roomid
+			left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=9
+			left join manage_property e on d.property_id = e.property_id
+		 where a.hotel_id=".hotel_id()." order by arrival desc")->result();
+
+		$expedia=$this->db->query("select a.type as status,  concat(a.givenName,' ',a.surname) as guest_name,'EXPEDIA' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.created_time as booking_date, a.booking_id reservation_code,
+			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile, 
+			'' roomname,
+			1 as channel_id , a.currency  as currency_id
+			from import_reservation_EXPEDIA a
+			where a.hotel_id=".hotel_id()." order by arrival desc")->result();
+
 		$chaReserCheckCount = array_merge($chaReserCheckCount,$query->result());
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$booking);
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$airbnb);
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$expedia);
 
-		$this->db->select('A.auto_id,A.channel_id,A.channel_table_name,A.import_mapping_table,A.fetch_query_count,A.fetch_query_all,A.ical_query,A.reports_query');
-
-		$this->db->join(CONNECT.' as C','A.channel_id=C.channel_id');
-
-		$this->db->where(array('C.user_id'=>current_user_type(),'C.hotel_id'=>hotel_id()));
-
-		$query = $this->db->get(ALL.' as A');
-
-		if($query)
-		{
-			$all_api_new_book = $query->result_array();
-		}
-
-		foreach($all_api_new_book as $table_field)
-		{
-			extract($table_field);
-
-			$select = explode(',',$fetch_query_count);
-
-			if($channel_id==2)
-			{
-				$hotel_id = 'hotel_hotel_id';
-			}
-			else
-			{
-				$hotel_id = 'hotel_id';
-			}
-
-			if($channel_id==1 || $channel_id==17)
-			{
-				$room_re_o	= $select[11];
-				$room_re_t	= $select[12];
-			}
-			if($channel_id==8)
-			{
-				$room_re_o	= $select[4];
-				$room_re_t	= $select[12];
-			}
-			if($channel_id==11 || $channel_id==2)
-			{
-				$room_re_o	= $select[4];
-				$room_re_t	= $select[11];
-			}
-
-			$cahquery = $this->db->query('SELECT ( CASE WHEN R.'.$select[2].' ="11" THEN "Reservation" WHEN R.'.$select[2].' ="12" THEN "Modification" WHEN R.'.$select[2].' ="12" THEN "Cancel" ELSE R.'.$select[2].' END )as status , R.'.$select[3].' as guest_name , R.'.$select[9].' as price , R.'.$select[7].' as reservation_code , R.'.$select[1].' as booking_date , R.'.$select[8].' as currency_id , C.channel_name as channel, C.channel_id , R.'.$select[18].' as mobile , R.'.$select[19].' as user_email , R.'.$room_re_o.' as room_one , R.'.$room_re_t.' as room_two , DATE_FORMAT(R.'.$select[5].',"%d/%m/%Y") as start_date, DATE_FORMAT(R.'.$select[6].',"%d/%m/%Y") as end_date FROM ('.$channel_table_name.' AS R) JOIN '.TBL_CHANNEL.' AS C ON R.channel_id = C.channel_id WHERE R.user_id = "'.current_user_type().'" AND R.'.$hotel_id.' = "'.hotel_id().'"');
-
-			$chaReserCheckCount = array_merge($chaReserCheckCount,$cahquery->result());
-
-		}
-
+		
 		$test	=	'<table width="100%" style="width: 100%;">
 
 					<thead>
@@ -3343,74 +3327,13 @@ function resend_confirmation()
 
 					foreach($chaReserCheckCount as $row)
 					{
-						if($row->channel_id == 8) { $user_email	=	'N/A'; }
-						else if($row->channel_id == 2) { $book_data	=	get_data(BOOK_RESERV,array('id'=>$row->mobile),'email,telephone')->row_array();	$book_data['email']!='' ? $user_email	=	$book_data['email'] : $user_email	=	'N/A';}
-						else { $user_email	=	$row->user_email; }
+						$user_email	=	$row->user_email; 
+
+						 $mobile	=	$row->mobile; 
 
 
-						if($row->channel_id == 8) { $mobile	=	'N/A'; } else if($row->channel_id == 2) { 	$book_data['telephone']!='' ? $mobile	=	$book_data['telephone'] : $mobile	=	'N/A'; } else { $mobile	=	$row->mobile; }
+						$roomName	=	$row->roomname;
 
-						if($row->channel_id == 0)
-						{
-							$room_details = get_data(TBL_PROPERTY,array('property_id'=>$row->room_id),'property_name')->row_array();
-
-							if(count($room_details)!='0')
-							{
-								$roomName	=	ucfirst($room_details['property_name']);
-							}
-							if(isset($roomName))
-							{
-								$roomName	=	($roomName);
-							}
-							else
-							{
-								$roomName	=	 '"No Room Set"';
-							}
-						}
-						if($row->channel_id == 1)
-						{
-							$roomtypeid 	=	$row->room_one;
-
-							$rateplanid 	=	$row->room_two;
-
-							$roomdetails 	=	getExpediaRoom($roomtypeid,$rateplanid,current_user_type(),hotel_id());
-
-							if(count($roomdetails) !=0)
-							{
-								$roomtypeid = $roomdetails['roomtypeId'];
-
-								$rateplanid = $roomdetails['rateplanid'];
-							}
-
-							$roomName = @get_data(TBL_PROPERTY,array('property_id'=>get_data(MAP,array('channel_id'=>$row->channel_id,'import_mapping_id'=>get_data('import_mapping',array('roomtype_id'=>$row->room_one,'rate_type_id'=>$row->room_two,'user_id'=>current_user_type(),'hotel_id'=>hotel_id()))->row()->map_id))->row()->property_id))->row()->property_name;
-
-							if(!$roomName){
-								$roomName = @get_data(TBL_PROPERTY,array('property_id'=>get_data(MAP,array('channel_id'=>$row->channel_id,'import_mapping_id'=>get_data('import_mapping',array('roomtype_id'=>$row->room_one,'rateplan_id'=>$row->room_two,'user_id'=>current_user_type(),'hotel_id'=>hotel_id()))->row()->map_id))->row()->property_id))->row()->property_name;
-							}
-							if(isset($roomName))
-							{
-								$roomName	=	 ucfirst($roomName);
-							}
-							else
-							{
-								$roomName	=	 '"No Room Set"';
-							}
-						}
-						else if($row->channel_id == 2)
-						{
-							$user_dets	=	get_data(BOOK_ROOMS,array('roomreservation_id'=>$row->reservation_code),'user_id,hotel_hotel_id')->row_array();
-
-							$roomName	=	get_data(TBL_PROPERTY,array('property_id'=>get_data(MAP,array('channel_id'=>$row->channel_id,'import_mapping_id'=>get_data('import_mapping_BOOKING',array('B_room_id'=>$row->room_one, 'B_rate_id' => $row->room_two,'owner_id'=>current_user_type(),'hotel_id'=>hotel_id()))->row()->import_mapping_id))->row()->property_id))->row()->property_name;
-
-							if(isset($roomName))
-							{
-								$roomName	=	ucfirst($roomName);
-							}
-							else
-							{
-								$roomName	=	 '"No Room Set"';
-							}
-						}
 
 						if($row->channel_id==0)
 						{

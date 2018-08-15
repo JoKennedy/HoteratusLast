@@ -10,7 +10,7 @@
     <div style="float: right;" class="buttons-ui">
      
         <a class="btn orange">Import Resevations Now</a>
-        <a class="btn green">Export XLSX</a>
+        <a href="<?php echo site_url('reservation/export_reservation');?>" class="btn green">Export XLSX</a>
         <a onclick="setcalendar()" class="btn blue">Add Reservation</a>
     </div>
     <div class="clearfix"></div>
@@ -19,13 +19,13 @@
             <div class="table-responsive">
                 <div style="float: left;" class="buttons-ui">
                     <label class="control-label">Records</label>
-                    <select id="mostrar" class="btn blue">
+                    <select id="mostrar" class="blue">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <select id="channels" class="btn blue">
+                    <select id="channels" class="blue">
                         <option value="">All Reservations</option>
                         <option value="0">Manual Booking</option>
                         <?php if (count($AllChannel)>0) {
@@ -35,7 +35,7 @@
 										}
 									} ?>
                     </select>
-                    <select id="status" class="btn blue">
+                    <select id="status" class="blue">
                         <option value="">All Status</option>
                         <option value="Canceled">Canceled</option>
                         <option value="Reserved">Reserved</option>
@@ -44,9 +44,9 @@
                         <option value="Confirmed">Confirmed</option>
                         <option value="Unchecked">Unchecked</option>
                     </select>
-                    <input id="date1" style="background-color: white; width:200px; " type="date" class="btn blue" value="" placeholder="">
-                    <input id="date2" style="background-color: white; width:200px;" type="date" class="btn blue" value="" placeholder="">
-                    <input class="btn blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Type to filter" />
+                    <input id="date1" style="background-color: white; width:200px; " type="date" class="blue" value="" placeholder="">
+                    <input id="date2" style="background-color: white; width:200px;" type="date" class="blue" value="" placeholder="">
+                    <input class="blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Type to filter" />
                 </div>
                 <div class="clearfix"></div>
                 <table id="Reservationlist" class="table table-bordered" >

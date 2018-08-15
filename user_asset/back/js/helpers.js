@@ -1,5 +1,7 @@
 
-
+if ( $('[type="date"]').prop('type') != 'date' ) {
+    $('[type="date"]').datepicker();
+}
 function formatoDate(date) {
   var monthNames = [
     "January", "February", "March",

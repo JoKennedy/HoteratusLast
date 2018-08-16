@@ -1837,6 +1837,7 @@ function change_roomNumber(rid,channel_id,room_number){
                     $("#dp11-p").datepicker("option", "minDate", dt);
                 }
             });
+            
             $("#dp11-p").datepicker({
               dateFormat: 'yy-mm-dd',               
                 onSelect: function (selected) {

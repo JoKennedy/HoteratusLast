@@ -5706,34 +5706,28 @@ class inventory_model extends CI_Model
     
     function main_full_update()
     {
-        extract($this->input->post());
-        
+       extract($this->input->post());
 
-        
         if (!isset($channel_id)) {
             print '<script language="JavaScript">';
             print 'alert("Not Channels Selected");';
             print '</script>';
             return;
         }
-        
+       
 
+        $period                = $this->getDateForSpecificDayBetweenDates(date('Y-m-d',strtotime($startdate)),date('Y-m-d',strtotime($enddate)) , "1,2,3,4,5,6,7");
         
-        $start                 = $datepicker_full_start;
-        $end                   = $datepicker_full_end;
-        $datepicker_full_start = date('Y-m-d', strtotime(str_replace('/', '-', $datepicker_full_start)));
-        $datepicker_full_end   = date('Y-m-d', strtotime(str_replace('/', '-', $datepicker_full_end)));
-        $period                = $this->getDateForSpecificDayBetweenDates($datepicker_full_start, $datepicker_full_end, "1,2,3,4,5,6,7");
-        
-        $datetime1      = new DateTime($datepicker_full_start);
-        $datetime2      = new DateTime($datepicker_full_end);
+        $datetime1      = new DateTime($startdate);
+        $datetime2      = new DateTime($enddate);
         $interval       = $datetime1->diff($datetime2);
         $dias           = $interval->format('%R%a');
         $DespegarErrors = '';
         $BookingErrors  = '';
         $ExpediaErrors  = '';
         $AirbnbErrors   ='';
-        $inicialdate    = $datepicker_full_start;
+         $AgodaErrors='';
+        $inicialdate    = $startdate;
         $dias           = $dias * 1;
         $hotelid=hotel_id();
 
@@ -5743,10 +5737,7 @@ class inventory_model extends CI_Model
             
             $FinalDate = strtotime(($dias >= 90 ? '+90 day' : '+' . $dias . ' day'), strtotime($inicialdate));
             $FinalDate = date('Y-m-d', $FinalDate);
-            
-            if ($optionsRadios == 'select') {
-                
-                
+                          
                 foreach ($channel_id as $Channelid) {
                     if ($Channelid == 36) {
                         $this->load->model("despegar_model");
@@ -5774,7 +5765,7 @@ class inventory_model extends CI_Model
                     }
                 }
                 
-            }
+            
             
             
             $inicialdate = strtotime('+1 day', strtotime($FinalDate));
@@ -5809,6 +5800,8 @@ class inventory_model extends CI_Model
                 print '</script>';
             }
         }
+
+        return;
         
     }
     

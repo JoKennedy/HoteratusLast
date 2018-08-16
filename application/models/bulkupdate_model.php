@@ -8,7 +8,8 @@ class bulkupdate_model extends CI_Model
 	function saveRoomInfo($room)
 	{	
 
-		
+		$userid=user_id();
+		$hotelid=hotel_id();
 		$ChannelsInfo='';
 		$ChannelsErros='';
 		foreach ($room['channelids'] as  $channelid) {
@@ -17,9 +18,9 @@ class bulkupdate_model extends CI_Model
 				foreach ($room['separate'] as  $date) {
 					# code...
 				
-					$info= get_data(TBL_UPDATE,array('individual_channel_id'=>'0','room_id'=>$room['room_id'],'separate_date'=>$date,'hotel_id'=>hotel_id()))->row_array();
+					$info= get_data(TBL_UPDATE,array('individual_channel_id'=>'0','room_id'=>$room['room_id'],'separate_date'=>date('d/m/Y',strtotime($date)),'hotel_id'=>$hotelid))->row_array();
 					//datos de informacion
-
+					
 					if(@$room['availability']!='')
 					{
 						$roominfo['availability'] =$room['availability'];
@@ -63,14 +64,15 @@ class bulkupdate_model extends CI_Model
 
 					if(count($info)!=0)
 					{ 
-						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>hotel_id(),"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));
+						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));
 					}
 					else
 					{   
 						$roominfo['separate_date'] = date('d/m/Y',strtotime($date));
 						$roominfo['trigger_cal'] = 0;
 						$roominfo['room_id'] =$room['room_id'];
-						$roominfo['hotel_id'] = hotel_id();
+						$roominfo['hotel_id'] = $hotelid;
+						$roominfo['owner_id'] = $userid;
 						$roominfo['individual_channel_id']= '0';
 						insert_data(TBL_UPDATE, $roominfo);
 					}

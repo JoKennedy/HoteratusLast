@@ -39,10 +39,12 @@ class bulkupdate extends Front_Controller
 
 	function bulkUpdateProcess()
 	{	
+
 		 $this->is_login();
 
 		$countdate=count($_POST['date1Edit']);
 		$DatesRange=array();
+		$result='';
 		
 		for ($i=0; $i < $countdate ; $i++) { 
 			$DatesRange[$i]['startdate']=$_POST['date1Edit'][$i];
@@ -51,6 +53,8 @@ class bulkupdate extends Front_Controller
 		
 
 		$rooms=cleanArray($_POST['room']);
+
+
 
 		if(count($rooms)>0)
 		{
@@ -75,7 +79,7 @@ class bulkupdate extends Front_Controller
 
             			foreach ($periodo['rangos'] as $date) {
             				
-            			
+            				
 	          			                		
 	                		$room['startdate']=$date['startdate'];
 	                		$room['enddate']=$date['enddate'];
@@ -110,6 +114,8 @@ class bulkupdate extends Front_Controller
 		                    $room['channelids'] =  $_POST['channelid'];
 
 		                    $result .= $this->bulkupdate_model->saveRoomInfo($room);
+
+		                   
 		                   
 		                }    
 	                
@@ -121,7 +127,7 @@ class bulkupdate extends Front_Controller
 			}
 		}
 
-		$this->session->set_flashdata('bulk_success', '');
+		$this->session->set_flashdata('bulk_success', $result );
 	
 	}
 

@@ -45,6 +45,7 @@
     <!-- //font-awesome-icons -->
     <script src="<?php echo base_url();?>user_asset/js/modernizr.js"></script>
     <script src="<?php echo base_url();?>user_asset/js/sweetalert.min.js"></script>
+    
     <!-- for gallery js -->
     <!-- js -->
     <script type="text/javascript" src="<?php echo base_url();?>user_asset/js/jquery-2.1.4.min.js"></script>
@@ -183,7 +184,7 @@
                             if($user_id!=''){ ?>
                         <li><a style="color:#00FF00;" href="<?php echo lang_url(); ?>channel/dashboard">Dashboard </a></li>
                         <?php }else{ ?>
-                        <li><a class="cd-signin">Sign in</a></li>
+                        <li><a class="cd-signin page-scroll scroll" href="#" >Sign in</a></li>
                         <li><a class="cd-signup">Sign up</a></li>
                         <?php } ?>
                     </ul>
@@ -976,7 +977,7 @@
             }
 
 
-            if (!$("#accept-terms").prop('checked')) {
+            if (!$("#accept-terms").prop('checked') ) {
                 $('#msguser').html('Please accept terms and policy');
                 $('#msguser').toggle("slow");
                 setTimeout(function() {
@@ -995,9 +996,9 @@
                         text: "User created Successfully!",
                         icon: "success",
                         button: "Ok!",
-                    }).then(ms => {
-                        location.reload();
                     });
+
+                    location.reload();
                 }
             });
 

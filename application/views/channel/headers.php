@@ -54,7 +54,9 @@
     <script src="<?php echo base_url();?>user_asset/back/js/jquery.easydropdown.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/helpers.js"></script>
-
+    
+      <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/jquery-ui.css">  
+    <script src="<?php echo base_url();?>user_asset/back/js/jquery-ui.js"></script>
 
     <!--//skycons-icons-->
 </head>

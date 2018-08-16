@@ -1634,6 +1634,10 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['AllChannel']= $this->db->query("SELECT a.*,b.channel_name
+			FROM user_connect_channel a
+			left join manage_channel b on a.channel_id=b.channel_id
+			where  a.status='enabled' and hotel_id=".hotel_id())->result_array();
 		$data['YearM']=$this->db->query("select max(STR_TO_DATE(separate_date ,'%d/%m/%Y')) mayor from room_update where hotel_id=".hotel_id())->row()->mayor;
 		$this->views('channel/calendarfull',$data);
 	}

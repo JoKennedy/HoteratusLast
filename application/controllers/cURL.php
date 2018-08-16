@@ -7,6 +7,10 @@
  */
 class cURL {
 
+	public function __construct()
+	{
+		parent::__construct();
+	}
      var $headers;
     
      var $user_agent;

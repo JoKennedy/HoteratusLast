@@ -1,20 +1,33 @@
+<style>
+.thead-top th {
+    border: 0px solid #ddd !important;
+}
 
+tr.thead-top {
+    border: 0px solid #ddd !important;
+}
+
+.bor-top-no {
+    border: 0px solid #ddd !important;
+}
+
+.ui-datepicker {
+    z-index: 3000 !important;
+}
+</style>
 <div class="outter-wp">
-		<!--sub-heard-part-->
-		  <div class="sub-heard-part">
-		   <ol class="breadcrumb m-b-0">
-				<li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
-				<li class="active">Calendar</li>
-			</ol>
-		   </div>
-	  <!--//sub-heard-part-->
-
-			<div style="float: left;" class="buttons-ui">
-
-	            <div class="col-md-7 form-group1">
-	                
-					<select onchange="Calendario()" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
-					<?php
+    <!--sub-heard-part-->
+    <div class="sub-heard-part">
+        <ol class="breadcrumb m-b-0">
+            <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
+            <li class="active">Calendar</li>
+        </ol>
+    </div>
+    <!--//sub-heard-part-->
+    <div style="float: left;" class="buttons-ui">
+        <div class="col-md-7 form-group1">
+            <select onchange="Calendario()" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
+                <?php
 
 						$month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
 						$hoy=array('dia' =>date('d') , 'mes' =>date('m'),'year' =>date('Y'));
@@ -23,12 +36,11 @@
 					        echo '<option   value="'.$key.'"'.($key==$hoy['mes']?'selected':'').' >'.$value.'</option>';
 					    }
 					?>
-					</select>
-	            </div>
-	             <div class="col-md-5 form-group1">
-	                
-					<select onchange="Calendario()" style="width: 100%; padding: 9px;" name="yearid" id="yearid">
-					<?php
+            </select>
+        </div>
+        <div class="col-md-5 form-group1">
+            <select onchange="Calendario()" style="width: 100%; padding: 9px;" name="yearid" id="yearid">
+                <?php
 
 						$lastyear=date('Y',strtotime($YearM));
 						
@@ -36,21 +48,18 @@
 					     	 echo '<option  value="'.$i.'"'.($i==$hoy['year']?'selected':'').' >'.$i.'</option>';
 					     } 
 					?>
-					</select>
-	            </div>
-            </div>
-		
-
-	        <div style="float: right;" class="buttons-ui">
-
-	        	<?php
+            </select>
+        </div>
+    </div>
+    <div style="float: right;" class="buttons-ui">
+        <?php
 	        		$specialpermit=array();
 					if ($User_Type==2) {
 						$specialpermit=specialpermitids();
 					}
 
 					if ($User_Type==1 || in_array(1, $specialpermit)) {
-						echo '<a class="btn orange">Full Update</a>';
+						echo '<a onclick="setfullUpdate()" class="btn orange">Full Update</a>';
 					}
 					if ($User_Type==1 || in_array(2, $specialpermit)) {
 						echo '<a href="'.base_url().'bulkupdate/viewBulkUpdate" class="btn green">Bulk Update</a>';
@@ -59,93 +68,157 @@
 						echo '<a onclick="setcalendar()" class="btn blue">Add Reservation</a>';
 					}
 				?>
-        		
-        		
-				
-		 	</div>
-			<div  class="clearfix"></div>	
-
-
-		<div style="width: 100%; height:400px;"  class="table-responsive">
-
-			<div id="calendario"> </div>
-			<!--<?= $calendar ?>-->
-		</div>
-		<div style="text-align: left;">
-			<br>
-			<div class="col-md-2">
-				<label class="check"><input  onclick=" Calendario()" id="show" type="checkbox" >Show Reservation</label>
-			</div>
-			<div class="col-md-2">
-				<label class="check"><input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox" >Stop Sales</label>
-			</div>
-			<div class="col-md-2">
-				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="cta" type="checkbox" >CTA</label>
-			</div>
-			<div class="col-md-2">
-				<label class="check"><input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox" >CTD</label>
-			</div>
-			<div class="clearfix"> </div>
-				
-		</div>
-
-		
+    </div>
+    <div class="clearfix"></div>
+    <div style="width: 100%; height:400px;" class="table-responsive">
+        <div id="calendario"> </div>
+        <!--<?= $calendar ?>-->
+    </div>
+    <div style="text-align: left;">
+        <br>
+        <div class="col-md-2">
+            <label class="check">
+                <input onclick=" Calendario()" id="show" type="checkbox">Show Reservation</label>
+        </div>
+        <div class="col-md-2">
+            <label class="check">
+                <input onclick=" showoption('ss',this.checked)" id="Sales" type="checkbox">Stop Sales</label>
+        </div>
+        <div class="col-md-2">
+            <label class="check">
+                <input onclick=" showoption(this.id,this.checked)" id="cta" type="checkbox">CTA</label>
+        </div>
+        <div class="col-md-2">
+            <label class="check">
+                <input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox">CTD</label>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
 </div>
-<div id="CreateReservation" class="modal fade" role="dialog"  style="z-index: 1400;">
+<div id="CreateReservation" class="modal fade" role="dialog" style="z-index: 1400;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+            <?php include("creationreservation.php")?>
+        </div>
+    </div>
+</div>
+<div id="fullupdate" class="modal fade" role="dialog" style="z-index: 1400;">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="idclose" type="button" class="close" data-dismiss="modal">&times;</button>
+                <div align="center">
+                    <h1><span class="label label-primary">Full Update</span></h1>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="calendarfull"  accept-charset="utf-8">
+                    <div class="col-md-12 ">
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>Start Date</strong></label>
+                            <input style="background:white; color:black; text-align: center;" type="text" class="btn blue datepicker" required="" id="startdate" name="startdate">
+                        </div>
+                        <div class="col-md-6 form-group1">
+                            <label class="control-label"><strong>End Date</strong></label>
+                            <input style="background:white; color:black; text-align: center;" type="text" class="btn blue datepicker" required="" id="enddate" name="enddate">
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div align="center">
+                            <h2><span class="label label-warning">Select the Channels</span></h3>
+			         	</div>
+	                    <?php
+	                         echo '<div class="graph" >';
+
+	                         if(count($AllChannel)>0)
+	                         {
+	                         	 foreach ($AllChannel as $channel) {
+
+	                           echo '<div class="col-md-6 checkbox">
+	                           <label>
+	                           <input type="checkbox" name="channel_id[]" id="channel_id" value="'.$channel['channel_id'].'" checked>
+	                                    '.$channel['channel_name'].'.</label>
+	                                    </div>';
+	                        	}
+	                         }
+	                    	else
+	                    	{
+	                    		echo ' <div align="center">
+				                    <h3><span class="label label-danger">No Channel Connected</span></h3>
+				                </div>';
+	                    	}
+
+	                    	echo ' <div class="clearfix"> </div> </div>';
+	                        
+	                       
+	                        
+	                    ?>
+					</div>
+                    <div class="col-md-12 text-right">
+            			<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            			<button type="button" onclick="sendUpdate()" class="btn btn-xs btn-success ">Start Update</button>
+       			 	</div>
+       			</form>
             
-              <?php include("creationreservation.php")?>
-          
-		</div>
-	</div>
-</div>
 
-
-
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
-
-
-
-
+</div>
 <script type="text/javascript">
-	
+ var base_url = '<?php echo lang_url();?>';
+function sendUpdate()
+{
 
-	function showoption(id,value)
-	{
-		$("."+id).css({
-			display: (value?'':'none')
-		});
-	}
-	function Calendario() {
+	$.ajax({
+        type: "POST",
+        url: base_url + 'inventory/main_full_update',
+        data: $("#calendarfull").serialize(),
+        success: function(html) {
+           alert(html);
+
+        }
+    });
+}
+function setfullUpdate() {
+    $(".datepicker").datepicker({ minDate: new Date(), dateFormat: 'yy-mm-dd' });
+    $("#fullupdate").modal();
+}
+
+
+function showoption(id, value) {
+    $("." + id).css({
+        display: (value ? '' : 'none')
+    });
+}
+
+function Calendario() {
 
 
 
-		showWait();
-		var base_url = '<?php echo lang_url();?>';
-		var data={"show":($("#show").prop('checked')?1:0),"sales":($("#Sales").prop('checked')?1:0),"cta":($("#cta").prop('checked')?1:0),"ctd":($("#ctd").prop('checked')?1:0),'yearid':$("#yearid").val(),'monthid':$("#monthid").val()};
-		
-		$.ajax({
-			type: "POST",
-			url:  base_url+'channel/Calendarview',
-			data: data,
-			beforeSend:function() {
-          showWait('Update Calendar, Please Wait');
-          setTimeout(function() {unShowWait();}, 100000);
+    showWait();
+   
+    var data = { "show": ($("#show").prop('checked') ? 1 : 0), "sales": ($("#Sales").prop('checked') ? 1 : 0), "cta": ($("#cta").prop('checked') ? 1 : 0), "ctd": ($("#ctd").prop('checked') ? 1 : 0), 'yearid': $("#yearid").val(), 'monthid': $("#monthid").val() };
+
+    $.ajax({
+        type: "POST",
+        url: base_url + 'channel/Calendarview',
+        data: data,
+        beforeSend: function() {
+            showWait('Update Calendar, Please Wait');
+            setTimeout(function() { unShowWait(); }, 100000);
         },
-			success: function(html)
-			{	
-				$("#calendario").html(html);
-				unShowWait();
-			 
-		   	}
-		});
-	}
+        success: function(html) {
+            $("#calendario").html(html);
+            unShowWait();
+
+        }
+    });
+}
 
 
-	Calendario();
-	
-	
-
+Calendario();
 </script>

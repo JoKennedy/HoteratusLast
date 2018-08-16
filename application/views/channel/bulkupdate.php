@@ -1,4 +1,4 @@
-<div class="outter-wp">
+<div class="outter-wp" >
     <!--sub-heard-part-->
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
@@ -51,14 +51,16 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Dates</h3> </div>
                     <div class="panel-body">
-                        <div id="allDate" style="height:300px; overflow:auto;">
+                        <div id="allDate" style="height:400px; overflow:auto;">
                             <div class=" form-group1">
                                 <label class="control-label"><strong>Start Date</strong></label>
-                                <input onchange="cambio(1)" class="date1" style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" name="date1Edit[]" id="date1">
+
+                                <input onchange="cambio(1)" class="date1 blue datepickers" style="background:white; color:black; text-align: center;" type="text" required="" name="date1Edit[]" id="date1">
+
                             </div>
                             <div class=" form-group1">
                                 <label class="control-label"><strong>End Date</strong></label>
-                                <input class="date2" style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date1s" name="date2Edit[]">
+                                <input class="date2 blue datepickers" style="background:white; color:black; text-align: center;" type="text" class="btn blue datepickers" required="" id="date1s" name="date2Edit[]">
                             </div>
                         </div>
                         <div class="buttons-ui">
@@ -189,9 +191,11 @@
 </div>
 </div>
 </div>
+
 <script type="text/javascript">
 var cantidad = 1;
  var falta = 0;
+   $('.datepickers').datepicker({minDate:new Date(),dateFormat: 'yy-mm-dd',});
 function showcol(id)
 {
     var va= id.value;
@@ -205,9 +209,9 @@ function showcol(id)
 }
 function addDate() {
     cantidad++;
-    $("#allDate").append('<hr style="border:2px;"> <h3>Range Date ' + cantidad + '</h3> <div class=" form-group1"> <label class="control-label"><strong>Start Date</strong></label><input onchange="cambio(' + cantidad + ')" class="date1" style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date' + cantidad + '" name="date1Edit[]" > </div><div class=" form-group1">   <label class="control-label"><strong>End Date</strong></label><input class="date2" style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date' + cantidad + 's" name="date2Edit[]" > </div>');
+    $("#allDate").append('<hr style="border:2px;"> <h3>Range Date ' + cantidad + '</h3> <div class=" form-group1"> <label class="control-label"><strong>Start Date</strong></label><input onchange="cambio(' + cantidad + ')" class="date1 blue datepickers" style="background:white; color:black; text-align: center;" type="text"  required="" id="date' + cantidad + '" name="date1Edit[]" > </div><div class=" form-group1">   <label class="control-label"><strong>End Date</strong></label><input class="date2 blue datepickers" style="background:white; color:black; text-align: center;" type="text"  required="" id="date' + cantidad + 's" name="date2Edit[]" > </div>');
     setcalendar(cantidad);
-
+    $('.datepickers').datepicker({minDate:new Date(),dateFormat: 'yy-mm-dd',});
     //$('#pagina').( 650 * (cantidad - 1));
     $('#pagina').css('height', '800');
 
@@ -217,7 +221,7 @@ function addDate() {
 function setcalendar(id) {
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar
-    $("#date" + id).attr('min', formatoDate(fecha));
+    $("#date" + id).datepicker({minDate: formatoDate(fecha)});
     //$("#date1Edit").val(formatoDate(fecha));
     fecha.setDate(fecha.getDate() + dias);
     $("#date" + id + "s").attr('min', formatoDate(fecha));
@@ -398,7 +402,7 @@ if(falta==1)return;
         },
         
         success: function(msg) {
-           
+           alert(msg);
         }
     });
 

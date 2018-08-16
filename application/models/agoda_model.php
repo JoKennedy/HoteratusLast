@@ -532,7 +532,7 @@ function save_mapping($data)
 						$xml.='</criteria>
 						</request>';
 
-		                $mail_data .= $xml;
+		                $mail_data = $xml;
 						$url = trim($url);
 						$ch = curl_init();
 					  	curl_setopt( $ch, CURLOPT_URL, $url );

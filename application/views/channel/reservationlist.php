@@ -1,3 +1,4 @@
+
 <div class="outter-wp">
     <!--sub-heard-part-->
     <div class="sub-heard-part">
@@ -44,8 +45,9 @@
                         <option value="Confirmed">Confirmed</option>
                         <option value="Unchecked">Unchecked</option>
                     </select>
-                    <input id="date1" style="background-color: white; width:200px; " type="date" class="blue" value="" placeholder="">
-                    <input id="date2" style="background-color: white; width:200px;" type="date" class="blue" value="" placeholder="">
+
+                    <input id="date1" style="background-color: white; width:200px; " type="text" class="blue datepickers" value="" placeholder="">
+                    <input id="date2" style="background-color: white; width:200px;" type="text" class="blue datepickers" value="" placeholder="">
                     <input class="blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Type to filter" />
                 </div>
                 <div class="clearfix"></div>
@@ -112,7 +114,11 @@
 </div>
 </div>
 
+<script>
 
+    $('.datepickers').datepicker();
+
+</script>
 <script language="javascript" type="text/javascript">
 //<![CDATA[ 
 

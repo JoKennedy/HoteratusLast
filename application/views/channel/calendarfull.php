@@ -1,20 +1,4 @@
-<style>
-.thead-top th {
-    border: 0px solid #ddd !important;
-}
 
-tr.thead-top {
-    border: 0px solid #ddd !important;
-}
-
-.bor-top-no {
-    border: 0px solid #ddd !important;
-}
-
-.ui-datepicker {
-    z-index: 3000 !important;
-}
-</style>
 <div class="outter-wp">
     <!--sub-heard-part-->
     <div class="sub-heard-part">

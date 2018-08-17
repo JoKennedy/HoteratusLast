@@ -418,7 +418,7 @@ function save_mapping($data)
 	function SincroCalender($datepicker_full_start,$datepicker_full_end,$userid,$hotelid)
 	{
 		$AgodaErrors="";
-
+		$mail_data='';
         $headers = "From: Hoteratus (XML Conection)  <xml@hoteratus.com> \r\n";
         $headers .= "Reply-To: Info <info@hoteratus.com>\r\n";
         $headers .= "CC: support <felix@hoteratus.com>\r\n";
@@ -532,7 +532,7 @@ function save_mapping($data)
 						$xml.='</criteria>
 						</request>';
 
-		                $mail_data = $xml;
+		                $mail_data .= $xml;
 						$url = trim($url);
 						$ch = curl_init();
 					  	curl_setopt( $ch, CURLOPT_URL, $url );

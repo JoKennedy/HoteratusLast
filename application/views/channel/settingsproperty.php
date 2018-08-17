@@ -103,7 +103,7 @@
                         <div class="map-bottm">
                             <h3 class="inner-tittle two">Map</h3>
                             <div class="graph gllpMap">
-                                <iframe width="450" height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyCIqhaou_lWYTKsyMoo2SYtXL91B7-Vd24&center=<?=$HotelInfo['map_location']?>&zoom=20" allowfullscreen id="mapa">
+                                <iframe width="450" height="250" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDYtqUCg0ts6msMJ-WY59w4BnUy5CS5O0Y&center=<?=$HotelInfo['map_location']?>&zoom=20" allowfullscreen id="mapa">
                                 </iframe>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
 
                 function initAutocomplete() {
 
-                    var inicial = "https://www.google.com/maps/embed/v1/view?key=AIzaSyCIqhaou_lWYTKsyMoo2SYtXL91B7-Vd24&center=<?=$HotelInfo['map_location'] ?>&zoom=20";
+                    var inicial = "https://www.google.com/maps/embed/v1/view?key=AIzaSyDYtqUCg0ts6msMJ-WY59w4BnUy5CS5O0Y&center=<?=$HotelInfo['map_location'] ?>&zoom=20";
 
                     var map = new google.maps.Map(document.getElementById('map'), {
                         center: { lat: -33.8688, lng: 151.2195 },
@@ -219,7 +219,7 @@
                             }));
                             var locationfinal = place.geometry.location;
 
-                            var final = "https://www.google.com/maps/embed/v1/view?key=AIzaSyCIqhaou_lWYTKsyMoo2SYtXL91B7-Vd24&center=" + locationfinal + "&zoom=20";
+                            var final = "https://www.google.com/maps/embed/v1/view?key=AIzaSyDYtqUCg0ts6msMJ-WY59w4BnUy5CS5O0Y&center=" + locationfinal + "&zoom=20";
                             $("#mapa").attr("src", final.replace('(', '').replace(')', ''));
                             $("#localidad").attr("value", locationfinal);
 
@@ -234,7 +234,7 @@
                     });
                 }
                 </script>
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIqhaou_lWYTKsyMoo2SYtXL91B7-Vd24&libraries=places&callback=initAutocomplete" async defer></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYtqUCg0ts6msMJ-WY59w4BnUy5CS5O0Y&libraries=places&callback=initAutocomplete" async defer></script>
                 <!--AIzaSyCIqhaou_lWYTKsyMoo2SYtXL91B7-Vd24-->
                 </div>
             </div>

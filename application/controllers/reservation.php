@@ -3237,7 +3237,7 @@ function resend_confirmation()
 
 	// export to excel...
 
-		function export_reservation()
+	function export_reservation()
 	{
 		if(admin_id()=='')
 		{
@@ -3365,6 +3365,149 @@ function resend_confirmation()
 					header("Content-type: application/vnd.ms-excel");
 					header("Content-Disposition: attachment; filename=".$filename);
 					echo $test;
+
+
+	}
+	function export_reservationPDF()
+	{
+		
+		if(admin_id()=='')
+		{
+			$this->is_login();
+		}
+		else
+		{
+			$this->is_admin();
+		}
+
+		
+
+		$chaReserCheckCount = array();
+
+		$query = $this->db->query("select e.status,e.guest_name, 'Hoteratus' AS channel, e.start_date,e.end_date,e.created_date as booking_date,e.reservation_code,e.price,e.email as user_email,e.mobile,e.room_id,e.channel_id,e.currency_id ,
+			case when b.property_name is null then 'No Room Set' else b.property_name end  roomname
+			FROM `manage_reservation`   AS e 
+			left join manage_property b on e.room_id = b.property_id
+			where  e.hotel_id = ".hotel_id()." order by DATE_FORMAT(STR_TO_DATE(e.start_date,'%d/%m/%Y'),'%Y-%m-%d') desc");
+
+		$booking=$this->db->query("select a.status,a.guest_name,'Booking.com' AS channel, DATE_FORMAT(a.arrival_date,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure_date,'%d/%m/%Y') as end_date, a.date_time as booking_date, concat(a.reservation_id,'-',a.roomreservation_id) reservation_code,
+			a.totalprice as price, b.email as user_email, telephone as mobile, 
+			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
+			2 as channel_id , b.currencycode  as currency_id
+			from import_reservation_BOOKING_ROOMS a
+			left join import_reservation_BOOKING b on a.import_reserv_id=b.import_reserv_id
+			left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
+			left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=2
+			left join manage_property e on d.property_id = e.property_id
+		 where a.hotel_hotel_id=".hotel_id()." order by arrival_date desc")->result();
+		$airbnb=$this->db->query("select a.ResStatus as status,a.name as guest_name,'AIRBNB' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.ImportDate as booking_date, a.ResID_Value reservation_code,
+			a.AmountAfterTax as price, '' as user_email, '' as mobile, 
+			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
+			9 as channel_id , a.Currency  as currency_id
+			from import_reservation_AIRBNB a
+			left join import_mapping_AIRBNB c on a.RoomTypeCode=c.Roomid
+			left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=9
+			left join manage_property e on d.property_id = e.property_id
+		 where a.hotel_id=".hotel_id()." order by arrival desc")->result();
+
+		$expedia=$this->db->query("select a.type as status,  concat(a.givenName,' ',a.surname) as guest_name,'EXPEDIA' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.created_time as booking_date, a.booking_id reservation_code,
+			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile, 
+			'' roomname,
+			1 as channel_id , a.currency  as currency_id
+			from import_reservation_EXPEDIA a
+			where a.hotel_id=".hotel_id()." order by arrival desc")->result();
+
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$query->result());
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$booking);
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$airbnb);
+		$chaReserCheckCount = array_merge($chaReserCheckCount,$expedia);
+
+		
+		$test	=	'<table border="1" width="100%" style="width: 100%; border-collapse:separate;border-spacing:2px;border-color:#ddd;">
+
+					<thead>
+
+						<tr>
+
+						<th style="width: 106px; text-align:left;">Status</th>
+
+						<th style="width: 106px; text-align:left;">Name</th>
+
+						<th style="width: 106px; text-align:left;">Mail</th>
+
+						<th style="width: 106px; text-align:left;">Mobile</th>
+
+
+						<th style="width: 106px; text-align:left;">Amount</th>
+
+						</tr>
+
+					</thead>
+
+					<tbody>';
+
+					foreach($chaReserCheckCount as $row)
+					{
+						$user_email	=	$row->user_email; 
+
+						 $mobile	=	$row->mobile; 
+
+
+						$roomName	=	$row->roomname;
+
+
+						if($row->channel_id==0)
+						{
+							$price	=	get_data(TBL_CUR,array('currency_id'=>$row->currency_id))->row()->symbol.' '.number_format($row->price);
+						}
+						else
+						{
+							$price	=	$row->currency_id.' '.$row->price;
+						}
+
+						$test	.='<tr>
+						<td>'.$row->status.'</td>
+						<td>'.$row->guest_name.'</td>
+						<td>'.$user_email.'</td>
+						<td>'.$mobile.'</td>
+		
+						<td>'.$price.'</td></tr>';
+					}
+
+					$test	.='</tbody>
+							</table>';
+require_once('application/libraries/pdf/PDF.php');
+
+
+
+$pdf = new PDF();
+// Primera página
+$pdf->AddPage();
+$pdf->SetFont('Arial','',20);
+
+$pdf->SetLeftMargin(45);
+$pdf->SetFontSize(14);
+$pdf->WriteHTML('<table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#000000" style="border-collapse:collapse;border-color:#ddd;">
+
+<tr>
+
+<td>&nbsp;</td>
+
+<td>&nbsp;</td>
+
+</tr>
+
+<tr><td>&nbsp;</td>
+
+<td>&nbsp;</td>
+
+</tr>
+
+</table>');
+$pdf->Output('D');
+
+
+
 	}
 
 	function export_reservation_old()

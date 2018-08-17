@@ -1530,6 +1530,35 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$Percentage=$_POST['per'];
 		echo $this->channel_model->updateRevenue($roomid,$hotelId,$maximo,$Percentage);
 	}
+	function managereports()
+	{
+		$this->is_login();
+    	$data['page_heading'] = 'Manage Reports';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$this->views('channel/managereports',$data);
+	}
+
+	function managepaymentmethods()
+	{
+		$this->is_login();
+    	$data['page_heading'] = 'Manage Reports';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['AllProviders']= get_data('providers')->result_array();
+		$this->views('channel/managepaymentmethods',$data);
+	}
+	function managetax()
+	{
+		$this->is_login();
+    	$data['page_heading'] = 'Manage Reports';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$this->views('channel/managetax',$data);
+	}
 	function manageusers()
 	{
 		$this->is_login();

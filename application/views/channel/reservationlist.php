@@ -11,7 +11,7 @@
     <div style="float: right;" class="buttons-ui">
      
         <a class="btn orange">Import Resevations Now</a>
-        <a href="<?php echo site_url('reservation/export_reservation');?>" class="btn green">Export XLSX</a>
+        <a  onclick="Export()" class="btn green">Export</a>
         <a onclick="setcalendar()" class="btn blue">Add Reservation</a>
     </div>
     <div class="clearfix"></div>
@@ -123,6 +123,45 @@
 //<![CDATA[ 
 
 var cont = 0;
+
+function Export()
+{
+     swal({
+        buttons: {
+
+            roll: {
+                text: "PDF",
+                value: "pdf",
+            },
+            catch: {
+                text: "XLS",
+                value: "xls",
+            },
+        },
+    }).then((n) => {
+        if (n == "xls") {
+
+                    showWait();
+                    setTimeout(function() { unShowWait(); }, 10000);
+                    window.location ="<?php echo lang_url(); ?>reservation/export_reservation";
+                    unShowWait();
+
+            
+
+        } else if (n == "pdf") {
+
+            showWait();
+                    setTimeout(function() { unShowWait(); }, 10000);
+                    window.location ="<?php echo lang_url(); ?>reservation/export_reservationpdf";
+                    unShowWait();
+
+
+        }
+
+    });
+}
+
+
 
 $("#pagination").click(function(e) {
     var li = e.target.parentNode;

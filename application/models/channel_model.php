@@ -384,6 +384,71 @@ class channel_model extends CI_Model
 			return 1;
 		}
 	}
+	function savePaymentMethod()
+	{
+		$data['providerid']=$_POST['providerid'];
+		$data['email']=$_POST['email'];
+		$data['apikey']=$_POST['apikey'];
+		$data['merchantid']=$_POST['merchantid'];
+		$data['publickey']=$_POST['publickey'];
+		$data['active']=1;
+		$data['hotelid']=hotel_id();
+		if (insert_data('paymentmethod',$data)) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	function updatePaymentMethod()
+	{
+		
+		$data['email']=$_POST['emailup'];
+		$data['apikey']=$_POST['apikeyup'];
+		$data['merchantid']=$_POST['merchantidup'];
+		$data['publickey']=$_POST['publickeyup'];
+		$data['active']=(isset($_POST['activeup'])?1:0);
+
+		if (update_data('paymentmethod',$data,array("paymentmethodid"=>$_POST['paymentmethodidup']))) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	function saveTax()
+	{
+		$data['name']=$_POST['name'];
+		$data['hotelid']=hotel_id();
+		$data['taxrate']=$_POST['rate'];
+		$data['includedprice']=(isset($_POST['included'])?1:0);
+		$data['active']=1;
+		if (insert_data('taxcategories',$data)) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	function updateTax()
+	{
+		$data['name']=$_POST['nameup'];
+		$data['taxrate']=$_POST['rateup'];
+		$data['includedprice']=(isset($_POST['includedup'])?1:0);
+		if (update_data('taxcategories',$data,array("taxid"=>$_POST['taxid']))) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	function propertyinfoupdate($propertyinfo)
 	{
 		$localidad=str_replace(array('(',')'), '', $propertyinfo['localidad']);

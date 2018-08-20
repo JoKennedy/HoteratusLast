@@ -6,8 +6,9 @@
 </div>
 <div class="modal-body">
     <div class="col-md-12 label-info" align="center">
-        <img src="<?php echo base_url()?>user_assets/images/man.png" class="img img-responsive ">
-        <p style="font-size: 16px;" align="center">Please select your check-in and check-out dates as well as the total number of rooms and guests.</p>
+
+        <img style="width: 200px; height: 90px;" src="<?php echo base_url();?>user_asset/back/images/reception.png" >
+        <p style="font-size: 16px; font-style: bold;" align="center">Please select your check-in and check-out dates as well as the total number of rooms and guests.</p>
     </div>
     <form id="findroomavailable">
         <div class="col-md-12 ">

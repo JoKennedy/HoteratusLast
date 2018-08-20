@@ -1547,8 +1547,23 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
-		$data['AllProviders']= get_data('providers')->result_array();
-		$this->views('channel/managepaymentmethods',$data);
+		$data['AllPaymentM']= $this->db->query("select a.*,b.name from paymentmethod a left join providers b on a.providerid = b.providerid where hotelid=".hotel_id())->result_array();
+		$data['AllProviders']= $this->db->query("select * from providers where providerid not in(select ifnull(providerid,0) from paymentmethod where hotelid=".hotel_id().") ")->result_array();
+		$this->views('channel/managepaymentmethods',$data); 
+	}
+	function savePaymentMethod()
+	{
+		$this->is_login();
+		$data['success']=$this->channel_model->savePaymentMethod();
+		echo json_encode($data);
+		return;
+	}
+	function updatePaymentMethod()
+	{	
+		$this->is_login();
+		$data['success']=$this->channel_model->updatePaymentMethod();
+		echo json_encode($data);
+		return;
 	}
 	function managetax()
 	{
@@ -1557,7 +1572,22 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['AllTaxCategories']=$this->db->query("select * from taxcategories where active=1 and hotelid=".hotel_id())->result_array();
 		$this->views('channel/managetax',$data);
+	}
+	function saveTax()
+	{
+		$this->is_login();
+		$data['success']=$this->channel_model->saveTax();
+		echo json_encode($data);
+		return;
+	}
+	function updateTax()
+	{
+		$this->is_login();
+		$data['success']=$this->channel_model->updateTax();
+		echo json_encode($data);
+		return;
 	}
 	function manageusers()
 	{

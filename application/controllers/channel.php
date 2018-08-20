@@ -1624,6 +1624,11 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['Policytype']= $this->db->query("select * from policytype where hotelid=0 or hotelid=".hotel_id())->result_array();
+		$data['AllPolicies']= $this->db->query("select a.*, b.name policytypename
+												from policies a
+												left join policytype b on a.policytype=b.policytypeid
+												where a.hotelid=".hotel_id())->result_array();
 		$this->views('channel/managepolicies',$data);
 	}
 	function managemembership()

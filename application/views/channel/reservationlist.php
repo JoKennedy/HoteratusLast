@@ -72,7 +72,7 @@
 											foreach ($AllReservationList as  $value) {
 												$class_status=($value['status']==0?'danger':($value['status']==1?'info':($value['status']==2?'warning':($value['status']==3?'danger':($value['status']==4?'success':'active')))));
 
-												$show_status=($value['status']==0?'Canceled':($value['status']==1?'Reserved':($value['status']==2?'Modified':($value['status']==3?'No Show':($value['status']==4?'Confirmed':'Unchecked')))));
+												$show_status=($value['status']==0?'Canceled':($value['status']==1?'Reserved':($value['status']==2?'Modified':($value['status']==3?'No Show':($value['status']==4?'Confirmed':($value['status']==5?'Check-in':($value['status']==6?'Check-out':'Unchecked')))))));
 
 												echo' <tr scope="row" class="'.$class_status.'"> <th scope="row">'.$show_status.' </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$value['roomName'].'</td> <td>'.$value['RoomNumber'].'</td> 
                                                 <td style="text-align:center;"> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'"> 	<p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';

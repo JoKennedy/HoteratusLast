@@ -524,6 +524,70 @@ class reservation extends Front_Controller {
 
 	}
 
+	function changeStatus()
+	{	
+		$Mensaje='';
+		$statusid=$_POST['statusid'];
+		$reservationid=$_POST['resid'];
+		$inforest=$this->db->query("SELECT room_id,rate_types_id,str_to_date(start_date,'%d/%m/%Y') checkin, str_to_date(end_date,'%d/%m/%Y') checkout FROM manage_reservation where reservation_id=".$reservationid)->row_array();
+		$checkout_date= date('Y-m-d',strtotime($inforest['checkout']."-1 days"));
+		
+		require_once(APPPATH.'controllers/arrivalreservations.php');
+        $callAvailabilities = new arrivalreservations();
+        
+         
+		if($statusid==0)
+		{
+			$data['status']='Canceled';
+			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
+			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Reservation Canceled by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+             insert_data('new_history',$history);
+          $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'cancel');          
+		}
+		if($statusid==3)
+		{
+			$data['status']='Canceled';
+			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
+			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To No Show by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+             insert_data('new_history',$history);
+          $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'No Show'); 
+		}
+		if($statusid==5)
+		{
+			$data['status']='Checkin';
+			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
+			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-in by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+             insert_data('new_history',$history);
+		}
+		if($statusid==6)
+		{
+			$total=$this->db->query("SELECT  sum(b.total)+sum(b.tax) deudaTotal FROM 
+					reservationinvoice a
+					left join reservationinvoicedetails b on a.reservationinvoiceid=b.reservationinvoiceid
+					where reservationid=".$reservationid)->row()->deudaTotal;
+			$pagos=$this->db->query("select ifnull(sum(amount),0) pagototal from reservationpaymenttype 
+			where reservationinvoiceid in (SELECT reservationinvoiceid FROM 
+			reservationinvoice where  reservationid=".$reservationid.")")->row()->pagototal;
+
+			if($total>$pagos)
+			{
+				$Mensaje='This reservation has a pending balance $'.number_format(($total-$pagos), 2, '.', ',');
+				echo json_encode(array("success"=>false,"message"=>$Mensaje));
+				return;
+			}
+			else
+			{
+				$data['status']='Checkout';
+				update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
+				 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-out by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+	             insert_data('new_history',$history);
+			}
+			
+
+		}
+
+		echo json_encode(array("success"=>true,"message"=>$Mensaje));
+	}
 
 	function mailsettings()
 	{

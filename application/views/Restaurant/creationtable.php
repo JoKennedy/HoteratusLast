@@ -8,14 +8,14 @@
                     <?= $Posinfo['description']?>
                 </a>
             </li>
-            <li class="active">Tables</li>
+            <li class="active"><?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></li>
         </ol>
     </div>
     <div>
         <?php include("menu.php") ?>
     </div>
     <div style="float: right;" class="buttons-ui">
-        <a href="#createtable" data-toggle="modal" class="btn blue">Add New Table</a>
+        <a href="#createtable" data-toggle="modal" class="btn blue">Add New <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
@@ -26,7 +26,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th style="text-align: center;">Table Name</th>
+                            <th style="text-align: center;"><?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Name</th>
                             <th style="text-align: center;">Capacity</th>
                             <th width="10%" style="text-align: center;">Status</th>
                             <th width="10%" style="text-align: center;">Average Use Time</th>
@@ -46,7 +46,7 @@
                         } ?>
                     </tbody>
                 </table>
-                <?php if (count($AllTable)==0) {echo '<h4>No Table Created!</h4>';} ?>
+                <?php if (count($AllTable)==0) {echo '<h4>No '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' Created!</h4>';} ?>
                 <div class="clearfix"></div>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="modal-content">
             <div class="modal-header">
             
-                <h4 class="modal-title">Create a Table</h4>
+                <h4 class="modal-title">Create a <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></h4>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span> 
 
@@ -67,11 +67,11 @@
                     <form id="tablecre">
                         <input type="hidden" name="postid" value="<?=$Posinfo['myposId']?>">
                         <div class="col-md-6 form-group1">
-                            <label class="control-label">Table Name</label>
-                            <input style="background:white; color:black;" name="tablename" id="tablename" type="text" placeholder="Table Name" required="">
+                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Name</label>
+                            <input style="background:white; color:black;" name="tablename" id="tablename" type="text" placeholder="<?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Name" required="">
                         </div>
                         <div class="col-md-6 form-group1">
-                            <label class="control-label">Table Capacity of People</label>
+                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Capacity of People</label>
                             <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="Capacity" id="Capacity" type="text" placeholder="Capacity of People" required="">
                         </div>
                         <div class="col-md-12 form-group1">
@@ -96,7 +96,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Update a Table</h4>
+                <h4 class="modal-title">Update a <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></h4>
             </div>
             <div>
                 <div class="graph-form">
@@ -104,11 +104,11 @@
                         <input type="hidden" name="postidup" value="<?=$Posinfo['myposId']?>">
                         <input type="hidden" name="tableidup" id="tableidup" value="">
                         <div class="col-md-6 form-group1">
-                            <label class="control-label">Table Name</label>
-                            <input style="background:white; color:black;" name="tablenameup" id="tablenameup" type="text" placeholder="Table Name" required="">
+                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Name</label>
+                            <input style="background:white; color:black;" name="tablenameup" id="tablenameup" type="text" placeholder="<?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Name" required="">
                         </div>
                         <div class="col-md-6 form-group1">
-                            <label class="control-label">Table Capacity of People</label>
+                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?> Capacity of People</label>
                             <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="Capacityup" id="Capacityup" type="text" placeholder="Capacity of People" required="">
                         </div>
                         <div class="col-md-12 form-group1">

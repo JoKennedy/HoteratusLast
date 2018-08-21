@@ -75,10 +75,11 @@ class Booking extends Front_Controller {
         {
             $this->is_admin();
         }
+        $this->is_login();
         $data['page_heading'] = 'Booking Engine';
         $user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
         $data= array_merge($user_details,$data);
-
+        $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
         $data['booking'] = get_data('booking_engine',array('hotel_id'=>hotel_id()))->row_array();
         $data['widget'] = get_data('booking_widget',array('hotel_id'=>hotel_id()))->row_array();
         $this->views('booking/engine',$data);   

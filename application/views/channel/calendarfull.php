@@ -62,7 +62,7 @@
         <br>
         <div class="col-md-2">
             <label class="check">
-                <input onclick=" Calendario()" id="show" type="checkbox">Show Reservation</label>
+                <input onclick=" Calendario()" id="show" type="checkbox">Show Reservations</label>
         </div>
         <div class="col-md-2">
             <label class="check">

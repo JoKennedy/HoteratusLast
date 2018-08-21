@@ -27,7 +27,7 @@
             echo date_format($date, 'M d,Y');
             ?>
         </p>
-        <a class="btn <?=($statusId==0 || $statusId==3 ?'red':($statusId==1 || $statusId==4 ?'green':($statusId==2?'yellow':'blue')))?> six">
+        <a onclick="<?=($channelId==0?'changestatus()':'')?>" class="btn <?=($statusId==0 || $statusId==3 ?'red':($statusId==1 || $statusId==4 ?'green':($statusId==2?'yellow':'blue')))?> six">
             <?=$status?>
         </a>
     </div>
@@ -777,10 +777,107 @@ Agregar Extras
         </div>
     </div>
 </div>
+<div id="EditStatus" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change Status</h4>
+                <div class="profile-widget" style="background-color: white;">
+                    <img src="data:image/png;base64,<?=$LogoReservation?>" alt=" " />
+                    <h2 style="color: black;"> Reservation from <?=$ChannelName?> </h2>
+                    <strong>Reservation Number</strong>
+                    <p class="text-muted">
+                        <?=$reservationNumber?>
+                    </p>
+                    <strong>Total Stay</strong>
+                    <p id="totalstayedit" class="text-muted">
+                        <?=number_format($totalStay, 2, '.', ',')?>
+                    </p>
+                </div>
+            </div>
+            <div id="allStatus">
+                <?php
+
+                     if ($statusId==1 || $statusId==2 || $statusId==3  ) {
+                        
+                        echo '<div style="text-align:center;" class="col-md-6 form-group1">';
+                        echo '<a onclick="applystatus(5)" style="width:200px;" class="btn green six">Check-in</a>';                          
+                        echo '</div>';
+                    }
+                    if ( $statusId==5) {
+                        
+                        echo '<div style="text-align:center;" class="col-md-12 form-group1">';
+                        echo '<a onclick="applystatus(6)" style="width:200px;" class="btn yellow six">Check-Out</a>';                          
+                        echo '</div>';
+                    }
+                    if ($statusId==1 || $statusId==2 || $statusId==3) {
+                        
+                        echo '<div style="text-align:center;" class="col-md-6 form-group1">';
+                        echo '<a onclick="applystatus(3)" style="width:200px;" class="btn orange six">No Show </a>';                          
+                        echo '</div>';
+                    }
+
+                    if ($statusId==1 || $statusId==2 || $statusId==3 ) {
+                        
+                        echo '<div style="text-align:center;" class="col-md-12 form-group1">';
+                        echo '<a onclick="applystatus(0)" style="width:200px;" class="btn red ">Cancel</a>';                          
+                        echo '</div>';
+                    }
+
+                ?>
+
+                
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 <!--//content-inner-->
 
 <script type="text/javascript">
+var resID="<?=$reservatioID?>";
+var userName="<?=$fname.' '.$lname ?>";
+function changestatus()
+{
+    $("#EditStatus").modal();
+}
+function applystatus(id)
+{
+    var data = { 'resid': resID, 'statusid': id , 'username':userName};
+    
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/changeStatus",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+           if(msg['success'])
+           {
+                swal("Status Changed", {
+                    icon: "success",
+                }).then(ms => {
+                    location.reload();
+                });
+           }
+           else
+           {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+           }
 
+        }
+    });
+}
 function showtab(id)
 
 {

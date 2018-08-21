@@ -28,7 +28,7 @@
                             <th width="5%">#</th>
                             <th>Name</th>
                             <th>Marketing Prog.</th>
-                            <th>Table</th>
+                            <th><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></th>
                             <th>Date</th>
                             <th>Hour</th>
                             <th>Edit</th>
@@ -81,19 +81,19 @@
                             <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Table</label>
+                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></label>
                             <select style="width: 100%; padding: 9px; " id="tableid" name="tableid">
                                 <?php
                                     if(count($AllTable)>0)
                                     {
-                                        echo '<option value="0">Select a Table </option>'; 
+                                        echo '<option value="0">Select a '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' </option>'; 
                                         foreach ($AllTable as  $value) {
                                             echo '<option value="'.$value['postableid'].'">'.$value['description'].'==>Cap:'.$value['qtyPerson'].'</option>';
                                         }
                                     }
                                     else
                                     {
-                                        echo '<option value="0">there are no Table created</option>'; 
+                                        echo '<option value="0">there are no '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' created</option>'; 
                                     }
                                     
                                 ?>
@@ -143,19 +143,19 @@
                             <input style="background:white; color:black;" name="signerup" id="signerup" type="text" placeholder="Main Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Table</label>
+                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></label>
                             <select style="width: 100%; padding: 9px; " id="tableidup" name="tableidup">
                                 <?php
                                     if(count($AllTable)>0)
                                     {
-                                        echo '<option value="0">Select a Table </option>'; 
+                                        echo '<option value="0">Select a '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' </option>'; 
                                         foreach ($AllTable as  $value) {
                                             echo '<option value="'.$value['postableid'].'">'.$value['description'].'==>Cap:'.$value['qtyPerson'].'</option>';
                                         }
                                     }
                                     else
                                     {
-                                        echo '<option value="0">there are no Table created</option>'; 
+                                        echo '<option value="0">there are no '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' created</option>'; 
                                     }
                                     
                                 ?>

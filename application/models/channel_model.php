@@ -524,12 +524,12 @@ class channel_model extends CI_Model
 			$fecha=date('Y-m-d',strtotime($date1."+$i days"));
 
 			$path="uploads/logo/small/475551.png";
-			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid FROM `manage_reservation` WHERE STR_TO_DATE(start_date ,'%d/%m/%Y') ='$fecha'
+			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id  FROM `manage_reservation` WHERE STR_TO_DATE(start_date ,'%d/%m/%Y') ='$fecha'
 			and hotel_id=$hotel_id and RoomNumber='$roomnumber' and room_id=$roomtypeid ")->row_array();
 
 			if(!isset($result['noche']))
 			{	$path="uploads/small/channels_booking.gif";
-				$result=$this->db->query("SELECT datediff(a.departure_date,a.arrival_date) noche,a.RoomNumber, 2 channelid 
+				$result=$this->db->query("SELECT datediff(a.departure_date,a.arrival_date) noche,a.RoomNumber, 2 channelid, a.room_res_id reservation_id
 					from import_reservation_BOOKING_ROOMS a
 					left join import_reservation_BOOKING b on a.import_reserv_id=b.import_reserv_id
 					left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
@@ -558,8 +558,9 @@ class channel_model extends CI_Model
 					$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
 					$contador=0;
 				}
-				$repuesta .= '<td bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" > <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'"> </td>';
+				$repuesta .= '<td bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" ><a style="font-size:6px; " href="'.site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id'])).'"> <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'">  </a></td>';
 				$i += $result['noche']-1;
+				
 			}
 			else
 			{

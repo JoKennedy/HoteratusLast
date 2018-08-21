@@ -86,7 +86,7 @@
                 <a id="CANCEL" onclick=" cancelorden()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" class="btn red">Cancel Order</a>
                 <a id="CHARGE" onclick="ChargeInvoice()" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" class="btn green">Charge</a>
                 <a href="#addwaiter" data-toggle="modal" class="btn blue">Assign Waiter</a>
-                <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()" data-toggle="modal" class="btn orange">Change Table</a>
+                <a id="change" style="<?=(count($OrderInfo)==0?'display:none;':'')?>'" href="#changetableid" onclick="cleartable()" data-toggle="modal" class="btn orange">Change <?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></a>
             </div>
             <div class="clearfix"></div>
             <div align="left" id="staff">
@@ -241,10 +241,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Change Table</h4>
+                <h4 class="modal-title">Change <?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></h4>
             </div>
             <div class="buttons-ui">
-                <a onclick=" availabletable(<?=$Posinfo['myposId']?>)" class="btn green">Available Table</a>
+                <a onclick=" availabletable(<?=$Posinfo['myposId']?>)" class="btn green">Available <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></a>
             </div>
             <div id="tableavailable">
             </div>

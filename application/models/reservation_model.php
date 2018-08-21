@@ -313,7 +313,7 @@ class Reservation_model extends CI_Model
             $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
             $data['LogoReservation']=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
             
-            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname
+            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname
                 from manage_reservation a
                 left join country b on a.country=b.id
                 where reservation_id = $reservationId and hotel_id=$hotelid ")->row_array();
@@ -729,7 +729,7 @@ class Reservation_model extends CI_Model
         $LogoReservation=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
         $alllogo=array();
 
-        $hoteratus=$this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
+        $hoteratus=$this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
             b.property_name roomName
         FROM manage_reservation a        
         left join manage_property b on a.room_id = b.property_id     

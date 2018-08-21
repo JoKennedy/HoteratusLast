@@ -4,7 +4,7 @@ class arrivalreservations extends CI_Controller{
 
 
 
-		function updateavailability($channelid="2",$roomid="", $rateid =0,$hotelid="",$date1="",$date2="",$new_cancel="")
+		function updateavailability($channelid="",$roomid="", $rateid =0,$hotelid="",$date1="",$date2="",$new_cancel="")
 		{
 
 

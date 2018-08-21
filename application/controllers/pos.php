@@ -1603,11 +1603,11 @@ class POS extends Front_Controller {
 		$hoteratus=$this->db->query("SELECT hotel_id, Roomnumber, guest_name, 0 channelid,reservation_id ,reservation_code reservation_number
 					FROM manage_reservation 
 					where STR_TO_DATE(end_date ,'%d/%m/%Y') >=current_date() and STR_TO_DATE(start_date ,'%d/%m/%Y')  <=current_date()
-					 and hotel_id =$hotelid and  status <>'Canceled' ")->result_array();
+					 and hotel_id =$hotelid and  status ='Checkin' ")->result_array();
 		$totalReservation = array_merge($totalReservation,$hoteratus);
 
 		$booking=$this->db->query("SELECT hotel_hotel_id hotel_id, Roomnumber, guest_name, channel_id channelid,room_res_id reservation_id , concat(reservation_id,'-',roomreservation_id)  reservation_number
-		FROM import_reservation_booking_rooms 
+		FROM import_reservation_BOOKING_ROOMS 
 		where arrival_date <=current_date() and departure_date >=current_date()
 		and status <>'cancelled' and hotel_hotel_id =$hotelid ")->result_array();
 		$totalReservation = array_merge($totalReservation,$booking);

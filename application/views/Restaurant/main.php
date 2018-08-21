@@ -6,12 +6,12 @@
             <li class="active"><?= $Posinfo['description']?></li>
         </ol>
     </div>
-
+ 
     <div >
       <?php include("menu.php") ?>
     </div>
     <div class="graph-form">
-        <h4>All Table</h4>
+        <h4>All <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></h4>
         <div class="graph-form">
              <div class="buttons-ui">
             <?php
@@ -61,7 +61,7 @@
 
               }
               else {
-                echo '<h2>Does not have tables configured</h2>';
+                echo '<h2>Does not have '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' configured</h2>';
               }
 
             ?>

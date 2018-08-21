@@ -305,6 +305,9 @@
                             </script>
                         </section>
                         <section id="section-3">
+                            <div style="float: right;" class="buttons-ui">
+                                <a href="#newRate" data-toggle="modal" class="btn blue">Create New Rate</a>
+                            </div>
                         </section>
                         <section id="section-4">
                             <div class="graph-form">
@@ -407,7 +410,7 @@
                                     <div class="validation-form">
                                         <div class="col-md-12 form-group1 ">
                                             <label class="control-label controls">Percentage of Increase</label>
-                                            <input onfocusout="updateRevenue()" name="percentage" id ="percentage" type="text" value="<?= $Roominfo['percentage'] ?>" placeholder="Percentage of Increase" required="">
+                                            <input onfocusout="updateRevenue()" name="percentage" id="percentage" type="text" value="<?= $Roominfo['percentage'] ?>" placeholder="Percentage of Increase" required="">
                                         </div>
                                         <div class="col-md-12 form-group1 ">
                                             <label class="control-label controls">Maximum Price Increase</label>
@@ -418,95 +421,87 @@
                                 </div>
                             </div>
                             <script type="text/javascript">
-                                var hotelid = "<?=insep_encode($Roominfo['hotel_id'])?>";
-                                var roomid = "<?=insep_encode($Roominfo['property_id'])?>";
+                            var hotelid = "<?=insep_encode($Roominfo['hotel_id'])?>";
+                            var roomid = "<?=insep_encode($Roominfo['property_id'])?>";
 
-                                function activeRevenue(Status) {
+                            function activeRevenue(Status) {
 
-                                   
-                                    var percen = $("#percentage").val();
-                                    var maxi = $("#maximun").val();
-                                    var roomcaount = "<?php echo intval($Roominfo['existing_room_count'] ) ?>";
 
-                                    if ((roomcaount < 3 || roomcaount == "")  && Status==true) {
-                                        $('#alert1').toggle("slow");
-                                        $('#myonoffswitch').prop('checked', false);
-                                        setTimeout(function() { $('#alert1').fadeOut("slow"); }, 5000);
-                                        return;
-                                    }
+                                var percen = $("#percentage").val();
+                                var maxi = $("#maximun").val();
+                                var roomcaount = "<?php echo intval($Roominfo['existing_room_count'] ) ?>";
 
-                                    if((percen==0 || percen=="") && Status==true)
-                                    {
-                                        
-                                        swal({
-                                                title: "Alert!",
-                                                text: "The percentage of increase must be greater than zero to activate Revenue",
-                                                icon: "warning",
-                                                button: "Ok!",
-                                            });
-                                        $('#myonoffswitch').prop('checked', false);
-                                        return;
-                                    }
-                                     if((maxi==0 || maxi=="") && Status==true)
-                                    {
-
-                                        swal({
-                                                title: "Alert!",
-                                                text: "Maximum price must be greater than zero to activate revenue",
-                                                icon: "warning",
-                                                button: "Ok!",
-                                            });
-                                        $('#myonoffswitch').prop('checked', false);
-                                        return;
-                                    }
-                                    
-                                     $.ajax({
-                                            type: "POST",
-                                            url: "<?php echo lang_url(); ?>channel/activeRevenue",
-                                            data: { "roomid": roomid,"hotelId":hotelid,"revenuestatus":(Status==true?1:0)},
-                                            success: function(msg) {
-                                                if(Status==true)
-                                                  {
-                                                    
-                                                     $('#suca').toggle("slow");  
-                                                     $('#sucd').fadeOut("fast");
-                                                    setTimeout(function()
-                                                    {
-                                                      $('#suca').fadeOut();
-                                                    },3000);
-
-                                                  }
-                                                  else
-                                                  {
-                                                      $('#sucd').show("slow");
-                                                       $('#suca').fadeOut("fast");
-                                                         setTimeout(function()
-                                                        {
-                                                          $('#sucd').fadeOut();
-                                                        },3000);
-                                                  }
-                                            }
-                                        });
+                                if ((roomcaount < 3 || roomcaount == "") && Status == true) {
+                                    $('#alert1').toggle("slow");
+                                    $('#myonoffswitch').prop('checked', false);
+                                    setTimeout(function() { $('#alert1').fadeOut("slow"); }, 5000);
+                                    return;
                                 }
-                                function updateRevenue()
-                                {
-                                    var percen = $("#percentage").val();
-                                    var maxi = $("#maximun").val();
-                                    $.ajax({
-                                            type: "POST",
-                                            url: "<?php echo lang_url(); ?>channel/updateRevenue",
-                                            data: { "roomid": roomid,"hotelId":hotelid,"max":maxi,"per":percen},
-                                            success: function(msg) {
 
-                                                $('#suc').toggle(); 
-                                               
-                                               setTimeout(function()
-                                                {
-                                                  $('#suc').fadeOut();
-                                                },5000);
-                                            }
-                                        });
+                                if ((percen == 0 || percen == "") && Status == true) {
+
+                                    swal({
+                                        title: "Alert!",
+                                        text: "The percentage of increase must be greater than zero to activate Revenue",
+                                        icon: "warning",
+                                        button: "Ok!",
+                                    });
+                                    $('#myonoffswitch').prop('checked', false);
+                                    return;
                                 }
+                                if ((maxi == 0 || maxi == "") && Status == true) {
+
+                                    swal({
+                                        title: "Alert!",
+                                        text: "Maximum price must be greater than zero to activate revenue",
+                                        icon: "warning",
+                                        button: "Ok!",
+                                    });
+                                    $('#myonoffswitch').prop('checked', false);
+                                    return;
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo lang_url(); ?>channel/activeRevenue",
+                                    data: { "roomid": roomid, "hotelId": hotelid, "revenuestatus": (Status == true ? 1 : 0) },
+                                    success: function(msg) {
+                                        if (Status == true) {
+
+                                            $('#suca').toggle("slow");
+                                            $('#sucd').fadeOut("fast");
+                                            setTimeout(function() {
+                                                $('#suca').fadeOut();
+                                            }, 3000);
+
+                                        } else {
+                                            $('#sucd').show("slow");
+                                            $('#suca').fadeOut("fast");
+                                            setTimeout(function() {
+                                                $('#sucd').fadeOut();
+                                            }, 3000);
+                                        }
+                                    }
+                                });
+                            }
+
+                            function updateRevenue() {
+                                var percen = $("#percentage").val();
+                                var maxi = $("#maximun").val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo lang_url(); ?>channel/updateRevenue",
+                                    data: { "roomid": roomid, "hotelId": hotelid, "max": maxi, "per": percen },
+                                    success: function(msg) {
+
+                                        $('#suc').toggle();
+
+                                        setTimeout(function() {
+                                            $('#suc').fadeOut();
+                                        }, 5000);
+                                    }
+                                });
+                            }
                             </script>
                         </section>
                     </div>
@@ -519,6 +514,67 @@
     </div>
 </div>
 </div>
+</div>
+<div id="newRate" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Rate Type</h4>
+            </div>
+            <div>
+                <div class="col-md-12 form-group1">
+                    <label class="control-label">Rate Type Name</label>
+                    <input style="background:white; color:black;" name="recipename" id="recipename" type="text" placeholder="Rate Type Name" required="">
+                </div>
+                <div class="col-md-12 form-group1 form-last">
+                    <label style="padding:4px;" class="control-label controls">Meal Plan </label>
+                    <select style="width: 100%; padding: 9px;" name="productid" id="productid">
+                        <?php
+
+                            echo '<option  value="0" >Select a Meal Plan</option>';
+                            foreach ($ALLProducts as $value) {
+                                $i++;
+                                echo '<option value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
+                            }
+                      ?>
+                    </select>
+                </div>
+               
+               
+                <div style="text-align: center; padding:15px;" class="col-md-12 form-group1 form-last">
+                    <h3 ">Refundable</h3>
+                    <hr>
+                </div>
+                 <div class="col-md-4 form-group1 form-last">
+                    <label style="padding:4px;" class="control-label controls">Type</label>
+                    <select style="width: 100%; padding: 9px;" name="productid" id="productid">
+                        <option  value="0" >Select a Type</option>
+                        <option  value="1" >Add</option>
+                        <option  value="2" >Subtract</option>
+                    </select>
+                </div>
+                 <div class="col-md-4 form-group1 form-last">
+                    <label style="padding:4px;" class="control-label controls">Fee</label>
+                    <select style="width: 100%; padding: 9px;" name="productid" id="productid">
+                        <option  value="0" >Select a Fee</option>
+                        <option  value="1" >Fixed</option>
+                        <option  value="2" >Percentage</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group1">
+                    <label class="control-label">Value</label>
+                    <input onkeypress="return justNumbers(event);" style="background:white; color:black;" name="value" id="value" type="text" placeholder="Value" required="">
+                </div>
+
+                <div class="buttons-ui">
+                    <a onclick="saveRecipe();" class="btn green">Save</a>
+                </div>
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" charset="utf-8">
 new CBPFWTabs(document.getElementById('tabs'));

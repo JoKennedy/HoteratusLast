@@ -1543,7 +1543,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	function managepaymentmethods()
 	{
 		$this->is_login();
-    	$data['page_heading'] = 'Manage Reports';
+    	$data['page_heading'] = 'Payment Methods';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
@@ -1568,7 +1568,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	function managetax()
 	{
 		$this->is_login();
-    	$data['page_heading'] = 'Manage Reports';
+    	$data['page_heading'] = 'Tax Categories';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();

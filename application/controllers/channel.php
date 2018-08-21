@@ -1575,13 +1575,13 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['AllTaxCategories']=$this->db->query("select * from taxcategories where active=1 and hotelid=".hotel_id())->result_array();
 		$this->views('channel/managetax',$data);
 	}
-	function saveTax()
-	{
-		$this->is_login();
-		$data['success']=$this->channel_model->saveTax();
-		echo json_encode($data);
-		return;
-	}
+		function saveTax()
+		{
+			$this->is_login();
+			$data['success']=$this->channel_model->saveTax();
+			echo json_encode($data);
+			return;
+		}
 	function updateTax()
 	{
 		$this->is_login();
@@ -1630,6 +1630,13 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 												left join policytype b on a.policytype=b.policytypeid
 												where a.hotelid=".hotel_id())->result_array();
 		$this->views('channel/managepolicies',$data);
+	}
+	function savePolicyType()
+	{
+		$this->is_login();
+		$data['success']=$this->channel_model->savePolicyType();
+		echo json_encode($data);
+		return;
 	}
 	function managemembership()
 	{

@@ -10,7 +10,8 @@
     <div class="profile-widget" style="background-color: white;">
     </div>
     <div style="float: right;" class="buttons-ui">
-        <a href="#addPayment"  data-toggle="modal" class="btn blue">Add Payment Method</a>
+        <a href="#addPolicy"  data-toggle="modal" class="btn blue">Add New Policy</a>
+        <a href="#addPolicytype"  data-toggle="modal" class="btn orange">Add New Policy Type</a>
     </div>
      <div class="clearfix"></div>
      <div class="graph-visual tables-main">
@@ -35,7 +36,7 @@
                             foreach ($AllPolicies as  $value) {
                                 $i++;
                                 /*$update="'".$value['paymentmethodid']."','".$value['name']."','".$value['email']."','".$value['apikey']."','".$value['merchantid']."','".$value['publickey']."','".$value['active']."','".$value['providerid']."'";*/
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['policytypename'].'  </td> <td> '.$value['name'].'  </td> <td>'.($value['feetype']==0?'Amount':($value['feetype']==1?'Percentage':'Per Night')).'</td>
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['policytypename'].'  </td> <td> '.$value['name'].'  </td> <td>'.($value['feetype']==1?'Amount':($value['feetype']==2?'Percentage':'Per Night')).'</td>
                                  <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#addPaymentUP" onclick ="updatePayment()" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td>  </tr>   ';
                             }
                            
@@ -55,6 +56,37 @@
 </div>
 </div>
 </div>
+<div id="addPolicytype" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title">New Policy Type</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span> 
+                </div>
+                <div>
+                    <div class="graph-form">
+                  <form id ="createpolicetype" >
+                    <div class="col-md-12 form-group1">
+                            <label class="control-label">Name Policy Type</label>
+                            <input style="background:white; color:black;" name="nametype" id="nametype" type="text" placeholder="Policy Type" required="">
+                    </div>
+
+                    <div class="clearfix"> </div>
+                    <br><br>
+                        <div class="buttons-ui">
+                        <a onclick="savePolicyType()" class="btn green">Save</a>
+                        </div>
+
+                    <div class="clearfix"> </div>
+
+                  </form>
+                </div>
+                </div>
+            </div>
+        </div>
+</div>
 <div id="addPolicy" class="modal fade" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -68,12 +100,22 @@
                     <div class="graph-form">
                   <form id ="createprovider" >
 
-                    <div class="col-md-12 form-group1 form-last">
-                        <label style="padding:4px;" class="control-label controls">Policy Name</label>
+                  
+                    <div class="col-md-12 form-group1">
+                            <label class="control-label">Name Policy</label>
+                            <input style="background:white; color:black;" name="nametype" id="nametype" type="text" placeholder="Policy Type" required="">
+                    </div>
+                    <div class="col-md-12 form-group1">
+                            <label class="control-label">Description</label>
+                            <textarea></textarea>
+                            
+                    </div>  
+                    <div class="col-md-6 form-group1 form-last">
+                        <label style="padding:4px;" class="control-label controls">Policy Type</label>
                         <select onchange="viewnote(this)" style="width: 100%; padding: 9px;" name="policytypeid" id="policytypeid" >
                             <?php
 
-                                    echo '<option value="0" >Select a Provider</option>';
+                                    echo '<option value="0" >Select a Policy Type</option>';
                                     foreach ($Policytype as $value) {
                                         
                                         echo '<option  value="'.$value['policytypeid'].'" >'.$value['name'].'</option>';
@@ -81,23 +123,24 @@
                               ?>
                         </select>
                     </div>
-                    <div class="col-md-12 form-group1">
-                            <label class="control-label">Email</label>
-                            <input style="background:white; color:black;" name="email" id="email" type="text" placeholder="E-Mail" required="">
+                    <div class="col-md-6 form-group1">
+                            <label class="control-label">Days Before</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="stock" id="stock" type="text" placeholder="Stock" required="">
                     </div>
-                    <div class="col-md-12 form-group1" style="display:none;" id="apikeys">
-                            <label class="control-label">Api Key</label>
-                            <input style="background:white; color:black; " name="apikey" id="apikey" type="text" placeholder="ApiKey" required="">
+                    <div class="col-md-6 form-group1">
+                            <label class="control-label">Fee</label>
+                            <select onchange="viewnote(this)" style="width: 100%; padding: 9px;" name="feetype" id="feetype" >
+                            <option value="0" >Select a Fee Type</option>
+                            <option value="1" >Fixed</option>
+                            <option value="2" >Percentage</option>
+                            <option value="3" >Per Night</option>
+                        </select>    
                     </div>
-                    <div class="col-md-12 form-group1" style="display:none;" id="merchantids">
-                            <label class="control-label">Merchantid</label>
-                            <input style="background:white; color:black; " name="merchantid" id="merchantid" type="text" placeholder="Merchantid" required="">
+                    <div class="col-md-6 form-group1">
+                            <label class="control-label">Value</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="stock" id="stock" type="text" placeholder="Stock" required="">
                     </div>
-                    <div class="col-md-12 form-group1" style="display:none;" id="publickeys">
-                            <label class="control-label">Publickey</label>
-                            <input style="background:white; color:black; " name="publickey" id="publickey" type="text" placeholder="Publickey" required="">
-                    </div>
-
+                        
                     <div class="clearfix"> </div>
                     <br><br>
                         <div class="buttons-ui">
@@ -353,6 +396,54 @@
                }
             }
         });
+    }
+    function savePolicyType()
+    {
+          if ( $("#nametype").val().length==0 ) {
+             swal({
+                title: "upps, Sorry",
+                text: "Type a Name Policy Type To Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+        }
+         var data = $("#createpolicetype").serialize();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "<?php echo lang_url(); ?>channel/savePolicyType",
+            data: data,
+            beforeSend: function() {
+                showWait('Saving Policy Type');
+                setTimeout(function() { unShowWait(); }, 10000);
+            },
+            success: function(msg) {
+
+                unShowWait();
+               if (msg['success']) {
+                 swal({
+                        title: "Success",
+                        text: "Policy Type successfully created!",
+                        icon: "success",
+                        button: "Ok!",
+                    }).then((n) => {
+                        window.location.reload();
+                    });
+               }
+               else
+               {
+                    swal({
+                        title: "Error",
+                        text: "Policy Type was not created!",
+                        icon: "error",
+                        button: "Ok!",
+                    });
+               }
+            }
+        });
+
+
     }
     
 </script>

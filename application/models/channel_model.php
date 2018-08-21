@@ -448,7 +448,19 @@ class channel_model extends CI_Model
 			return false;
 		}
 	}
-	
+	function savePolicyType()
+	{
+		$data['name']=$_POST['nametype'];
+		$data['hotelid']=hotel_id();
+		$data['active']=1;
+		if (insert_data('policytype',$data)) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	function propertyinfoupdate($propertyinfo)
 	{
 		$localidad=str_replace(array('(',')'), '', $propertyinfo['localidad']);

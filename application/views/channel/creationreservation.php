@@ -14,11 +14,11 @@
         <div class="col-md-12 ">
             <div class="col-md-6 form-group1">
                 <label class="control-label"><strong>Check-In</strong></label>
-                <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date1Edit" name="date1Edit">
-            </div>
+                <input class="datepickers" style="background:white; color:black; text-align: center;" type="text" class="btn blue" required="" id="date1Edit" name="date1Edit">
+            </div> 
             <div class="col-md-6 form-group1">
                 <label class="control-label"><strong>Check-Out</strong></label>
-                <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" required="" id="date2Edit" name="date2Edit">
+                <input class="datepickers" style="background:white; color:black; text-align: center;" type="text" class="btn blue" required="" id="date2Edit" name="date2Edit">
             </div>
             <div class="col-md-6 form-group1">
                 <label class="control-label"><strong>Room Qty</strong></label>
@@ -215,6 +215,8 @@
 
 
 <script type="text/javascript">
+
+$('.datepickers').datepicker();
 function setcalendar() {
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar

@@ -16,7 +16,7 @@ class room_auto_model extends CI_Model
 				$AllRoomUsed='';
 				
 				foreach ($AllRoomUseds as $value) {
-					$AllRoomUsed .= $value['roomnumber'].',';
+					$AllRoomUsed .= (strlen($AllRoomUsed)>0?',':'').$value['roomnumber'];
 				}
 				$AllRoomUsed = explode(',',$AllRoomUsed );
 
@@ -43,6 +43,67 @@ class room_auto_model extends CI_Model
 				return '';
 			}			
 			
+	}
+	function allRoomAvailable($HotelID='',$roomid,$checkin,$checkout)
+	{
+		$checkout= date('Y-m-d',strtotime($checkout."-1 days"));
+			$AllRoomNumbers=$this->db->query("select existing_room_number from manage_property where property_id=$roomid")->row_array();
+
+			if(isset($AllRoomNumbers['existing_room_number']))
+			{
+				$AllRoomNumbers= explode(',', $AllRoomNumbers['existing_room_number'] );
+
+				$AllRoomUseds=$this->db->query("select roomnumber from roomnumberused where roomid=$roomid and (checkin between '$checkin' and  '$checkout' or checkout-1 between '$checkin' and  '$checkout')")->result_array();
+				$AllRoomUsed='';
+
+				foreach ($AllRoomUseds as $value) {
+					
+					if(strlen(trim($value['roomnumber']))>0)
+					{
+						$AllRoomUsed .= (strlen($AllRoomUsed)>0?',':'').$value['roomnumber'];
+					}
+					
+				}
+
+			
+				if (strlen($AllRoomUsed)>0) {
+					$AllRoomUsed = explode(',',$AllRoomUsed );
+				}
+				else
+				{
+					$AllRoomUsed=array();
+					return $AllRoomNumbers;
+				}
+				
+
+				
+				$valor='';
+				foreach ($AllRoomNumbers as  $value) 
+				{
+					if (strlen(trim($value))>0) {
+						if(!in_array($value, $AllRoomUsed))
+						{	
+							$valor .=  (strlen($valor)>0?',':'').$value;						
+						}
+					}
+					
+				}
+
+				if(strlen($valor)>0)
+				{
+					$allRoomsAvailable=explode(',',$valor );
+					return $allRoomsAvailable;
+				}
+				else
+				{
+					return array();
+				}
+
+			}
+			else
+			{
+				return array();
+			}
 	}
 
 	function RoomUsed($RoomId='',$ArrivalDate='',$DepartureDate='',$hotelID='')

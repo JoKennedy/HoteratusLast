@@ -27,7 +27,7 @@
             echo date_format($date, 'M d,Y');
             ?>
         </p>
-        <a onclick="<?=($channelId==0?'changestatus()':'')?>" class="btn <?=($statusId==0 || $statusId==3 ?'red':($statusId==1 || $statusId==4 ?'green':($statusId==2?'yellow':'blue')))?> six">
+        <a onclick="changestatus()" class="btn <?=($statusId==0 || $statusId==3 ?'red':($statusId==1 || $statusId==4 ?'green':($statusId==2?'yellow':'blue')))?> six">
             <?=$status?>
         </a>
     </div>
@@ -45,7 +45,7 @@
                         </ul>
                     </nav>
                     <div class="content tab">
-                        <section  id="section-1" class="content-current sec">
+                        <section id="section-1" class="content-current sec">
                             <div style="text-align: center;">
                                 <a href="#EditReservation" data-toggle="modal" class="btn green two">Edit Reservation</a>
                             </div>
@@ -64,6 +64,9 @@
                                             <p class="text-muted">
                                                 <?=$roomNumber?>
                                             </p>
+                                            <a style="height: 10px; " onclick="RoomsAvailables()" class="green two">Change</a>
+
+
                                         </div>
                                         <div class="about-info-p">
                                             <strong>Arrival Time</strong>
@@ -184,12 +187,82 @@
                             </div>
                             <div class="col-md-6 graph-2 second">
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">Notes</div>
+                                    <div class="panel-heading">Guest Notes</div>
                                     <div class="panel-body">
                                         <p>
                                             <?=$notes?>
                                         </p>
                                     </div>
+                                </div>
+                                <div class="chat-inner">
+                                    <!--/chat-inner-->
+                                    <div class=" widget-shadow ">
+                                        <h4 class="title3" style="background-color:#021F4E;">Users Notes</h4>
+                                        <div class="scrollbar" id="style-2">
+                                            <?php  
+
+                                            if(count($ALLUsersNotes)>0)
+                                            {   
+                                                $i=0;
+                                                foreach ($ALLUsersNotes as  $value) {
+                                                    $i++;
+
+                                                    if($i%2)
+                                                    {
+                                                        echo '  <div class="activity-row activity-row1 activity-right">
+                                                            <div class="col-xs-3 activity-img"><span>'.$value['username'].'</span></div>
+                                                            <div class="col-xs-9 activity-img1">
+                                                                <div class="activity-desc-sub">
+                                                                    <p>'.$value['description'].'</p>
+                                                                    <span>'.date('m/d/Y h:m:s',strtotime($value['createdatetime'])).'</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </div>'; 
+                                                    }
+                                                    else
+                                                    {   echo '  <div class="activity-row activity-row1 activity-left">
+                                                            <div class="col-xs-9 activity-img2">
+                                                                <div class="activity-desc-sub1">
+                                                                    <p>'.$value['description'].'</p>
+                                                                    <span class="right">'.date('m/d/Y h:m:s',strtotime($value['createdatetime'])).'</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3 activity-img"><span>'.$value['username'].'</span></div>
+                                                            <div class="clearfix"> </div>
+                                                        </div>';
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                    echo '  <div class="activity-row activity-row1 activity-right">
+                                                    <div class="col-xs-3 activity-img"><span>Hoteratus</span></div>
+                                                    <div class="col-xs-9 activity-img1">
+                                                        <div class="activity-desc-sub">
+                                                            <p><h3>There aren'."'".'t notes Created</h3></p>
+                                                            <span>'.date('m/d/Y h:m:s').'</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"> </div>
+                                                </div>';
+                                            }
+
+
+
+                                        ?>
+                                        </div>
+                                        <form>
+                                            <div class="col-md-12 form-group1">
+                                                <textarea style="width: 100;" id="usernote" name="usernote" placeholder="Type a Note"></textarea>
+                                            </div>
+                                            <div class="buttons-ui">
+                                                <a onclick="addNote()" class="btn blue">Add Note</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                    <!--/chat-inner-->
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -474,7 +547,6 @@
                 <!-- /tabs -->
             </div>
         </div>
-       
     </div>
 </div>
 <!--Paginas modales
@@ -587,7 +659,6 @@ Agregar Extras
         </div>
     </div>
 </div>
-
 <div id="PaymentP" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -694,38 +765,35 @@ Agregar Extras
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit Reservation Details</h4>
-                 <div class="profile-widget" style="background-color: white;">
-        <img src="data:image/png;base64,<?=$LogoReservation?>" alt=" " />
-        <h2 style="color: black;"> Reservation from <?=$ChannelName?> </h2>
-        <strong>Reservation Number</strong>
-        <p class="text-muted">
-            <?=$reservationNumber?>
-        </p>
-         <strong>Total Stay</strong>
-        <p id="totalstayedit" class="text-muted">
-            <?=number_format($totalStay, 2, '.', ',')?>
-        </p>
-    </div>
-
+                <div class="profile-widget" style="background-color: white;">
+                    <img src="data:image/png;base64,<?=$LogoReservation?>" alt=" " />
+                    <h2 style="color: black;"> Reservation from <?=$ChannelName?> </h2>
+                    <strong>Reservation Number</strong>
+                    <p class="text-muted">
+                        <?=$reservationNumber?>
+                    </p>
+                    <strong>Total Stay</strong>
+                    <p id="totalstayedit" class="text-muted">
+                        <?=number_format($totalStay, 2, '.', ',')?>
+                    </p>
+                </div>
             </div>
             <div id="EditingInfo">
                 <div class="graph-form">
                     <form id="SupplierC">
                         <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Check-In</strong></label>
-                            <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" 
-                            value="<?=date('Y-m-d',strtotime($checkin))?>" required="" id="date1Edit" name="date1Edit">
+                            <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="<?=date('Y-m-d',strtotime($checkin))?>" required="" id="date1Edit" name="date1Edit">
                         </div>
                         <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Check-Out</strong></label>
-                            <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" 
-                            value="<?=date('Y-m-d',strtotime($checkout))?>" required="" id="date2Edit" name="date2Edit">
+                            <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="<?=date('Y-m-d',strtotime($checkout))?>" required="" id="date2Edit" name="date2Edit">
                         </div>
-                         <div class="col-md-6 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Room Type</strong></label>
                             <input style="background:white; color:black;" name="roomtype" id="roomtype" type="text" placeholder="Room Type" value="<?=$roomTypeName?>" required="">
                         </div>
-                         <div class="col-md-6 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Room Number</strong></label>
                             <input style="background:white; color:black;" name="roomnumber" id="roomnumber" value="<?=$roomNumber?>" type="text" placeholder="Room Number" required="">
                         </div>
@@ -733,28 +801,27 @@ Agregar Extras
                             <label class="control-label"><strong>Guest Name</strong></label>
                             <input style="background:white; color:black;" name="guestname" id="guestname" type="text" placeholder="Guest Name" required="" value="<?=$guestFullName?>">
                         </div>
-                       
                         <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Email</strong></label>
                             <input style="background:white; color:black;" name="Email" id="Email" type="text" placeholder="Email" required="" value="<?=$email?>">
                         </div>
-                         <div class="col-md-6 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Phone</strong></label>
                             <input style="background:white; color:black;" name="Phone" id="Phone" type="text" placeholder="Phone" required="" value="<?=$mobiler?>">
                         </div>
-                         <div class="col-md-12 form-group1">
+                        <div class="col-md-12 form-group1">
                             <label class="control-label"><strong>Address</strong></label>
                             <input style="background:white; color:black;" name="Address" id="Address" type="text" placeholder="Address" required="" value="<?=$address?>">
                         </div>
-                         <div class="col-md-6 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>City</strong></label>
                             <input style="background:white; color:black;" name="City" id="City" type="text" placeholder="City" required="" value="<?=$city?>">
                         </div>
-                         <div class="col-md-6 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>State</strong></label>
-                            <input style="background:white; color:black;" name="State" id="State" type="text" placeholder="State" required="" value="<?=$state?>"> 
+                            <input style="background:white; color:black;" name="State" id="State" type="text" placeholder="State" required="" value="<?=$state?>">
                         </div>
-                         <div class="col-md-6 form-group1">
+                        <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Country</label>
                             <input style="background:white; color:black;" name="Country" id="Country" type="text" placeholder="Country" required="" value="<?=$country?>">
                         </div>
@@ -808,17 +875,17 @@ Agregar Extras
                     if ( $statusId==5) {
                         
                         echo '<div style="text-align:center;" class="col-md-12 form-group1">';
-                        echo '<a onclick="applystatus(6)" style="width:200px;" class="btn yellow six">Check-Out</a>';                          
+                        echo '<a onclick="applystatus(6)" style="width:200px;" class="btn yellow six">Check-Out</a>';                     
                         echo '</div>';
                     }
                     if ($statusId==1 || $statusId==2 || $statusId==3) {
                         
                         echo '<div style="text-align:center;" class="col-md-6 form-group1">';
-                        echo '<a onclick="applystatus(3)" style="width:200px;" class="btn orange six">No Show </a>';                          
+                        echo '<a onclick="applystatus(3)" style="width:200px;" class="btn orange six">No Show </a>';                  
                         echo '</div>';
                     }
 
-                    if ($statusId==1 || $statusId==2 || $statusId==3 ) {
+                    if ( $channelId==0 && ($statusId==1 || $statusId==2 || $statusId==3 ) ) {
                         
                         echo '<div style="text-align:center;" class="col-md-12 form-group1">';
                         echo '<a onclick="applystatus(0)" style="width:200px;" class="btn red ">Cancel</a>';                          
@@ -826,26 +893,41 @@ Agregar Extras
                     }
 
                 ?>
-
-                
             </div>
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
+<div id="roomavailable" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Rooms Available</h4>
+            </div>
+            <div id="allavailable">
+                
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 <!--//content-inner-->
-
 <script type="text/javascript">
-var resID="<?=$reservatioID?>";
-var userName="<?=$fname.' '.$lname ?>";
-function changestatus()
-{
+var resID = "<?=$reservatioID?>";
+var userName = "<?=$fname.' '.$lname ?>";
+var channelid="<?=$channelId?>";
+var checkin="<?=$checkin?>";
+var checkout="<?=$checkout?>";
+var roomtype ="<?=$roomTypeID?>";    
+function changestatus() {
     $("#EditStatus").modal();
 }
-function applystatus(id)
-{
-    var data = { 'resid': resID, 'statusid': id , 'username':userName};
-    
+
+function applystatus(id) {
+    var data = { 'resid': resID, 'statusid': id, 'username': userName };
+
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -857,45 +939,155 @@ function applystatus(id)
         },
         success: function(msg) {
             unShowWait();
-           if(msg['success'])
-           {
+            if (msg['success']) {
                 swal("Status Changed", {
                     icon: "success",
                 }).then(ms => {
                     location.reload();
                 });
-           }
-           else
-           {
+            } else {
                 swal({
                     title: "Warning!",
                     text: msg['message'],
                     icon: "warning",
                     button: "Ok!",
                 });
-           }
+            }
 
         }
     });
+}
+function addNote()
+{
+    if($("#usernote").val()=="")
+    {
+        swal({
+                title: "Warning!",
+                text: "Type a Note To Continue",
+                icon: "warning",
+                button: "Ok!",
+            });
+        return;
+    }
+    var data = { 'resid': resID, 'note': $("#usernote").val(), 'username': userName,'channelid':channelid };
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/addnoteuser",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg['success']) {
+                swal("Note Added", {
+                    icon: "success",
+                }).then(ms => {
+                    location.reload();
+                });
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+
+        }
+    });
+    
+}
+function RoomsAvailables()
+{
+    var data = { 'room_id': roomtype, 'checkin': checkin, 'checkout': checkout};
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/RoomsAvailables",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg['success']) {
+                $("#allavailable").html(msg['html']);
+                $("#roomavailable").modal();
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+
+        }
+    });
+
+  
+}
+function assingNumber(number)
+{
+    var data = {'roomnumber':number, 'resid': resID,'channelid':channelid,'username':userName ,'checkin': checkin, 'checkout': checkout,'roomtype':roomtype};
+    $.ajax({
+        type: "POST",
+       dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/assingRoomNumbers",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg['success']) {
+                  swal("The Room Number was Assigned Correctly", {
+                    icon: "success",
+                }).then(ms => {
+                    location.reload();
+                });
+                
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+
+        }
+    });
+   
+}
+function UpdateReservation()
+{
+
 }
 function showtab(id)
 
 {
 
     $(".sec").removeClass("content-current");
-    $("#section-"+id).addClass("content-current");
+    $("#section-" + id).addClass("content-current");
 }
-var channelid = '<?=$channelId;?>';
+
 var resid = '<?=$reservatioID;?>';
 
-$(document).ready(function(){
+$(document).ready(function() {
 
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar
     $("#date1Edit").attr('min', formatDate(fecha));
     fecha.setDate(fecha.getDate() + dias);
     $("#date2Edit").attr('min', formatDate(fecha));
-    
+
 });
 
 
@@ -1175,11 +1367,10 @@ function processinvoice(channelid, reservationid) {
 }
 
 function editInvoice(invoiceid) {
-  //  $("#editInvoice").html('<h4> Vamos a editar la factura id ' + invoiceid + ' </h4>  <a onclick= "saveinvoice(' + invoiceid + ')" class="btn yellow two" id="saveinvoice">Save Invoice</a>');
+    //  $("#editInvoice").html('<h4> Vamos a editar la factura id ' + invoiceid + ' </h4>  <a onclick= "saveinvoice(' + invoiceid + ')" class="btn yellow two" id="saveinvoice">Save Invoice</a>');
 }
 
 function saveinvoice(invoiceid) {
     //alert(invoiceid);
 }
-
 </script>

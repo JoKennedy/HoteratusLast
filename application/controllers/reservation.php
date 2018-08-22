@@ -540,7 +540,7 @@ class reservation extends Front_Controller {
 		{
 			$data['status']='Canceled';
 			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
-			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Reservation Canceled by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Reservation Canceled by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
           $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'cancel');          
 		}
@@ -548,7 +548,7 @@ class reservation extends Front_Controller {
 		{
 			$data['status']='Canceled';
 			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
-			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To No Show by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To No Show by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
           $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'No Show'); 
 		}
@@ -556,7 +556,7 @@ class reservation extends Front_Controller {
 		{
 			$data['status']='Checkin';
 			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
-			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-in by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-in by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
 		}
 		if($statusid==6)
@@ -579,7 +579,7 @@ class reservation extends Front_Controller {
 			{
 				$data['status']='Checkout';
 				update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
-				 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-out by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
+				 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-out by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
 	             insert_data('new_history',$history);
 			}
 			
@@ -869,10 +869,107 @@ class reservation extends Front_Controller {
 		$data['historyInfo']=$this->reservation_model->historyInfo(unsecure($channelID),insep_decode($ReservationID));
 		$data['Invoice']=$this->reservation_model->reservationInvoice(unsecure($channelID),insep_decode($ReservationID));
 		$data['payment']=$this->reservation_model->payment();
+		$data['ALLUsersNotes']=$this->reservation_model->AllUsersNotes(insep_decode($ReservationID),unsecure($channelID));
 		$this->views('channel/reservationdetails',$data);
 
 		
 
+	}
+	function addnoteuser()
+	{	
+		$info['reservationid']=$_POST['resid'];
+		$info['channelid']=$_POST['channelid'];
+		$info['userid']=user_id();
+		$info['hotelid']=hotel_id();
+		$info['description']=$_POST['note'];
+		$info['active']=1;
+		insert_data('reservationnotes',$info);
+		$history = array('channel_id'=>$info['channelid'],'Userid'=> user_id(),'reservation_id'=>$info['reservationid'],'description'=>'Note Added by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+	    insert_data('new_history',$history);
+
+	    echo json_encode(array('success'=>true));
+	}
+	function RoomsAvailables()
+	{
+		 $this->load->model("room_auto_model");
+         $available=$this->room_auto_model->allRoomAvailable(hotel_id(),$_POST['room_id'],$_POST['checkin'],$_POST['checkout'] );
+         
+         if(count($available)>0)
+         {
+         	$html='';
+			$html.='<div class="graph">
+				<div class="table-responsive">
+						<div class="clearfix"></div>
+						<table  class="table table-bordered">
+								<thead>
+										<tr>
+												<th>Room Number</th>
+												<th style="text-align:center;">Assing</th>
+										</tr>
+															 </thead>
+								<tbody>';
+			$i=0;
+			foreach ($available as  $value) {
+				$i++;
+				$html.=' <tr  class="'.($i%2?'active':'success').'"> <td>'.$value.'  </td> 
+						<td  align="center"><a  onclick="assingNumber('."'".$value."'".');">
+						 <i class="fa fa-check-circle fa-2x"></i></a> </td> </tr>';
+
+
+			}
+			$html.='</tbody></table></div> </div>';
+
+			echo json_encode(array('success'=>true,'html'=>$html));
+         }
+         else
+         {
+         	echo json_encode(array('success'=>false,'message'=>"There aren't Rooms Available for this date range"));
+         }
+
+	}
+	function assingRoomNumbers()
+	{
+		$channelid=$_POST['channelid'];
+		$reservationid=$_POST['resid'];
+		$RoomNumber=$_POST['roomnumber'];
+		$roomused=$this->db->query("select * from roomnumberused where reservationid=$reservationid and channelid=$channelid")->row_array();
+
+		if(count($roomused)>0)
+		{
+			$history = array('channel_id'=>$channelid,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Room Number Changed '.$roomused['roomnumber'].' To '.$RoomNumber.'  by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+	    	insert_data('new_history',$history);
+
+			update_data('roomnumberused',array('roomnumber'=>$RoomNumber),array('roomnumberusedid'=>$roomused['roomnumberusedid']));
+		}
+		else
+		{
+			$history = array('channel_id'=>$channelid,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'The Room Number Assinged is ['.$RoomNumber.']  by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+	    	insert_data('new_history',$history);
+
+	    	$roominfo['checkin']=$_POST['checkin'];
+	    	$roominfo['checkout']=$_POST['checkout'];
+	    	$roominfo['roomid']=$_POST['roomtype'];
+	    	$roominfo['roomnumber']=$RoomNumber;
+	    	$roominfo['hotelid']=hotel_id();
+	    	$roominfo['reservationid']=$reservationid;
+	    	$roominfo['channelid']=$channelid;
+	    	$roominfo['active']=1;
+			insert_data('roomnumberused',$roominfo);
+
+		}
+
+		if ($channelid==0) {
+			
+			update_data('manage_reservation',array('RoomNumber'=>$RoomNumber),array('reservation_id'=>$reservationid));
+		}
+		else if($channelid==1) {
+			update_data('import_reservation_EXPEDIA',array('RoomNumber'=>$RoomNumber),array('import_reserv_id'=>$reservationid));
+		}
+		else if($channelid==2) {
+			update_data('import_reservation_BOOKING_ROOMS',array('RoomNumber'=>$RoomNumber),array('room_res_id'=>$reservationid));
+		}
+		
+		echo json_encode(array('success'=>true));
 	}
 	// reservation list..
 	function reservationlist()

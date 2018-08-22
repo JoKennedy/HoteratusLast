@@ -2516,7 +2516,7 @@ class booking_model extends CI_Model
     function ReservationList($hotelid)
     {
             $booking=$this->db->query("SELECT b.room_res_id reservation_id, concat(a.id,'-',roomreservation_id) reservation_code, case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,
-                 guest_name Full_Name , d.property_id room_id , 2 channel_id, arrival_date start_date,b.RoomNumber RoomNumber, departure_date end_date,
+                  guest_name  Full_Name , d.property_id room_id , 2 channel_id, arrival_date start_date,b.RoomNumber RoomNumber, departure_date end_date,
                 b.date_time booking_date, f.currency_id currency_id, b.totalprice price, DATEDIFF( departure_date,arrival_date) num_nights, 1 num_rooms,b.current_date_time,
                 g.channel_name channel_name, e.property_name roomName FROM 
                 import_reservation_BOOKING a

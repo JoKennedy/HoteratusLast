@@ -150,6 +150,14 @@ class Reservation_model extends CI_Model
         return $result;
 
     }
+    function AllUsersNotes($reservationid,$channelid)
+    {
+        $notes=$this->db->query("select a.*,concat(b.fname,' ',b.lname) username from reservationnotes a
+                                left join manage_users b on a.userid=b.user_id
+            where reservationid=$reservationid and channelid=$channelid  order by createdatetime asc")->result_array();
+
+        return $notes;
+    }
     function invoicepaymentapply($reservationinvoiceid,$paymenttypeid,$amount,$paymentmethod,$username)
     {
 

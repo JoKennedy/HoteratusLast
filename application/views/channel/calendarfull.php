@@ -12,6 +12,7 @@
         <div class="col-md-7 form-group1">
             <select onchange="Calendario()" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
                 <?php
+                        $showreservation=(isset($userConfig['CalenderShowR'])?$userConfig['CalenderShowR']:0);
 
 						$month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
 						$hoy=array('dia' =>date('d') , 'mes' =>date('m'),'year' =>date('Y'));
@@ -62,7 +63,7 @@
         <br>
         <div class="col-md-2">
             <label class="check">
-                <input onclick=" Calendario()" id="show" type="checkbox">Show Reservations</label>
+                <input onclick=" Calendario(this.checked,2)" id="show" type="checkbox" <?=($showreservation==0?'':'checked')?>>Show Reservations</label>
         </div>
         <div class="col-md-2">
             <label class="check">
@@ -154,6 +155,8 @@
 </div>
 <script type="text/javascript">
  var base_url = '<?php echo lang_url();?>';
+
+ var showr='<?=$showreservation?>';
 function sendUpdate()
 {
 
@@ -179,13 +182,15 @@ function showoption(id, value) {
     });
 }
 
-function Calendario() {
-
-
-
-    showWait();
+function Calendario(obj,opt) {
    
-    var data = { "show": ($("#show").prop('checked') ? 1 : 0), "sales": ($("#Sales").prop('checked') ? 1 : 0), "cta": ($("#cta").prop('checked') ? 1 : 0), "ctd": ($("#ctd").prop('checked') ? 1 : 0), 'yearid': $("#yearid").val(), 'monthid': $("#monthid").val() };
+   if (opt==2) {
+        if(showr==($("#show").prop('checked') ? 1 : 0))
+        {
+            opt=1;
+        }
+   }
+    var data = { "show": ($("#show").prop('checked') ? 1 : 0), "sales": ($("#Sales").prop('checked') ? 1 : 0), "cta": ($("#cta").prop('checked') ? 1 : 0), "ctd": ($("#ctd").prop('checked') ? 1 : 0), 'yearid': $("#yearid").val(), 'monthid': $("#monthid").val(),'opt': opt};
 
     $.ajax({
         type: "POST",
@@ -204,5 +209,5 @@ function Calendario() {
 }
 
 
-Calendario();
+Calendario(0,1);
 </script>

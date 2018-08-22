@@ -580,12 +580,27 @@ class channel_model extends CI_Model
 	}
 	function calendarFull()
 	{
-		$ss=$_POST['sales'];;
-		$cta=$_POST['cta'];;
-		$ctd=$_POST['ctd'];;
+		
+		$ss=$_POST['sales'];
+		$cta=$_POST['cta'];
+		$ctd=$_POST['ctd'];
 		$showr=$_POST['show'];
 		$dataini=(date('m')==$_POST['monthid'] && date('Y')==$_POST['yearid']?date('Y-m-d'):date('Y-m-d',strtotime($_POST['yearid'].'-'.$_POST['monthid'].'-01')));
+		if($_POST['opt']==2)
+		{
+			$test=get_data('ConfigUsers',array('hotelID'=>hotel_id(),'UserID'=>user_id()))->row_array(); 
 
+			if(count($test)>0)
+			{
+
+				update_data('ConfigUsers',array('CalenderShowR'=>$showr),array('ConfigUsersID'=>$test['ConfigUsersID']));
+
+			}
+			else
+			{
+ 				insert_data('ConfigUsers',array('CalenderShowR'=>$showr,'hotelID'=>hotel_id(),'UserID'=>user_id()));
+			}
+		}
 
 		$date1=$dataini;
 		$date2=date('Y-m-d',strtotime($date1.'+31 days'));

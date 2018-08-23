@@ -52,8 +52,10 @@ class bulkupdate extends Front_Controller
 		}
 		
 
+		print_r($_POST['room']);
 		$rooms=cleanArray($_POST['room']);
-
+		print_r($rooms);
+		
 
 
 		if(count($rooms)>0)
@@ -93,7 +95,7 @@ class bulkupdate extends Front_Controller
 		                            where hotel_id=".hotel_id()."
 		                            and room_id=".$room['room_id']."
 		                            and individual_channel_id=0
-		                            and STR_TO_DATE(separate_date ,'%d/%m/%Y')   between STR_TO_DATE('".$date['startdate']."' ,'%d/%m/%Y')  and STR_TO_DATE('".$date['enddate']."' ,'%d/%m/%Y') " );
+		                            and STR_TO_DATE(separate_date ,'%d/%m/%Y')   between '".$date['startdate']."'  and '".$date['enddate']."' " );
 		                    }
 
 		                    if(isset($room['availability']) && !isset($room['price']))
@@ -108,10 +110,11 @@ class bulkupdate extends Front_Controller
 		                                AND a.revenuertatus =1 
 		                                and a.property_id=".$room['room_id']."
 		                                and b.individual_channel_id=0
-		                                and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between STR_TO_DATE('".$date['startdate']."' ,'%d/%m/%Y')  and STR_TO_DATE('".$date['enddate']."' ,'%d/%m/%Y') " )->row_array()['precio'];
+		                                and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between '".$date['startdate']."'  and '".$date['enddate']."' " )->row_array()['precio'];
 		                    }
 
 		                    $room['channelids'] =  $_POST['channelid'];
+
 
 		                    $result .= $this->bulkupdate_model->saveRoomInfo($room);
 

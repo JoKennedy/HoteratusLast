@@ -50,7 +50,7 @@ class bulkupdate_model extends CI_Model
 
 					if(isset($room['stops'])!='')
 					{
-						$roominfo['stop_sell'] =($room['stops']==0?'0':'1');
+						$roominfo['stop_sell'] =($room['stops']==2?'0':'1');
 						$roominfo['open_room'] =($room['stops']==1?'0':'1');
 
 						if(@$room['availability']=='0')

@@ -3113,28 +3113,29 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
    
         $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
-                U.minimum_stay , sum( U.price ) totalprice,
-               sum( U.price  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
+                U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
+               sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
                 count(*) available, min(U.availability) roomAvailability
                 FROM room_update U 
                 LEFT JOIN manage_property P ON U.room_id = P.property_id 
                 WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
                 AND U.availability >=$rooms  
                 AND U.minimum_stay <= $nights AND P.member_count >=$adult 
-                AND P.children >=$child AND individual_channel_id =0 
+                AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
                 AND stop_sell='0' AND P.hotel_id=".hotel_id()."
                 GROUP BY U.room_id ORDER BY U.room_id DESC")->result_array();
        
-        return $result;
+      
 
-        $available= array();
+        $available= '';
 
         if (count($result)>=0 ) {
-            
+            $i=0;
             foreach ($result as $value) {
                 
-                if ( $value['available']>=$nights) {
-                    $available=array_merge($available,$value );
+                if ( $value['available']>=$nights && $value['totalprice']>0) {
+                    $available[$i]=$value ;
+                    $i++;
                 }
             }
         }
@@ -3142,6 +3143,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         return $available;
 
     }
+
+  
     function saveReservation()
     {
          $nights  =   ceil(abs(strtotime($_POST['checkout'] )- strtotime($_POST['checkin'] )) / 86400);

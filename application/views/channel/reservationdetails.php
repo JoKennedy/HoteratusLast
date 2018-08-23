@@ -57,14 +57,16 @@
                                             <strong>Room Type</strong>
                                             <p class="text-muted">
                                                 <?=$roomTypeName?>
+                                                <a style="height: 10px; " onclick="roomstypeava()" class="blue two">Change</a>
                                             </p>
                                         </div>
                                         <div class="about-info-p">
                                             <strong>Room Number</strong>
                                             <p class="text-muted">
                                                 <?=$roomNumber?>
+                                                 <a style="height: 10px; " onclick="RoomsAvailables()" class="green two">Change</a>
                                             </p>
-                                            <a style="height: 10px; " onclick="RoomsAvailables()" class="green two">Change</a>
+                                           
 
 
                                         </div>
@@ -903,7 +905,7 @@ Agregar Extras
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Rooms Available</h4>
+                <h4 class="modal-title">Rooms Numbers Available</h4>
             </div>
             <div id="allavailable">
                 
@@ -913,14 +915,227 @@ Agregar Extras
         </div>
     </div>
 </div>
+<div id="roomstypesavailable" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Rooms Types Available</h4>
+            </div>
+            <div id="alltypeavailable">
+                
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="roomstypesavailable" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Rooms Types Available</h4>
+            </div>
+            <div id="alltypeavailable">
+                
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="optupgrade" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="text-align: center;" class="modal-title">Upgrade Type </h4>
+            </div>
+            <div>
+
+                <input type="hidden" name="chargenight" id="chargenight" type="text">
+                <input type="hidden" name="nroomtype" id="nroomtype" type="text">
+                <div class="buttons-ui">
+                    <a onclick="changeroomtypeup(1)" class="btn yellow">Free</a>
+                    <a onclick="changeroomtypeup(2)" class="btn green"><span id="preciopernig"></span> Avg. per Night</a>
+                    <a onclick="setnewprice()" class="btn blue">Set Price per Night</a>
+                    
+                </div>
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="optnewprice" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="text-align: center;" class="modal-title">New Price  Avg. per Night </h4>
+            </div>
+            <div>
+                <div class="col-md-12 form-group1">
+                            <label class="control-label">New Price</label>
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="newprice" id="newprice" type="text" placeholder="New Price" required="">
+                </div>
+                <div class="buttons-ui ">
+                    <a onclick="changeroomtypeup(3)" class="btn blue">Apply</a>
+                </div>
+               
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
 <!--//content-inner-->
+<?php $avgpernight=($totalStay/$numberNight);?>
 <script type="text/javascript">
 var resID = "<?=$reservatioID?>";
 var userName = "<?=$fname.' '.$lname ?>";
 var channelid="<?=$channelId?>";
 var checkin="<?=$checkin?>";
 var checkout="<?=$checkout?>";
-var roomtype ="<?=$roomTypeID?>";    
+var roomtype ="<?=$roomTypeID?>";
+var adults="<?=$numberAdults?>";
+var children="<?=$numberChilds?>";
+var avgpern="<?=$avgpernight?>";
+function setnewprice()
+{   $("#newprice").val(0.00);
+    $("#optnewprice").modal();
+}
+function roomstypeava()
+{
+    
+    
+    var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype};
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/findroomtypesavailable",
+        data: data,
+        beforeSend: function() {
+            showWait('Looking for available rooms for this dates');
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg['success']) {
+                $("#alltypeavailable").html(msg['html']);
+                $("#roomstypesavailable").modal();
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+}  
+function changeroomtype(id,night,upgrade,chargenight)
+{
+    if (upgrade==1) {
+        $("#preciopernig").html(chargenight);
+        $("#chargenight").val(chargenight);
+        $("#nroomtype").val(id);
+        $("#optupgrade").modal();
+    }
+    else
+    {
+
+        var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype,'nroomtype':id, 'resid':resID,'channelid':channelid,'upgrade':upgrade, 'username':userName};
+        $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/changeroomtype",
+        data: data,
+        beforeSend: function() {
+            showWait('Charging Room Type');
+            setTimeout(function() { unShowWait(); }, 100000);
+        },
+        success: function(msg) {
+                unShowWait();
+            
+                if (msg['success']) {
+                      swal("The Room Type Changed Correctly", {
+                        icon: "success",
+                    }).then(ms => {
+                        location.reload();
+                    });
+                } else {
+                    swal({
+                        title: "Warning!",
+                        text: msg['message'],
+                        icon: "warning",
+                        button: "Ok!",
+                    });
+                }
+            }
+        });
+    }
+
+     
+} 
+function changeroomtypeup(opt)
+{
+    
+   var nprice=0;
+   if(opt==2)
+   {
+        nprice=$("#chargenight").val();
+   }
+   else if(opt==3)
+   {
+        if ($("#newprice").val()==0 || $("#newprice").val().length==0) {
+              swal({
+                    title: "Warning!",
+                    text: 'Missing Field New Price',
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            return;
+        }
+        nprice=$("#newprice").val();
+   }
+   var tipo=$("#nroomtype").val();
+    var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype,'nroomtype':tipo, 'resid':resID,'channelid':channelid,'upgrade':1, 'username':userName,'opt':opt,'nprice':nprice};
+    $.ajax({
+    type: "POST",
+    dataType: "json",
+    url: "<?php echo lang_url(); ?>reservation/changeroomtype",
+    data: data,
+    beforeSend: function() {
+        showWait('Charging Room Type');
+        setTimeout(function() { unShowWait(); }, 100000);
+    },
+    success: function(msg) {
+            unShowWait();
+ 
+            if (msg['success']) {
+                  swal("The Room Type Changed Correctly", {
+                    icon: "success",
+                }).then(ms => {
+                    location.reload();
+                });
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+    
+
+     
+} 
 function changestatus() {
     $("#EditStatus").modal();
 }

@@ -588,7 +588,7 @@ class channel_model extends CI_Model
 		$dataini=(date('m')==$_POST['monthid'] && date('Y')==$_POST['yearid']?date('Y-m-d'):date('Y-m-d',strtotime($_POST['yearid'].'-'.$_POST['monthid'].'-01')));
 		if($_POST['opt']==2)
 		{
-			$test=get_data('ConfigUsers',array('hotelID'=>hotel_id(),'UserID'=>user_id()))->row_array(); 
+			$test=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array(); 
 
 			if(count($test)>0)
 			{

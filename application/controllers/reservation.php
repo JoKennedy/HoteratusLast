@@ -288,14 +288,193 @@ class reservation extends Front_Controller {
 				
 			}
 
-	$data['detail']=$html;
-	$data['header']="Date Range: $start_date To $end_date";
+		$data['detail']=$html;
+		$data['header']="Date Range: $start_date To $end_date";
 
-	echo json_encode($data);
+		echo json_encode($data);
+	}
+	function findroomtypesavailable()
+	{
+
+		$nights =0;
+		if(date('Y-m-d',strtotime($_POST['date1Edit']))<date('Y-m-d') && date('Y-m-d',strtotime($_POST['date2Edit']))>date('Y-m-d') )
+		{
+			$_POST['date1Edit']=date('Y-m-d');
+	        $nights         =   ceil(abs(strtotime($_POST['date2Edit']) - strtotime($_POST['date1Edit'])) / 86400);
+
+		}
+
+		$result		=	$this->reservation_model->findRoomsAvailable();
+
+		$available ='';
+        if (count($result)>=0 ) {
+            $i=0;
+            foreach ($result as $value) {
+                
+                
+            	if($value['room_id']!=$_POST['roomtype'])
+            	{
+
+
+                    if ($value['avgprice']>$_POST['avg']) {
+                        $value['upgrade']=1;
+                    }
+                    else if ($value['avgprice']<$_POST['avg']) {
+                        $value['upgrade']=-1;
+                    }
+                    else if ($value['avgprice']==$_POST['avg']) {
+                        $value['upgrade']=0;
+                    }
+                    $value['chargenight']=$value['avgprice']-$_POST['avg'];
+                    $available[$i]=$value;
+                    $i++;
+                }
+
+            }
+        }
+
+        if(is_array($available))
+         {
+         	$html='';
+			$html.='<div class="graph">
+				<div class="table-responsive">
+						<div class="clearfix"></div>
+						<table  class="table table-bordered">
+								<thead>
+										<tr>
+												<th>Room Type</th>
+												<th style="text-align:center;">Category</th>
+												<th style="text-align:center;">Change</th>
+										</tr>
+															 </thead>
+								<tbody>';
+			$i=0;
+			foreach ($available as  $value) {
+				$i++;
+				$html.=' <tr  class="'.($i%2?'active':'success').'"> <td>'.$value['property_name'].'  </td> 
+						<td  align="center">'.($value['upgrade']==1?'Upgrade':($value['upgrade']==0?'Same Level':'Downgrade')).' </td>
+						<td  align="center"><a  onclick="changeroomtype('."'".$value['room_id']."','$nights','".$value['upgrade']."','".number_format($value['chargenight'], 2, '.', '')."'".');">
+						 <i class="fa fa-check-circle fa-2x"></i></a> </td> </tr>';
+
+
+			}
+			$html.='</tbody></table></div> </div>';
+
+			echo json_encode(array('success'=>true,'html'=>$html));
+			return;
+         }
+     echo json_encode(array('success'=>false,'message'=>"There aren't Rooms Available for this date range"));
+
+		
+	}
+	function changeroomtype()
+	{
+
+		$upgrade=$_POST['upgrade'];
+		$channelid=$_POST['channelid'];
+		$reservationid=$_POST['resid'];
+		$nights =0;
+		if(date('Y-m-d',strtotime($_POST['date1Edit']))<date('Y-m-d') && date('Y-m-d',strtotime($_POST['date2Edit']))>date('Y-m-d') )
+		{
+			$_POST['date1Edit']=date('Y-m-d');
+	        $nights         =   ceil(abs(strtotime($_POST['date2Edit']) - strtotime($_POST['date1Edit'])) / 86400);
+
+		}
+
+		$checkout_date=date('Y-m-d',strtotime($_POST['date2Edit']."-1 days"));
+		require_once(APPPATH.'controllers/arrivalreservations.php');
+        $callAvailabilities = new arrivalreservations();
+        
+        $callAvailabilities->updateavailability(0,$_POST['roomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'changer'); 
+        $callAvailabilities->updateavailability(0,$_POST['nroomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'new'); 
+
+
+        require_once(APPPATH.'models/room_auto_model.php');
+        $roomassig = new room_auto_model();
+        
+        $this->load->model("room_auto_model");       
+        $RoomNumber =  $roomassig->Assign_room(hotel_id(),$_POST['nroomtype'],$_POST['date1Edit'],$_POST['date2Edit'] );
+        
+         
+
+         $roomused=$this->db->query("select * from roomnumberused where reservationid=$reservationid and channelid=$channelid")->row_array();
+
+
+		if(count($roomused)>0)
+		{
+			$history = array('channel_id'=>$channelid,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Room type Changed and Room Number Changed '.$roomused['roomnumber'].' To '.$RoomNumber.'  by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+	    	insert_data('new_history',$history);
+
+			update_data('roomnumberused',array('roomnumber'=>$RoomNumber,'roomid'=>$_POST['nroomtype']),array('roomnumberusedid'=>$roomused['roomnumberusedid']));
+		}
+		else
+		{
+			$history = array('channel_id'=>$channelid,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Room type Changed and The Room Number Assinged is ['.$RoomNumber.']  by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+	    	insert_data('new_history',$history);
+
+	    	$roominfo['checkin']=$_POST['checkin'];
+	    	$roominfo['checkout']=$_POST['checkout'];
+	    	$roominfo['roomid']=$_POST['nroomtype'];
+	    	$roominfo['roomnumber']=$RoomNumber;
+	    	$roominfo['hotelid']=hotel_id();
+	    	$roominfo['reservationid']=$reservationid;
+	    	$roominfo['channelid']=$channelid;
+	    	$roominfo['active']=1;
+			insert_data('roomnumberused',$roominfo);
+
+		}
+		 $indata='';
+
+
+         $indata['RoomNumber']=$RoomNumber;
+         $indata['room_id']=$_POST['nroomtype'];
+		if ($channelid==0) {
+			if($upgrade==1)
+	        {
+	        	if ($_POST['opt']==1) {
+	        		# code...
+	        	}
+	        	else if ($_POST['opt']==2) {
+	        		$reserinfo=$this->db->query("select price_details from manage_reservation where reservation_id=$reservationid")->row_array();
+
+	        		$allprices=explode(',', $reserinfo['price_details']);
+
+	        		$newallprice='';
+	        		$total=count($allprices)-$nights;
+	        		$i=1;
+	        		foreach ($allprices as  $value) {
+	        			if ($i<=$total) {
+	        				
+	        				$newallprice .=$value.",";
+	        			}
+	        			$i++;
+	        		}
+	        		print_r($allprices);
+	        		for ($i=0; $i < $nights; $i++) { 
+	        			$newallprice .=$_POST['nprice'].",";
+	        		}
+
+	        		$indata['price_details']=$newallprice;
+	        	}
+	        	else if ($_POST['opt']==3) {
+	        		# code...
+	        	}
+	        }
+			update_data('manage_reservation', $indata,array('reservation_id'=>$reservationid));
+		}
+		else if($channelid==1) {
+			update_data('import_reservation_EXPEDIA',array('RoomNumber'=>$RoomNumber),array('import_reserv_id'=>$reservationid));
+		}
+		else if($channelid==2) {
+			update_data('import_reservation_BOOKING_ROOMS',array('RoomNumber'=>$RoomNumber),array('room_res_id'=>$reservationid));
+		}
+		
+		echo json_encode(array('success'=>true));
+  	echo $total;
+
 
 
 	}
-	
 	function Reservation_changedate($reservationid)
 	{
 		

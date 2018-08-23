@@ -163,7 +163,7 @@
                                                 <label for="stops" >Stop Sales</label> <br>
                                                 <input  name="room['.$value['property_id'].'][stops]" id="stops" type="radio" value="1" >
                                                 <label for="stops">Y</label>
-                                                <input  name="room['.$value['property_id'].'][stops]" id="stops" type="radio" value="0" >
+                                                <input  name="room['.$value['property_id'].'][stops]" id="stops" type="radio" value="2" >
                                                 <label for="stops">N</label>
                                             </td> 
                                         </tr>';

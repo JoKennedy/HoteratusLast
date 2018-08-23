@@ -892,7 +892,7 @@ die;
 		{
 			if($type!='update')
 			{
-				$connected_room = get_data(MAP,array('owner_id'=>$owner_id,'hotel_id'=>hotel_id(),'channel_id'=>$channel_id),'import_mapping_id')->result_array();
+				$connected_room = get_data(MAP,array('hotel_id'=>hotel_id(),'channel_id'=>$channel_id),'import_mapping_id')->result_array();
 				if(count($connected_room)!=0)
 				{
 					foreach($connected_room as $import_mapping)
@@ -920,7 +920,7 @@ die;
 			$result = $this->db->get(IM_RECO.' as R');
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -962,7 +962,7 @@ die;
 			/* ----- End Of Get Sub Rooms ------ */
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -1008,7 +1008,7 @@ die;
 			/* ----- End Of Get Sub Rooms ------ */
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -1016,7 +1016,7 @@ die;
 			}
 		}
 
-			elseif($channel_id=='36')
+		elseif($channel_id=='36')
 		{
 			if($type!='update')
 			{
@@ -1053,7 +1053,7 @@ die;
 			/* ----- End Of Get Sub Rooms ------ */
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -1084,7 +1084,7 @@ die;
 			}
 			$clean = $this->cleanArray($import);
 			$bk_details = booking_hotel_id();
-			$this->db->select('B.import_mapping_id, B.room_name, B.policy_id, B.rate_name,B.B_rate_id');
+			$this->db->select('B.import_mapping_id, B.room_name as RoomName, B.policy_id, B.rate_name,B.B_rate_id');
 			if($clean!='')
 			{
 				$this->db->where_not_in('B.import_mapping_id',$import);
@@ -1095,7 +1095,7 @@ die;
 			$result = $this->db->get(BOOKING.' as B');
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -1135,7 +1135,7 @@ die;
 			$result = $this->db->get(IM_GTA.' as G');
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -1177,7 +1177,7 @@ die;
 			/* ----- End Of Get Sub Rooms ------ */
 			if($result!='')
 			{
-				return $result->result();
+				return $result->result_array();
 			}
 			else
 			{
@@ -1217,7 +1217,7 @@ die;
 		    $result = $this->db->get('import_mapping_AIRBNB' . ' as A');
 		    /* ----- End Of Get Sub Rooms ------ */
 		    if ($result != '') {
-			return $result->result();
+			return $result->result_array();
 		    } else {
 			return false;
 		    }

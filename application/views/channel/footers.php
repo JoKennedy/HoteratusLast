@@ -77,7 +77,7 @@
 							{
 								echo '<div style="width:200px; height:150px; overflow:auto; "  >';
 								foreach ($channelConnected as  $channel) {
-								echo '<li id="menu-academico-avaliacoes"><a href="#">'.$channel['channel_name'].'</a></li>';
+								echo '<li id="menu-academico-avaliacoes"><a href="'.base_url().'mapping/mappingRooms/'.insep_encode($channel['channel_id']).'">'.$channel['channel_name'].'</a></li>';
 								}
 								echo '</div>';
 							}

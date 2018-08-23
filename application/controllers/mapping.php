@@ -339,7 +339,166 @@ class Mapping extends Front_Controller {
         }
     }
 	
-	
+
+    function mappingRooms($channelID)
+    {   
+        $this->is_login();
+        $data['page_heading'] = 'Room Mapping';
+        $user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+        $data= array_merge($user_details,$data);
+        $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+        $channelID=insep_decode($channelID);
+        $data['channelinfo']=get_data('manage_channel',array('channel_id'=>$channelID))->row_array();
+         if($channelID=='1')
+        {
+            $data['roomsunmapped']            =   $this->mapping_model->get_mapping_rooms($channelID);
+            $data['roomsmapped']    =   $this->mapping_model->get_all_mapped_rooms($channelID);
+        }
+        else if($channelID=='2')
+        {
+                $data['roomsunmapped'] =$this->mapping_model->get_mapping_rooms($channelID);
+                $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);           
+        }
+        else if($channelID=='9')
+        {
+            $data['roomsunmapped'] = $this->mapping_model->get_mapping_rooms($channelID);
+            $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);            
+        }
+        else if($channelID=='19')
+        {
+            $data['roomsunmapped']=$this->mapping_model->get_mapping_rooms($channelID);
+            $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);
+        }
+/*
+         elseif($connect=='36')
+        {
+           
+            $data['despegar']            =   $this->mapping_model->get_mapping_rooms($connect);
+            $despegar_all                =   $this->mapping_model->get_all_mapping_rooms($connect);
+            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);
+
+            if($despegar_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+        }
+         elseif($connect=='40' || $connect=='41' || $connect=='42')
+        {
+           
+            require_once(APPPATH.'models/hotusagroup_model.php'); 
+            $hotusa = new hotusagroup_model();
+            $data['hotusagroup']  =   $hotusa->get_mapping($connect);
+            $hotusagroup_all   =   $hotusa->get_all_mapping_rooms($connect);
+            $data['channel_details']    =   $hotusa->get_all_mapped_rooms($connect);
+
+            if($hotusagroup_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+        }
+
+        else if($connect=='11')
+        {
+            //$this->getchannel($id);
+            $data['reconline']          =   $this->mapping_model->get_mapping_rooms($connect);
+            $reconline_all              =   $this->mapping_model->get_all_mapping_rooms($connect);
+            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);           
+            if($reconline_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+        }
+     
+        else if($connect=='8')
+        {
+            //$this->getchannel($id);
+            $data['gta']                =   $this->mapping_model->get_mapping_rooms($connect);
+            $booking_all                =   $this->mapping_model->get_all_mapping_rooms($connect);
+            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);
+            if($booking_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+            
+        }
+    
+        else if($connect=='19')
+        {
+
+            //$this->getchannel($id);
+            $data['agoda']=$this->mapping_model->get_mapping_rooms($connect);
+            $agoda_all  = $this->mapping_model->get_all_mapping_rooms($connect);
+            $data['channel_details'] = $this->mapping_model->get_all_mapped_rooms($connect);
+            if($agoda_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+        }
+        else if($connect == '5')
+        {
+            //$this->getchannel($id);
+            $data['hotelbeds']          =   $this->mapping_model->get_mapping_rooms($connect);
+            $booking_all                =   $this->mapping_model->get_all_mapping_rooms($connect);
+            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);
+            if($booking_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+        }
+        else if($connect == '17')
+        {
+            //$this->getchannel($id);
+            require_once(APPPATH.'controllers/bnow.php'); 
+            $callAvailabilities = new Bnow();
+            $mapping_settings = $callAvailabilities->mapping_settings($connect);
+            $data['bnow']               =   $mapping_settings['bnow'];
+            $data['channel_details']    =   $mapping_settings['channel_details'];
+            if(count(@$mapping_settings['import_need']))
+            {
+                $data['import_need']    =   $mapping_settings['import_need'];
+            }
+        }
+        else if($connect == '15')
+        {
+            //$this->getchannel($id);
+            require_once(APPPATH.'controllers/travelrepublic.php'); 
+            $callAvailabilities = new Travelrepublic();
+            $mapping_settings = $callAvailabilities->mapping_settings($connect);
+            $data['travel']               =   $mapping_settings['travel'];
+            $data['channel_details']    =   $mapping_settings['channel_details'];
+            if(count(@$mapping_settings['import_need']))
+            {
+                $data['import_need']    =   $mapping_settings['import_need'];
+            }
+        }
+        else if($connect == '14')
+        {
+        
+            //$this->getchannel($id);
+            $data['wbeds']                =   $this->wbeds_model->get_mapping_rooms($connect);
+            $booking_all                =   $this->wbeds_model->get_all_mapping_rooms($connect);
+            $data['channel_details']    =   $this->wbeds_model->get_all_mapped_rooms($connect);
+            if($booking_all=='0')
+            {
+                $data['import_need'] = " Need to import the room for mapping!!!";
+            }
+            
+
+        }
+        else
+        {
+            $data['channel_details']    =   array();
+            $data['import_need']        =   " Need to import the room for mapping!!!";
+        }
+        
+print_r($data);
+die;
+*/
+
+
+
+        $this->views('channel/mappingrooms',$data);
+    }
 	
 	
 	

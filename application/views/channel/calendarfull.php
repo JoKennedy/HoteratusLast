@@ -10,7 +10,7 @@
     <!--//sub-heard-part-->
     <div style="float: left;" class="buttons-ui">
         <div class="col-md-7 form-group1">
-            <select onchange="Calendario()" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
+            <select onchange="Calendario(0,1)" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
                 <?php
                         $showreservation=(isset($userConfig['CalenderShowR'])?$userConfig['CalenderShowR']:0);
 
@@ -24,7 +24,7 @@
             </select>
         </div>
         <div class="col-md-5 form-group1">
-            <select onchange="Calendario()" style="width: 100%; padding: 9px;" name="yearid" id="yearid">
+            <select onchange="Calendario(0,1)" style="width: 100%; padding: 9px;" name="yearid" id="yearid">
                 <?php
 
 						$lastyear=date('Y',strtotime($YearM));

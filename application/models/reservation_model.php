@@ -3174,7 +3174,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                    
                    $prices += $value['price'];
 
-                   $pricesdetails .= $value['price'].',';
+                   $pricesdetails .= (strlen($pricesdetails)>0?',':'').$value['price'];
                }
                
 

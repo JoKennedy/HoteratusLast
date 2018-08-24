@@ -325,7 +325,7 @@ class reservation extends Front_Controller {
                     else if ($value['avgprice']==$_POST['avg']) {
                         $value['upgrade']=0;
                     }
-                    $value['chargenight']=$value['avgprice']-$_POST['avg'];
+                    $value['chargenight']=$value['avgprice'];
                     $available[$i]=$value;
                     $i++;
                 }
@@ -380,13 +380,16 @@ class reservation extends Front_Controller {
 	        $nights         =   ceil(abs(strtotime($_POST['date2Edit']) - strtotime($_POST['date1Edit'])) / 86400);
 
 		}
-
+		else
+		{
+			$nights         =   ceil(abs(strtotime($_POST['date2Edit']) - strtotime($_POST['date1Edit'])) / 86400);
+		}
 		$checkout_date=date('Y-m-d',strtotime($_POST['date2Edit']."-1 days"));
 		require_once(APPPATH.'controllers/arrivalreservations.php');
         $callAvailabilities = new arrivalreservations();
         
         $callAvailabilities->updateavailability(0,$_POST['roomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'changer'); 
-        $callAvailabilities->updateavailability(0,$_POST['nroomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'new'); 
+        
 
 
         require_once(APPPATH.'models/room_auto_model.php');
@@ -412,8 +415,8 @@ class reservation extends Front_Controller {
 			$history = array('channel_id'=>$channelid,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Room type Changed and The Room Number Assinged is ['.$RoomNumber.']  by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
 	    	insert_data('new_history',$history);
 
-	    	$roominfo['checkin']=$_POST['checkin'];
-	    	$roominfo['checkout']=$_POST['checkout'];
+	    	$roominfo['checkin']=$_POST['date1Edit'];
+	    	$roominfo['checkout']=$_POST['date2Edit'];
 	    	$roominfo['roomid']=$_POST['nroomtype'];
 	    	$roominfo['roomnumber']=$RoomNumber;
 	    	$roominfo['hotelid']=hotel_id();
@@ -425,7 +428,7 @@ class reservation extends Front_Controller {
 		}
 		 $indata='';
 
-
+		 $nuevototal=0;
          $indata['RoomNumber']=$RoomNumber;
          $indata['room_id']=$_POST['nroomtype'];
 		if ($channelid==0) {
@@ -434,7 +437,7 @@ class reservation extends Front_Controller {
 	        	if ($_POST['opt']==1) {
 	        		# code...
 	        	}
-	        	else if ($_POST['opt']==2) {
+	        	else if ($_POST['opt']==2 || $_POST['opt']==3 ) {
 	        		$reserinfo=$this->db->query("select price_details from manage_reservation where reservation_id=$reservationid")->row_array();
 
 	        		$allprices=explode(',', $reserinfo['price_details']);
@@ -445,22 +448,28 @@ class reservation extends Front_Controller {
 	        		foreach ($allprices as  $value) {
 	        			if ($i<=$total) {
 	        				
-	        				$newallprice .=$value.",";
+	        				$newallprice .=(strlen($newallprice)>0?',':'').$value;
+	        				$nuevototal +=$value;
+	   
 	        			}
 	        			$i++;
 	        		}
-	        		print_r($allprices);
+	        		
 	        		for ($i=0; $i < $nights; $i++) { 
-	        			$newallprice .=$_POST['nprice'].",";
+	        			$newallprice .=(strlen($newallprice)>0?',':'').$_POST['nprice'];
+	        			$nuevototal +=$_POST['nprice'];
 	        		}
 
 	        		$indata['price_details']=$newallprice;
+	        		$indata['price']=$nuevototal;
+	        		$indata['description']=$nights;
+	        		
 	        	}
-	        	else if ($_POST['opt']==3) {
-	        		# code...
-	        	}
+
 	        }
 			update_data('manage_reservation', $indata,array('reservation_id'=>$reservationid));
+			$this->db->query("update reservationinvoice  a left join reservationinvoicedetails b on a.reservationinvoiceid=b.reservationinvoiceId
+	        			set b.total =".$_POST['nprice']." where item='booking' and str_to_date(description,'%M %d, %Y') >='".$_POST['date1Edit']."' and channelId=0 and reservationId=$reservationid");
 		}
 		else if($channelid==1) {
 			update_data('import_reservation_EXPEDIA',array('RoomNumber'=>$RoomNumber),array('import_reserv_id'=>$reservationid));
@@ -468,9 +477,9 @@ class reservation extends Front_Controller {
 		else if($channelid==2) {
 			update_data('import_reservation_BOOKING_ROOMS',array('RoomNumber'=>$RoomNumber),array('room_res_id'=>$reservationid));
 		}
-		
+		 $callAvailabilities->updateavailability(0,$_POST['nroomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'new');
 		echo json_encode(array('success'=>true));
-  	echo $total;
+  	
 
 
 
@@ -725,7 +734,7 @@ class reservation extends Front_Controller {
 		}
 		if($statusid==3)
 		{
-			$data['status']='Canceled';
+			$data['status']='No Show';
 			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
 			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To No Show by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);

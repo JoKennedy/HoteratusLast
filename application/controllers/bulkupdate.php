@@ -52,12 +52,8 @@ class bulkupdate extends Front_Controller
 		}
 		
 
-		print_r($_POST['room']);
 		$rooms=cleanArray($_POST['room']);
-		print_r($rooms);
-		
-
-
+	
 		if(count($rooms)>0)
 		{
 			foreach ($rooms as $roomid => $room) {

@@ -338,7 +338,7 @@ function saveReservation()
         data: data,
         beforeSend: function() {
             showWait('Saving Reservation');
-            setTimeout(function() { unShowWait(); }, 10000);
+            setTimeout(function() { unShowWait(); }, 100000);
         },
         success: function(msg) {
 

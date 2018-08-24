@@ -299,7 +299,7 @@
                                                     echo '  <tr class="'.($i%2?'active':'success').'">
                                                                 <td>'.$weekday.'</td>
                                                                 <td>'.$ran->format('M d, Y').'</td>
-                                                                <td>'.$currency.' '.$pricede.'</td>
+                                                                <td>'.$currency.' '.number_format($pricede, 2, '.', ',').'</td>
                                                             </tr>';
                                                 }
 
@@ -1102,8 +1102,8 @@ function changeroomtypeup(opt)
         }
         nprice=$("#newprice").val();
    }
-   var tipo=$("#nroomtype").val();
-    var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype,'nroomtype':tipo, 'resid':resID,'channelid':channelid,'upgrade':1, 'username':userName,'opt':opt,'nprice':nprice};
+ 
+    var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype,'nroomtype':$("#nroomtype").val(), 'resid':resID,'channelid':channelid,'upgrade':1, 'username':userName,'opt':opt,'nprice':nprice};
     $.ajax({
     type: "POST",
     dataType: "json",

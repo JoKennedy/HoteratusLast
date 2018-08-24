@@ -68,7 +68,7 @@
             }
             else
             {
-                 echo '<h2 class="h1 blue" style="text-align:center; color:#00c6d7">All Rooms Types Were Mapped</h2>';
+                 echo '<h2 class="" style="text-align:center; color:#00c6d7">All Rooms Types Were Mapped</h2>';
             }
             if(count($roomsmapped)>0)
             {

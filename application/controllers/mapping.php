@@ -339,7 +339,76 @@ class Mapping extends Front_Controller {
         }
     }
 	
+    function savemappingroom()
+    {
+       
 
+        $data['owner_id']=user_id();
+        $data['hotel_id']=hotel_id();
+        $data['property_id']=$_POST['roomid'];
+        $data['rate_id']=0;
+        $data['import_mapping_id']=$_POST['roomchannelid'];
+        $data['updatetypes']=implode(',',$_POST['opt']);
+        $data['rate_conversion']=$_POST['convertion'];
+        $data['channel_id']=$_POST['channelid'];
+        
+        if(insert_data(MAP,$data))
+        {
+             echo json_encode(array('success'=>true));
+        }
+        else
+        {
+             echo json_encode(array('success'=>false,'message'=>"Something went wrong"));
+        }
+
+    }
+    function updatemappingroom()
+    {
+
+        $data['property_id']=$_POST['roomidup'];
+        $data['updatetypes']=implode(',',$_POST['optup']);
+        $data['rate_conversion']=$_POST['convertionup'];
+        $data['enabled']=(isset($_POST['statusid'])?'enabled':'disabled');
+        
+        if(update_data(MAP,$data,array('mapping_id'=>$_POST['mapping_id'])))
+        {
+             echo json_encode(array('success'=>true));
+        }
+        else
+        {
+             echo json_encode(array('success'=>false,'message'=>"Something went wrong"));
+        }
+
+    }
+    function deletemappingroom()
+    {
+
+       
+        $this->db->query("delete from ".MAP." where mapping_id=".$_POST['id']);
+
+        echo json_encode(array('success'=>true));
+    }
+    function saveNRoom()
+    {
+       
+
+        $data['user_id']=user_id();
+        $data['hotel_id']=hotel_id();
+        $data['channel_id']=9;
+        $data['RoomId']=$_POST['nroomid'];
+        $data['RoomName']=$_POST['nroomname'];
+    # import_mapping_id, user_id, hotel_id, channel_id, RoomId, RoomName
+
+        if(insert_data('import_mapping_AIRBNB',$data))
+        {
+             echo json_encode(array('success'=>true));
+        }
+        else
+        {
+             echo json_encode(array('success'=>false,'message'=>"Something went wrong"));
+        }
+
+    }
     function mappingRooms($channelID)
     {   
         $this->is_login();
@@ -349,12 +418,18 @@ class Mapping extends Front_Controller {
         $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
         $channelID=insep_decode($channelID);
         $data['channelinfo']=get_data('manage_channel',array('channel_id'=>$channelID))->row_array();
-         if($channelID=='1')
+        $data['AllRooms']=get_data('manage_property',array('hotel_id'=>hotel_id()))->result_array();
+        if($channelID=='1')
         {
             $data['roomsunmapped']            =   $this->mapping_model->get_mapping_rooms($channelID);
             $data['roomsmapped']    =   $this->mapping_model->get_all_mapped_rooms($channelID);
         }
         else if($channelID=='2')
+        {
+                $data['roomsunmapped'] =$this->mapping_model->get_mapping_rooms($channelID);
+                $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);       
+        }
+         else if($channelID=='8')
         {
                 $data['roomsunmapped'] =$this->mapping_model->get_mapping_rooms($channelID);
                 $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);           
@@ -364,7 +439,17 @@ class Mapping extends Front_Controller {
             $data['roomsunmapped'] = $this->mapping_model->get_mapping_rooms($channelID);
             $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);            
         }
-        else if($channelID=='19')
+        else if($channelID=='14')
+        {
+            $data['roomsunmapped']=$this->mapping_model->get_mapping_rooms($channelID);
+            $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);
+        }
+         else if($channelID=='19')
+        {
+            $data['roomsunmapped']=$this->mapping_model->get_mapping_rooms($channelID);
+            $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);
+        }
+        else if($channelID=='40' || $channelID=='41' || $channelID=='42')
         {
             $data['roomsunmapped']=$this->mapping_model->get_mapping_rooms($channelID);
             $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);
@@ -1201,21 +1286,15 @@ die;
     
     function getchannel($channel_id = '')
     {
-		$buffChannel_id = $channel_id;
+		
        
-        if(admin_id()=='')
-        {
             $this->is_login();
-        }
-        else
-        {
-            $this->is_admin();
-        }
-        if(user_type()=='1' || user_type()=='2' && in_array('6',user_edit()) || admin_id()!='' && admin_type()=='1')
-        {
-			if(!$channel_id){
+   
+			if($channel_id == ''){
 				extract($this->input->post());
 			}
+
+
             if($channel_id!='')
             {
                 $cha_name = ucfirst(get_data(TBL_CHANNEL,array('channel_id'=>insep_decode($channel_id)))->row()->channel_name);
@@ -1802,7 +1881,7 @@ die;
 
 
 
-            $xml_data = '<OTA_HotelDescriptiveInfoRQ xmlns="http://www.despegar.com/hotels/ota/v1/" Version="1.002" >
+                $xml_data = '<OTA_HotelDescriptiveInfoRQ xmlns="http://www.despegar.com/hotels/ota/v1/" Version="1.002" >
                                   <HotelDescriptiveInfos>
                                     <HotelDescriptiveInfo HotelCode="'.$re_details->hotel_channel_id.'" />
                                   </HotelDescriptiveInfos>
@@ -2812,18 +2891,9 @@ die;
                 $meg['content']='Error during import room rate information from '.$cha_name.'. Try again!';
                 echo json_encode($meg);
             }
-        }
-        else
-        {
-            $meg['result'] = '0';
-            $meg['content']=" You don't have permission to import romm rate!";
-            echo json_encode($meg);
-        }
-		//if($buffChannel_id == ''){
-			//redirect('mapping/settings/'.$this->input->post('channel_id'),'refresh');
-		//}      
-        
-    }
+       
+	}
+    
     
     function importRates($channel_id,$propertyid,$rate_id,$guest_count,$refun_type)
     {

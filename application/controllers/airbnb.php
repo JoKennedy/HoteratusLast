@@ -70,7 +70,7 @@ class Airbnb extends Front_Controller
                 $outStr = $match[1];
             }
 
-            if ($finalRoomArr) {
+            if (isset($finalRoomArr)) {
                 if (count($finalRoomArr) > 0) {
                     foreach ($finalRoomArr as $room_id => $roomname) {
                         $airbnbData['RoomId']   = $room_id;

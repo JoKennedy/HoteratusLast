@@ -7,10 +7,6 @@
  */
 class cURL {
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
      var $headers;
     
      var $user_agent;
@@ -25,8 +21,9 @@ class cURL {
 	 
 	 var $callCount = 0;
 
-	 function cURL($cookies=TRUE,$cookie='cookies.txt',$compression='gzip,deflate',$proxy='') {
-           $this->headers[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+	 public function __construct($cookies=TRUE,$cookie='cookies.txt',$compression='gzip,deflate',$proxy='')
+	{
+		$this->headers[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
            $this->headers[] = "Connection: Keep-Alive";
 		   $this->headers[] = " Content-type: application/x-www-form-urlencoded";
            //$this->user_agent = "Mozilla/5.0 (Windows NT 6.1; rv:26.0) Gecko/20100101 Firefox/26.0";
@@ -44,7 +41,8 @@ class cURL {
            if ($this->cookies == TRUE) $this->cookie($cookie); 
 
 		   echo "--$this->cookies 222--";*/
-     }
+	}
+	 
     
      function cookie($cookie_file) {
           if (file_exists($cookie_file)) {

@@ -911,7 +911,7 @@ die;
 				$import[] ='';
 			}
 			$clean = $this->cleanArray($import);
-			$this->db->select('R.IDROOM, R.CODE, R.re_id');
+			$this->db->select('R.IDROOM roomid, R.CODE , R.re_id import_mapping_id, r.IDRATECODE rateid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('R.re_id',$import);
@@ -951,7 +951,7 @@ die;
 			}
 			$clean = $this->cleanArray($import);
 			/* ----- Get Sub Rooms ------ */
-			$this->db->select('E.map_id, E.roomtype_name, E.roomtype_id, E.name');
+			$this->db->select('E.map_id import_mapping_id, E.roomtype_name, E.roomtype_id roomid, E.name RoomName ,E.rate_type_id rateid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('E.map_id',$import);
@@ -994,7 +994,7 @@ die;
 			$clean = $this->cleanArray($import);
 			
 			/* ----- Get Sub Rooms ------ */
-			$this->db->select('E.map_id, E.roomtype_name, E.roomtype_id, E.code, E.name, E.distributionModel, E.rateAcquisitionType');
+			$this->db->select('E.map_id import_mapping_id, E.roomtype_name, E.roomtype_id roomid, E.code, roomtype_name RoomName, E.distributionModel, E.rateAcquisitionType, rate_type_id rateid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('E.map_id',$import);
@@ -1041,7 +1041,7 @@ die;
 			$clean = $this->cleanArray($import);
 			
 			/* ----- Get Sub Rooms ------ */
-			$this->db->select('E.import_mapping_id, E.nameRoomType, E.codeRoomType, E.rate_name, E.RateTypeCode');
+			$this->db->select('E.import_mapping_id, E.nameRoomType, E.codeRoomType roomid, E.rate_name, E.RateTypeCode rateid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('E.import_mapping_id',$import);
@@ -1084,7 +1084,7 @@ die;
 			}
 			$clean = $this->cleanArray($import);
 			$bk_details = booking_hotel_id();
-			$this->db->select('B.import_mapping_id, B.room_name as RoomName, B.policy_id, B.rate_name,B.B_rate_id');
+			$this->db->select('B.import_mapping_id, B.room_name as RoomName, B.policy_id, B.rate_name,B.B_rate_id rateid,B.B_room_id roomid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('B.import_mapping_id',$import);
@@ -1126,7 +1126,7 @@ die;
 			}
 			$clean = $this->cleanArray($import);
 			
-			$this->db->select('G.GTA_id, G.RoomType, G.Description,G.rateplan_code,G.contract_type,G.ID,G.RateBasis,G.MaxOccupancy');
+			$this->db->select('G.GTA_id import_mapping_id, G.RoomType roomid, G.Description RoomName,G.rateplan_code,G.contract_type,G.ID,G.RateBasis,G.MaxOccupancy, rateplan_id rateid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('G.GTA_id',$import);
@@ -1167,7 +1167,7 @@ die;
 			$clean = $this->cleanArray($import);
 			
 			/* ----- Get Sub Rooms ------ */
-			$this->db->select('H.map_id, H.contract_name, H.sequence, H.roomname, H.roomtype, H.characterstics');
+			$this->db->select('H.map_id import_mapping_id, H.contract_name, H.sequence, H.roomname, H.roomtype roomid, H.characterstics, 0rateid');
 			if($clean!='')
 			{
 				$this->db->where_not_in('H.map_id',$import);
@@ -1188,6 +1188,41 @@ die;
 		elseif ($channel_id == '9') {
 		    if ($type != 'update') {
 			$connected_room = get_data(MAP, array(
+			    'hotel_id' => hotel_id(),
+			    'channel_id' => $channel_id
+			), 'import_mapping_id')->result_array();
+			if (count($connected_room) != 0) {
+			    foreach ($connected_room as $import_mapping) {
+				extract($import_mapping);
+				$import[] = $import_mapping_id;
+			    }
+			} else {
+			    $import[] = '';
+			}
+		    } else {
+			$import[] = '';
+		    }
+		    $clean = $this->cleanArray($import);
+
+		    /* ----- Get Sub Rooms ------ */
+		    $this->db->select('A.import_mapping_id, A.RoomId roomid, A.RoomName RoomName , 0 rateid');
+		    if ($clean != '') {
+			$this->db->where_not_in('A.import_mapping_id', $import);
+		    }
+		    $this->db->where(array(
+			'hotel_id' => hotel_id()
+		    ));
+		    $result = $this->db->get('import_mapping_AIRBNB' . ' as A');
+		    /* ----- End Of Get Sub Rooms ------ */
+		    if ($result != '') {
+			return $result->result_array();
+		    } else {
+			return false;
+		    }
+		}
+		elseif ($channel_id == '14') {
+		    if ($type != 'update') {
+			$connected_room = get_data(MAP, array(
 			    'owner_id' => $owner_id,
 			    'hotel_id' => hotel_id(),
 			    'channel_id' => $channel_id
@@ -1206,7 +1241,7 @@ die;
 		    $clean = $this->cleanArray($import);
 
 		    /* ----- Get Sub Rooms ------ */
-		    $this->db->select('A.import_mapping_id, A.RoomId, A.RoomName');
+		    $this->db->select('A.import_mapping_id, A.codeRoomType roomid, A.nameRoomType RoomName, codeRate rateid');
 		    if ($clean != '') {
 			$this->db->where_not_in('A.import_mapping_id', $import);
 		    }
@@ -1214,7 +1249,44 @@ die;
 			'user_id' => $owner_id,
 			'hotel_id' => hotel_id()
 		    ));
-		    $result = $this->db->get('import_mapping_AIRBNB' . ' as A');
+		    $result = $this->db->get('import_mapping_WBEDS' . ' as A');
+		    /* ----- End Of Get Sub Rooms ------ */
+		    if ($result != '') {
+			return $result->result_array();
+		    } else {
+			return false;
+		    }
+		}
+		elseif ($channel_id == '40' || $channel_id == '41'|| $channel_id == '42' ) {
+		    if ($type != 'update') {
+			$connected_room = get_data(MAP, array(
+			    'owner_id' => $owner_id,
+			    'hotel_id' => hotel_id(),
+			    'channel_id' => $channel_id
+			), 'import_mapping_id')->result_array();
+			if (count($connected_room) != 0) {
+			    foreach ($connected_room as $import_mapping) {
+				extract($import_mapping);
+				$import[] = $import_mapping_id;
+			    }
+			} else {
+			    $import[] = '';
+			}
+		    } else {
+			$import[] = '';
+		    }
+		    $clean = $this->cleanArray($import);
+
+		    /* ----- Get Sub Rooms ------ */
+		    $this->db->select('A.map_id import_mapping_id, A.roomcode roomid, A.roomname RoomName, A.mealplan  rateid');
+		    if ($clean != '') {
+			$this->db->where_not_in('A.map_id', $import);
+		    }
+		    $this->db->where(array(
+			'hotel_id' => hotel_id(),
+			'channel_id'=>$channel_id
+		    ));
+		    $result = $this->db->get('import_mapping_HOTUSAGROUP' . ' as A');
 		    /* ----- End Of Get Sub Rooms ------ */
 		    if ($result != '') {
 			return $result->result_array();
@@ -1283,47 +1355,72 @@ die;
 	
 	function get_all_mapped_rooms($channel_id)
 	{
-		$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel');
+		
 		if($channel_id==2)
-		{
+		{	
+			$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,B.room_name,B.B_room_id room_id,updatetypes ');
+
 			$this->db->join(BOOKING.' as B','R.import_mapping_id=B.import_mapping_id');
-			//$this->db->join(CONNECT.' as C','B.channel_hotel_id=C.hotel_channel_id  ');
+
+
 		}
 		else if($channel_id==1)
 		{
-			$this->db->join(IM_EXP.' as E','R.import_mapping_id=E.map_id');
-			//$this->db->join(CONNECT.' as C','E.hotel_channel_id=C.hotel_channel_id ');
+			$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.roomtype_name room_name,A.roomtype_id room_id,updatetypes');
+			$this->db->join(IM_EXP.' as A','R.import_mapping_id=A.map_id');
+			
 		}
 		else if($channel_id==19)
-		{
+		{	$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,E.name room_name,E.roomtype_id room_id,updatetypes');
 			$this->db->join('import_mapping_AGODA as E','R.import_mapping_id=E.map_id');
 			//$this->db->join(CONNECT.' as C','E.hotel_channel_id=C.hotel_channel_id ');
 		}
 		else if($channel_id==36)
 		{
-			$this->db->join('import_mapping_DESPEGAR as E','R.import_mapping_id=E.import_mapping_id');
+			$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.nameRoomType room_name,A.codeRoomType room_id,updatetypes');
+			$this->db->join(IM_EXP.' as A','R.import_mapping_id=E.map_id');
+			$this->db->join('import_mapping_DESPEGAR as A','R.import_mapping_id=A.import_mapping_id');
 			//$this->db->join(CONNECT.' as C','E.hotelcode=C.hotel_channel_id ');
 		}
 		else if($channel_id==11)
 		{
-			$this->db->join(IM_RECO.' as RE','R.import_mapping_id=RE.re_id');
+			$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.NORMBED room_name,A.IDROOM room_id,updatetypes');
+			$this->db->join(IM_RECO.' as A','R.import_mapping_id=A.re_id');
 			//$this->db->join(CONNECT.' as C','RE.hotel_channel_id=C.hotel_channel_id  ');
 		}
 		else if($channel_id==8)
 		{
+			$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,G.Description room_name,G.Id room_id,updatetypes');
+
 			$this->db->join(IM_GTA.' as G','R.import_mapping_id=G.GTA_id');
 			//$this->db->join(CONNECT.' as C','G.hotel_channel_id=C.hotel_channel_id ');
 		}
 		else if($channel_id==5)
 		{
-			$this->db->join(IM_HOTELBEDS_ROOMS.' as HB','R.import_mapping_id=HB.map_id');
+			$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.roomname room_name,A.roomtype room_id,updatetypes');
+			$this->db->join(IM_HOTELBEDS_ROOMS.' as A','R.import_mapping_id=A.map_id');
 			//$this->db->join(CONNECT.' as C','G.hotel_channel_id=C.hotel_channel_id');
 		}
 		 else if ($channel_id == 9) {
+		 	$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.RoomName room_name,A.RoomId room_id,updatetypes');
+
 		    $this->db->join(IM_AIRBNB . ' as A', 'R.import_mapping_id=A.import_mapping_id');
 		    //$this->db->join(CONNECT.' as C','G.hotel_channel_id=C.hotel_channel_id');
 		}
-		$this->db->where(array('R.owner_id'=>current_user_type(),'R.hotel_id'=>hotel_id(),'R.channel_id'=>$channel_id));
+		else if ($channel_id == 14) {
+		 	$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.nameRoomType room_name,A.codeRoomType room_id,updatetypes');
+
+		    $this->db->join('import_mapping_WBEDS as A', 'R.import_mapping_id=A.import_mapping_id');
+		    //$this->db->join(CONNECT.' as C','G.hotel_channel_id=C.hotel_channel_id');
+		}
+		else if ($channel_id == 40 || $channel_id == 41 || $channel_id == 42) {
+		 	$this->db->select('R.mapping_id,R.owner_id,R.hotel_id,R.property_id,R.rate_id,R.channel_id,R.import_mapping_id,R.guest_count,R.refun_type,R.enabled,R.included_occupancy,R.extra_adult,R.extra_child,R.single_quest,R.update_rate,R.update_availability,R.rate_conversion,R.explevel,C.property_name,A.roomname room_name,A.roomcode room_id,updatetypes');
+
+		    $this->db->join('import_mapping_HOTUSAGROUP as A', 'R.import_mapping_id=A.map_id');
+		    //$this->db->join(CONNECT.' as C','G.hotel_channel_id=C.hotel_channel_id');
+		}
+		 $this->db->join('manage_property as C', 'R.property_id=C.property_id');
+		$this->db->where(array('R.hotel_id'=>hotel_id(),'R.channel_id'=>$channel_id));
 		$query = $this->db->get(MAP.' as R');
 		
 		if($query)

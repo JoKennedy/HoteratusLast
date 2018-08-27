@@ -50,7 +50,7 @@ class bulkupdate_model extends CI_Model
 
 					if(isset($room['stops'])!='')
 					{
-						$roominfo['stop_sell'] =($room['stops']==2?'0':'1');
+						$roominfo['stop_sell'] =($room['stops']!=1?'0':'1');
 						$roominfo['open_room'] =($room['stops']==1?'0':'1');
 
 						if(@$room['availability']=='0')
@@ -64,8 +64,7 @@ class bulkupdate_model extends CI_Model
 
 					if(count($info)!=0)
 					{ 
-						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));
-					}
+						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));					}
 					else
 					{   
 						$roominfo['separate_date'] = date('d/m/Y',strtotime($date));
@@ -76,9 +75,92 @@ class bulkupdate_model extends CI_Model
 						$roominfo['individual_channel_id']= '0';
 						insert_data(TBL_UPDATE, $roominfo);
 					}
+
                 }
 
                 $ChannelsInfo .='Correctly updated hoteratus calendar <br>';
+			}
+			else if($channelid==1)
+			{
+				 $room_mapping = get_data(MAP,array('hotel_id'=>hotel_id(),'channel_id'=>$channelid,'property_id'=>$room['room_id'],'rate_id'=>0,'enabled'=>'enabled'))->row_array();
+
+                     $rate_conversion = $room_mapping['rate_conversion'];
+
+                        if(@$room['price']!='')
+                        {
+                            $price = $room['price']*$rate_conversion;                     
+                        }
+                        else
+                        {
+                         $price ="0";   
+                        }
+              
+
+                      $this->load->model("expedia_model");
+                        $this->expedia_model->bulk_update($room,$room_mapping['import_mapping_id'],$room_mapping['mapping_id'],$price);
+			}
+			else if($channelid==2)
+			{
+
+                           
+                     $room_mapping = get_data(MAP,array('owner_id'=>current_user_type(),'hotel_id'=>hotel_id(),'channel_id'=>$channelid,'property_id'=>$room['room_id'],'rate_id'=>0,'enabled'=>'enabled'))->row_array();
+                     $rate_conversion = $room_mapping['rate_conversion'];
+
+                       if(@$room['price']!='')
+                        {
+                            $price = $room['price']*$rate_conversion;                     
+                        }
+                        else
+                        {
+                         $price ="0";   
+                        }
+
+                        $chk_allow = get_data(CONNECT,array('user_id'=>current_user_type(),'hotel_id'=>hotel_id(),'channel_id'=>2))->row()->xml_type;
+
+                        if($chk_allow==2 || $chk_allow==3)
+                        {
+                            $this->booking_model->bulk_update($room,$room_mapping['import_mapping_id'],$room_mapping['mapping_id'],$price);
+                        }         
+			}
+			else if($channelid==9)
+			{
+				$room_mapping = get_data(MAP,array('hotel_id'=>hotel_id(),'channel_id'=>$channelid,'property_id'=>$room['room_id'],'rate_id'=>0,'enabled'=>'enabled'))->row_array();
+
+                     	$rate_conversion = $room_mapping['rate_conversion'];
+
+                        if(@$room['price']!='')
+                        {
+                            $price = $room['price']*$rate_conversion;                     
+                        }
+                        else
+                        {
+                         $price ="0";   
+                        }
+              
+
+                      $this->load->model("airbnb_model");
+                        $this->airbnb_model->bulk_update($room,$room_mapping['import_mapping_id'],$room_mapping['mapping_id'],$price);
+			
+			}
+			else if($channelid==19)
+			{
+				$room_mapping = get_data(MAP,array('hotel_id'=>hotel_id(),'channel_id'=>$channelid,'property_id'=>$room['room_id'],'rate_id'=>0,'enabled'=>'enabled'))->row_array();
+
+                     	$rate_conversion = $room_mapping['rate_conversion'];
+
+                        if(@$room['price']!='')
+                        {
+                            $price = $room['price']*$rate_conversion;                     
+                        }
+                        else
+                        {
+                         $price ="0";   
+                        }
+              
+
+                      $this->load->model("agoda_model");
+                        $this->agoda_model->bulk_update($room,$room_mapping['import_mapping_id'],$room_mapping['mapping_id'],$price);
+			
 			}
 		}
 
@@ -87,3 +169,5 @@ class bulkupdate_model extends CI_Model
 	}
 	
 }
+
+

@@ -697,10 +697,10 @@ class airbnb_model extends CI_Model
     
     function bulk_update($product, $import_mapping_id, $maping_id, $price)
     {
-        $up_days        = explode(',', @$product['days']);
+        $up_days        =  @$product['days'];
         $start          = date('Y-m-d', strtotime(str_replace('/', '-', @$product['start_date'])));
         $end            = date('Y-m-d', strtotime(str_replace('/', '-', @$product['end_date'])));
-        $period         = $this->getDateForSpecificDayBetweenDates($start, $end, @$product['days']);
+        $period         = $this->getDateForSpecificDayBetweenDates($start, $end, implode(',',$product['days']));
         //print_r($period);
         /* echo $string; die; */
         $ch_details     = get_data(CONNECT, array(
@@ -720,9 +720,9 @@ class airbnb_model extends CI_Model
         ))->row_array();
         
         //$closed = 0;
-        if (@$product['stop_sell'] == "1") {
+        if (@$product['stops'] == "1") {
             $closed = 1;
-        } elseif (@$product['open_room'] == "1") {
+        } elseif (isset($product['stops'])  && $product['stops'] != "1") {
             $closed = 0;
         }
         
@@ -786,13 +786,13 @@ class airbnb_model extends CI_Model
                             $formData['availability'] = 'unavailable';
                         }
                     }
-                    if (@$product['stop_sell'] != '') {
-                        if ($product['stop_sell'] == '1') {
+                    if (@$product['stops'] != '') {
+                        if ($product['stops'] == '1') {
                             $formData['availability'] = 'unavailable';
                         }
                     }
-                    if (@$product['open_room'] != '') {
-                        if ($product['open_room'] == '1') {
+                    if (@$product['stops'] != '') {
+                        if ($product['stops'] != '1') {
                             $formData['availability'] = 'available';
                         }
                     }
@@ -802,6 +802,14 @@ class airbnb_model extends CI_Model
                     $curl->headers[3] = "X-Airbnb-OAuth-Token: $AuthToken";
                     
                     $resultFile = put($url, $content, $curl->headers);
+
+                    $headers = "From: Hoteratus (XML Conection)  <xml@hoteratus.com> \r\n";
+                    $headers .= "Reply-To: Info <info@hoteratus.com>\r\n";
+                    $headers .= "CC: support <felix@hoteratus.com>\r\n";
+                    $headers .= "BCC: datahernandez@gmail.com\r\n";
+                    $headers .= "MIME-Version: 1.0\r\n";
+                    $headers .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
+                     mail("xml@hoteratus.com", "AIRBNB.com Request and Response ".hotel_id(), $resultFile , $headers);
                     writeLog("url=>$url\nAccess TOken=>$AuthToken\nRequest=>$content\n\nResponse=>$resultFile");
                     if (preg_match('/expired_token/is', $resultFile, $match)) {
                         if ($refreshToken == 0) {

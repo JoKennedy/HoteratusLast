@@ -15187,7 +15187,7 @@ BED PREFERENCE:Studio (2 Adults): 1 double - Studio (2 Adults): 1 double
 									$roomName = @get_data(TBL_PROPERTY,array('property_id'=>get_data(MAP,array('channel_id'=>$departure->channel_id,'import_mapping_id'=>get_data(BOOKING,array('B_room_id'=>$departure->id,'B_rate_id'=>$departure->roomtypeId))->row()->import_mapping_id))->row()->property_id))->row()->property_name;
 									$channel_name = "Booking.com";
 
-									$reservation_name = get_data(BOOK_RESERV,array('id'=>get_data(BOOK_RESERV,array('room_res_id'=>$arrival->reservation_id))->row()->reservation_id))->row();
+									$reservation_name = get_data(BOOK_RESERV,array('id'=>get_data(BOOK_RESERV,array('room_res_id'=>$departure->reservation_id))->row()->reservation_id))->row();
 									$Fullname = $reservation_name->first_name.' '.$reservation_name->last_name;
 
 									if($reservation_name->first_name == '' && $reservation_name->last_name == ''){

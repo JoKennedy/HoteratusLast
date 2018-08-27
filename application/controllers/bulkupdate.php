@@ -51,15 +51,14 @@ class bulkupdate extends Front_Controller
 			$DatesRange[$i]['enddate']=$_POST['date2Edit'][$i];
 		}
 		
-
-		$rooms=cleanArray($_POST['room']);
+		$rooms=$this->cleanArray($_POST['room']);
 	
 		if(count($rooms)>0)
 		{
 			foreach ($rooms as $roomid => $room) {
 				
 				$room['room_id']=$roomid;
-
+				$room['days']=$_POST['days'];
 				if (isset($room['availability'])) {
                                 
                     if ($room['availability'] == 0) {
@@ -76,11 +75,9 @@ class bulkupdate extends Front_Controller
             		
 
             			foreach ($periodo['rangos'] as $date) {
-            				
-            				
-	          			                		
-	                		$room['startdate']=$date['startdate'];
-	                		$room['enddate']=$date['enddate'];
+            							                		
+	                		$room['start_date']=$date['startdate'];
+	                		$room['end_date']=$date['enddate'];
 	                		$room['separate']=$date['separate'];
 	                	
 		                    if(isset($room['price'])!=0 && isset($room['price']) !='')
@@ -125,11 +122,35 @@ class bulkupdate extends Front_Controller
 
 			}
 		}
-
+		echo($result);
 		$this->session->set_flashdata('bulk_success', $result );
 	
 	}
 
+    function cleanArray($array)
+    {
+        if (is_array($array))
+        {
+            foreach ($array as $key => $sub_array)
+            {
+                $result = $this->cleanArray($sub_array);
+                if ($result == '')
+				{
+                    unset($array[$key]);
+                }
+                else
+                {
+                    $array[$key] = $result;
+                }
+            }
+        }
+        if ($array == NULL && $array == FALSE && $array == '' || $array == array())
+		//if (empty($array))
+        {
+            return false;
+        }
+        return $array;
+    }
 	function verifysincro()
 	{
 		echo getsincro();

@@ -28,7 +28,7 @@
 			$channelConnected=$this->db->query("SELECT a.*,b.channel_name 
 					FROM user_connect_channel a
 					left join manage_channel b on a.channel_id=b.channel_id
-					where hotel_id=".hotel_id().";")->result_array();
+					where hotel_id=".hotel_id()." and a.channel_id<>39;")->result_array();
 
 
 				$sub=0;

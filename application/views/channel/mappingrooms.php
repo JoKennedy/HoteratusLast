@@ -64,8 +64,14 @@
                 </div>
                 <div class="panel-body">
                     <div class="col-md-6 form-group1">
-                        <label class="control-label">Rate Conversion Multiplier</label>
-                        <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="convertion" id="convertion" type="text" placeholder="Rate Conversion" value="1" required="" >
+                        <label class="control-label">Exchange Rate</label>
+                        <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="convertion" id="convertion" type="text" placeholder="Rate Conversion" value="1" required="" 
+                        data-toggle="tooltip" data-placement="top" title="If the channel and the channel manager have the same currency type '1' else type the conversion rate. Example: Channel Manager have Dollar and Channel Mexican pesos Type = 18.91" >
+
+                    </div>
+                    <div class="col-md-6 form-group1">
+                        <label class="control-label">Increase by Promotion</label>
+                        <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="promotion" id="promotion" type="text" placeholder="Increase by Promotion" value="0" required="" data-toggle="tooltip" data-placement="right" title="Type the percentage of the promotion">
 
                     </div>
                 </div>
@@ -119,10 +125,11 @@
                                 <thead>
                                         <tr>
                                                 <th>#</th>
-                                                <th>Room Type</th>
+                                                <th >Room Type</th>
                                                 <th style="text-align:center;" >Conversion Rate</th>
+                                                <th style="text-align:center;" >Promotion Percentage</th>
                                                 <th style="text-align:center;" >Status</th>
-                                                <th style="text-align:center;">Action</th>
+                                                <th style="text-align:center; width:10%;">Action</th>
                                                 <th style="text-align:center;">Import</th>
                                         </tr>
                                                              </thead>
@@ -130,10 +137,10 @@
                 $i=0;
                 foreach ($roomsmapped as  $value) {
                         $i++;
-                        $update="'".$value['room_name']."(".$value['room_id'].")','".$value['property_id']."','".$value['updatetypes']."','".$value['rate_conversion']."','".$value['mapping_id']."','".$value['enabled']."'";
+                        $update="'".$value['room_name']."(".$value['room_id'].")','".$value['property_id']."','".$value['updatetypes']."','".$value['currencypromotion']."','".$value['mapping_id']."','".$value['enabled']."','".$value['promotion']."'";
 
                         echo ' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
-                            ' </th> <td><strong>'.$value['property_name'].'</strong> Mapped to '.$channelinfo['channel_name'].' ['.$value['room_name'].'('.$value['room_id'].')  </td> <td style="text-align:center;">'.$value['rate_conversion'].'</td><td style="text-align:center;"><h5><span class="label label-'.(strtoupper($value['enabled'])=='ENABLED'?'success':'danger').'">'.strtoupper($value['enabled']).'</span></h5></td>
+                            ' </th> <td><strong>'.$value['property_name'].'</strong> Mapped to '.$channelinfo['channel_name'].' ['.$value['room_name'].'('.$value['room_id'].')  </td> <td style="text-align:center;">'.$value['currencypromotion'].'</td><td style="text-align:center;">'.$value['promotion'].'</td><td style="text-align:center;"><h5><span class="label label-'.(strtoupper($value['enabled'])=='ENABLED'?'success':'danger').'">'.strtoupper($value['enabled']).'</span></h5></td>
                                 <td  align="center"><a onclick="editMapping('.$update.')" data-toggle="tooltip" data-placement="top" title="Update Mapping"><i class="fa fa-pencil-square-o fa-2x"></i></a> <a onclick="deleteMapping('.$value['mapping_id'].')" data-toggle="tooltip" data-placement="top" title="Delete Mapping" ><i class="fa fa-trash-o fa-2x"></i></a></td> 
                                 <td  align="center"><a ><i class="fa fa-check-circle  fa-2x"></i></a> </td></tr>';
                     }
@@ -222,10 +229,16 @@
                                     <h3 style="text-align: center;" class="panel-title">Rate Configuration</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-md-12 form-group1">
-                                        <label class="control-label">Rate Conversion Multiplier</label>
+                                    <div class="col-md-6 form-group1">
+                                        <label class="control-label">Exchange Rate</label>
                                         <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="convertionup" id="convertionup" type="text" placeholder="Rate Conversion"  required=""
-                                        data-toggle="tooltip" data-placement="top" title="Example">
+                                        data-toggle="tooltip" data-placement="top" title="If the channel and the channel manager have the same currency type '1' else type the conversion rate. Example: Channel Manager have Dollar and Channel Mexican pesos Type = 18.91">
+
+                                    </div>
+                                     <div class="col-md-6 form-group1">
+                                        <label class="control-label">Increase by Promotion</label>
+                                        <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="promotionup" id="promotionup" type="text" placeholder="Rate Conversion"  required=""
+                                        data-toggle="tooltip" data-placement="top" title="Type the percentage of the promotion">
 
                                     </div>
                                 </div>
@@ -415,7 +428,7 @@ function importrooms(id) {
     });
 }
 
-function editMapping(roomname,roomid,updatetype,convertion,mapping_id,enable) {
+function editMapping(roomname,roomid,updatetype,convertion,mapping_id,enable,promotion) {
 
     $("#roomnameup").val(roomname);
     $("#roomidup").val(roomid);
@@ -425,6 +438,7 @@ function editMapping(roomname,roomid,updatetype,convertion,mapping_id,enable) {
     });
     $("#statusid").attr('checked',(enable=='enabled'?true:false));
     $("#convertionup").val(convertion);
+    $("#promotionup").val(promotion);
     $("#mapping_id").val(mapping_id);
     $("#EditMapping").modal();
 }

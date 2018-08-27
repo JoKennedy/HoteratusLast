@@ -141,8 +141,8 @@ class Reservation_model extends CI_Model
     {   $hotelid=hotel_id();
         $result=array();
 
-        $type=$this->db->query("select * from paymenttype where hotelid=$hotelid order by description ")->result_array();
-        $method=$this->db->query("select * from paymentmethod where hotelid=$hotelid")->result_array();
+        $type=$this->db->query("select * from paymenttype ")->result_array();
+        $method=$this->db->query("SELECT a.*,b.name FROM paymentmethod a left join providers b on a.providerid=b.providerid where hotelid=$hotelid and b.providerid<>4")->result_array();
 
 
         $result['type']=$type;

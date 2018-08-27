@@ -1460,6 +1460,27 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
 		$this->views('channel/managerooms',$data);
 	}
+	function saveroom()
+	{
+
+		$data['owner_id']=user_id();
+		$data['hotel_id']=hotel_id();
+		$data['children']=$_POST['children'];
+		$data['member_count']=$_POST['adult'];
+		$data['property_name']=$_POST['name'];
+		$data['existing_room_count']=1;
+		$data['status']='Active';
+		$data['pricing_type']=1;
+
+		if(insert_data('manage_property',$data))
+        {
+             echo json_encode(array('success'=>true));
+        }
+        else
+        {
+             echo json_encode(array('success'=>false,'message'=>"Something went wrong"));
+        }
+	}
 	function managepos()
 	{
 		$this->is_login();
@@ -1678,7 +1699,73 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 					where hotel_id=".hotel_id().";")->result_array();
 		$this->views('channel/managechannels',$data);
 	}
+	function ConfigurationChannel($channelid)
+	{
+		$this->is_login();
+    	$data['page_heading'] = 'Configuration Channel';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['ChannelInfo']=$this->db->query("SELECT * 
+					FROM manage_channel  a
+					where  a.channel_id=".insep_decode($channelid))->row_array();
+		$data['Config']=$this->db->query("SELECT * 	FROM user_connect_channel  a
+					where  a.channel_id=".insep_decode($channelid)." and hotel_id=".hotel_id())->row_array();
 
+		$data['AllSupport'] = $this->db->query("select * from ".OPEATIONS." where operations_id in (".$data['ChannelInfo']['supported_operations'].")")->result_array();
+		$data['urls']=$this->db->query("SELECT * 	FROM channel_urls  
+					where  channel_id=".insep_decode($channelid))->row_array();
+		$this->views('channel/configurationchannel',$data);
+	}
+	function saveconfigurationChannel()
+	{
+		$data['hotel_channel_id']=$_POST['hotelid'];
+		$data['status']=(isset($_POST['statusid']) && $_POST['statusid']=='on'?'enabled':'disabled');
+		$data['user_name']=$_POST['username'];
+		$data['user_password']=$_POST['password'];
+		$data['reservation_email']=$_POST['email'];
+	
+
+		if($_POST['user_connect_id']==0)
+		{
+			$data['user_id']=user_id();
+			$data['hotel_id']=hotel_id();
+			$data['channel_id']=$_POST['channelid'];
+			$data['live_url']=$_POST['live_url'];
+			$data['mode']=1;
+			$data['test_url']=$_POST['test_url'];
+			$data['xml_type']=2;
+			$data['connect_date']=date('Y-m-d h:m:s');
+			$data['web_id']=0;
+			$data['cmid']=0;
+			$data['other_id']=0;
+			$data['rate_multiplier']=0;
+			if(insert_data('user_connect_channel',$data))
+	        {
+	             echo json_encode(array('success'=>true));
+	        }
+	        else
+	        {
+	             echo json_encode(array('success'=>false,'message'=>"Something went wrong"));
+	        }
+
+		}
+		else
+		{
+			if(update_data('user_connect_channel',$data,array('user_connect_id'=>$_POST['user_connect_id'])))
+	        {
+	             echo json_encode(array('success'=>true));
+	        }
+	        else
+	        {
+	             echo json_encode(array('success'=>false,'message'=>"Something went wrong"));
+	        }
+		}
+		#   connect_date, web_id, live_url, mode, test_url, xml_type, cmid, other_id
+
+
+		
+	}
 	function changestatus()
 	{
 		echo json_encode($this->channel_model->changestatus($_POST['id']));

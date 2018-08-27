@@ -341,7 +341,24 @@ class Mapping extends Front_Controller {
 	
     function savemappingroom()
     {
-       
+        $conversion=$_POST['convertion'];
+        $converpromo=($_POST['convertion']*(1+($_POST['promotion']/100)));
+        $i=0;
+        if($_POST['promotion']==0 || strlen($_POST['promotion'])==0){
+            $converpromo=$conversion;
+        }else
+        {
+            for ($i=0; $i <10000; $i++) { 
+
+               if(($converpromo-($converpromo*($_POST['promotion']/100)))>=$conversion)
+               {
+
+                 break;
+               }
+               $converpromo+=0.01;
+            }
+        }
+            
 
         $data['owner_id']=user_id();
         $data['hotel_id']=hotel_id();
@@ -349,9 +366,10 @@ class Mapping extends Front_Controller {
         $data['rate_id']=0;
         $data['import_mapping_id']=$_POST['roomchannelid'];
         $data['updatetypes']=implode(',',$_POST['opt']);
-        $data['rate_conversion']=$_POST['convertion'];
+        $data['rate_conversion']=$converpromo;
         $data['channel_id']=$_POST['channelid'];
-        
+        $data['promotion']=$_POST['promotion'];
+         $data['currencypromotion']=$_POST['convertion'];
         if(insert_data(MAP,$data))
         {
              echo json_encode(array('success'=>true));
@@ -364,12 +382,31 @@ class Mapping extends Front_Controller {
     }
     function updatemappingroom()
     {
+        $conversion=$_POST['convertionup'];
+        $converpromo=($_POST['convertionup']*(1+($_POST['promotionup']/100)));
+        $i=0;
+        if($_POST['promotionup']==0 || strlen($_POST['promotionup'])==0){
+            $converpromo=$conversion;
+        }else
+        {
+            for ($i=0; $i <10000; $i++) { 
 
+               if(($converpromo-($converpromo*($_POST['promotionup']/100)))>=$conversion)
+               {
+
+                 break;
+               }
+               $converpromo+=0.01;
+            }
+        }
+          
         $data['property_id']=$_POST['roomidup'];
         $data['updatetypes']=implode(',',$_POST['optup']);
-        $data['rate_conversion']=$_POST['convertionup'];
+        $data['rate_conversion']=$converpromo;
         $data['enabled']=(isset($_POST['statusid'])?'enabled':'disabled');
-        
+        $data['promotion']=$_POST['promotionup'];
+        $data['currencypromotion']=$_POST['convertionup'];
+
         if(update_data(MAP,$data,array('mapping_id'=>$_POST['mapping_id'])))
         {
              echo json_encode(array('success'=>true));
@@ -397,7 +434,7 @@ class Mapping extends Front_Controller {
         $data['channel_id']=9;
         $data['RoomId']=$_POST['nroomid'];
         $data['RoomName']=$_POST['nroomname'];
-    # import_mapping_id, user_id, hotel_id, channel_id, RoomId, RoomName
+    
 
         if(insert_data('import_mapping_AIRBNB',$data))
         {
@@ -454,131 +491,7 @@ class Mapping extends Front_Controller {
             $data['roomsunmapped']=$this->mapping_model->get_mapping_rooms($channelID);
             $data['roomsmapped'] = $this->mapping_model->get_all_mapped_rooms($channelID);
         }
-/*
-         elseif($connect=='36')
-        {
-           
-            $data['despegar']            =   $this->mapping_model->get_mapping_rooms($connect);
-            $despegar_all                =   $this->mapping_model->get_all_mapping_rooms($connect);
-            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);
 
-            if($despegar_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-        }
-         elseif($connect=='40' || $connect=='41' || $connect=='42')
-        {
-           
-            require_once(APPPATH.'models/hotusagroup_model.php'); 
-            $hotusa = new hotusagroup_model();
-            $data['hotusagroup']  =   $hotusa->get_mapping($connect);
-            $hotusagroup_all   =   $hotusa->get_all_mapping_rooms($connect);
-            $data['channel_details']    =   $hotusa->get_all_mapped_rooms($connect);
-
-            if($hotusagroup_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-        }
-
-        else if($connect=='11')
-        {
-            //$this->getchannel($id);
-            $data['reconline']          =   $this->mapping_model->get_mapping_rooms($connect);
-            $reconline_all              =   $this->mapping_model->get_all_mapping_rooms($connect);
-            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);           
-            if($reconline_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-        }
-     
-        else if($connect=='8')
-        {
-            //$this->getchannel($id);
-            $data['gta']                =   $this->mapping_model->get_mapping_rooms($connect);
-            $booking_all                =   $this->mapping_model->get_all_mapping_rooms($connect);
-            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);
-            if($booking_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-            
-        }
-    
-        else if($connect=='19')
-        {
-
-            //$this->getchannel($id);
-            $data['agoda']=$this->mapping_model->get_mapping_rooms($connect);
-            $agoda_all  = $this->mapping_model->get_all_mapping_rooms($connect);
-            $data['channel_details'] = $this->mapping_model->get_all_mapped_rooms($connect);
-            if($agoda_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-        }
-        else if($connect == '5')
-        {
-            //$this->getchannel($id);
-            $data['hotelbeds']          =   $this->mapping_model->get_mapping_rooms($connect);
-            $booking_all                =   $this->mapping_model->get_all_mapping_rooms($connect);
-            $data['channel_details']    =   $this->mapping_model->get_all_mapped_rooms($connect);
-            if($booking_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-        }
-        else if($connect == '17')
-        {
-            //$this->getchannel($id);
-            require_once(APPPATH.'controllers/bnow.php'); 
-            $callAvailabilities = new Bnow();
-            $mapping_settings = $callAvailabilities->mapping_settings($connect);
-            $data['bnow']               =   $mapping_settings['bnow'];
-            $data['channel_details']    =   $mapping_settings['channel_details'];
-            if(count(@$mapping_settings['import_need']))
-            {
-                $data['import_need']    =   $mapping_settings['import_need'];
-            }
-        }
-        else if($connect == '15')
-        {
-            //$this->getchannel($id);
-            require_once(APPPATH.'controllers/travelrepublic.php'); 
-            $callAvailabilities = new Travelrepublic();
-            $mapping_settings = $callAvailabilities->mapping_settings($connect);
-            $data['travel']               =   $mapping_settings['travel'];
-            $data['channel_details']    =   $mapping_settings['channel_details'];
-            if(count(@$mapping_settings['import_need']))
-            {
-                $data['import_need']    =   $mapping_settings['import_need'];
-            }
-        }
-        else if($connect == '14')
-        {
-        
-            //$this->getchannel($id);
-            $data['wbeds']                =   $this->wbeds_model->get_mapping_rooms($connect);
-            $booking_all                =   $this->wbeds_model->get_all_mapping_rooms($connect);
-            $data['channel_details']    =   $this->wbeds_model->get_all_mapped_rooms($connect);
-            if($booking_all=='0')
-            {
-                $data['import_need'] = " Need to import the room for mapping!!!";
-            }
-            
-
-        }
-        else
-        {
-            $data['channel_details']    =   array();
-            $data['import_need']        =   " Need to import the room for mapping!!!";
-        }
-        
-print_r($data);
-die;
-*/
 
 
 

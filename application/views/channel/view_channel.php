@@ -28,7 +28,6 @@
 </div>
 </div>
 
-
 <div class="booking">
 <div class="">
 <div class="">

@@ -81,7 +81,7 @@
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="saveReservation()" class="btn green">Save</a>
+                            <a onclick="saveRoom()" class="btn green">Save</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -91,6 +91,36 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+    function saveRoom() {
 
+
+    var data = $("#roomC").serialize();
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>channel/saveroom",
+        data: data,
+        beforeSend: function() {
+            showWait('Saving Room');
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg['success']) {
+                swal("The Set Up Saved Correctly", {
+                    icon: "success",
+                }).then(ms => {
+                    location.reload();
+                });
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: msg['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+    }
 </script>

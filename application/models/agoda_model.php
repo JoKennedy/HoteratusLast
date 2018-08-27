@@ -205,7 +205,7 @@ function save_mapping($data)
 	    $headers .= "MIME-Version: 1.0\r\n";
 	    $headers .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
 
-	    $up_days =  explode(',',$product['days']);
+	    $up_days =  $product['days'];
 
 	    if(in_array('1', $up_days)) 
 	    {
@@ -282,9 +282,9 @@ function save_mapping($data)
 		$room_value = get_data('roommapping',array('import_mapping_id'=>$import_mapping_id,'channel_id'=>19))->row();
 		$RateConvertion = $room_value->rate_conversion;
 
-		if(@$product['minimum_stay'] == ''){
+		if(@$product['minimumstay'] == ''){
 		
-			$minlos = @$product['minimum_stay'];
+			$minlos = @$product['minimumstay'];
 		}
 
 		$maxLos = $mp_details->maxLos;
@@ -292,7 +292,7 @@ function save_mapping($data)
 
 		if($mapping_values){
 			if($mapping_values['label']== "MaxStay" && $mapping_values['value']<=$maxLos){
-				if(@$product['minimum_stay'] < $mapping_values['value']){
+				if(@$product['minimumstay'] < $mapping_values['value']){
 					$maxLos = $mapping_values['value'];
 				}
 			}
@@ -301,7 +301,7 @@ function save_mapping($data)
 					<request timestamp="'.strtotime(date('Y-m-d H:i')).'" type="1">
 						<criteria property_id="'.$mp_details->hotel_channel_id.'">';
 
-			if (isset($product['availability']) || is_numeric(@$product['ctd']) || is_numeric(@$product['cta']) || @$product['stop_sell'] == "1" || @$product['open_room'] == "1")
+			if (isset($product['availability']) || is_numeric(@$product['ctd']) || is_numeric(@$product['cta']) || @$product['stops'] != "" )
 			{
 				$xml.='<inventory>
 								<update room_id="'.$mp_details->roomtype_id.'">
@@ -328,12 +328,12 @@ function save_mapping($data)
 						}
 						
 
-						if(is_numeric(@$product['ctd']) || is_numeric(@$product['cta']) || @$product['stop_sell'] == "1" || @$product['open_room'] == "1")
+						if(is_numeric(@$product['ctd']) || is_numeric(@$product['cta']) || @$product['stops'] != "")
 							{
 								$xml.='<restrictions>';
-								if( @$product['stop_sell'] == "1" || @$product['open_room'] == "1")
+								if( @$product['stops'] != "" )
 								{
-									$xml.='<closed>'.(@$product['stop_sell']==1?'true':'false').'</closed>';
+									$xml.='<closed>'.(@$product['stops']==1?'true':'false').'</closed>';
 								}
 								
 								if(is_numeric(@$product['ctd']))
@@ -354,7 +354,7 @@ function save_mapping($data)
 							$xml.='		</update>
 									</inventory>';
 			}
-			if (@$product['price'] != "" || @$product['minimum_stay'] != "") 
+			if (@$product['price'] != "" || @$product['minimumstay'] != "") 
 			{
 					$xml.='<rate>
 						<update room_id="'.$mp_details->roomtype_id.'" rateplan_id="'.$mp_details->rate_type_id.'">
@@ -365,9 +365,9 @@ function save_mapping($data)
 						$xml.='	<prices currency="'.$mp_details->currency.'"> <occupancy default="'.$product['price']*$RateConvertion .'"></occupancy> </prices>';
 					}
 
-					if (@$product['minimum_stay'] != "")
+					if (@$product['minimumstay'] != "")
 					{
-						$xml.='<restrictions> <los> <min>'.$product['minimum_stay'].' </min> </los> </restrictions>';
+						$xml.='<restrictions> <los> <min>'.$product['minimumstay'].' </min> </los> </restrictions>';
 					}
 
 					$xml.='		</update>
@@ -381,7 +381,7 @@ function save_mapping($data)
 
 						
 
-		$mail_data .= $xml;
+		$mail_data = $xml;
 		$URL = trim($urls);
 		$ch = curl_init();
 	  	curl_setopt( $ch, CURLOPT_URL, $URL );

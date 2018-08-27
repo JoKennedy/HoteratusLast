@@ -686,8 +686,6 @@ Agregar Extras
                                                 foreach ($payment['type'] as $value) {
                                                     
                                                     echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['method'].','.$value['paymenttypeid'].'">'.$value['description'].'</option>';
-
-
                                                 }
                                             }
                                             else
@@ -709,7 +707,7 @@ Agregar Extras
                                                 echo '<option value="0" onclick="Method(0)"  >Select a Collection Type</option>';
                                                 foreach ($payment['method'] as $value) {
                                                     
-                                                    echo '<option  value="'.$value['paymentmethodid'].'">'.$value['descripcion'].'</option>';
+                                                    echo '<option  value="'.$value['paymentmethodid'].'">'.$value['name'].'</option>';
 
 
                                                 }
@@ -726,7 +724,7 @@ Agregar Extras
                         <div class="form-group">
                             <label for="amountdue" style="text-align: right; " class="col-sm-4 control-label">Amount Due</label>
                             <div class="col-sm-6">
-                                <input style="text-align: right; " id="amountdue" name="" value="0" readonly="true">
+                                <input style="text-align: right; " type="text" id="amountdue" name="" value="0" >
                                 <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
                             </div>
                         </div>
@@ -1478,7 +1476,7 @@ function payment(invoiceid, due) {
 
 function Method(methodid) {
 
-    if (methodid == 'cc') {
+    if (methodid >1) {
         $("#metocc").show();
     } else {
         $("#metocc").hide();
@@ -1519,7 +1517,7 @@ $("#submitpay").click(function() {
         return;
     }
 
-    if (metid == 0 && pid.substring(0, 2) != 'ca') {
+    if (metid == 0 && pid != 1) {
 
         $('#msgpayment').removeClass();
         $('#msgpayment').addClass('alert alert-danger');

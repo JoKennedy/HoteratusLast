@@ -1613,7 +1613,8 @@ function insep_decode($value){
             foreach ($array as $key => $sub_array)
             {
                 $result = cleanArray($sub_array);
-                if ($result === false)
+               var_dump($result );
+                if ($result === false )
                 {
                     unset($array[$key]);
                 }

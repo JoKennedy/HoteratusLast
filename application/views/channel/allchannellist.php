@@ -25,7 +25,7 @@
 		 				</div>
 		 				<div  class="clearfix"></div>	
 						<table id="Channellist" class="table table-bordered" > 
-							<thead> <tr>  <th>Channel</th> <th>Active</th> <th>Status</th>  </tr> 
+							<thead> <tr>  <th>Channel</th> <th style="text-align: center;">Active</th> <th style="text-align: center;">Status</th>  </tr> 
 							</thead> 
 							<tbody> 
 
@@ -42,7 +42,7 @@
 												$conect= ($value['status']==3?'Conect': ($value['conect']==0?'Connect':'Connected'));
 
 												$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-chain-broken':'fa fa-link'));
-												$link=($value['status']==1?lang_url().'channel/config_channel/'.insep_encode($value['channel_id']):'#');
+												$link=($value['status']==1?lang_url().'channel/ConfigurationChannel/'.insep_encode($value['channel_id']):'#');
 
 												echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td style="text-align:center;">'.$show_status.' </td> 
 												<td style="text-align: center !important;" ><a class="label btn-info"   href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a></td> </tr>  ';
@@ -56,7 +56,7 @@
 													$conect= ($value['status']==3?'Conect': ($value['conect']==0?'Connect':'Connected'));
 
 													$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-chain-broken':'fa fa-link'));
-													$link=($value['status']==1?lang_url().'channel/config_channel/'.insep_encode($value['channel_id']):'#');
+													$link=($value['status']==1?lang_url().'channel/ConfigurationChannel/'.insep_encode($value['channel_id']):'#');
 
 													echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td style="text-align:center;">'.$show_status.' </td> <td style="text-align: center !important;">  <a class="label btn-info"  href="'.$link.'"   ><i class="'.$showconect.'"></i> '.$conect.'</a> </td> </tr> ';
 												}

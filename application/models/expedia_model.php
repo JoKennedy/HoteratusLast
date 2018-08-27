@@ -31,8 +31,7 @@ class expedia_model extends CI_Model
     function bulk_update($product, $import_mapping_id, $mapping_id, $price)
     {
         
-        
-        $up_days = explode(',', $product['days']);
+        $up_days =  $product['days'];
         
         if (in_array('1', $up_days)) {
             if (isset($product['cta']) == '' || $product['cta'] == '0' || $product['cta'] == '2') {
@@ -189,9 +188,9 @@ class expedia_model extends CI_Model
         
         
         
-        if (@$product['minimum_stay'] == '') {
+        if (@$product['minimumstay'] == '') {
             
-            $minlos = @$product['minimum_stay'];
+            $minlos = @$product['minimumstay'];
         }
         $maxLos         = $mp_details->maxLos;
         $mapping_values = get_data('mapping_values', array(
@@ -200,7 +199,7 @@ class expedia_model extends CI_Model
         
         if ($mapping_values) {
             if ($mapping_values['label'] == "MaxStay" && $mapping_values['value'] <= $maxLos) {
-                if (@$product['minimum_stay'] < $mapping_values['value']) {
+                if (@$product['minimumstay'] < $mapping_values['value']) {
                     $maxLos = $mapping_values['value'];
                 }
             }
@@ -226,10 +225,10 @@ class expedia_model extends CI_Model
                 $plan_id = $mp_details->rate_type_id;
             }
             //echo $plan_id;
-            if (@$product['stop_sell'] == 1) {
+            if (@$product['stops'] == 1) {
                 $closed = "true";
                 $xml .= '<RatePlan id="' . $plan_id . '" closed = "true">';
-            } elseif (@$product['open_room'] == 1) {
+            } elseif (@$product['stops'] != 1) {
                 $xml .= '<RatePlan id="' . $plan_id . '" closed = "false">';
             } else {
                 $xml .= '<RatePlan id="' . $plan_id . '">';
@@ -265,15 +264,15 @@ class expedia_model extends CI_Model
             }
             
             
-            if ($exp_ctd != "" || $exp_cta != "" || @$product['minimum_stay'] != "") {
+            if ($exp_ctd != "" || $exp_cta != "" || @$product['minimumstay'] != "") {
                 
 
                 $xml .= '<Restrictions';
                 $xml .= ($exp_ctd != ""?' closedToDeparture="' . $exp_ctd . '"':'');
                 $xml .= ($exp_cta != "" ?' closedToArrival="' . $exp_cta . '"':'');
                 
-                if (@$product['minimum_stay'] != "") {
-                    $xml .= ' minLOS="' . @$product['minimum_stay'] . '" maxLOS="' . $maxLos . '"';
+                if (@$product['minimumstay'] != "") {
+                    $xml .= ' minLOS="' . @$product['minimumstay'] . '" maxLOS="' . $maxLos . '"';
                 }
                 $xml .= ' />';
             }
@@ -288,9 +287,9 @@ class expedia_model extends CI_Model
 
                                                     <AvailRateUpdate>
                                                     <DateRange from="' . $re_sart_date . '" to="' . $re_end_date . '" sun="' . $exp_sun . '" mon="' . $exp_mon . '" tue="' . $exp_tue . '" wed="' . $exp_wed . '" thu="' . $exp_thur . '" fri="' . $exp_fri . '" sat="' . $exp_sat . '"/>';
-            if (@$product['stop_sell'] == "1") {
+            if (@$product['stops'] == "1") {
                 $xml .= '<RoomType id="' . $mp_details->roomtype_id . '" closed="true">';
-            } elseif (@$product['open_room'] == "1") {
+            } elseif (@$product['stops'] != "1") {
                 $xml .= '<RoomType id="' . $mp_details->roomtype_id . '" closed="false">';
             } else {
                 $xml .= '<RoomType id="' . $mp_details->roomtype_id . '">';
@@ -341,13 +340,13 @@ class expedia_model extends CI_Model
                     }
                     
                     
-                    if ($exp_ctd != "" || $exp_cta != "" || @$product['minimum_stay'] != "") {
+                    if ($exp_ctd != "" || $exp_cta != "" || @$product['minimumstay'] != "") {
                         $xml .= '<Restrictions';
                         $xml .= ($exp_ctd != ""?' closedToDeparture="' . $exp_ctd . '"':'');
                         $xml .= ($exp_cta != "" ?' closedToArrival="' . $exp_cta . '"':'');
                         
-                        if (@$product['minimum_stay'] != "") {
-                            $xml .= ' minLOS="' . @$product['minimum_stay'] . '" maxLOS="' . $maxLos . '"';
+                        if (@$product['minimumstay'] != "") {
+                            $xml .= ' minLOS="' . @$product['minimumstay'] . '" maxLOS="' . $maxLos . '"';
                         }
                         $xml .= ' />';
                     }

@@ -770,14 +770,16 @@ class booking_model extends CI_Model
             'hotel_id' => hotel_id(),
             'channel_id' => 2
         ))->row()->xml_type;
+
+
         if ($chk_allow == 2 || $chk_allow == 3) {
-            $up_days    = explode(',', @$product['days']);
+            $up_days    =$product['days'];
             $start_date = date('Y-m-d', strtotime(str_replace('/', '-', @$product['start_date'])));
             $end_date   = date('Y-m-d', strtotime(str_replace('/', '-', @$product['end_date'])));
             
             if (@$product['days'] != "") {
                 //echo 'first'; die;
-                $string = $this->getDateForSpecificDayBetweenDates($start_date, $end_date, @$product['days']);
+                $string = $this->getDateForSpecificDayBetweenDates($start_date, $end_date, implode(',',$product['days']));
             } else {
                 /* echo 'second'; die; */
                 $string = "from='" . $start_date . "' to='" . $end_date . "'";
@@ -871,9 +873,9 @@ class booking_model extends CI_Model
             }
             
             //$closed = 0;
-            if (@$product['stop_sell'] == "1") {
+            if (@$product['stops'] == "1") {
                 $closed = 1;
-            } else if (@$product['open_room'] == "1") {
+            } else if (@$product['stops'] != "1") {
                 $closed = 0;
             }
             
@@ -901,8 +903,8 @@ class booking_model extends CI_Model
                 if (isset($closed)) {
                     $xml_data .= '<closed>' . $closed . '</closed>';
                 }
-                if (@$product['minimum_stay'] != "") {
-                    $xml_data .= '<minimumstay>' . @$product['minimum_stay'] . '</minimumstay>';
+                if (@$product['minimumstay'] != "") {
+                    $xml_data .= '<minimumstay>' . @$product['minimumstay'] . '</minimumstay>';
                 }
                 if (isset($maximum_stay)) {
 
@@ -936,7 +938,7 @@ class booking_model extends CI_Model
                 $output = curl_exec($ch);
                 $mail_data .= '<strong> Response </strong> <br>';
                 $mail_data .= $output;
-                 mail("xml@hoteratus.com", " Booking.Com Request and Response " . $hotelid, $mail_data, $headers);
+                 mail("xml@hoteratus.com", " Booking.Com Request and Response " .hotel_id() , $mail_data, $headers);
                 $data_api = simplexml_load_string($output);
                 $error    = @$data_api->fault;
                 /* echo($output); */
@@ -992,8 +994,8 @@ class booking_model extends CI_Model
                     if (isset($closed)) {
                         $xml_data .= '<closed>' . $closed . '</closed>';
                     }
-                    if (@$product['minimum_stay'] != "") {
-                        $xml_data .= '<minimumstay>' . @$product['minimum_stay'] . '</minimumstay>';
+                    if (@$product['minimumstay'] != "") {
+                        $xml_data .= '<minimumstay>' . @$product['minimumstay'] . '</minimumstay>';
                     }
                     if (isset($maximum_stay)) {
                         if(strlen($maximum_stay)>0)

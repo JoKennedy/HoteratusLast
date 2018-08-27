@@ -56,7 +56,7 @@ class arrivalreservations extends CI_Controller{
 					and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between STR_TO_DATE('$date1' ,'%Y-%m-%d')  and STR_TO_DATE('$date2' ,'%Y-%m-%d') " );
 
 			}
-return;
+
 			$canales= $this->db->query(" select * from user_connect_channel where hotel_id=$hotelid and status='enabled'" )->result_array();
 
 	

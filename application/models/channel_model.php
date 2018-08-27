@@ -521,44 +521,43 @@ class channel_model extends CI_Model
 		
 
 		for ($i=0; $i <=29 ; $i++) { 
+		
 			$fecha=date('Y-m-d',strtotime($date1."+$i days"));
 
 			$path="uploads/logo/small/475551.png";
-			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id  FROM `manage_reservation` WHERE STR_TO_DATE(start_date ,'%d/%m/%Y') ='$fecha'
-			and hotel_id=$hotel_id and RoomNumber='$roomnumber' and room_id=$roomtypeid ")->row_array();
+			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id, STR_TO_DATE(start_date ,'%d/%m/%Y') date1, STR_TO_DATE(end_date ,'%d/%m/%Y') date2 ,status FROM `manage_reservation` WHERE  '$fecha' between STR_TO_DATE(start_date ,'%d/%m/%Y') and STR_TO_DATE(end_date ,'%d/%m/%Y')-1
+			and hotel_id=$hotel_id and RoomNumber='$roomnumber' and room_id=$roomtypeid and status <> 'Canceled' and status <> 'No Show' ")->row_array();
 
 			if(!isset($result['noche']))
 			{	$path="uploads/small/channels_booking.gif";
-				$result=$this->db->query("SELECT datediff(a.departure_date,a.arrival_date) noche,a.RoomNumber, 2 channelid, a.room_res_id reservation_id
+				$result=$this->db->query("SELECT datediff(a.departure_date,a.arrival_date) noche, a.arrival_date date1 , a.departure_date date2, a.RoomNumber, 2 channelid, a.room_res_id reservation_id, a.status
 					from import_reservation_BOOKING_ROOMS a
 					left join import_reservation_BOOKING b on a.import_reserv_id=b.import_reserv_id
 					left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
 					left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=2
 					left join manage_property e on d.property_id = e.property_id
-					WHERE arrival_date ='$fecha'
-					and a.hotel_hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid")->row_array();
+					WHERE  '$fecha' between a.arrival_date and a.departure_date-1
+					and a.hotel_hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid and a.status <>'cancelled'")->row_array();
 			}
 			
 
 
 			if (isset($result['noche'])){
-				$color='';
-				switch ($result['channelid']) {
-					case '0':
-						$color='#d1f2eb';
-						break;
-					case '2':
-						$color='#58D68D';
-						break;
-					default:
-						# code...
-						break;
+
+				if(strtotime($result['date1'])<date('Y-m-d'))
+				{
+					$result['date1']=date('Y-m-d');
 				}
+				$result['noche']= ceil(abs(strtotime($result['date2']) - strtotime($result['date1'])) / 86400);
+
+				$color=($result['status']=='Checkin'?'#096fbf':($result['status']=='Checkout'?'#FF5733':'#52c748') )  ;
+				
 				if ($contador>0) {
 					$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
 					$contador=0;
 				}
 				$repuesta .= '<td bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" ><a style="font-size:6px; " href="'.site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id'])).'"> <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'">  </a></td>';
+
 				$i += $result['noche']-1;
 				
 			}
@@ -706,8 +705,8 @@ class channel_model extends CI_Model
 		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.(isset($dato['price'])?$dato['price']:'Null').'</td>';  
 				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.(isset($dato['availability'])?$dato['availability']:'Null').' </td>';
 				$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dato['minimum_stay'])?$dato['minimum_stay']:'Null').' </td>';
-				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' /> </td>';
-				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' /> </td>';
+				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' readonly=""/> </td>';
+				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' readonly="" /> </td>';
 				$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dato['stop_sell'])?($dato['stop_sell']==1?'checked':''):'').' /> </td>';
 
 

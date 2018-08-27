@@ -57,18 +57,15 @@
                                             <strong>Room Type</strong>
                                             <p class="text-muted">
                                                 <?=$roomTypeName?>
-                                                <a style="height: 10px; " onclick="roomstypeava()" class="blue two">Change</a>
+                                                    <a style="height: 10px; " onclick="roomstypeava()" class="blue two">Change</a>
                                             </p>
                                         </div>
                                         <div class="about-info-p">
                                             <strong>Room Number</strong>
                                             <p class="text-muted">
                                                 <?=$roomNumber?>
-                                                 <a style="height: 10px; " onclick="RoomsAvailables()" class="green two">Change</a>
+                                                    <a style="height: 10px; " onclick="RoomsAvailables()" class="green two">Change</a>
                                             </p>
-                                           
-
-
                                         </div>
                                         <div class="about-info-p">
                                             <strong>Arrival Time</strong>
@@ -663,21 +660,22 @@ Agregar Extras
 </div>
 <div id="PaymentP" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content ">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Payment Application</h4>
             </div>
             <div id="msgpayment" class="alert alert-warning" style="display: none; text-align: center;">
-                <strong>Warning!</strong> Select an Extra to Continue.
+                <strong>Warning!</strong>
             </div>
             <div class="modal-body form">
                 <div class="portlet-body form">
                     <!-- BEGIN FORM-->
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label for="paymentTypeId" style="text-align: right; " class="col-sm-4 control-label">Payment Type</label>
-                            <div class="col-sm-6">
+                    <form id="paymentapplication" accept-charset="utf-8">
+                        <div class="form-body">
+                            <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
+                            <div class="col-md-12 form-group1">
+                                <label class="control-label"><strong>Payment Type</strong></label>
                                 <select name="paymentTypeId" id="paymentTypeId" class="form-control1">
                                     <?php
 
@@ -685,7 +683,7 @@ Agregar Extras
                                                 echo '<option value="0" onclick="Method(0)"  >Select a payment Type</option>';
                                                 foreach ($payment['type'] as $value) {
                                                     
-                                                    echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['method'].','.$value['paymenttypeid'].'">'.$value['description'].'</option>';
+                                                    echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['paymenttypeid'].'">'.$value['description'].'</option>';
                                                 }
                                             }
                                             else
@@ -696,18 +694,16 @@ Agregar Extras
                                           ?>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group" style="display: none;" id="metocc">
-                            <label for="paymentmethod" style="text-align: right; " class="col-sm-4 control-label">Collection Type</label>
-                            <div class="col-sm-6">
-                                <select name="paymentmethod" id="paymentmethod" class="form-control1">
+                            <div class="col-md-6 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Collection Type</strong></label>
+                                <select name="providerid" id="providerid" class="form-control1">
                                     <?php
 
                                             if (count($payment['method'])>0) {
                                                 echo '<option value="0" onclick="Method(0)"  >Select a Collection Type</option>';
                                                 foreach ($payment['method'] as $value) {
                                                     
-                                                    echo '<option  value="'.$value['paymentmethodid'].'">'.$value['name'].'</option>';
+                                                    echo '<option  value="'.$value['providerid'].'">'.$value['name'].'</option>';
 
 
                                                 }
@@ -720,23 +716,106 @@ Agregar Extras
                                           ?>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="amountdue" style="text-align: right; " class="col-sm-4 control-label">Amount Due</label>
-                            <div class="col-sm-6">
-                                <input style="text-align: right; " type="text" id="amountdue" name="" value="0" >
-                                <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
+                            <div class="col-md-6 form-group1" >
+                                <label class="control-label"><strong>Currency</strong></label>
+                                <select name="currency" id="currency" class="form-control1">
+                                    <?php
+
+                                           
+                                                echo '<option value="0" >Select a Currency</option>';
+                                                foreach ($Currencies as $value) {
+                                                    
+                                                    echo '<option  value="'.$value['currency_code'].'"'.($currency==$value['currency_code']?'selected':'').' >'.$value['currency_code'].'</option>';
+                                                }
+
+                                          ?>
+                                </select>
+                            </div>
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Description</strong></label>
+                                <input style="background:white; color:black; width: 100%;" Name="Description" placeholder="Type a Description">
+                            </div>
+                            <div class="col-md-6 form-group1 metocc" style="display: none;">
+                                <label for="sendcvv" class="control-label"><strong>Send CVV  </strong></label>
+                                <input id="sendcvv" value="1" class="input-small" type="checkbox" name="sendcvv">
+                            </div>
+                            <div class="col-md-7 form-group1">
+                                <label class="control-label"><strong>Amount To Pay </strong></label>
+                                <input style="color:white; width: 75%; text-align: right;" onkeypress="return justNumbers(event);" type="text" id="amountdue" name="amountdue" value="0">
+                                <input type="hidden" value=""  Name="nada" readonly="">
                             </div>
                         </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="clearfix"></div>
+                        <div class="buttons-ui col-md-12">
+                            <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
+                            <a id="submitpay" name="add" value="save" class="btn green"><i class="fa fa-check"></i> Submit Payment</a>
+                            <a onclick="showccinfo()" class="metocc btn yellow" style="display: none;">Show CC Info.</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ShowCC" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Credit Card Info.</h4>
+            </div>
+            <div class="modal-body form">
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <div class="form-body">
+                        <form id="ccinfo" accept-charset="utf-8">
+                           
+                       
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Credit Card Type</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$cctype?>" Name="cctype" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Cardholder Name</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$ccname?>" Name="ccholder" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Card Number</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$ccnumber?>" id="ccnumber" Name="ccnumber" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>CVV</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$cccvv?>" Name="cccvv" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Expiration month</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$ccmonth?>" Name="ccmonth" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                <label class="control-label"><strong>Expiration Year</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$ccyear?>" Name="ccyear" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1" style="display: none;">
+                                <label class="control-label"><strong>Expiration Year</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$country?>" Name="cccountry" readonly="">
+                            </div>
+                            <div class="col-md-12 form-group1" style="display: none;">
+                                <label class="control-label"><strong>Expiration Year</strong></label>
+                                <input style="background:white; color:black; width: 100%;" value="<?=$ChannelName?>" Name="channelname" readonly="">
+                            </div>
+
+                            
+                            <div class="buttons-ui">
+                                <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
+                            </div>
+                         </form>
                     </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="buttons-ui">
-                        <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
-                        <a id="submitpay" name="add" value="save" class="btn green"><i class="fa fa-check"></i> Apply</a>
-                    </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -906,9 +985,7 @@ Agregar Extras
                 <h4 class="modal-title">Rooms Numbers Available</h4>
             </div>
             <div id="allavailable">
-                
             </div>
-            
             <div class="clearfix"></div>
         </div>
     </div>
@@ -921,9 +998,7 @@ Agregar Extras
                 <h4 class="modal-title">Rooms Types Available</h4>
             </div>
             <div id="alltypeavailable">
-                
             </div>
-            
             <div class="clearfix"></div>
         </div>
     </div>
@@ -936,9 +1011,7 @@ Agregar Extras
                 <h4 class="modal-title">Rooms Types Available</h4>
             </div>
             <div id="alltypeavailable">
-                
             </div>
-            
             <div class="clearfix"></div>
         </div>
     </div>
@@ -951,17 +1024,14 @@ Agregar Extras
                 <h4 style="text-align: center;" class="modal-title">Upgrade Type </h4>
             </div>
             <div>
-
                 <input type="hidden" name="chargenight" id="chargenight" type="text">
                 <input type="hidden" name="nroomtype" id="nroomtype" type="text">
                 <div class="buttons-ui">
                     <a onclick="changeroomtypeup(1)" class="btn yellow">Free</a>
                     <a onclick="changeroomtypeup(2)" class="btn green"><span id="preciopernig"></span> Avg. per Night</a>
                     <a onclick="setnewprice()" class="btn blue">Set Price per Night</a>
-                    
                 </div>
             </div>
-            
             <div class="clearfix"></div>
         </div>
     </div>
@@ -975,41 +1045,43 @@ Agregar Extras
             </div>
             <div>
                 <div class="col-md-12 form-group1">
-                            <label class="control-label">New Price</label>
-                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="newprice" id="newprice" type="text" placeholder="New Price" required="">
+                    <label class="control-label">New Price</label>
+                    <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="newprice" id="newprice" type="text" placeholder="New Price" required="">
                 </div>
                 <div class="buttons-ui ">
                     <a onclick="changeroomtypeup(3)" class="btn blue">Apply</a>
                 </div>
-               
             </div>
-            
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
-
 <!--//content-inner-->
 <?php $avgpernight=($totalStay/$numberNight);?>
 <script type="text/javascript">
 var resID = "<?=$reservatioID?>";
 var userName = "<?=$fname.' '.$lname ?>";
-var channelid="<?=$channelId?>";
-var checkin="<?=$checkin?>";
-var checkout="<?=$checkout?>";
-var roomtype ="<?=$roomTypeID?>";
-var adults="<?=$numberAdults?>";
-var children="<?=$numberChilds?>";
-var avgpern="<?=$avgpernight?>";
-function setnewprice()
-{   $("#newprice").val(0.00);
+var channelid = "<?=$channelId?>";
+var checkin = "<?=$checkin?>";
+var checkout = "<?=$checkout?>";
+var roomtype = "<?=$roomTypeID?>";
+var adults = "<?=$numberAdults?>";
+var children = "<?=$numberChilds?>";
+var avgpern = "<?=$avgpernight?>";
+
+function showccinfo() {
+    $("#ShowCC").modal();
+}
+
+function setnewprice() {
+    $("#newprice").val(0.00);
     $("#optnewprice").modal();
 }
-function roomstypeava()
-{
-    
-    
-    var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype};
+
+function roomstypeava() {
+
+
+    var data = { 'date1Edit': checkin, 'date2Edit': checkout, 'numrooms': 1, 'numadult': adults, 'numchild': children, 'avg': avgpern, 'roomtype': roomtype };
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -1034,33 +1106,31 @@ function roomstypeava()
             }
         }
     });
-}  
-function changeroomtype(id,night,upgrade,chargenight)
-{
-    if (upgrade==1) {
+}
+
+function changeroomtype(id, night, upgrade, chargenight) {
+    if (upgrade == 1) {
         $("#preciopernig").html(chargenight);
         $("#chargenight").val(chargenight);
         $("#nroomtype").val(id);
         $("#optupgrade").modal();
-    }
-    else
-    {
+    } else {
 
-        var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype,'nroomtype':id, 'resid':resID,'channelid':channelid,'upgrade':upgrade, 'username':userName};
+        var data = { 'date1Edit': checkin, 'date2Edit': checkout, 'numrooms': 1, 'numadult': adults, 'numchild': children, 'avg': avgpern, 'roomtype': roomtype, 'nroomtype': id, 'resid': resID, 'channelid': channelid, 'upgrade': upgrade, 'username': userName };
         $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "<?php echo lang_url(); ?>reservation/changeroomtype",
-        data: data,
-        beforeSend: function() {
-            showWait('Charging Room Type');
-            setTimeout(function() { unShowWait(); }, 100000);
-        },
-        success: function(msg) {
+            type: "POST",
+            dataType: "json",
+            url: "<?php echo lang_url(); ?>reservation/changeroomtype",
+            data: data,
+            beforeSend: function() {
+                showWait('Charging Room Type');
+                setTimeout(function() { unShowWait(); }, 100000);
+            },
+            success: function(msg) {
                 unShowWait();
-            
+
                 if (msg['success']) {
-                      swal("The Room Type Changed Correctly", {
+                    swal("The Room Type Changed Correctly", {
                         icon: "success",
                     }).then(ms => {
                         location.reload();
@@ -1077,45 +1147,42 @@ function changeroomtype(id,night,upgrade,chargenight)
         });
     }
 
-     
-} 
-function changeroomtypeup(opt)
-{
-    
-   var nprice=0;
-   if(opt==2)
-   {
-        nprice=$("#chargenight").val();
-   }
-   else if(opt==3)
-   {
-        if ($("#newprice").val()==0 || $("#newprice").val().length==0) {
-              swal({
-                    title: "Warning!",
-                    text: 'Missing Field New Price',
-                    icon: "warning",
-                    button: "Ok!",
-                });
+
+}
+
+function changeroomtypeup(opt) {
+
+    var nprice = 0;
+    if (opt == 2) {
+        nprice = $("#chargenight").val();
+    } else if (opt == 3) {
+        if ($("#newprice").val() == 0 || $("#newprice").val().length == 0) {
+            swal({
+                title: "Warning!",
+                text: 'Missing Field New Price',
+                icon: "warning",
+                button: "Ok!",
+            });
             return;
         }
-        nprice=$("#newprice").val();
-   }
- 
-    var data = {'date1Edit':checkin,'date2Edit':checkout,'numrooms':1,'numadult':adults,'numchild':children,'avg':avgpern,'roomtype':roomtype,'nroomtype':$("#nroomtype").val(), 'resid':resID,'channelid':channelid,'upgrade':1, 'username':userName,'opt':opt,'nprice':nprice};
+        nprice = $("#newprice").val();
+    }
+
+    var data = { 'date1Edit': checkin, 'date2Edit': checkout, 'numrooms': 1, 'numadult': adults, 'numchild': children, 'avg': avgpern, 'roomtype': roomtype, 'nroomtype': $("#nroomtype").val(), 'resid': resID, 'channelid': channelid, 'upgrade': 1, 'username': userName, 'opt': opt, 'nprice': nprice };
     $.ajax({
-    type: "POST",
-    dataType: "json",
-    url: "<?php echo lang_url(); ?>reservation/changeroomtype",
-    data: data,
-    beforeSend: function() {
-        showWait('Charging Room Type');
-        setTimeout(function() { unShowWait(); }, 100000);
-    },
-    success: function(msg) {
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>reservation/changeroomtype",
+        data: data,
+        beforeSend: function() {
+            showWait('Charging Room Type');
+            setTimeout(function() { unShowWait(); }, 100000);
+        },
+        success: function(msg) {
             unShowWait();
- 
+
             if (msg['success']) {
-                  swal("The Room Type Changed Correctly", {
+                swal("The Room Type Changed Correctly", {
                     icon: "success",
                 }).then(ms => {
                     location.reload();
@@ -1130,10 +1197,11 @@ function changeroomtypeup(opt)
             }
         }
     });
-    
 
-     
-} 
+
+
+}
+
 function changestatus() {
     $("#EditStatus").modal();
 }
@@ -1170,19 +1238,18 @@ function applystatus(id) {
         }
     });
 }
-function addNote()
-{
-    if($("#usernote").val()=="")
-    {
+
+function addNote() {
+    if ($("#usernote").val() == "") {
         swal({
-                title: "Warning!",
-                text: "Type a Note To Continue",
-                icon: "warning",
-                button: "Ok!",
-            });
+            title: "Warning!",
+            text: "Type a Note To Continue",
+            icon: "warning",
+            button: "Ok!",
+        });
         return;
     }
-    var data = { 'resid': resID, 'note': $("#usernote").val(), 'username': userName,'channelid':channelid };
+    var data = { 'resid': resID, 'note': $("#usernote").val(), 'username': userName, 'channelid': channelid };
 
     $.ajax({
         type: "POST",
@@ -1212,11 +1279,11 @@ function addNote()
 
         }
     });
-    
+
 }
-function RoomsAvailables()
-{
-    var data = { 'room_id': roomtype, 'checkin': checkin, 'checkout': checkout};
+
+function RoomsAvailables() {
+    var data = { 'room_id': roomtype, 'checkin': checkin, 'checkout': checkout };
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -1243,14 +1310,14 @@ function RoomsAvailables()
         }
     });
 
-  
+
 }
-function assingNumber(number)
-{
-    var data = {'roomnumber':number, 'resid': resID,'channelid':channelid,'username':userName ,'checkin': checkin, 'checkout': checkout,'roomtype':roomtype};
+
+function assingNumber(number) {
+    var data = { 'roomnumber': number, 'resid': resID, 'channelid': channelid, 'username': userName, 'checkin': checkin, 'checkout': checkout, 'roomtype': roomtype };
     $.ajax({
         type: "POST",
-       dataType: "json",
+        dataType: "json",
         url: "<?php echo lang_url(); ?>reservation/assingRoomNumbers",
         data: data,
         beforeSend: function() {
@@ -1260,12 +1327,12 @@ function assingNumber(number)
         success: function(msg) {
             unShowWait();
             if (msg['success']) {
-                  swal("The Room Number was Assigned Correctly", {
+                swal("The Room Number was Assigned Correctly", {
                     icon: "success",
                 }).then(ms => {
                     location.reload();
                 });
-                
+
             } else {
                 swal({
                     title: "Warning!",
@@ -1277,12 +1344,13 @@ function assingNumber(number)
 
         }
     });
-   
-}
-function UpdateReservation()
-{
 
 }
+
+function UpdateReservation() {
+
+}
+
 function showtab(id)
 
 {
@@ -1476,10 +1544,10 @@ function payment(invoiceid, due) {
 
 function Method(methodid) {
 
-    if (methodid >1) {
-        $("#metocc").show();
+    if (methodid > 1) {
+        $(".metocc").show();
     } else {
-        $("#metocc").hide();
+        $(".metocc").hide();
         return;
     }
 }
@@ -1487,7 +1555,7 @@ function Method(methodid) {
 $("#submitpay").click(function() {
 
     var pid = $("#paymentTypeId").val();
-    var metid = $("#paymentmethod").val();
+    var proid = $("#providerid").val();
     var invoid = $('#invoiceid').val();
     var amount = $('#amountdue').val();
     var user = '<?php echo $fname." ".$lname;?>';
@@ -1517,7 +1585,8 @@ $("#submitpay").click(function() {
         return;
     }
 
-    if (metid == 0 && pid != 1) {
+    
+    if (proid == 0 && pid != 1) {
 
         $('#msgpayment').removeClass();
         $('#msgpayment').addClass('alert alert-danger');
@@ -1529,11 +1598,16 @@ $("#submitpay").click(function() {
         return;
     }
 
+    var data =  $("#paymentapplication").serialize();
+   data= data.concat( $("#ccinfo").serialize()); 
     $.ajax({
         type: "POST",
-        url: "<?php echo lang_url(); ?>reservation/invoicepaymentapply",
-        data: { "reservationinvoiceid": invoid, "paymenttypeid": pid, 'amount': amount, 'paymentmethod': metid, 'username': user },
+        url: "<?php echo lang_url(); ?>reservation/PaymentApplication",
+        data: data,
         success: function(msg) {
+
+            alert(msg);
+            return;
 
             if (msg == 0) {
 
@@ -1556,6 +1630,8 @@ $("#submitpay").click(function() {
 
         }
     });
+
+
 
 });
 

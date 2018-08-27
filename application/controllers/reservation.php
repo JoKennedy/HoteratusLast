@@ -859,7 +859,31 @@ class reservation extends Front_Controller {
 			$this->views('channel/reservation_list',$data);
 		}
 	}*/
+	function PaymentApplication()
+	{
+		switch ($_POST['paymentTypeId']) {
+			case '1':
+				# code...
+				break;
 
+			case '2':
+				if ($_POST['providerid']==1) {
+					require_once(APPPATH.'controllers/Stripe_payment.php');
+					$stripe = new Stripe_payment();
+
+					$stripe->checkout();
+
+				}
+				break;
+			case '3':
+				# code...
+				break;
+			default:
+				# code...
+				break;
+		}
+		
+	}
 	function invoicepaymentapply()
 	{
 		$reservationinvoiceid=$_POST['reservationinvoiceid'];
@@ -1057,10 +1081,11 @@ class reservation extends Front_Controller {
 		$data['historyInfo']=$this->reservation_model->historyInfo(unsecure($channelID),insep_decode($ReservationID));
 		$data['Invoice']=$this->reservation_model->reservationInvoice(unsecure($channelID),insep_decode($ReservationID));
 		$data['payment']=$this->reservation_model->payment();
+		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
 		$data['ALLUsersNotes']=$this->reservation_model->AllUsersNotes(insep_decode($ReservationID),unsecure($channelID));
 		$this->views('channel/reservationdetails',$data);
 
-		
+		//detalles de reservas
 
 	}
 	function addnoteuser()

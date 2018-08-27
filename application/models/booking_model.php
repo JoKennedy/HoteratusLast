@@ -2540,7 +2540,7 @@ class booking_model extends CI_Model
             $data['LogoReservation']=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$channelId))->row()->logo_channel));
 
             $result=$this->db->query("select a.room_res_id reservation_id, concat(a.reservation_id,'-',roomreservation_id) reservation_code, a.id,rate_id, case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end statusId, a.status, a.RoomNumber, a.arrival_date checkin,departure_date checkout, datediff(a.departure_date,a.arrival_date) num_nights,max_children,a.numberofguests, a.guest_name,b.email,b.telephone,b.address,b.city,b.countrycode,
-                b.zip,b.remarks,a.commissionamount,a.name, a.day_price_detailss, b.currencycode, a.totalprice
+                b.zip,b.remarks,a.commissionamount,a.name, a.day_price_detailss, b.currencycode, a.totalprice,cc_number,cc_name,cc_expiration_date,cc_cvc,cc_type
              from  import_reservation_BOOKING_ROOMS a 
              left join import_reservation_BOOKING b on a.reservation_id=b.id
              where a.room_res_id=$reservationId and a.hotel_hotel_id=$hotelid")->row_array();
@@ -2551,6 +2551,16 @@ class booking_model extends CI_Model
                 left join manage_property c on b.property_id=c.property_id
                 where a.hotel_id =$hotelid   and  a.B_room_id =".$result['id']." and  a.B_rate_id = ".$result['rate_id'])->row_array();
 
+            require_once(APPPATH.'controllers/tokenex.php');
+            $tokenex = new tokenex();
+            $Valor=safe_b64decode($result['cc_number']);
+
+            $data['ccname']=safe_b64decode($result['cc_name']);
+            $data['ccnumber']=(strlen($Valor)>20?$Valor: $tokenex->Detokenizar($Valor));
+            $data['ccmonth']=substr(safe_b64decode($result['cc_expiration_date']), 0,2);
+            $data['ccyear']=substr(safe_b64decode($result['cc_expiration_date']), -2);
+            $data['cccvv']=safe_b64decode($result['cc_cvc']);
+            $data['cctype']=safe_b64decode($result['cc_type']);
             $data['ChannelName']='Booking.com';
             $data['channelId']=$channelId;
             $data['reservatioID']=$result['reservation_id'];

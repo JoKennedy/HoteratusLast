@@ -11,29 +11,26 @@ class Stripe_payment extends CI_Controller{
 	public function checkout()
 	{
 
-/*
-    [paymentTypeId] => 2
-    [providerid] => 1
-    [currency] => BWP
-    [Description] => 
-    [amountdue] => 775.55
-    [nada] => cctype=MasterCard
-    [ccholder] => Linda De Paoli
-    [ccnumber] => 1005 : Client IP address is not authorized to use this service
-    [cccvv] => 462
-    [ccmonth] => 09
-    [ccyear] => 20*/
-
         $mail_data = '<strong> Request </strong> <br>';
 		$property_name = ucfirst(get_data(HOTEL,array('hotel_id'=>hotel_id()))->row()->property_name);
 		//Busco skApikey para el Hotel
 		$skApikeyinfo = $this->db->query("select * from paymentmethod where providerid =1 and hotelid=".hotel_id())->row_array();
+		
+////testtes
 
+		$lon=(strlen(number_format(str_replace(',', '', $_POST['amountdue']) , 2, '', ''))-2);
 
+		$data['success']=true;
+		$data['amount']=number_format(substr(number_format(str_replace(',', '', $_POST['amountdue']) , 2, '', ''),0,$lon), 0, '', ',').'.'.substr(number_format(str_replace(',', '', $_POST['amountdue']) , 2, '', ''),-2);
+		$data['currency']=$_POST['currency'];
+		$data['statement_descriptor']=substr($_POST['channelname']." - ".$property_name, 0, 22);
+		$data['description']=str_replace("&","Y",$_POST['Description']);
+		echo json_encode($data);
+/////test
 
-		 
-		 if(count($skApikeyinfo)>0)
-		 {
+		 return;
+		if(count($skApikeyinfo)>0)
+		{
 
 		 	
 				$skApikey = $skApikeyinfo['apikey'];
@@ -49,41 +46,35 @@ class Stripe_payment extends CI_Controller{
 						{
 							
 							$lon=(strlen($Charge['amount'])-2);
-							
-							print '<script language="JavaScript">'; 
-							print 'alert("Successfully Applied Charge \n Amount: '.number_format(substr($Charge['amount'],0,$lon), 0, '', ',').'.'.substr($Charge['amount'],-2).'\n Currency: '.$_POST['currency'].' \n Description: '.$Charge['description'].' \n Id Transaction: '.$Charge['id'].'");'; 
-							print '</script>'; 
-
-					
+							$data['success']=true;
+							$data['amount']=number_format(substr($Charge['amount'],0,$lon), 0, '', ',').'.'.substr($Charge['amount'],-2);
+							$data['currency']=$_POST['currency'];
+							$data['description']=$Charge['description'];
+							$data['transaction']=$Charge['id'];
 						}
 						else
 						{
-							print '<script language="JavaScript">'; 
-							print 'alert("'.$Charge["error"].'");'; 
-							print '</script>'; 
-							
+							$data['success']=false;
+							$data['error']=$Charge["error"];						
 						}
 			
 				}
 				else
 				{
-					print '<script language="JavaScript">'; 
-					print 'alert("'.$token["error"].'");'; 
-					print '</script>'; 
-					
+					$data['success']=false;
+					$data['error']=$token["error"];				
 				}
 				
 		}
 		else
 		{
-			print '<script language="JavaScript">'; 
-			print 'alert("Stripe is not connected, configure stripe and try again");'; 
-			print '</script>'; 
-			
+
+			$data['success']=false;
+			$data['error']="Stripe is not connected, configure stripe and try again";			
 		}	
 
-		$URL = $_POST['URL'];
-		echo "<SCRIPT>window.location='$URL';</SCRIPT>"; 
+	
+		echo json_encode($data); 
 		
 	}
 

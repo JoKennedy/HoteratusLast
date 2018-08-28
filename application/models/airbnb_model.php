@@ -11,7 +11,7 @@ class airbnb_model extends CI_Model
         $config['priority']  = 1; // Character count to wrap at.
         $config['mailtype']  = 'html'; // text or html Type of mail. If you send HTML email you must send it as a complete web page. Make sure you don't have any relative links or relative image paths otherwise they will not work.
         $config['charset']   = 'utf-8'; // Character set (utf-8, iso-8859-1, etc.).
-        $this->email->initialize($config);
+        $this->email->initialize($config); 
     }
     
     
@@ -1912,7 +1912,91 @@ class airbnb_model extends CI_Model
             }
         }
     }
-    
+    function ReservationList($hotelid)
+    {
+            $booking=$this->db->query("SELECT a.Import_reservation_ID reservation_id, ResID_Value reservation_code, case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,
+                  a.name  Full_Name , d.property_id room_id , 9 channel_id, arrival start_date,a.RoomNumber, departure end_date,
+                ImportDate booking_date, f.currency_id currency_id, AmountAfterTax price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,ImportDate current_date_time,
+                g.channel_name channel_name, e.property_name roomName FROM 
+                import_reservation_AIRBNB a
+                left join import_mapping_AIRBNB c on a.RoomTypeCode=c.RoomId and a.hotel_id=c.hotel_id
+                left join roommapping d on d.channel_id=9 and  c.import_mapping_id=d.import_mapping_id and c.channel_id=d.channel_id
+                left join manage_property e on d.property_id = e.property_id
+                left join currency f on a.Currency=f.currency_code
+                left join manage_channel g on  c.channel_id=g.channel_id
+                where 
+                a.hotel_id=$hotelid
+                order by a.ImportDate desc;")->result_array();
+
+            return $booking;
+    }
+    function reservationdetails($channelId,$reservationId,$hotelid)
+    {
+
+            $data['LogoReservation']=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$channelId))->row()->logo_channel));
+
+            $result=$this->db->query("select a.Import_reservation_ID reservation_id, ResID_Value reservation_code, RoomTypeCode,0 rate_id, case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end statusId, ResStatus status, a.RoomNumber, a.arrival checkin,departure checkout, datediff(a.departure,a.arrival) num_nights,Child max_children,Adult numberofguests, a.name guest_name,AmountAfterTax,a.Currency
+             from  import_reservation_AIRBNB a 
+             where a.Import_reservation_ID=$reservationId and a.hotel_id=$hotelid")->row_array();
+
+               $roomtype =$this->db->query("select property_name, b.property_id, a.RoomName
+                from import_mapping_AIRBNB a
+                left join roommapping b on a.import_mapping_id =b.import_mapping_id and b.channel_id = $channelId
+                left join manage_property c on b.property_id=c.property_id
+                where a.hotel_id =$hotelid   and  a.RoomId =".$result['RoomTypeCode'])->row_array();
+
+
+
+            $data['ccname']='';
+            $data['ccnumber']='';
+            $data['ccmonth']='';
+            $data['ccyear']='';
+            $data['cccvv']='';
+            $data['cctype']='';
+            $data['ChannelName']='AIRBNB';
+            $data['channelId']=$channelId;
+            $data['reservatioID']=$result['reservation_id'];
+            $data['reservationNumber']=$result['reservation_code'];
+            $data['roomTypeID']=$roomtype['property_id'];
+            $data['roomTypeName']=$roomtype['property_name'];
+            $data['statusId']=$result['statusId'];
+            $data['status']=$result['status'];
+            $data['roomNumber']=$result['RoomNumber'];
+            $data['checkin']=$result['checkin'];
+            $data['checkout']=$result['checkout'];
+            $data['arrivalTime']='Undefined';
+            $data['numberNight']=$result['num_nights'];
+            $data['numberAdults']=$result['numberofguests'];
+            $data['numberChilds']=$result['max_children'];
+            $data['guestFullName']=$result['guest_name'];
+            $data['email']='';
+            $data['mobiler']='';
+            $data['address']='';
+            $data['city']='';
+            $data['state']='';
+            $data['country']='';
+            $data['zipCode']='';
+            $data['notes']='';
+            $data['commision']=0.00;
+            $data['discount']=0.00;
+            $data['channelRoomName']=$roomtype['RoomName'];
+            $data['mealsInclude']='';
+            $price = 0;
+
+            $data['promoCode'] = "No";
+            for($i=0; $i<$data['numberNight']; $i++){
+
+                 $data['rateDetailsPrice'][] =number_format($result['AmountAfterTax']/$data['numberNight'], 2, '.', '') ;
+            }
+
+            
+            $data['currency']=$result['Currency'];
+            $data['extrasInfo']=$this->reservation_model->extrasAllTotal($channelId,$result['reservation_id']);
+            $data['totalStay']=number_format((float)$result['AmountAfterTax'], 2, '.', ''); 
+            $data['grandtotal']=number_format(($result['AmountAfterTax']+$data['extrasInfo']['total']), 2, '.', '');
+            $data['extrastoroom']=get_data("room_extras", array("room_id"=>$data['roomTypeID']))->result_array();
+            return $data;
+    }
     
     
 }

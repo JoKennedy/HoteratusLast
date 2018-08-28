@@ -525,7 +525,7 @@ class channel_model extends CI_Model
 			$fecha=date('Y-m-d',strtotime($date1."+$i days"));
 
 			$path="uploads/logo/small/475551.png";
-			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id, STR_TO_DATE(start_date ,'%d/%m/%Y') date1, STR_TO_DATE(end_date ,'%d/%m/%Y') date2 ,status FROM `manage_reservation` WHERE  '$fecha' between STR_TO_DATE(start_date ,'%d/%m/%Y') and STR_TO_DATE(end_date ,'%d/%m/%Y')-1
+			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id, STR_TO_DATE(start_date ,'%d/%m/%Y') date1, STR_TO_DATE(end_date ,'%d/%m/%Y') date2 ,status FROM `manage_reservation` WHERE  '$fecha' between STR_TO_DATE(start_date ,'%d/%m/%Y') and DATE_ADD(STR_TO_DATE(end_date ,'%d/%m/%Y'), INTERVAL -1 DAY)
 			and hotel_id=$hotel_id and RoomNumber='$roomnumber' and room_id=$roomtypeid and status <> 'Canceled' and status <> 'No Show' ")->row_array();
 
 			if(!isset($result['noche']))
@@ -536,7 +536,8 @@ class channel_model extends CI_Model
 					left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
 					left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=2
 					left join manage_property e on d.property_id = e.property_id
-					WHERE  '$fecha' between a.arrival_date and a.departure_date-1
+					WHERE  '$fecha' between a.arrival_date and 
+					DATE_ADD(a.departure_date, INTERVAL -1 DAY)
 					and a.hotel_hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid and a.status <>'cancelled'")->row_array();
 			}
 			

@@ -377,6 +377,11 @@ class Reservation_model extends CI_Model
         {
             $data=$this->booking_model->reservationdetails($channelId,$reservationId,$hotelid);
         }
+        else if($channelId==9)
+        {
+            $this->load->model('airbnb_model');
+            $data=$this->airbnb_model->reservationdetails($channelId,$reservationId,$hotelid);
+        }
         return $data;
     }
     function totalRate($rate)
@@ -771,6 +776,15 @@ class Reservation_model extends CI_Model
                  {
                     $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
                      $result= array_merge($result,$booking);
+                 }
+              }
+              elseif ($canalid==9) {
+                 $this->load->model('airbnb_model');
+                $airbnb=$this->airbnb_model->ReservationList($hotelid);
+                 if(count($airbnb)>0)
+                 {
+                    $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
+                     $result= array_merge($result,$airbnb);
                  }
               }
           }

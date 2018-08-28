@@ -813,6 +813,7 @@ Agregar Extras
                             <div class="buttons-ui">
                                 <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
                             </div>
+                            <div class="clearfix"></div>
                          </form>
                     </div>
                     <div class="clearfix"></div>

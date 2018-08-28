@@ -331,6 +331,12 @@ class Reservation_model extends CI_Model
             $roomtype= $this->db->query("select * from manage_property where property_id = ".$result['room_id'])->row_array();
 
             $data['ChannelName']='Manual Booking';
+            $data['ccname']='';
+            $data['ccnumber']='';
+            $data['ccmonth']='';
+            $data['ccyear']='';
+            $data['cccvv']='';
+            $data['cctype']='';
             $data['channelId']=$channelId;
             $data['reservatioID']=$result['reservation_id'];
             $data['reservationNumber']=$result['reservation_code'];

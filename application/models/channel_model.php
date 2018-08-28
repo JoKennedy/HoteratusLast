@@ -738,6 +738,50 @@ class channel_model extends CI_Model
 		die;
 		return $html;
 	}
+	function saveRateType($data)
+	{
+		$data['hotelid']=hotel_id();
+		$data['created']=date('Y-m-d h:m:s');
+		$data['active']=1;
+		try {
+
+			if(insert_data('ratetype',$data))
+			{
+				echo json_encode(array('success'=>true));
+			}
+			else
+			{
+				echo json_encode(array('success'=>false));
+			}
+			
+		} catch (Exception $e) {
+			
+			echo json_encode(array('success'=>false,'message'=>$e));
+		}
+
+	}
+	function updateRateType($data)
+	{
+		$rateid=$data['ratetypeid'];
+		$data['active']=(isset($data['statusid'])?1:0);
+		unset($data['ratetypeid']);
+		unset($data['statusid']);
+		try {
+
+			if(update_data('ratetype',$data,array('ratetypeid'=>$rateid)))
+			{
+				echo json_encode(array('success'=>true));
+			}
+			else
+			{
+				echo json_encode(array('success'=>false));
+			}
+			
+		} catch (Exception $e) {
+			
+			echo json_encode(array('success'=>false,'message'=>$e));
+		}
+	}
 	function saveAmenties($roomid,$hoteId,$amenitiesid)
 	{
 		$ids='';

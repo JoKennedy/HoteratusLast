@@ -18,6 +18,10 @@
         <a href="#createbook" data-toggle="modal" class="btn blue">Add New Reservation</a>
     </div>
     <div class="clearfix"></div>
+     <div style="width: 100%;" class="table-responsive">
+        <div id="calendario"> </div>
+    </div>
+    <div class="clearfix"></div>
     <div class="graph-visual tables-main">
         <div class="graph">
             <div class="table-responsive">
@@ -62,6 +66,8 @@
             </div>
         </div>
     </div>
+    
+    <div class="clearfix"></div>
 </div>
 <div id="createbook" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -193,6 +199,25 @@
 var fecha = new Date($.now());
 $("#deadline").attr('min', formatoDate(fecha));
 
+function showcalendar()
+{   
+    var data={};
+    $.ajax({
+        type: "POST",
+        url:  '<?php echo lang_url(); ?>pos/calendarFull',
+        data: data,
+        beforeSend: function() {
+            showWait('Update Calendar, Please Wait');
+            setTimeout(function() { unShowWait(); }, 100000);
+        },
+        success: function(html) {
+            $("#calendario").html(html);
+            unShowWait();
+
+        }
+    });
+}
+showcalendar();
 function saveReservation() {
 
     var data = $("#bookC").serialize();

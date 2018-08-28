@@ -44,7 +44,6 @@ class Stripe_payment extends CI_Controller{
 
 						if (strlen($Charge["error"])==0)
 						{
-							
 							$lon=(strlen($Charge['amount'])-2);
 							$data['success']=true;
 							$data['amount']=number_format(substr($Charge['amount'],0,$lon), 0, '', ',').'.'.substr($Charge['amount'],-2);

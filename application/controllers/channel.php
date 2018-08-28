@@ -1509,7 +1509,18 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['extras']=get_data('room_extras',array('room_id' => $roomid ))->result_array();
 		$data['amenitiesType']=get_data('room_amenities_type')->result_array();
 		$data['amenitiesroom']=explode(',', $data['Roominfo']['amenities']);
+		$data['ratetype']=$this->db->query("select a.*, case a.pricingtype when 1 then 'Room based pricing' when 2 then 'Guest based pricing' when 3 then 'Occupancy based Pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from ratetype a left join meal_plan b on a.mealplanid=meal_id where hotelid=$hotelid and  roomid =$roomid")->result_array();
 		$this->views('channel/viewroom',$data);
+	}
+	function saveRateType()
+	{
+		$data=$_POST;
+		echo $this->channel_model->saveRateType($data);
+	}
+	function updateRateType()
+	{
+		$data=$_POST;
+		echo $this->channel_model->updateRateType($data);
 	}
 	function saveAmenties()
 	{

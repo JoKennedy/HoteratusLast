@@ -56,7 +56,182 @@ class POS extends Front_Controller {
 		}
 		
 	}
+	public function ReservationShow($roomnumber,$date1, $roomtypeid)
+	{
+		$hotel_id=hotel_id();
+		$repuesta='';
+		$contador=0;
+		
+		
 
+		for ($i=0; $i <=23 ; $i++) { 
+		
+			$fecha=date('Y-m-d',strtotime($date1."+$i days"));
+			$result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id, STR_TO_DATE(start_date ,'%d/%m/%Y') date1, STR_TO_DATE(end_date ,'%d/%m/%Y') date2 ,status FROM `manage_reservation` WHERE  '$fecha' between STR_TO_DATE(start_date ,'%d/%m/%Y') and DATE_ADD(STR_TO_DATE(end_date ,'%d/%m/%Y'), INTERVAL -1 DAY)
+			and hotel_id=$hotel_id and RoomNumber='$roomnumber' and room_id=$roomtypeid and status <> 'Canceled' and status <> 'No Show' ")->row_array();
+
+			if(!isset($result['noche']))
+			{	$path="uploads/small/channels_booking.gif";
+				$result=$this->db->query("SELECT datediff(a.departure_date,a.arrival_date) noche, a.arrival_date date1 , a.departure_date date2, a.RoomNumber, 2 channelid, a.room_res_id reservation_id, a.status
+					from import_reservation_BOOKING_ROOMS a
+					left join import_reservation_BOOKING b on a.import_reserv_id=b.import_reserv_id
+					left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
+					left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=2
+					left join manage_property e on d.property_id = e.property_id
+					WHERE  '$fecha' between a.arrival_date and 
+					DATE_ADD(a.departure_date, INTERVAL -1 DAY)
+					and a.hotel_hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid and a.status <>'cancelled'")->row_array();
+			}
+			
+
+
+			if (isset($result['noche'])){
+
+				if(strtotime($result['date1'])<date('Y-m-d'))
+				{
+					$result['date1']=date('Y-m-d');
+				}
+				$result['noche']= ceil(abs(strtotime($result['date2']) - strtotime($result['date1'])) / 86400);
+
+				$color=($result['status']=='Checkin'?'#096fbf':($result['status']=='Checkout'?'#FF5733':'#52c748') )  ;
+				
+				if ($contador>0) {
+					$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
+					$contador=0;
+				}
+				$repuesta .= '<td bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" ><a style="font-size:6px; " href="'.site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id'])).'"> <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'">  </a></td>';
+
+				$i += $result['noche']-1;
+				
+			}
+			else
+			{
+				$contador++;
+				
+			}
+		}
+
+		if($contador>0)
+		{
+			$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
+		}
+
+		return $repuesta;
+
+
+	}
+	function calendarFull()
+	{
+		
+				
+		$ss=0;
+		$cta=0;
+		$ctd=0;
+		$showr=0;
+
+		$dataini=date('Y-m-d');
+		
+
+		$date1=$dataini;
+		$date2=date('Y-m-d',strtotime($date1.'+31 days'));
+		$fecha = new DateTime();
+		$fecha->modify('last day of this month');
+		$lastday= $fecha->format('d');
+		
+
+		
+		$hotel_id=hotel_id();
+
+		
+		$html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB" > ';
+		 $header1='<thead> <tr> <th style="text-align:center; "> Table Name </th>';
+		 $header2=' <thead> <tr>  <th bgcolor="#E5E7E9"></th>';
+
+		 $mes= '';
+		 for ($i=0; $i <=23 ; $i++) { 
+		 	
+
+		 	
+		 	 if ($i==0) {
+		 	 	
+		 	 	$header1 .='<th  COLSPAN="24" style="text-align:center; margin: 15px; padding: 15px;"> Fecha actual select </th>';
+		 	
+
+		 	 }
+		 	 
+		 	 $header2.= '<th bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'" style=" font-size:15px; text-align:center;  margin: 10px; padding: 5px;">'.$i.':00</th>';	
+		 	 
+
+		 }
+
+		
+		 $header1 .=' </tr> </thead> ';
+		 $header2 .='	</tr> </thead>';
+		 
+
+
+		$room=$this->db->query("SELECT * FROM mypostable where myposid=2")->result_array();
+
+		$body='<tbody>';
+
+		foreach ($room as $value) {
+			$precio='<tr>';
+			$avai='<tr>';
+			$min = '<tr>';
+			
+			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['description'].'</td> </tr> ';
+			$room2='';
+
+				/*
+			if ($showr==1) {
+
+					foreach ($roomnumber as  $rooms) {
+						$room2 .='<tr> <td></td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
+
+						$room2 .= $this->ReservationShow($rooms,$date1,$value['property_id']);
+
+					}	
+
+
+			}
+			*/
+
+			$dato=null;
+
+			$datos= $this->db->query("SELECT * FROM mypostablereservation where datetimereservation='".date('Y-m-d'). "' and mypostableid= ".$value['postableid'])->result_array(); 
+			
+
+			 for ($i=0; $i <=23 ; $i++) { 
+
+			 		foreach ($datos as $value) {
+
+			 			if("$i:00:00"==$value['starttime'])
+			 			{
+			 				$dato=$value;
+			 				break;
+			 			}
+			 			else
+			 			{
+			 				$dato=null;
+			 			}
+			 			
+			 		}
+			 	$color=(isset($dato['starttime'])?'#FF5733':'#52c748');
+		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime'])?'O':'A').'</td>';  
+
+		 	}
+	
+				$precio.='</tr>';
+				$room2.='</tr>';
+				$body .=$precio.$avai.$min.($showr==1?$room2:'');
+			
+		}
+
+
+		$body .='</tbody> </table>';
+		echo  $html.$header1.$header2.$body;
+
+	}
 	function viewCreationtable($hotelid,$posid)
 	{
 

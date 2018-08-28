@@ -170,7 +170,8 @@ tr.thead-top
               foreach ($CURRENCYS as $value) {
                 echo '<option value="'.$value['currency_code'].'">'.$value['currency_code'].'</option>';
               }
-              
+               
+               
               ?>
       </select>
 </label>

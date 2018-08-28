@@ -308,6 +308,50 @@
                             <div style="float: right;" class="buttons-ui">
                                 <a href="#newRate" data-toggle="modal" class="btn blue">Create New Rate</a>
                             </div>
+                            <div class="clearfix"></div>
+                            <h3>Rate Type</h3>
+                            <div class="table-responsive">
+                                <div class="graph">
+                                    <div class="tables">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Rate Type Name</th>
+                                                    <th>Meal Plan</th>
+                                                    <th>Pricing Type</th>
+                                                    <th align="center" width="5%"> Edit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+
+                                                if( count($ratetype)>0)
+                                                {
+                                                    $i=0;
+                                                    foreach($ratetype as $rate)
+                                                    {     
+                                                        $update="'".$rate['ratetypeid']."','".$rate['name']."','".$rate['mealplanid']."','".$rate['pricingtype']."','".$rate['type']."','".$rate['fee']."','".$rate['value']."','".$rate['active']."'";                                            
+                                                        $i++;
+                                                        echo '  <tr id="extra'.$i.'" class="'.($i%2?'active':'success').'">
+                                                                    <td>'.$i.'</td>
+                                                                    <td>'.$rate['name'].'</td>
+                                                                    <td > '.$rate['meal_name'].'</td>
+                                                                    <td >'.$rate['PricingName'].'</td>
+                                                                    <td align="center"> <a onclick="showratetype('.$update.')"><i class="fa fa-edit"></i> </a></td>
+                                                                </tr>';
+                                                    }
+                                                }                               
+ 
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                        <div align="center">
+                                            <?=( count($ratetype)==0?'<h4>This Room Has No Rate Type</h4>':'') ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                         <section id="section-4">
                             <div class="graph-form">
@@ -522,60 +566,361 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">New Rate Type</h4>
             </div>
-            <div>
-                <div class="col-md-12 form-group1">
-                    <label class="control-label">Rate Type Name</label>
-                    <input style="background:white; color:black;" name="recipename" id="recipename" type="text" placeholder="Rate Type Name" required="">
-                </div>
-                <div class="col-md-12 form-group1 form-last">
-                    <label style="padding:4px;" class="control-label controls">Meal Plan </label>
-                    <select style="width: 100%; padding: 9px;" name="productid" id="productid">
-                        <?php
+            <div id="createratetype">
+                <form id="ratetypeC" accept-charset="utf-8">
+                    <input type="hidden" name="roomid" value="<?=$Roominfo['property_id']?>">
+                    <div class="col-md-12 form-group1">
+                        <label class="control-label">Rate Type Name</label>
+                        <input style="background:white; color:black;" name="name" id="name" type="text" placeholder="Rate Type Name" required="">
+                    </div>
+                    <div class="col-md-12 form-group1 form-last">
+                        <label style="padding:4px;" class="control-label controls">Meal Plan </label>
+                        <select style="width: 100%; padding: 9px;" name="mealplanid" id="mealplanid">
+                            <?php
 
-                            echo '<option  value="0" >Select a Meal Plan</option>';
-                            foreach ($ALLProducts as $value) {
-                                $i++;
-                                echo '<option value="'.$value['itemPosId'].'" >'.$value['name'].'</option>';
-                            }
-                      ?>
-                    </select>
-                </div>
-               
-               
-                <div style="text-align: center; padding:15px;" class="col-md-12 form-group1 form-last">
-                    <h3 ">Refundable</h3>
-                    <hr>
-                </div>
-                 <div class="col-md-4 form-group1 form-last">
-                    <label style="padding:4px;" class="control-label controls">Type</label>
-                    <select style="width: 100%; padding: 9px;" name="productid" id="productid">
-                        <option  value="0" >Select a Type</option>
-                        <option  value="1" >Add</option>
-                        <option  value="2" >Subtract</option>
-                    </select>
-                </div>
-                 <div class="col-md-4 form-group1 form-last">
-                    <label style="padding:4px;" class="control-label controls">Fee</label>
-                    <select style="width: 100%; padding: 9px;" name="productid" id="productid">
-                        <option  value="0" >Select a Fee</option>
-                        <option  value="1" >Fixed</option>
-                        <option  value="2" >Percentage</option>
-                    </select>
-                </div>
-                <div class="col-md-4 form-group1">
-                    <label class="control-label">Value</label>
-                    <input onkeypress="return justNumbers(event);" style="background:white; color:black;" name="value" id="value" type="text" placeholder="Value" required="">
-                </div>
+                                echo '<option  value="0" >Select a Meal Plan</option>';
+                                foreach ($mealplan as $value) {
+                                    $i++;
+                                    echo '<option value="'.$value['meal_id'].'" >'.$value['meal_name'].'</option>';
+                                }
+                          ?>
+                        </select>
+                    </div>
+                    <div class="col-md-12 form-group1 form-last">
+                        <label style="padding:4px;" class="control-label controls">Pricing Type </label>
+                        <select style="width: 100%; padding: 9px;" name="pricingtype" id="pricingtype">
+                            <option value="0">Select a Pricing Type</option>
+                            <option value="1">Room Based Pricing</option>
+                            <option value="2">Per Day</option>
+                            <option value="3">Per Occupancy</option>
+                        </select>
+                    </div>
+                    <div style="text-align: center; padding:15px;" class="col-md-12 form-group1 form-last">
+                        <h3 ">Refundable</h3>
+                        <hr>
+                    </div>
+                     <div class="col-md-4 form-group1 form-last ">
+                        <label style="padding:4px; " class="control-label controls ">Type</label>
+                        <select style="width: 100%; padding: 9px; " name="type " id="type ">
+                            <option  value="0 " >Select a Type</option>
+                            <option  value="1 " >Add</option>
+                            <option  value="2 " >Subtract</option>
+                        </select>
+                    </div>
+                     <div class="col-md-4 form-group1 form-last ">
+                        <label style="padding:4px; " class="control-label controls ">Fee</label>
+                        <select style="width: 100%; padding: 9px; " name="fee " id="fee ">
+                            <option  value="0 " >Select a Fee</option>
+                            <option  value="1 " >Fixed</option>
+                            <option  value="2 " >Percentage</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group1 ">
+                        <label class="control-label ">Value</label>
+                        <input onkeypress="return justNumbers(event); " style="background:white; color:black; " name="value " id="value " type="text " placeholder="Value " required=" ">
+                    </div>
 
-                <div class="buttons-ui">
-                    <a onclick="saveRecipe();" class="btn green">Save</a>
-                </div>
+                    <div class="buttons-ui ">
+                        <a onclick="saveratetype(); " class="btn green ">Save</a>
+                    </div>
+                </form>
             </div>
             
+            <div class="clearfix "></div>
+        </div>
+    </div>
+</div>
+<div id="updateRate" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <button type="button " class="close " data-dismiss="modal">&times;</button>
+                <h4 class="modal-title ">Update Rate Type</h4>
+            </div>
+            <div id="createratetype">
+                <form id="ratetypeUP" accept-charset="utf-8 ">
+                    <input type="hidden" name="ratetypeid" id="ratetypeid" value="">
+                    <div class="col-md-12 form-group1 " >
+                        <div class="onoffswitch" style="float: right;">
+                            <input type="checkbox" name="statusid" class="onoffswitch-checkbox" id="statusid" >
+                            <label class="onoffswitch-label" for="statusid">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                   <div class="col-md-12 form-group1 ">
+                        <label class="control-label ">Rate Type Name</label>
+                        <input style="background:white; color:black; " name="name" id="nameup" type="text" placeholder="Rate Type Name " required=" ">
+                    </div>
+                    <div class="col-md-12 form-group1 form-last ">
+                        <label style="padding:4px; " class="control-label controls">Meal Plan </label>
+                        <select style="width: 100%; padding: 9px; " name="mealplanid" id="mealplanidup">
+                            <?php
+
+                                echo '<option  value="0">Select a Meal Plan</option>';
+                                foreach ($mealplan as $value) {
+                                    $i++;
+                                    echo '<option value="'.$value['meal_id'].'" >'.$value['meal_name'].'</option>';
+                                }
+                          ?>
+                        </select>
+                    </div>
+                    <div class="col-md-12 form-group1 form-last">
+                        <label style="padding:4px; " class="control-label controls">Pricing Type </label>
+                        <select style="width: 100%; padding: 9px;" name="pricingtype" id="pricingtypeup">
+                            <option  value="0" >Select a Pricing Type</option>
+                            <option  value="1" >Room Based Pricing</option>
+                            <option  value="2" >Per Day</option>
+                            <option  value="3" >Per Occupancy</option>
+                        </select>
+                    </div>
+                   
+                   
+                    <div style="text-align: center; padding:15px; " class="col-md-12 form-group1 form-last">
+                        <h3 ">Refundable</h3>
+                        <hr>
+                    </div>
+                    <div class="col-md-4 form-group1 form-last">
+                        <label style="padding:4px;" class="control-label controls">Type</label>
+                        <select style="width: 100%; padding: 9px;" name="type" id="typeup">
+                            <option value="0">Select a Type</option>
+                            <option value="1">Add</option>
+                            <option value="2">Subtract</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group1 form-last">
+                        <label style="padding:4px;" class="control-label controls">Fee</label>
+                        <select style="width: 100%; padding: 9px;" name="fee" id="feeup">
+                            <option value="0">Select a Fee</option>
+                            <option value="1">Fixed</option>
+                            <option value="2">Percentage</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group1">
+                        <label class="control-label">Value</label>
+                        <input onkeypress="return justNumbers(event);" style="background:white; color:black;" name="value" id="valueup" type="text" placeholder="Value" required="">
+                    </div>
+                    <div class="buttons-ui">
+                        <a onclick="updateratetype();" class="btn green">Save</a>
+                    </div>
+                </form>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
 <script type="text/javascript" charset="utf-8">
-    new CBPFWTabs(document.getElementById('tabs'));
+new CBPFWTabs(document.getElementById('tabs'));
+</script>
+<script type="text/javascript">
+function saveratetype() {
+    if ($("#name").val() == "") {
+        swal({
+            title: "upps, Sorry",
+            text: 'Missing Field Rate Type Name',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#name").focus();
+        return;
+
+    } else if ($("#mealplanid").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Meal Plan to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#mealplanid").focus();
+        return;
+    } else if ($("#pricingtype").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Pricing Type to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#pricingtype").focus();
+        return
+    } else if ($("#type").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Refundable Type to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#type").focus();
+        return
+    } else if ($("#fee").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Refundable Fee to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#fee").focus();
+        return
+    } else if ($("#value").val() == 0 || $("#value").val() == "") {
+        swal({
+            title: "upps, Sorry",
+            text: 'Type a Refundable Value to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#value").focus();
+        return
+    }
+
+    var data = $("#ratetypeC").serialize();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>channel/saveRateType",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["success"]) {
+                swal({
+                    title: "Success",
+                    text: "Rate Type Created!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: msg["msg"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+
+
+
+
+
+        }
+    });
+
+}
+function showratetype(id,name,mealplan,pricing,type,fee,value,active)
+{ 
+    $("#ratetypeid").val(id);
+    $("#nameup").val(name); 
+    $("#mealplanidup").val(mealplan); 
+    $("#pricingtypeup").val(pricing); 
+    $("#typeup").val(type); 
+    $("#feeup").val(fee); 
+    $("#valueup").val(value);
+    $("#statusid").attr('checked',(active=='1'?true:false));
+    $("#updateRate").modal();
+}
+function updateratetype() {
+    if ($("#nameup").val()== "") {
+        swal({
+            title: "upps, Sorry",
+            text: 'Missing Field Rate Type Name',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#nameup").focus();
+        return;
+
+    } else if ($("#mealplanidup").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Meal Plan to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#mealplanidup").focus();
+        return;
+    } else if ($("#pricingtypeup").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Pricing Type to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#pricingtypeup").focus();
+        return
+    } else if ($("#typeup").val()== 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Refundable Type to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#typeup").focus();
+        return
+    } else if ($("#feeup").val() == 0) {
+        swal({
+            title: "upps, Sorry",
+            text: 'Select a Refundable Fee to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#feeup").focus();
+        return
+    } else if ($("#valueup").val() == 0 || $("#value").val() == "") {
+        swal({
+            title: "upps, Sorry",
+            text: 'Type a Refundable Value to Continue',
+            icon: "warning",
+            button: "Ok!",
+        });
+        $("#valueup").focus();
+        return
+    }
+
+    var data = $("#ratetypeUP").serialize();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>channel/updateRateType",
+        data: data,
+        beforeSend: function() {
+            showWait('Updating Rate Type');
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["success"]) {
+                swal({
+                    title: "Success",
+                    text: "Rate Type Updated!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: msg["msg"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+
+
+
+
+
+        }
+    });
+
+}
+
 </script>

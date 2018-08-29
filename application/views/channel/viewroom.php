@@ -26,8 +26,8 @@
                         </ul>
                     </nav>
                     <div class="content tab">
-                        <section id="section-1">
-                            <div class="forms-main">
+                        <section  id="section-1">
+                            <div style="height:4000px;" class="forms-main">
                                 <div class="graph-form">
                                     <div class="validation-form">
                                         <!---->
@@ -408,17 +408,134 @@
                             <div class="graph">
                                 <h3>Photos</h3>
                                 <div class="validation-form">
-                                    <div class="col-md-6 form-group1">
-                                        <label class="control-label">Add New Photo</label>
-                                        <input type="file" id="immm" style="color: black;" reqired name="hotel_image[]" multiple accept="image/png,image/gif,image/jpeg">
+                                    <div class="col-md-12 form-group1">
+                                        <form id="roomimages"   accept-charset="utf-8">
+                                            <input type="hidden" name="roomid" value="<?=$Roominfo['property_id']?>">                                   
+                                            <div class="col-md-6 form-group1">
+                                                <label class="control-label">Add New Images</label>
+                                                <input type="file" id="Image" style="color: black;" reqired name="Image[]" multiple accept="image/png,image/gif,image/jpeg">
+                                            </div>
+                                            <div class="col-md-12 form-group button-2">
+                                                <a onclick="saveimage()" class="btn btn-primary">Upload</a>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="col-md-12 form-group button-2">
-                                        <button type="submit" class="btn btn-primary">Upload</button>
-                                        <!--<button type="reset" class="btn btn-default">Reset</button>-->
+                                    <h4>All images uploaded</h4>
+                                    <div class="col-md-12 form-group1 graph">
+                                         
+                                              <ul class="gridder">
+                                             <?php 
+
+                                                $i=0;
+                                                foreach ($roomphotos as $value) {
+                                                    $i++;
+                                                    echo '<li class=" gridder-list" data-griddercontent="#content'.$i.'">';
+                                                    echo ' <img src="'.base_url().$value['photo_names'].'" />';
+                                                }
+                                             ?>
+                                            </ul>
+                                            
+                                              <?php 
+
+                                                $i=0;
+                                                foreach ($roomphotos as $value) {
+                                                    $i++;
+                                                   
+                                                    echo '<div id="content'.$i.'" class="gridder-content"><center> <img src="'.base_url().$value['photo_names'].'" /> </center></div>';
+                                                }
+                                             ?>
+                                                                           
+          
+                            
                                     </div>
+
                                 </div>
+
+                               
                                 <div class="clearfix"></div>
                             </div>
+                            <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/galeriaimg.js"></script>
+                            <script type="text/javascript">
+                               jQuery(function() {
+
+                                    // llamada al plugin
+                                    jQuery('.gridder').gridderExpander({
+                                        scroll: true,  // activar/desactivar auto-scroll
+                                        scrollOffset: 30,  // distancia en píxeles de margen al hacer scroll
+                                        scrollTo: "panel", // hacia donde se hace el auto-scroll
+                                        animationSpeed: 400, // duración de la animación al hacer clic en elemento
+                                        animationEasing: "easeInOutExpo", // tipo de animación
+                                        showNav: true,  // activar/desactivar navegación
+                                        nextText: "<i class='fa fa-arrow-right'></i>", // texto para pasar a la siguiente imagen
+                                        prevText: "<i class='fa fa-arrow-left'></i>", // texto para pasar a la imagen anterior
+                                        closeText: "<i class='fa fa-times'></i>", // texto del botón para cerrar imagen expandida
+                                        onStart: function(){
+                                            //código que se ejecuta cuando Gridder se inicializa
+                                        },
+                                        onContent: function(){
+                                            //código que se ejecuta cuando Gridder ha cargado el contenido
+                                        },
+                                        onClosed: function(){
+                                            //código que se ejecuta al cerrar Gridder
+                                        }
+                                    });
+
+                                });
+
+                                function saveimage()
+                                    {
+                                        if ($("#Image").val().length < 1) {
+                                            swal({
+                                                title: "upps, Sorry",
+                                                text: "Missing Field Imagen!",
+                                                icon: "warning",
+                                                button: "Ok!",
+                                            });
+                                            return;
+                                        }
+                                    
+                                    var data = new FormData($("#roomimages")[0]);
+                                    $.ajax({
+                                        type: "POST",
+                                        dataType: "json",
+                                        contentType: false,
+                                        processData: false,
+                                        url: "<?php echo lang_url(); ?>channel/uploadRoomImagen",
+                                        data: data,
+                                        beforeSend: function() {
+                                            showWait();
+                                            setTimeout(function() { unShowWait(); }, 10000);
+                                        },
+                                        success: function(msg) {
+                                            unShowWait();
+                                            if (msg["success"]) {
+                                                swal({
+                                                    title: "Success",
+                                                    text: "Imagen Changed!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                }).then((n) => {
+                                                    location.reload();
+                                                });
+                                            } else {
+
+                                                swal({
+                                                    title: "upps, Sorry",
+                                                    text: msg["message"],
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+
+
+
+
+
+                                        }
+                                    });
+                                    }
+
+                            </script>
                         </section>
                         <section id="section-5">
                             <div class="graph-form">
@@ -599,85 +716,88 @@
                         <h3 ">Refundable</h3>
                         <hr>
                     </div>
-                     <div class="col-md-4 form-group1 form-last ">
-                        <label style="padding:4px; " class="control-label controls ">Type</label>
-                        <select style="width: 100%; padding: 9px; " name="type " id="type ">
-                            <option  value="0 " >Select a Type</option>
-                            <option  value="1 " >Add</option>
-                            <option  value="2 " >Subtract</option>
+                     <div class="col-md-4 form-group1 form-last">
+                        <label style="padding:4px;" class="control-label controls ">Type</label>
+                        <select style="width: 100%; padding: 9px; " name="type" id="type">
+                            <option  value="0" >Select a Type</option>
+                            <option  value="1" >Add</option>
+                            <option  value="2" >Subtract</option>
                         </select>
                     </div>
-                     <div class="col-md-4 form-group1 form-last ">
+                     <div class="col-md-4 form-group1 form-last">
                         <label style="padding:4px; " class="control-label controls ">Fee</label>
-                        <select style="width: 100%; padding: 9px; " name="fee " id="fee ">
+                        <select style="width: 100%; padding: 9px; " name="fee" id="fee">
                             <option  value="0 " >Select a Fee</option>
                             <option  value="1 " >Fixed</option>
                             <option  value="2 " >Percentage</option>
                         </select>
                     </div>
-                    <div class="col-md-4 form-group1 ">
+                    <div class="col-md-4 form-group1">
                         <label class="control-label ">Value</label>
-                        <input onkeypress="return justNumbers(event); " style="background:white; color:black; " name="value " id="value " type="text " placeholder="Value " required=" ">
+                        <input onkeypress="return justNumbers(event);" style="background:white; color:black; " name="value" id="value" type="text" placeholder="Value" required=" ">
                     </div>
 
-                    <div class="buttons-ui ">
-                        <a onclick="saveratetype(); " class="btn green ">Save</a>
+
+                    <div class="buttons-ui">
+                        <a onclick="saveratetype();" class="btn green">Save</a>
                     </div>
+                    
                 </form>
+                 <div class="clearfix"></div>
             </div>
             
-            <div class="clearfix "></div>
+            
         </div>
     </div>
 </div>
-<div id="updateRate" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog ">
+<div id="updateRate " class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header ">
-                <button type="button " class="close " data-dismiss="modal">&times;</button>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal ">&times;</button>
                 <h4 class="modal-title ">Update Rate Type</h4>
             </div>
-            <div id="createratetype">
-                <form id="ratetypeUP" accept-charset="utf-8 ">
-                    <input type="hidden" name="ratetypeid" id="ratetypeid" value="">
+            <div id="createratetype ">
+                <form id="ratetypeUP " accept-charset="utf-8 ">
+                    <input type="hidden " name="ratetypeid " id="ratetypeid " value=" ">
                     <div class="col-md-12 form-group1 " >
-                        <div class="onoffswitch" style="float: right;">
-                            <input type="checkbox" name="statusid" class="onoffswitch-checkbox" id="statusid" >
-                            <label class="onoffswitch-label" for="statusid">
-                                <span class="onoffswitch-inner"></span>
-                                <span class="onoffswitch-switch"></span>
+                        <div class="onoffswitch " style="float: right; ">
+                            <input type="checkbox " name="statusid " class="onoffswitch-checkbox " id="statusid " >
+                            <label class="onoffswitch-label " for="statusid ">
+                                <span class="onoffswitch-inner "></span>
+                                <span class="onoffswitch-switch "></span>
                             </label>
                         </div>
                     </div>
                    <div class="col-md-12 form-group1 ">
                         <label class="control-label ">Rate Type Name</label>
-                        <input style="background:white; color:black; " name="name" id="nameup" type="text" placeholder="Rate Type Name " required=" ">
+                        <input style="background:white; color:black; " name="name " id="nameup " type="text " placeholder="Rate Type Name " required=" ">
                     </div>
                     <div class="col-md-12 form-group1 form-last ">
-                        <label style="padding:4px; " class="control-label controls">Meal Plan </label>
-                        <select style="width: 100%; padding: 9px; " name="mealplanid" id="mealplanidup">
+                        <label style="padding:4px; " class="control-label controls ">Meal Plan </label>
+                        <select style="width: 100%; padding: 9px; " name="mealplanid " id="mealplanidup ">
                             <?php
 
-                                echo '<option  value="0">Select a Meal Plan</option>';
+                                echo '<option  value="0 ">Select a Meal Plan</option>';
                                 foreach ($mealplan as $value) {
                                     $i++;
-                                    echo '<option value="'.$value['meal_id'].'" >'.$value['meal_name'].'</option>';
+                                    echo '<option value=" '.$value['meal_id '].' " >'.$value['meal_name'].'</option>';
                                 }
                           ?>
                         </select>
                     </div>
-                    <div class="col-md-12 form-group1 form-last">
-                        <label style="padding:4px; " class="control-label controls">Pricing Type </label>
-                        <select style="width: 100%; padding: 9px;" name="pricingtype" id="pricingtypeup">
-                            <option  value="0" >Select a Pricing Type</option>
-                            <option  value="1" >Room Based Pricing</option>
-                            <option  value="2" >Per Day</option>
-                            <option  value="3" >Per Occupancy</option>
+                    <div class="col-md-12 form-group1 form-last ">
+                        <label style="padding:4px; " class="control-label controls ">Pricing Type </label>
+                        <select style="width: 100%; padding: 9px; " name="pricingtype " id="pricingtypeup ">
+                            <option  value="0 " >Select a Pricing Type</option>
+                            <option  value="1 " >Room Based Pricing</option>
+                            <option  value="2 " >Per Day</option>
+                            <option  value="3 " >Per Occupancy</option>
                         </select>
                     </div>
                    
                    
-                    <div style="text-align: center; padding:15px; " class="col-md-12 form-group1 form-last">
+                    <div style="text-align: center; padding:15px; " class="col-md-12 form-group1 form-last ">
                         <h3 ">Refundable</h3>
                         <hr>
                     </div>
@@ -812,20 +932,21 @@ function saveratetype() {
     });
 
 }
-function showratetype(id,name,mealplan,pricing,type,fee,value,active)
-{ 
+
+function showratetype(id, name, mealplan, pricing, type, fee, value, active) {
     $("#ratetypeid").val(id);
-    $("#nameup").val(name); 
-    $("#mealplanidup").val(mealplan); 
-    $("#pricingtypeup").val(pricing); 
-    $("#typeup").val(type); 
-    $("#feeup").val(fee); 
+    $("#nameup").val(name);
+    $("#mealplanidup").val(mealplan);
+    $("#pricingtypeup").val(pricing);
+    $("#typeup").val(type);
+    $("#feeup").val(fee);
     $("#valueup").val(value);
-    $("#statusid").attr('checked',(active=='1'?true:false));
+    $("#statusid").attr('checked', (active == '1' ? true : false));
     $("#updateRate").modal();
 }
+
 function updateratetype() {
-    if ($("#nameup").val()== "") {
+    if ($("#nameup").val() == "") {
         swal({
             title: "upps, Sorry",
             text: 'Missing Field Rate Type Name',
@@ -853,7 +974,7 @@ function updateratetype() {
         });
         $("#pricingtypeup").focus();
         return
-    } else if ($("#typeup").val()== 0) {
+    } else if ($("#typeup").val() == 0) {
         swal({
             title: "upps, Sorry",
             text: 'Select a Refundable Type to Continue',
@@ -922,5 +1043,4 @@ function updateratetype() {
     });
 
 }
-
 </script>

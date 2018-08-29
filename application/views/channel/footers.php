@@ -7,7 +7,11 @@
     <div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
     <!--/down-->
     <div class="down">
-        <a><img src="<?php echo base_url();?>user_asset/back/images/admin.jpg"></a>
+       <center>
+        <?php
+    		echo '<a><img style="width:100px;" src="'.base_url().(strlen($userimage)<5?"uploads/room_photos/noimage.jpg":$userimage).'"" class="img-responsive" alt=""></a>'
+    	  ?>
+    	  </center>
         <a><span class=" name-caret"><?=$fname.' '.$lname ?> </span></a>
         <!--<p><?= ($User_Type==1?'System Administrator':'Designated User')?> </p>-->
         <p style="font-size: 14px;"> <b><?= $HotelInfo['property_name'] ?></b></p>

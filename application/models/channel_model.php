@@ -557,7 +557,7 @@ class channel_model extends CI_Model
 					$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
 					$contador=0;
 				}
-				$repuesta .= '<td bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" ><a style="font-size:6px; " href="'.site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id'])).'"> <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'">  </a></td>';
+				$repuesta .= '<td onclick="gotoreser('."'".site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id']))."'".')" bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" > <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'"> </td>';
 
 				$i += $result['noche']-1;
 				
@@ -643,19 +643,24 @@ class channel_model extends CI_Model
 		 
 
 
-		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by property_id ")->result_array();
+		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by property_name ")->result_array();
 
 		$body='<tbody>';
 
 		foreach ($room as $value) {
+
+			$roomid=$value['property_id'];
+			$ratetype=$this->db->query("select * from ratetype where roomid = ".$value['property_id']." order by name ")->result_array();
+
 			$precio='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 			$avai='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
 			$min = '<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
 			$ctas = '<tr class="cta" style="display:'.($cta==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
 			$ctds = '<tr class="ctd" style="display:'.($ctd==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
 			$sss = '<tr class="ss" style="display:'.($ss==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
-			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['property_name'].'</td> </tr> ';
+			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['property_name'].(count($ratetype)>0?'<i onclick="alert('.count($ratetype).')" class="fa show_plus_221 fa-plus"></i>':'').'</td> </tr> ';
 			$room2='';
+			//fa show_plus_221 fa-minus
 			$roomnumber=explode(",", $value['existing_room_number']);
 
 			if(count($roomnumber)<$value['existing_room_count'])
@@ -667,19 +672,6 @@ class channel_model extends CI_Model
 				}
 			}
 
-
-			if ($showr==1) {
-
-					foreach ($roomnumber as  $rooms) {
-						$room2 .='<tr> <td></td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
-
-						$room2 .= $this->ReservationShow($rooms,$date1,$value['property_id']);
-
-					}	
-
-
-			}
-			
 
 			$dato=null;
 
@@ -714,16 +706,86 @@ class channel_model extends CI_Model
 
 
 		 	}
-	
+
+			$precio.='</tr>';
+			$avai.='</tr>';
+			$min .='</tr>';
+			$ctas .='</tr>';
+			$ctds .='</tr>';
+			$sss .='</tr>';
+			$body .=$precio.$avai.$min.$ctas.$ctds.$sss;
+
+			foreach ($ratetype as  $rate) {
+				$precio='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
+				$avai='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
+				$min = '<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
+				$ctas = '<tr class="cta" style="display:'.($cta==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
+				$ctds = '<tr class="ctd" style="display:'.($ctd==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
+				$sss = '<tr class="ss" style="display:'.($ss==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
+				$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px; color:#5dade2;">'.$rate['name'].'</td> </tr> ';
+				$room2='';	
+				
+
+				$dato=null;
+
+				$datosr= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_rate_types_base where hotel_id = $hotel_id  and room_id =".$rate['roomid']." and rate_types_id=".$rate['ratetypeid']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y') ")->result_array(); 	
+
+				 for ($i=0; $i <=29 ; $i++) { 
+			 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
+
+				 		foreach ($datosr as $valuer) {
+
+				 			
+				 			if(date('Y-m-d',strtotime($valuer['datereal']))==date('Y-m-d',strtotime($datereal)))
+				 			{
+				 				$dator=$valuer;
+				 				break;
+				 			}
+				 			else
+				 			{
+				 				$dator=null;
+				 			}
+				 			
+				 		}
+
+			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.(isset($dator['price'])?$dator['price']:'Null').'</td>';  
+					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.(isset($dator['availability'])?$dator['availability']:'Null').' </td>';
+					$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dator['minimum_stay'])?$dator['minimum_stay']:'Null').' </td>';
+					$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').' readonly=""/> </td>';
+					$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['ctd'])=='1'?($dator['ctd']==1?'checked':''):'').' readonly="" /> </td>';
+					$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dator['stop_sell'])?($dator['stop_sell']==1?'checked':''):'').' /> </td>';
+
+
+
+
+			 	}
+
 				$precio.='</tr>';
 				$avai.='</tr>';
 				$min .='</tr>';
 				$ctas .='</tr>';
 				$ctds .='</tr>';
 				$sss .='</tr>';
-				$room2.='</tr>';
-				$body .=$precio.$avai.$min.$ctas.$ctds.$sss.($showr==1?$room2:'');
+				
+				$body .=$precio.$avai.$min.$ctas.$ctds.$sss;
+
+		 		
+		 	}
 			
+			if ($showr==1) {
+
+					foreach ($roomnumber as  $rooms) {
+						$room2 .='<tr> <td></td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
+
+						$room2 .= $this->ReservationShow($rooms,$date1,$roomid);
+
+					}	
+
+
+			}
+			
+			$room2.='</tr>';
+			$body.=($showr==1?$room2:'');
 		}
 
 
@@ -812,6 +874,8 @@ class channel_model extends CI_Model
 		$info['number_of_bathrooms']=$data['bathrooms'];
 		$info['area']=$data['Area'];
 		$info['description']=$data['description'];
+		$info['meal_plan']=$data['MealPlanid'];
+		
 		if(update_data('manage_property',$info,array('property_id'=>$roomid,'hotel_id'=>$hotelid)))
 		{
 			return 0;

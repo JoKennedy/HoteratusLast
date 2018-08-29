@@ -30,6 +30,42 @@
         <a onclick="changestatus()" class="btn <?=($statusId==0 || $statusId==3 ?'red':($statusId==1 || $statusId==4 ?'green':($statusId==2?'yellow':'blue')))?> six">
             <?=$status?>
         </a>
+        <div id="allStatus">
+            <center>
+                                <?php
+
+                                     if ($statusId==1 || $statusId==2 || $statusId==3  ) {
+                                        
+                                        echo '<div style="text-align:center;" class="col-md-4 form-group1">';
+                                        echo '<a onclick="applystatus(5)" style="width:200px;" class="btn blue six">Check in Room</a>';                          
+                                        echo '</div>';
+                                    }
+                                    if ( $statusId==5) {
+                                        
+                                        echo '<div style="text-align:center;" class="col-md-12 form-group1">';
+                                        echo '<a onclick="applystatus(6)" style="width:200px;" class="btn yellow six">Check Out Room</a>';                     
+                                        echo '</div>';
+                                    }
+                                    if ($statusId==1 || $statusId==2 || $statusId==3) {
+                                        
+                                        echo '<div style="text-align:center;" class="col-md-4 form-group1">';
+                                        echo '<a onclick="applystatus(3)" style="width:200px;" class="btn orange six">Mark Room No Show  </a>';                  
+                                        echo '</div>';
+                                    }
+
+                                    if ( $channelId==0 && ($statusId==1 || $statusId==2 || $statusId==3 ) ) {
+                                        
+                                        echo '<div style="text-align:center;" class="col-md-4 form-group1">';
+                                        echo '<a onclick="applystatus(0)" style="width:200px;" class="btn red ">Cancel Reservation</a>';                          
+                                        echo '</div>';
+                                    }
+
+                                ?>
+                            </center>
+                            </div>
+                            <div class="clearfix">    </div>                           
+                            
+
     </div>
     <div class="tab-main">
         <div class="tab-inner">
@@ -41,6 +77,7 @@
                             <li><a onclick="showtab(2);" class="icon-cup"><i class="fa fa-file-text-o"></i> <span>Invoices</span></a></li>
                             <li><a onclick="showtab(3);" class="icon-food"><i class="fa fa-envelope"></i> <span>Emails</span></a></li>
                             <li><a onclick="showtab(4);" class="icon-lab"><i class="fa fa-plus"></i> <span>Extras</span></a></li>
+                             <li><a onclick="showtab(6);" class="icon-lab"><i  class="fa fa-comments"></i> <span>Reservation Notes</span></a></li>
                             <li><a onclick="showtab(5);" class="icon-truck"> <i class="lnr lnr-history"></i><span> History</span></a></li>
                         </ul>
                     </nav>
@@ -48,6 +85,8 @@
                         <section id="section-1" class="content-current sec">
                             <div style="text-align: center;">
                                 <a href="#EditReservation" data-toggle="modal" class="btn green two">Edit Reservation</a>
+
+
                             </div>
                             <div class="col-md-6 profile-info">
                                 <h3>Reservation Details </h3>
@@ -193,76 +232,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="chat-inner">
-                                    <!--/chat-inner-->
-                                    <div class=" widget-shadow ">
-                                        <h4 class="title3" style="background-color:#021F4E;">Users Notes</h4>
-                                        <div class="scrollbar" id="style-2">
-                                            <?php  
-
-                                            if(count($ALLUsersNotes)>0)
-                                            {   
-                                                $i=0;
-                                                foreach ($ALLUsersNotes as  $value) {
-                                                    $i++;
-
-                                                    if($i%2)
-                                                    {
-                                                        echo '  <div class="activity-row activity-row1 activity-right">
-                                                            <div class="col-xs-3 activity-img"><span>'.$value['username'].'</span></div>
-                                                            <div class="col-xs-9 activity-img1">
-                                                                <div class="activity-desc-sub">
-                                                                    <p>'.$value['description'].'</p>
-                                                                    <span>'.date('m/d/Y h:m:s',strtotime($value['createdatetime'])).'</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"> </div>
-                                                        </div>'; 
-                                                    }
-                                                    else
-                                                    {   echo '  <div class="activity-row activity-row1 activity-left">
-                                                            <div class="col-xs-9 activity-img2">
-                                                                <div class="activity-desc-sub1">
-                                                                    <p>'.$value['description'].'</p>
-                                                                    <span class="right">'.date('m/d/Y h:m:s',strtotime($value['createdatetime'])).'</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-3 activity-img"><span>'.$value['username'].'</span></div>
-                                                            <div class="clearfix"> </div>
-                                                        </div>';
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                    echo '  <div class="activity-row activity-row1 activity-right">
-                                                    <div class="col-xs-3 activity-img"><span>Hoteratus</span></div>
-                                                    <div class="col-xs-9 activity-img1">
-                                                        <div class="activity-desc-sub">
-                                                            <p><h3>There aren'."'".'t notes Created</h3></p>
-                                                            <span>'.date('m/d/Y h:m:s').'</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"> </div>
-                                                </div>';
-                                            }
-
-
-
-                                        ?>
-                                        </div>
-                                        <form>
-                                            <div class="col-md-12 form-group1">
-                                                <textarea style="width: 100;" id="usernote" name="usernote" placeholder="Type a Note"></textarea>
-                                            </div>
-                                            <div class="buttons-ui">
-                                                <a onclick="addNote()" class="btn blue">Add Note</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="clearfix"> </div>
-                                    <!--/chat-inner-->
-                                </div>
+                               
                             </div>
                             <div class="clearfix"></div>
                             <div class="graph-visual tables-main">
@@ -506,7 +476,8 @@
                             <div class="area-charts">
                                 <div class="col-md-6 panel-chrt">
                                     <h3 class="sub-tittle">History</h3>
-                                    <?php  if (count($historyInfo)>0) { 
+                
+                                        <?php  if (count($historyInfo)>0) { 
 
                                             echo'<ul class="timeline" style="height:700px; overflow:auto; " >';
                                             foreach ($historyInfo as  $value) {
@@ -539,6 +510,82 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
+                        </section>
+                          <section id="section-6" class="sec">
+                            <div class="col-md-4">
+                                <form>
+                                    <div class="col-md-12 form-group1">
+                                        <textarea style="width: 100;" id="usernote" name="usernote" placeholder="Type a Note"></textarea>
+                                    </div>
+                                    <div class="buttons-ui">
+                                        <a onclick="addNote()" class="btn blue">Add Note</a>
+                                    </div>
+                                </form>
+                            </div>
+                             <div class="chat-inner col-md-8">
+                                    <!--/chat-inner-->
+                                    <div class=" widget-shadow ">
+                                        <h4 class="title3" style="background-color:#021F4E;">Users Notes</h4>
+                                        <div class="scrollbar" id="style-2">
+                                            <?php  
+
+                                            if(count($ALLUsersNotes)>0)
+                                            {   
+                                                $i=0;
+                                                foreach ($ALLUsersNotes as  $value) {
+                                                    $i++;
+
+                                                    if($i%2)
+                                                    {
+                                                        echo '  <div class="activity-row activity-row1 activity-right">
+                                                            <div class="col-xs-3 activity-img"><span>'.$value['username'].'</span></div>
+                                                            <div class="col-xs-9 activity-img1">
+                                                                <div class="activity-desc-sub">
+                                                                    <p>'.$value['description'].'</p>
+                                                                    <span>'.date('m/d/Y h:m:s',strtotime($value['createdatetime'])).'</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"> </div>
+                                                        </div>'; 
+                                                    }
+                                                    else
+                                                    {   echo '  <div class="activity-row activity-row1 activity-left">
+                                                            <div class="col-xs-9 activity-img2">
+                                                                <div class="activity-desc-sub1">
+                                                                    <p>'.$value['description'].'</p>
+                                                                    <span class="right">'.date('m/d/Y h:m:s',strtotime($value['createdatetime'])).'</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3 activity-img"><span>'.$value['username'].'</span></div>
+                                                            <div class="clearfix"> </div>
+                                                        </div>';
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                    echo '  <div class="activity-row activity-row1 activity-right">
+                                                    <div class="col-xs-3 activity-img"><span>Hoteratus</span></div>
+                                                    <div class="col-xs-9 activity-img1">
+                                                        <div class="activity-desc-sub">
+                                                            <p><h3>There aren'."'".'t notes Created</h3></p>
+                                                            <span>'.date('m/d/Y h:m:s').'</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"> </div>
+                                                </div>';
+                                            }
+
+
+
+                                        ?>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                    <!--/chat-inner-->
+                            </div>
+                            
                         </section>
                     </div>
                     <!-- /content -->
@@ -943,37 +990,7 @@ Agregar Extras
                     </p>
                 </div>
             </div>
-            <div id="allStatus">
-                <?php
-
-                     if ($statusId==1 || $statusId==2 || $statusId==3  ) {
-                        
-                        echo '<div style="text-align:center;" class="col-md-6 form-group1">';
-                        echo '<a onclick="applystatus(5)" style="width:200px;" class="btn green six">Check-in</a>';                          
-                        echo '</div>';
-                    }
-                    if ( $statusId==5) {
-                        
-                        echo '<div style="text-align:center;" class="col-md-12 form-group1">';
-                        echo '<a onclick="applystatus(6)" style="width:200px;" class="btn yellow six">Check-Out</a>';                     
-                        echo '</div>';
-                    }
-                    if ($statusId==1 || $statusId==2 || $statusId==3) {
-                        
-                        echo '<div style="text-align:center;" class="col-md-6 form-group1">';
-                        echo '<a onclick="applystatus(3)" style="width:200px;" class="btn orange six">No Show </a>';                  
-                        echo '</div>';
-                    }
-
-                    if ( $channelId==0 && ($statusId==1 || $statusId==2 || $statusId==3 ) ) {
-                        
-                        echo '<div style="text-align:center;" class="col-md-12 form-group1">';
-                        echo '<a onclick="applystatus(0)" style="width:200px;" class="btn red ">Cancel</a>';                          
-                        echo '</div>';
-                    }
-
-                ?>
-            </div>
+           
             <div class="clearfix"></div>
         </div>
     </div>

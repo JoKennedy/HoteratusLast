@@ -321,6 +321,117 @@ class Channel extends Front_Controller {
 
 		echo json_encode($result);
 	}
+	function saveuserimage()
+	{
+		if (isset($_FILES["Image"]))
+		{
+
+		    $file = $_FILES["Image"];
+
+
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Users/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+
+		      $result["message"]= "Error, el archivo no es una imagen"; 
+		      $result['success']=false;
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.'user'.hotel_id().user_id().$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['userimage']="/".$src;
+				
+				if(update_data('manage_users',$data,array("user_id"=>user_id())))
+				{
+					
+					$result['success']=true;
+				}
+				else 
+				{
+					$result['success']=false;
+					$result["message"]= "Something went wrong"; 
+				}
+
+		    }
+
+		    echo json_encode($result);
+
+		}
+
+	}
+	function uploadRoomImagen()
+	{
+		$errores='';
+		if (isset($_FILES["Image"]))
+		{			
+			if(count($_FILES["Image"])>0)
+			{	$file = $_FILES["Image"];
+				for ($i=0; $i < count($_FILES["Image"]["tmp_name"]); $i++) { 
+					
+					$nombre = $file["name"][$i] ;
+				    $tipo = $file["type"][$i];
+				    $ruta_provisional = $file["tmp_name"][$i];
+				    $size = $file["size"][$i];
+				    $dimensiones = getimagesize($ruta_provisional);
+				    $width = $dimensiones[0];
+				    $height = $dimensiones[1];
+				    $carpeta = "user_assets/images/Rooms/";
+				    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+				    {
+				      $errores.= "El File[$nombre] isn't a imagen <br>"; 
+				    }
+				    else
+				    {	
+				    	
+				        $src = $carpeta.'Room'.hotel_id().$_POST['roomid'].$nombre;
+				        move_uploaded_file($ruta_provisional, $src);
+					    $data['photo_names']="/".$src;
+					     $data['room_id']=$_POST['roomid'];
+					     $data['status']=1;
+
+					    if(insert_data('room_photos',$data,array("user_id"=>user_id())))
+						{
+							
+							
+						}
+						else 
+						{
+							$errores.= "El File[$nombre] has problem to Load <br>"; 
+						}
+				    }
+
+				   
+				}
+
+				if(strlen($errores)>0)
+				{
+					echo json_encode(array("success"=>false,'message'=>$errores));
+				}
+				else
+				{
+					echo json_encode(array("success"=>true,'message'=>$errores));
+				}
+			}		    
+		    
+
+		}
+
+	}
 	function updatenewuserassg()
 	{
 		$result['success']=false;
@@ -1510,6 +1621,8 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['amenitiesType']=get_data('room_amenities_type')->result_array();
 		$data['amenitiesroom']=explode(',', $data['Roominfo']['amenities']);
 		$data['ratetype']=$this->db->query("select a.*, case a.pricingtype when 1 then 'Room based pricing' when 2 then 'Guest based pricing' when 3 then 'Occupancy based Pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from ratetype a left join meal_plan b on a.mealplanid=meal_id where hotelid=$hotelid and  roomid =$roomid")->result_array();
+		$data['roomphotos']=$this->db->query("SELECT * FROM room_photos where room_id =$roomid")->result_array();
+
 		$this->views('channel/viewroom',$data);
 	}
 	function saveRateType()

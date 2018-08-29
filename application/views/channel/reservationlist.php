@@ -1,4 +1,3 @@
-
 <div class="outter-wp">
     <!--sub-heard-part-->
     <div class="sub-heard-part">
@@ -9,9 +8,8 @@
     </div>
     <!--//sub-heard-part-->
     <div style="float: right;" class="buttons-ui">
-     
         <a class="btn orange">Import Resevations Now</a>
-        <a  onclick="Export()" class="btn green">Export</a>
+        <a onclick="Export()" class="btn green">Export</a>
         <a onclick="setcalendar()" class="btn blue">Add Reservation</a>
     </div>
     <div class="clearfix"></div>
@@ -31,10 +29,10 @@
                         <option value="0">Manual Booking</option>
                         <?php if (count($AllChannel)>0) {
 
-										foreach ($AllChannel as  $value) {
-											echo '<option value="'.$value['channel_id'].'">'.$value['channel_name'].'</option>';
-										}
-									} ?>
+                                        foreach ($AllChannel as  $value) {
+                                            echo '<option value="'.$value['channel_id'].'">'.$value['channel_name'].'</option>';
+                                        }
+                                    } ?>
                     </select>
                     <select id="status" class="blue">
                         <option value="">All Status</option>
@@ -45,88 +43,79 @@
                         <option value="Confirmed">Confirmed</option>
                         <option value="Unchecked">Unchecked</option>
                     </select>
-
                     <input id="date1" style="background-color: white; width:200px; " type="text" class="blue datepickers" value="" placeholder="">
                     <input id="date2" style="background-color: white; width:200px;" type="text" class="blue datepickers" value="" placeholder="">
                     <input class="blue" style="background-color: white; color: black;" id="buscar" type="text" placeholder="Type to filter" />
+                    </ div>
+                    <div class="clearfix"></div>
+                    <table id="Reservationlist" class="table table-bordered">
+                        <thead>
+                            <tr style="height:2px;">
+                                <th>Status</th>
+                                <th>Full Name</th>
+                                <th>Room Booked</th>
+                                <th>Room #</th>
+                                <th>Channel</th>
+                                <th>Checkin</th>
+                                <th>Checkout</th>
+                                <th>Booked</th>
+                                <th>Reservation #</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (count($AllReservationList)>0) {
+
+                                            foreach ($AllReservationList as  $value) {
+                                                $class_status=($value['status']==0?'danger':($value['status']==1?'success':($value['status']==2?'warning':($value['status']==3?'default':($value['status']==4?'success':($value['status']==5?'primary':($value['status']==6?'warning':'active')))))));
+
+                                                $show_status=($value['status']==0?'Canceled':($value['status']==1?'Reserved':($value['status']==2?'Modified':($value['status']==3?'No Show':($value['status']==4?'Confirmed':($value['status']==5?'Check-in':($value['status']==6?'Check-out':'Unchecked')))))));
+
+                                                echo' <tr scope="row" class="active"> <th scope="row"><h5><span class="label label-'.$class_status.'">'.$show_status.'</span></h5> </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$value['roomName'].'</td> <td>'.$value['RoomNumber'].'</td> 
+                                                <td style="text-align:center;"> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'">     <p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';
+
+                                            }
+                                    } ?>
+                        </tbody>
+                    </table>
+                    <?php if (count($AllReservationList)==0) {echo '<h4> No Record Found!</h4>';} 
+
+                            else
+                            {
+
+                                echo '<label style="float: right;" id="totales" class="control-label"></label>';
+                             echo ' <div style"float:left;> <ul " class="pagination pagination-lg pager" id="myPager"></ul> </div>';
+                            }
+
+                        ?>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
-                <table id="Reservationlist" class="table table-bordered" >
-                    <thead>
-                        <tr style="height:2px;">
-                            <th>Status</th>
-                            <th>Full Name</th>
-                            <th>Room Booked</th>
-                            <th>Room #</th>
-                            <th>Channel</th>
-                            <th>Checkin</th>
-                            <th>Checkout</th>
-                            <th>Booked</th>
-                            <th>Reservation #</th>
-                            <th >Total Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (count($AllReservationList)>0) {
-
-											foreach ($AllReservationList as  $value) {
-												$class_status=($value['status']==0?'danger':($value['status']==1?'success':($value['status']==2?'warning':($value['status']==3?'default':($value['status']==4?'success':($value['status']==5?'primary':($value['status']==6?'warning':'active')))))));
-
-												$show_status=($value['status']==0?'Canceled':($value['status']==1?'Reserved':($value['status']==2?'Modified':($value['status']==3?'No Show':($value['status']==4?'Confirmed':($value['status']==5?'Check-in':($value['status']==6?'Check-out':'Unchecked')))))));
-
-												echo' <tr scope="row" class="active"> <th scope="row"><h5><span class="label label-'.$class_status.'">'.$show_status.'</span></h5> </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$value['roomName'].'</td> <td>'.$value['RoomNumber'].'</td> 
-                                                <td style="text-align:center;"> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'"> 	<p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';
-
-											}
-									} ?>
-                    </tbody>
-                </table>
-                <?php if (count($AllReservationList)==0) {echo '<h4> No Record Found!</h4>';} 
-
-							else
-							{
-
-								echo '<label style="float: right;" id="totales" class="control-label"></label>';
-							 echo ' <div style"float:left;> <ul " class="pagination pagination-lg pager" id="myPager"></ul> </div>';
-							}
-
-						?>
-                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!--//graph-visual-->
+    </div>
+    <!--//outer-wp-->
+    <!--footer section start-->
+    <!--footer section end-->
+    <div id="CreateReservation" class="modal fade" role="dialog" style="z-index: 1400;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <?php include("creationreservation.php")?>
             </div>
         </div>
     </div>
-    <!--//graph-visual-->
-</div>
-<!--//outer-wp-->
-<!--footer section start-->
-<!--footer section end-->
-
-<div id="CreateReservation" class="modal fade" role="dialog"  style="z-index: 1400;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            
-            <?php include("creationreservation.php")?>
-
-        </div>
-    </div>
-</div>
-
 </div>
 </div>
-
 <script>
-
-    $('.datepickers').datepicker();
-
+$('.datepickers').datepicker();
 </script>
 <script language="javascript" type="text/javascript">
 //<![CDATA[ 
 
 var cont = 0;
 
-function Export()
-{
-     swal({
+function Export() {
+    swal({
         buttons: {
 
             roll: {
@@ -141,19 +130,19 @@ function Export()
     }).then((n) => {
         if (n == "xls") {
 
-                    showWait();
-                    setTimeout(function() { unShowWait(); }, 10000);
-                    window.location ="<?php echo lang_url(); ?>reservation/export_reservation";
-                    unShowWait();
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+            window.location = "<?php echo lang_url(); ?>reservation/export_reservation";
+            unShowWait();
 
-            
+
 
         } else if (n == "pdf") {
 
             showWait();
-                    setTimeout(function() { unShowWait(); }, 10000);
-                    window.location ="<?php echo lang_url(); ?>reservation/export_reservationpdf";
-                    unShowWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+            window.location = "<?php echo lang_url(); ?>reservation/export_reservationpdf";
+            unShowWait();
 
 
         }
@@ -188,7 +177,7 @@ document.querySelector("#channels").onchange = function() {
 }
 
 document.querySelector("#mostrar").onchange = function() {
-   Paginar(this.value);
+    Paginar(this.value);
 }
 
 document.querySelector("#status").onchange = function() {
@@ -412,12 +401,12 @@ $calculate = function(cont) {
 
 
     /*<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-													<li class="active"><a href="#">1</a></li>
-													<li><a href="#">7</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#">4</a></li>
-													<li><a href="#">5</a></li>
-													*/
+                                                    <li class="active"><a href="#">1</a></li>
+                                                    <li><a href="#">7</a></li>
+                                                    <li><a href="#">3</a></li>
+                                                    <li><a href="#">4</a></li>
+                                                    <li><a href="#">5</a></li>
+                                                    */
 
 }
 
@@ -456,14 +445,13 @@ function calculate2(nume) {
 
 
 
-function Paginar(numeroP=10)
-{
+function Paginar(numeroP = 10) {
     $("#myPager").html("");
-  $('#Reservationlist').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:numeroP});
+    $('#Reservationlist').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
 }
-$(document).ready(function(){
-    
-  Paginar(10);
-    
+$(document).ready(function() {
+
+    Paginar(10);
+
 });
 </script>

@@ -197,7 +197,7 @@ function Calendario(obj,opt) {
         url: base_url + 'channel/Calendarview',
         data: data,
         beforeSend: function() {
-            showWait('Update Calendar, Please Wait');
+            showWait('Update Calendar, Please Wait'); 
             setTimeout(function() { unShowWait(); }, 100000);
         },
         success: function(html) {
@@ -207,7 +207,10 @@ function Calendario(obj,opt) {
         }
     });
 }
-
+function gotoreser(urlr)
+{
+   window.location=urlr;
+}
 
 Calendario(0,1);
 </script>

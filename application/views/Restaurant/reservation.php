@@ -18,9 +18,6 @@
         <a href="#createbook" data-toggle="modal" class="btn blue">Add New Reservation</a>
     </div>
     <div class="clearfix"></div>
-     <div style="width: 100%;" class="table-responsive">
-        <div id="calendario"> </div>
-    </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
         <div class="graph">
@@ -32,7 +29,9 @@
                             <th width="5%">#</th>
                             <th>Name</th>
                             <th>Marketing Prog.</th>
-                            <th><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></th>
+                            <th>
+                                <?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?>
+                            </th>
                             <th>Date</th>
                             <th>Hour</th>
                             <th>Edit</th>
@@ -66,17 +65,15 @@
             </div>
         </div>
     </div>
-    
     <div class="clearfix"></div>
 </div>
 <div id="createbook" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                
                 <h4 class="modal-title">Create a Reservation</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
             </div>
             <div>
                 <div class="graph-form">
@@ -87,7 +84,9 @@
                             <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></label>
+                            <label class="control-label">
+                                <?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?>
+                            </label>
                             <select style="width: 100%; padding: 9px; " id="tableid" name="tableid">
                                 <?php
                                     if(count($AllTable)>0)
@@ -107,7 +106,7 @@
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Date</label>
-                            <input style="background:white; color:black;" name="deadline" id="deadline" type="date" placeholder="Main Name" required="">
+                            <input class="datepickers" style="background:white; color:black;" name="deadline" id="deadline" type="text" placeholder="Select a Date" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Hour [18:00]</label>
@@ -135,10 +134,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-               
                 <h4 class="modal-title">Create a Reservation</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
             </div>
             <div>
                 <div class="graph-form">
@@ -149,7 +147,9 @@
                             <input style="background:white; color:black;" name="signerup" id="signerup" type="text" placeholder="Main Name" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></label>
+                            <label class="control-label">
+                                <?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?>
+                            </label>
                             <select style="width: 100%; padding: 9px; " id="tableidup" name="tableidup">
                                 <?php
                                     if(count($AllTable)>0)
@@ -168,12 +168,12 @@
                             </select>
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Date</label>
-                            <input style="background:white; color:black;" name="deadlineup" id="deadlineup" type="date" placeholder="Main Name" required="">
+                            <label class="control-label ">Date</label>
+                            <input class="datepickers" style="background:white; color:black;" name="deadlineup" id="deadlineup" type="text" placeholder="Select a Date" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Hour [18:00]</label>
-                            <input style="background:white; color:black; width: 100%" name="hourtimeup" id="hourtimeup" type="time" placeholder="Main Name" required="">
+                            <input style="background:white; color:black; width: 100%" name="hourtimeup" id="hourtimeup" type="time" placeholder="" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Room Number</label>
@@ -184,7 +184,7 @@
                         <br>
                         <br>
                         <div class="buttons-ui">
-                            <a onclick="updateReservation()" class="btn green">Save</a>
+                            <a onclick="updateReservation()" class="btn green">Update</a>
                         </div>
                         <div class="clearfix"> </div>
                     </form>
@@ -197,27 +197,9 @@
 </div>
 <script type="text/javascript">
 var fecha = new Date($.now());
-$("#deadline").attr('min', formatoDate(fecha));
 
-function showcalendar()
-{   
-    var data={};
-    $.ajax({
-        type: "POST",
-        url:  '<?php echo lang_url(); ?>pos/calendarFull',
-        data: data,
-        beforeSend: function() {
-            showWait('Update Calendar, Please Wait');
-            setTimeout(function() { unShowWait(); }, 100000);
-        },
-        success: function(html) {
-            $("#calendario").html(html);
-            unShowWait();
+$('.datepickers').datepicker({ minDate: new Date(), dateFormat: 'yy-mm-dd', });
 
-        }
-    });
-}
-showcalendar();
 function saveReservation() {
 
     var data = $("#bookC").serialize();
@@ -270,7 +252,7 @@ function saveReservation() {
         },
         success: function(msg) {
             unShowWait();
-            if (msg["success"] ) {
+            if (msg["success"]) {
                 swal({
                     title: "Success",
                     text: "Book Created!",
@@ -350,7 +332,7 @@ function updateReservation() {
         },
         success: function(msg) {
             unShowWait();
-            if (msg["success"] ) {
+            if (msg["success"]) {
                 swal({
                     title: "Success",
                     text: "Book Update!",
@@ -379,9 +361,9 @@ function updateReservation() {
 }
 
 
-function showupdate(id, tableid, dateti, signer, roomid,startime) {
+function showupdate(id, tableid, dateti, signer, roomid, startime) {
 
-  /*$update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;*/
+    /*$update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;*/
     $("#signerup").val(signer);
     $("#tableidup").val(tableid);
     $("#deadlineup").val(dateti);

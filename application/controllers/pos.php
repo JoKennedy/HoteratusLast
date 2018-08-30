@@ -129,7 +129,7 @@ class POS extends Front_Controller {
 		$ctd=0;
 		$showr=0;
 
-		$dataini=date('Y-m-d');
+		$dataini=date('Y-m-d',strtotime($_POST['dateC']));
 		
 
 		$date1=$dataini;
@@ -154,7 +154,7 @@ class POS extends Front_Controller {
 		 	
 		 	 if ($i==0) {
 		 	 	
-		 	 	$header1 .='<th  COLSPAN="24" style="text-align:center; margin: 15px; padding: 15px;"> Fecha actual select </th>';
+		 	 	$header1 .='<th  COLSPAN="24" style="text-align:center; margin: 15px; padding: 15px;"><strong>'.$_POST['dateC'].'</strong> </th>';
 		 	
 
 		 	 }
@@ -217,7 +217,7 @@ class POS extends Front_Controller {
 			 			
 			 		}
 			 	$color=(isset($dato['starttime'])?'#FF5733':'#52c748');
-		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime'])?'O':'A').'</td>';  
+		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime'])?'R':'A').'</td>';  
 
 		 	}
 	
@@ -536,7 +536,7 @@ class POS extends Front_Controller {
 		$posid =insep_decode($posid);
 		$userid=user_id();
 		$today=date('Y-m-d');
-    	$data['page_heading'] = 'Inventory';
+    	$data['page_heading'] = 'Reservations List';
     	$user_details = get_data(TBL_USERS,array('user_id'=>$userid))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
@@ -551,7 +551,22 @@ class POS extends Front_Controller {
 		$this->views('Restaurant/reservation',$data);
 	}
 
-	
+	function viewCalendar($hotelid,$posid)
+	{
+		$this->is_login();
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$userid=user_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Calendar';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>$userid))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+
+		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();
+		$this->views('Restaurant/calendar',$data);
+	}
 
 	function allitem($catid='')
 	{
@@ -728,7 +743,7 @@ class POS extends Front_Controller {
 	}
 	function deleteitem()
 	{
-
+		$this->is_login();
 		$itemid=$_POST['itemid'];
 		$tableid=$_POST['tableid'];
 		$isitem=$_POST['isitem'];
@@ -744,7 +759,7 @@ class POS extends Front_Controller {
 			$info['ordersListid']=$ordenid;
 			$info['itemid']=$itemid;
 			$info['qty']=1;
-			$this->db->query("delete from  orderlistdetails where itemid=$itemid and ordersListid=$ordenid and isitem = $isitem limit 1");
+			$this->db->query("delete  from orderlistdetails where itemid=$itemid and ordersListid=$ordenid and isitem = $isitem limit 1");
 
 			if($isitem=='1')
 			{
@@ -785,13 +800,14 @@ class POS extends Front_Controller {
 		}
 
 
-	     if (count($OrderInfo)>0) {
+	     if (count($OrderInfo)>0 && strlen($OrderInfo[0]['itemid'])>0 ) {
 
 	    	$datahtml=$this->ordenhtml($OrderInfo);
 		}
 
-		$data['total']='<h2><strong>Total Due:</strong>'.number_format($datahtml['grandtotal'], 2, '.', '').'</h2>' ;
-		$data['html']=$datahtml['html'];
+
+		$data['total']='<h2><strong>Total Due:</strong>'.number_format((isset($datahtml['grandtotal'])?$datahtml['grandtotal']:'0'), 2, '.', '').'</h2>' ;
+		$data['html']=(isset($datahtml['html'])?$datahtml['html']:'');
 		$data['success']=true;
 		echo json_encode($data);
 

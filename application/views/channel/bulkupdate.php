@@ -109,8 +109,8 @@
                                              <table>
                                                 <tbody>
                                                 <tr>
-                                                <td><input onchange="showcol(this)" type="checkbox" name="opt[]" id="opt" value="'.$key.'" ></td>
-                                                <td><label>&nbsp '.$opt.'</label></td>
+                                                <td><input class="opt" onchange="showcol(this)" type="checkbox" name="opt[]" id="opt'.$key.'" value="'.$key.'" ></td>
+                                                <td><label for="opt'.$key.'">&nbsp '.$opt.'</label></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -132,7 +132,7 @@
                     $i=0;
                     foreach ($Rooms as $value) {
                              $i++;   
-                               
+                               $Rates=$this->db->query("select * from ratetype where active=1 and roomid=".$value['property_id'])->result_array();
                                 echo '<tr class="'.($i%2?'active':'success').'"> 
                                             <td width="10%" >'.$value['property_name'].'</td> 
 
@@ -167,6 +167,43 @@
                                                 <label for="stops">N</label>
                                             </td> 
                                         </tr>';
+
+                                        foreach ($Rates as  $rate) {
+                                            echo '<tr class="info"> 
+                                            <td width="10%" >'.$value['property_name'].'['.$rate['name'].']</td> 
+
+                                            <td  class="form-group1 availa" style="display:none;width:18%; " id="availa">
+                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][availability]" id="availability" type="text" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
+                                            </td>
+                                            <td  class="form-group1 price" style="display:none;width:15%;" id="pricet">
+                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][price]" id="price" type="text" placeholder="Price" >
+                                            </td>
+                                            <td  class="form-group1 minimum" style="display:none;width:18%;" id=minimumt>
+                                                <input  style="background:white; color:black; " name="room['.$value['property_id'].'][minimumstay]" id="minimum" type="text" placeholder=Minimum Stay" >
+                                            </td>
+                                            <td width="14%" class="form-group1 cta" style="display:none; text-align:center;" id="ctat">
+                                                <label for="cta" >CTA</label> <br>
+                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="1" >
+                                                <label for="cta">Y</label>
+                                                <input   name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="0" >
+                                                <label for="cta">N</label>
+                                            </td>
+                                            <td width="14%" class="form-group1 ctd" style="display:none; text-align:center;" id="ctdt">
+                                                <label for="ctd" >CTD</label> <br>
+                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][ctd]" id="ctd" type="radio" value="1" >
+                                                <label for="ctd">Y</label>
+                                                <input name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][ctd]" id="ctd" type="radio" value="0" >
+                                                <label for="ctd">N</label>
+                                            </td>
+                                            <td width="15%" class="form-group1 stops" style="display:none; text-align:center;" id="sst">
+                                                <label for="stops" >Stop Sales</label> <br>
+                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][stops]" id="stops" type="radio" value="1" >
+                                                <label for="stops">Y</label>
+                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][stops]" id="stops" type="radio" value="2" >
+                                                <label for="stops">N</label>
+                                            </td> 
+                                        </tr>';
+                                        }
 
                                }           
                                     
@@ -237,7 +274,7 @@ function cambio(id) {
 }
 function verificarupdate()
 {
-    if($("td[id=availa]").css("display")!='none' && $("input[id=availability]").val()==""  )
+    if($("td[class=availa]").css("display")!='none' && $("input[id=availability]").val()==""  )
     {      
             falta=1;
             swal({
@@ -312,7 +349,7 @@ function sendbulk() {
     if(verificarupdate()) return;
 
 
-    if(!$("input[id=opt]").is(":checked"))
+    if(!$("input[class=opt]").is(":checked"))
     {
             falta=1;
             swal({

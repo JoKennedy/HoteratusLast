@@ -52,7 +52,8 @@ class bulkupdate extends Front_Controller
 		}
 		
 		$rooms=$this->cleanArray($_POST['room']);
-	
+		$subrooms=$this->cleanArray($_POST['subroom']);
+
 		if(count($rooms)>0)
 		{
 			foreach ($rooms as $roomid => $room) {
@@ -66,6 +67,9 @@ class bulkupdate extends Front_Controller
                     }
                                 
                 }
+
+
+
                 //confirmar lo de revenue
 
                 foreach ($DatesRange as  $fechas) {
@@ -117,11 +121,87 @@ class bulkupdate extends Front_Controller
 	                
                 }
                         
-
-              
-
 			}
 		}
+		if(count($subrooms)>0)
+		{
+			foreach ($subrooms as $roomid => $ratetype) {
+				
+				
+
+				
+				$subroom['room_id']=$roomid;
+				$subroom['days']=$_POST['days'];
+				
+        
+                //confirmar lo de revenue
+
+                foreach ($DatesRange as  $fechas) {
+
+            			$periodo=getDatespecificas($fechas['startdate'],$fechas['enddate'],$_POST['days']);
+
+            			foreach ($periodo['rangos'] as $date) {
+            							                		
+	                		$subroom['start_date']=$date['startdate'];
+	                		$subroom['end_date']=$date['enddate'];
+	                		$subroom['separate']=$date['separate'];
+
+	                
+	                		
+	                		foreach ($ratetype as $key=>  $rate) {
+
+	                			$subroom['ratetypeid']=$key;
+	                			if (isset($rate['availability'])) {
+                                
+				                    if ($rate['availability'] == 0) {
+				                        $rate['stops'] = 1;
+				                    }
+				                                
+				                }
+				               
+                				if(isset($rate['price'])!=0 && isset($rate['price']) !='')
+			                    {
+
+			                        $this->db->query("Update  room_rate_types_base                                  
+			                            set PriceRevenue= ".$rate['price']."
+			                            where hotel_id=".hotel_id()."
+			                            and room_id=".$subroom['room_id']."
+			                            and rate_types_id=".$key."
+			                            and individual_channel_id=0
+			                            and STR_TO_DATE(separate_date ,'%d/%m/%Y')   between '".$date['startdate']."'  and '".$date['enddate']."' " );
+			                    }
+			                    
+
+			                    if(isset($rate['availability']) && !isset($rate['price']))
+			                    {
+			                        $revenueprice=  @$this->db->query("select  case when ((((percentage/100)*PriceRevenue)/existing_room_count)*(existing_room_count-".$rate['availability'].")) + PriceRevenue > maximun then maximun else ((((percentage/100)*PriceRevenue)/existing_room_count)*(existing_room_count-".$rate['availability'].")) + PriceRevenue end precio
+			                                from
+			                                room_rate_types_base b 
+			                                left join manage_property a on a.property_id=b.room_id 
+			                                where 
+			                                a.hotel_id =".hotel_id()."  
+			                                and b.hotel_id=".hotel_id()."   
+			                                AND a.revenuertatus =1 
+			                                and a.property_id=".$subroom['room_id']."
+			                                and b.rate_types_id=".$key."
+			                                and b.individual_channel_id=0
+			                                and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between '".$date['startdate']."'  and '".$date['enddate']."' " )->row_array()['precio'];
+			                        
+			                    }
+
+			                    $subroom['channelids'] =  $_POST['channelid'];
+
+			                    $rateinfo=array_merge($subroom,$rate);
+
+			                    $result .= $this->bulkupdate_model->savesubRoomInfo($rateinfo);
+	                		}	
+	                			
+		                }    
+                }
+                        
+			}
+		}
+
 		echo($result);
 		$this->session->set_flashdata('bulk_success', $result );
 	

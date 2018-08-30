@@ -63,7 +63,7 @@
                         <tbody>
                             <?php
                             $grandtotal=0.00;
-                            if (count($OrderInfo)>0) {
+                            if (count($OrderInfo)>0 && strlen($OrderInfo[0]['itemid'])>0) {
 
                             $i=0;
                             foreach ($OrderInfo as  $value) {

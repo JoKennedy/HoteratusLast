@@ -56,7 +56,8 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">Reservation<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?=site_url('pos/viewReservation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Book</a></li>
+                        <li><a href="<?=site_url('pos/viewReservation/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Reservation List</a></li>
+                        <li><a href="<?=site_url('pos/viewCalendar/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Calendar</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

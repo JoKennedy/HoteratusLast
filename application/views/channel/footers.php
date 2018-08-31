@@ -12,7 +12,7 @@
     		echo '<a><img style="width:100px;" src="'.base_url().(strlen($userimage)<5?"uploads/room_photos/noimage.jpg":$userimage).'"" class="img-responsive" alt=""></a>'
     	  ?>
     	  </center>
-        <a><span class=" name-caret"><?=$fname.' '.$lname ?> </span></a>
+        <a><span class="name-caret"><?=$fname.' '.$lname ?> </span></a>
         <!--<p><?= ($User_Type==1?'System Administrator':'Designated User')?> </p>-->
         <p style="font-size: 14px;"> <b><?= $HotelInfo['property_name'] ?></b></p>
         <ul>
@@ -24,7 +24,8 @@
     </div>
     <!--//down-->
 
-    <div class="menu">
+    <div class="menu" >
+    	  
         <ul id="menu">
 			
 			<?php 
@@ -122,11 +123,17 @@
 			?>
 
         </ul>
+   
     </div>
 </div>
 <div class="clearfix"></div>
 </div>
 <script>
+	 $(document).ready(function() {
+
+        $("#boxscroll2").niceScroll("#boxscroll2 .wrapper", { boxzoom: true }); // hw acceleration enabled when using wrapper
+
+    });
 var toggle = true;
 
 $(".sidebar-icon").click(function() {

@@ -907,7 +907,7 @@ class POS extends Front_Controller {
             left join Recipes d on b.itemid=d.recipeid and b.isitem=0
             where a.mypostableid=1  and a.active =1 group by b.itemid order by b.orderlistdetailid")->result_array();
 
-		if(count($OrdenDetail)>0)
+		if(count($OrdenDetail)>0 && isset($OrdenDetail['itemid']))
 		{
 			foreach ($OrdenDetail as  $value) {
 

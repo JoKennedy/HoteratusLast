@@ -34,6 +34,21 @@ class arrivalreservations extends CI_Controller{
                     and b.rate_types_id = $rateid
 					and b.individual_channel_id=0
 					and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between STR_TO_DATE('$date1' ,'%Y-%m-%d')  and STR_TO_DATE('$date2' ,'%Y-%m-%d') " );
+				
+				$this->db->query("update room_update set trigger_cal = 0,availability=availability ".$valor." 1 , stop_sell = case when (availability  ) <= 0 then 1 else 0 end ,open_room = case when (availability )> 0 then 1 else 0 end   where  hotel_id =$hotelid and individual_channel_id =0 and STR_TO_DATE(separate_date ,'%d/%m/%Y')   between STR_TO_DATE('$date1' ,'%Y-%m-%d')  and STR_TO_DATE('$date2' ,'%Y-%m-%d')  and room_id=$roomid" );
+
+
+				$this->db->query("Update  room_update b 
+					left join manage_property a on a.property_id=b.room_id 
+				
+					set b.price=case when ((((percentage/100)*PriceRevenue)/existing_room_count)*(existing_room_count-b.availability)) + PriceRevenue > maximun then maximun else ((((percentage/100)*PriceRevenue)/existing_room_count)*(existing_room_count-b.availability)) + PriceRevenue end
+						where 
+					a.hotel_id =$hotelid  
+					and b.hotel_id=$hotelid 
+					AND a.revenuertatus =1 
+                    and a.property_id=$roomid
+					and b.individual_channel_id=0
+					and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between STR_TO_DATE('$date1' ,'%Y-%m-%d')  and STR_TO_DATE('$date2' ,'%Y-%m-%d') " );
 
 
 
@@ -56,7 +71,7 @@ class arrivalreservations extends CI_Controller{
 					and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between STR_TO_DATE('$date1' ,'%Y-%m-%d')  and STR_TO_DATE('$date2' ,'%Y-%m-%d') " );
 
 			}
-
+return;
 			$canales= $this->db->query(" select * from user_connect_channel where hotel_id=$hotelid and status='enabled'" )->result_array();
 
 	

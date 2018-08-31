@@ -749,6 +749,7 @@ class reservation extends Front_Controller {
 			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
 			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Reservation Canceled by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
+            update_data('roomnumberused',array('active'=>0),array("reservationid"=>$reservationid,'channelid'=>0));
           $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'cancel');          
 		}
 		if($statusid==3)
@@ -757,6 +758,7 @@ class reservation extends Front_Controller {
 			update_data('manage_reservation',$data,array("reservation_id"=>$reservationid));
 			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To No Show by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
+             update_data('roomnumberused',array('active'=>0),array("reservationid"=>$reservationid,'channelid'=>0));
           $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'No Show'); 
 		}
 		if($statusid==5)

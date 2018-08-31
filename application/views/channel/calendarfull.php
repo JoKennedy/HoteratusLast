@@ -157,6 +157,67 @@
  var base_url = '<?php echo lang_url();?>';
 
  var showr='<?=$showreservation?>';
+
+ function showrate(obj,id)
+ {
+   
+   if($(obj).hasClass('fa-plus'))
+   {
+        $(obj).removeClass('fa-plus');
+        $(obj).addClass('fa-minus');
+        $(".rate" + id).css({
+        display: '' 
+        });
+
+        $(".rate" + id+'ctd').addClass('ctd');
+        $(".rate" + id+'cta').addClass('cta');
+        $(".rate" + id+'ss').addClass('ss');
+
+        if($("#Sales").prop('checked'))
+        {
+            $(".ss").css({
+                display: ''
+            });
+        }
+         if($("#cta").prop('checked'))
+        {
+            $(".cta").css({
+                display: ''
+            });
+        }
+         if($("#ctd").prop('checked'))
+        {
+            $(".ctd").css({
+                display: ''
+            });
+        }
+
+
+   }
+   else
+   {
+        $(obj).removeClass('fa-minus');
+        $(obj).addClass('fa-plus');
+        $(".rate" + id).css({
+        display: 'none'
+        });
+        $(".rate" + id+'ctd').removeClass('ctd');
+        $(".rate" + id+'cta').removeClass('cta');
+        $(".rate" + id+'ss').removeClass('ss');
+
+        $(".rate" + id+'cta').css({
+        display: 'none'
+        });
+
+        $(".rate"+ id +'ctd').css({
+        display: 'none'
+        });
+
+        $(".rate" + id +'ss').css({
+        display: 'none'
+        });
+   }
+ }
 function sendUpdate()
 {
 

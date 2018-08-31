@@ -658,7 +658,7 @@ class channel_model extends CI_Model
 			$ctas = '<tr class="cta" style="display:'.($cta==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
 			$ctds = '<tr class="ctd" style="display:'.($ctd==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
 			$sss = '<tr class="ss" style="display:'.($ss==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
-			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['property_name'].(count($ratetype)>0?'<i onclick="alert('.count($ratetype).')" class="fa show_plus_221 fa-plus"></i>':'').'</td> </tr> ';
+			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['property_name'].(count($ratetype)>0?'<i onclick="showrate(this,'.$value['property_id'].')" class="fa show_plus_221 fa-plus"></i>':'').'</td> </tr> ';
 			$room2='';
 			//fa show_plus_221 fa-minus
 			$roomnumber=explode(",", $value['existing_room_number']);
@@ -716,13 +716,13 @@ class channel_model extends CI_Model
 			$body .=$precio.$avai.$min.$ctas.$ctds.$sss;
 
 			foreach ($ratetype as  $rate) {
-				$precio='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
-				$avai='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
-				$min = '<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
-				$ctas = '<tr class="cta" style="display:'.($cta==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
-				$ctds = '<tr class="ctd" style="display:'.($ctd==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
-				$sss = '<tr class="ss" style="display:'.($ss==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
-				$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px; color:#5dade2;">'.$rate['name'].'</td> </tr> ';
+				$precio='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
+				$avai='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
+				$min = '<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
+				$ctas = '<tr class="rate'.$rate['roomid'].'cta" style="display:none"><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
+				$ctds = '<tr class="rate'.$rate['roomid'].'ctd" style="display:none"><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
+				$sss = '<tr class="rate'.$rate['roomid'].'ss" style="display:none"><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
+				$body .='<tr style="display:none" class="rate'.$rate['roomid'].'">  <td ROWSPAN="4" style="margin: 5px; padding:5px; color:#5dade2;">'.$rate['name'].'</td> </tr> ';
 				$room2='';	
 				
 

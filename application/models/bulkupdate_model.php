@@ -169,6 +169,7 @@ class bulkupdate_model extends CI_Model
 	}
 	function savesubRoomInfo($room)
 	{	
+	
 
 		$userid=user_id();
 		$hotelid=hotel_id();
@@ -181,6 +182,8 @@ class bulkupdate_model extends CI_Model
 					# code...
 				
 					$info= get_data('room_rate_types_base',array('individual_channel_id'=>'0','room_id'=>$room['room_id'],'rate_types_id'=>$room['ratetypeid'],'separate_date'=>date('d/m/Y',strtotime($date)),'hotel_id'=>$hotelid))->row_array();
+				
+
 					//datos de informacion
 					
 					if(@$room['availability']!='')
@@ -222,11 +225,9 @@ class bulkupdate_model extends CI_Model
 						}
 					}
 
-
-
 					if(count($info)!=0)
 					{ 
-						update_data('individual_channel_id',$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id'],'rate_types_id'=>$room['ratetypeid']));					}
+						update_data('room_rate_types_base',$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id'],'rate_types_id'=>$room['ratetypeid']));					}
 					else
 					{   
 						$roominfo['separate_date'] = date('d/m/Y',strtotime($date));
@@ -236,7 +237,9 @@ class bulkupdate_model extends CI_Model
 						$roominfo['hotel_id'] = $hotelid;
 						$roominfo['owner_id'] = $userid;
 						$roominfo['individual_channel_id']= '0';
-						insert_data('individual_channel_id', $roominfo);
+						insert_data('room_rate_types_base', $roominfo);
+						
+
 					}
 
                 }

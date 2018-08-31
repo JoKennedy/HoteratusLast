@@ -176,30 +176,30 @@
                                                 <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][availability]" id="availability" type="text" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
                                             </td>
                                             <td  class="form-group1 price" style="display:none;width:15%;" id="pricet">
-                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][price]" id="price" type="text" placeholder="Price" >
+                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][price]" id="price" type="text" placeholder="Price" >
                                             </td>
                                             <td  class="form-group1 minimum" style="display:none;width:18%;" id=minimumt>
-                                                <input  style="background:white; color:black; " name="room['.$value['property_id'].'][minimumstay]" id="minimum" type="text" placeholder=Minimum Stay" >
+                                                <input  style="background:white; color:black; " name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][minimumstay]" id="minimum" type="text" placeholder=Minimum Stay" >
                                             </td>
                                             <td width="14%" class="form-group1 cta" style="display:none; text-align:center;" id="ctat">
                                                 <label for="cta" >CTA</label> <br>
-                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="1" >
+                                                <input  name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="1" >
                                                 <label for="cta">Y</label>
-                                                <input   name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="0" >
+                                                <input   name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="0" >
                                                 <label for="cta">N</label>
                                             </td>
                                             <td width="14%" class="form-group1 ctd" style="display:none; text-align:center;" id="ctdt">
                                                 <label for="ctd" >CTD</label> <br>
-                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][ctd]" id="ctd" type="radio" value="1" >
+                                                <input  name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][ctd]" id="ctd" type="radio" value="1" >
                                                 <label for="ctd">Y</label>
-                                                <input name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][ctd]" id="ctd" type="radio" value="0" >
+                                                <input name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][ctd]" id="ctd" type="radio" value="0" >
                                                 <label for="ctd">N</label>
                                             </td>
                                             <td width="15%" class="form-group1 stops" style="display:none; text-align:center;" id="sst">
                                                 <label for="stops" >Stop Sales</label> <br>
-                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][stops]" id="stops" type="radio" value="1" >
+                                                <input  name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][stops]" id="stops" type="radio" value="1" >
                                                 <label for="stops">Y</label>
-                                                <input  name="room['.$value['property_id'].']['.$rate['ratetypeid'].'][stops]" id="stops" type="radio" value="2" >
+                                                <input  name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][stops]" id="stops" type="radio" value="2" >
                                                 <label for="stops">N</label>
                                             </td> 
                                         </tr>';

@@ -216,6 +216,8 @@ class reservation extends Front_Controller {
 			if($available)
 			{ 
 				foreach ($available as $key => $value) {
+				$roomimage=$this->db->query("select photo_names from room_photos where room_id=".$value['room_id'])->result_array();
+
 
 				$bookininfo="'".$value['room_id']."','0','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
 				"','".$_POST['numchild']."','".$nights."','".number_format ( $value['totalprice'] , 2 ,  "." , "," )."'";
@@ -223,7 +225,7 @@ class reservation extends Front_Controller {
 				<div class="row">
                     <div class="col-md-3">
                         <div>
-                            <a href="javascript:;"><img src="'.base_url().'uploads/room_photos/noimage.jpg" class="img-responsive" alt=""></a>
+                            <a href="javascript:;"><img src="'.base_url().(count($roomimage)>0?$roomimage[0]['photo_names']:'uploads/room_photos/noimage.jpg').'" class="img-responsive" alt=""></a>
                         </div>
                     </div>
 
@@ -236,10 +238,27 @@ class reservation extends Front_Controller {
                     </div>
 
                     <div class="col-md-4" style="text-align: right;">
-                        <label>Avg. per night</label>
-                        <h3>'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
-                         <button onclick="reservethis('.$bookininfo.')" type="button"  class="btn btn-xs btn-info">Book This Room</button>
-                    </div>
+                    	<div class="col-md-12">
+	                        <label>Avg. per night</label>
+	                        <h3>'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
+	                         <button onclick="reservethis('.$bookininfo.')" type="button"  class="btn btn-xs btn-info">Book This Room</button>
+                         </div>';
+                         if (isset($value['rate'])) {
+
+	                         foreach ($value['rate'] as  $rate) {
+	                         	$bookininfo="'".$value['room_id']."','".$rate['rate_types_id']."','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
+								"','".$_POST['numchild']."','".$nights."','".number_format ( $rate['totalprice'] , 2 ,  "." , "," )."'";
+	                         	$html .='<div class="col-md-12">
+	                         			<h3>'.$rate['name'].'</h3>
+				                        <label>Avg. per night</label>
+				                        <h3>'.number_format ( $rate['avgprice'] , 2 ,  "." , "," ).'</h3>
+				                         <button onclick="reservethis('.$bookininfo.')" type="button"  class="btn btn-xs btn-warning">Book This Rate</button>
+			                         </div>';	
+	                         }
+
+                     	}
+
+               $html .= '</div>
                     <div class="clearfix"></div>
                 </div>
 

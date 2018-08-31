@@ -3155,6 +3155,32 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 
                 if ( $value['available']>=$nights && $value['totalprice']>0) {
                     $available[$i]=$value ;
+
+                     $rate=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
+                    U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
+                   sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
+                    count(*) available, min(U.availability) roomAvailability, r.name,U.rate_types_id
+                    FROM room_rate_types_base U 
+                    LEFT JOIN manage_property P ON U.room_id = P.property_id
+                    LEFT JOIN ratetype r ON U.rate_types_id = r.ratetypeid
+                    WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
+                    AND U.availability >=$rooms  
+                    and U.room_id = ".$value['room_id']."
+                    AND U.minimum_stay <= $nights AND P.member_count >=$adult 
+                    AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
+                    AND stop_sell='0' AND P.hotel_id=".hotel_id()."
+                    GROUP BY U.rate_types_id ORDER BY U.rate_types_id DESC")->result_array();
+
+                     if (count($rate)>=0 ) {
+                        $y=0;
+                        foreach ($rate as $valu) {
+                            
+                            if ( $valu['available']>=$nights && $valu['totalprice']>0) {
+                                $available[$i]['rate'][$y]=$valu ;
+                                $i++;
+                            }
+                        }
+                    }
                     $i++;
                 }
             }

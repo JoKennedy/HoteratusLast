@@ -146,7 +146,7 @@ class bulkupdate extends Front_Controller
 	                		$subroom['end_date']=$date['enddate'];
 	                		$subroom['separate']=$date['separate'];
 
-	                
+	                   
 	                		
 	                		foreach ($ratetype as $key=>  $rate) {
 

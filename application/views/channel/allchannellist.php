@@ -20,8 +20,6 @@
 						<div style="float: right;" class="buttons-ui">
 
 								<input class="btn blue"  style="background-color: white; color: black;" id="buscar" type="text"  placeholder="Search" />
-							
-        					
 		 				</div>
 		 				<div  class="clearfix"></div>	
 						<table id="Channellist" class="table table-bordered" > 

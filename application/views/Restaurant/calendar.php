@@ -23,7 +23,7 @@
          <center>
              <div class="col-md-2 form-group1">
                 <label class="control-label">Date</label>
-                <input class="datepickers" style="background:white; color:black;" name="dateC" id="dateC" type="text" placeholder="Select a Date" required="">
+                <input onchange="showcalendar()" class="datepickers" style="background:white; color:black;" name="dateC" id="dateC" type="text" placeholder="Select a Date" required="">
             </div>
         </center>
         <div class="col-md-12 form-group1" id="calendario"> </div>

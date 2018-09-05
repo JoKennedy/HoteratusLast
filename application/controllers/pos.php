@@ -264,6 +264,45 @@ class POS extends Front_Controller {
 		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
 		$this->views('Restaurant/categories',$data);
 	}
+	function viewSales($hotelid,$posid)
+	{
+
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Sales Report';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+
+		$this->views('Restaurant/sales',$data);
+	}
+	function salesReport($date1,$date2,$type,$posid)
+	{
+		$types=array('1'=>'Group by Date','2'=>'Group by Users','3'=>'Group by Item','4'=>'Group by Category','5'=>'Summarized Report','6'=>'Detailed Report');
+
+		switch ($type) {
+			case '1':
+
+				/*$result=$this->db->query("SELECT a.ordersListid, convert(datetime,date) datetime,sum(ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0)) price
+		            from orderslist a 
+		            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
+		            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
+		            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
+		            where  a.active =1 group by convert(datetime,date) order by convert(datetime,date)")->result_array();
+				$data
+				$this->views('Restaurant/reportdate',$data);*/
+				break;
+			
+			default:
+				$result='';
+				break;
+		}
+   
+	}
 	function viewProducts($hotelid,$posid)
 	{
 
@@ -372,6 +411,8 @@ class POS extends Front_Controller {
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		$data['TableInfo']=$this->db->query("SELECT * FROM mypostable  where postableid =$tableid ")->row_array();
 		$data['payment']=$this->reservation_model->payment();
+		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
+		$data['currency']='USD';
 		$data['OrderInfo']=$this->db->query("SELECT a.*,b.itemid,b.orderlistdetailid,sum(b.qty) qty, case when b.isitem=1 then c.name else d.name end  itemname,ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0) price,
             b.isitem
             from orderslist a 
@@ -392,6 +433,62 @@ class POS extends Front_Controller {
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
+	function PaymentApplication()
+	{
+		
+		switch ($_POST['paymentTypeId']) {
+			case '1':
+				
+
+				break;
+
+			case '2':
+				die;
+				if ($_POST['providerid']==1) {
+					require_once(APPPATH.'controllers/Stripe_payment.php');
+					$stripe = new Stripe_payment();
+
+					echo $stripe->checkout();
+
+				}
+				break;
+			case '3':
+				# code...
+				break;
+			default:
+				# code...
+				break;
+		}
+		/* array(13) {
+  ["paymentTypeId"]=>
+  string(1) "1"
+  ["providerid"]=>
+  string(1) "0"
+  ["currency"]=>
+  string(1) "0"
+  ["Description"]=>
+  string(0) ""
+  ["amountdue"]=>
+  string(7) "300.00 "
+  ["nada"]=>
+  string(7) "cctype="
+  ["ccholder"]=>
+  string(0) ""
+  ["ccnumber"]=>
+  string(0) ""
+  ["cccvv"]=>
+  string(0) ""
+  ["ccmonth"]=>
+  string(0) ""
+  ["ccyear"]=>
+  string(0) ""
+  ["cccountry"]=>
+  string(3) "240"
+  ["channelname"]=>
+  string(9) "Hoteratus"
+}*/
+
+	} 
 	function viewTask($hotelid,$posid)
 	{
 
@@ -853,6 +950,7 @@ class POS extends Front_Controller {
 			$main['mypostableid']= $tableid;
 			$main['StaffCode']= '';
 			$main['active']= 1;
+			$main['userid']= user_id();
 			insert_data('orderslist',$main);
 			$oldstaff='';
 			$orderid=$this->db->insert_id();

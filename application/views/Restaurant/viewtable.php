@@ -270,87 +270,10 @@
     </div>
 </div>
 <div id="PaymentP" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Payment Application</h4>
-            </div>
-            <div id="msgpayment" class="alert alert-warning" style="display: none; text-align: center;">
-                <strong>Warning!</strong> Select an Extra to Continue.
-            </div>
-            <div class="modal-body form">
-                <div class="portlet-body form">
-                    <!-- BEGIN FORM-->
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label for="paymentTypeId" style="text-align: right; " class="col-sm-4 control-label">Payment Type</label>
-                            <div class="col-sm-6">
-                                <select name="paymentTypeId" id="paymentTypeId" class="form-control1">
-                                    <?php
-
-                                            if (count($payment['type'])>0) {
-                                                echo '<option value="0" onclick="Method(0)"  >Select a payment Type</option>';
-                                                foreach ($payment['type'] as $value) {
-                                                    
-                                                    echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['method'].','.$value['paymenttypeid'].'">'.$value['description'].'</option>';
-
-
-                                                }
-                                            }
-                                            else
-                                            {
-                                                echo '<option value="0">Does not have types of payments</option>';
-                                            }
-
-                                          ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group" style="display: none;" id="metocc">
-                            <label for="paymentmethod" style="text-align: right; " class="col-sm-4 control-label">Collection Type</label>
-                            <div class="col-sm-6">
-                                <select name="paymentmethod" id="paymentmethod" class="form-control1">
-                                    <?php
-
-                                            if (count($payment['method'])>0) {
-                                                echo '<option value="0" onclick="Method(0)"  >Select a Collection Type</option>';
-                                                foreach ($payment['method'] as $value) {
-                                                    
-                                                    echo '<option  value="'.$value['paymentmethodid'].'">'.$value['descripcion'].'</option>';
-
-
-                                                }
-                                            }
-                                            else
-                                            {
-                                                echo '<option value="0">Does not have Collection Type</option>';
-                                            }
-
-                                          ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="amountdue" style="text-align: right; " class="col-sm-4 control-label">Amount Due</label>
-                            <div class="col-sm-6">
-                                <input style="text-align: right; " id="amountdue" name="" value="0" readonly="true">
-                                <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="buttons-ui">
-                        <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
-                        <a id="submitpay" name="add" value="save" class="btn green"><i class="fa fa-check"></i> Apply</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?=include($_SERVER['DOCUMENT_ROOT'].'/application/views/channel/paymentapplication.php')?>
+</div>
+<div id="ShowCC" class="modal fade" role="dialog" aria-hidden="true">
+   <?=include($_SERVER['DOCUMENT_ROOT'].'/application/views/channel/credicarddetails.php')?> 
 </div>
 <script type="text/javascript">
 var tableid = "<?= $TableInfo['postableid']?>";
@@ -361,12 +284,94 @@ function payInvoice()
 {   $("#amountdue").val($("#totaltopay").html());
     $("#PaymentP").modal();
 }
+$("#submitpay").click(function() {
+
+    var pid = $("#paymentTypeId").val();
+    var proid = $("#providerid").val();
+    var invoid = $('#invoiceid').val();
+    var amount = $('#amountdue').val();
+    var user = '<?php echo $fname." ".$lname;?>';
+
+    if (amount <= 0) {
+
+         swal({
+                title: "Warning!",
+                text: "This invoice has no outstanding balance",
+                icon: "warning",
+                button: "Ok!",
+            });
+         return;
+    }
+
+    if (pid == 0) {
+
+         swal({
+                title: "Warning!",
+                text: "Select a Payment Type to Continue",
+                icon: "warning",
+                button: "Ok!",
+            });
+         return;
+    }
+
+    
+    if (proid == 0 && pid != 1) {
+
+         swal({
+                title: "Warning!",
+                text: "Select a Collection Type to Continue",
+                icon: "warning",
+                button: "Ok!",
+            });
+         return;
+    }
+
+    var data =  $("#paymentapplication").serialize();
+   data= data.concat( $("#ccinfo").serialize()); 
+
+    $.ajax({
+        type: "POST",
+        //dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/PaymentApplication",
+        data: data,
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            alert(msg);
+            return;
+            if (msg["result"] == "0") {
+                swal({
+                    title: "Success",
+                    text: "Price Saved!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: "Price was not Saved! Error:" + msg["result"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+
+
+});
+
 function Method(methodid) {
 
-    if (methodid == 'cc') {
-        $("#metocc").show();
+    if (methodid > 1) {
+        $(".metocc").show();
     } else {
-        $("#metocc").hide();
+        $(".metocc").hide();
         return;
     }
 }

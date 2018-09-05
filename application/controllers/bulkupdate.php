@@ -56,7 +56,6 @@ class bulkupdate extends Front_Controller
 
 		if(count($rooms)>0)
 		{
-
 			foreach ($rooms as $roomid => $room) {
 				
 				$room['room_id']=$roomid;
@@ -109,7 +108,6 @@ class bulkupdate extends Front_Controller
 		                                and a.property_id=".$room['room_id']."
 		                                and b.individual_channel_id=0
 		                                and STR_TO_DATE(b.separate_date ,'%d/%m/%Y')   between '".$date['startdate']."'  and '".$date['enddate']."' " )->row_array()['precio'];
-
 		                    }
 
 		                    $room['channelids'] =  $_POST['channelid'];
@@ -125,7 +123,7 @@ class bulkupdate extends Front_Controller
                         
 			}
 		}
-		if(is_array($subrooms))
+		if(count($subrooms)>0)
 		{
 			foreach ($subrooms as $roomid => $ratetype) {
 				

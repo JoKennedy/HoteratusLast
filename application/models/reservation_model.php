@@ -3177,7 +3177,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                             
                             if ( $valu['available']>=$nights && $valu['totalprice']>0) {
                                 $available[$i]['rate'][$y]=$valu ;
-                                $y++;
+                                $i++;
                             }
                         }
                     }
@@ -3197,9 +3197,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         $checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
 
-        if($_POST['rateid']==0)
-        {
-             $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
+        $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
                 FROM room_update U 
                 LEFT JOIN manage_property P ON U.room_id = P.property_id 
                 WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
@@ -3207,22 +3205,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
                 AND P.children >=".$_POST['child']." AND individual_channel_id =0 
                 AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
-                ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array(); 
-        }
-      
-        else
-        {
-              $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
-                FROM room_rate_types_base U 
-                LEFT JOIN manage_property P ON U.room_id = P.property_id 
-                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
-                AND U.availability >=".$_POST['numroom']." 
-                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
-                AND P.children >=".$_POST['child']." AND individual_channel_id =0 
-                AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']." 
-                and U.rate_types_id =".$_POST['rateid']."
                 ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
-        }
+
     
         if(count($result)>0)
         {

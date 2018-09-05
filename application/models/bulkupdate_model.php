@@ -12,7 +12,6 @@ class bulkupdate_model extends CI_Model
 		$hotelid=hotel_id();
 		$ChannelsInfo='';
 		$ChannelsErros='';
-
 		foreach ($room['channelids'] as  $channelid) {
 			if ($channelid==0) {
 
@@ -22,7 +21,6 @@ class bulkupdate_model extends CI_Model
 					$info= get_data(TBL_UPDATE,array('individual_channel_id'=>'0','room_id'=>$room['room_id'],'separate_date'=>date('d/m/Y',strtotime($date)),'hotel_id'=>$hotelid))->row_array();
 					//datos de informacion
 					
-				
 					if(@$room['availability']!='')
 					{
 						$roominfo['availability'] =$room['availability'];
@@ -34,8 +32,7 @@ class bulkupdate_model extends CI_Model
 					}
 					if(@$room['price']!='')
 					{
-						$roominfo['price'] =$room['price'];     
-						$roominfo['PriceRevenue']= $room['price'];                 
+						$roominfo['price'] =$room['price'];                      
 					}
 					if(@$room['minimumstay']!='')
 					{
@@ -67,8 +64,7 @@ class bulkupdate_model extends CI_Model
 
 					if(count($info)!=0)
 					{ 
-						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));
-					}
+						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));					}
 					else
 					{   
 						$roominfo['separate_date'] = date('d/m/Y',strtotime($date));
@@ -201,8 +197,7 @@ class bulkupdate_model extends CI_Model
 					}
 					if(@$room['price']!='')
 					{
-						$roominfo['price'] =$room['price'];   
-						$roominfo['PriceRevenue']= $room['price'];                     
+						$roominfo['price'] =$room['price'];                      
 					}
 					if(@$room['minimumstay']!='')
 					{

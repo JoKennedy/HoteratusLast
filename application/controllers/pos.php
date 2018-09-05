@@ -437,8 +437,20 @@ class POS extends Front_Controller {
 	{
 		
 		switch ($_POST['paymentTypeId']) {
+
 			case '1':
+			$data['paymenttypeid']=$_POST['paymentTypeId'];
+			$data['providerid']=$_POST['providerid'];
+			$data['ccholder']=$_POST['ccholder'];
+			$data['ccnumberlast']=$_POST['ccnumber'];
+			$data['amount']=$_POST['amountdue'];
+			$data['Description']=$_POST['Description'];
+			$data['currency']=$_POST['currency'];
+			$data['ordenid']="";
+			$data['userid']=user_id();
+
 				
+# ordenpaymentid, paymenttypeid, providerid, ccholder, ccnumberlast, amount, Description, currency, ordenid, userid
 
 				break;
 

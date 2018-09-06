@@ -1216,72 +1216,62 @@ class reservation extends Front_Controller {
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
-		$alllist=$this->reservation_model->AllReservationList();
-
-		$data['AllReservationList']=$alllist['info'];
-		$data['allLogo']=$alllist['logo'];
+		
 		$data['AllChannel']=$this->channel_model->allChannelsConnect();
 		$this->views('channel/reservationlist',$data);
 
-	/*	$data['page_heading'] = 'ReservationList';
-		$data['channel_name']=$channel;
-		if(admin_id()=='')
-		{
-			$this->is_login();
-			$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
-			$data= array_merge($user_details,$data);
-			if(user_type()=='1' || admin_id()!='' && admin_type()=='1')
-			{
-				if($channel=="" || $channel=='Hoteratus'){
-				$data['card_count'] 			=	$this->db->select('id ')->from(TBL_CREDIT)->where(array('user_id'=>user_id()))->count_all_results();
-				$data['subscribe_channel_id']	=	0;
+	}
+	function reservationlisthtml()
+	{
+		$alllist=$this->reservation_model->AllReservationList();
+		$html='';
+			$html.= '<div class="graph-visual tables-main">
+        <div class="graph">
+            <div class="table-responsive">
+              
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr style="height:2px;">
+                                <th>Status</th>
+                                <th>Full Name</th>
+                                <th width="10%">Room Booked</th>
+                                <th>Room #</th>
+                                <th>Channel</th>
+                                <th>Checkin</th>
+                                <th>Checkout</th>
+                                <th>Booked</th>
+                                <th>Reservation #</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+			
+							
+					
+                            if (count($alllist['info'])>0) {
+                            	$allLogo=$alllist['logos'];
+                                foreach ($alllist['info'] as  $value) {
+                                    $class_status=($value['status']==0?'danger':($value['status']==1?'success':($value['status']==2?'warning':($value['status']==3?'default':($value['status']==4?'success':($value['status']==5?'primary':($value['status']==6?'warning':'active')))))));
 
-				if($data['card_count']!=0)
-				{
-					$data['cards'] = get_data(TBL_CREDIT,array('user_id'=>user_id()))->result_array();
-				}
+                                    $show_status=($value['status']==0?'Canceled':($value['status']==1?'Reserved':($value['status']==2?'Modified':($value['status']==3?'No Show':($value['status']==4?'Confirmed':($value['status']==5?'Check-in':($value['status']==6?'Check-out':'Unchecked')))))));
 
-			    $this->views('channel/reservation_list',$data);
-				}else{
+                                    echo' <tr scope="row" class="active"> <th scope="row"><h5><span class="label label-'.$class_status.'">'.$show_status.'</span></h5> </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$value['roomName'].'</td> <td>'.$value['RoomNumber'].'</td> 
+                                    <td style="text-align:center;"> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'">     <p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';
 
-					//check channel exist ....
-
-					$check=get_data(TBL_CHANNEL,array('channel_name'=>$channel))->row_array();
-					if($check){
-					    $this->views('channel/reservation_by_channel',$data);
-				    }else{
-						redirect('my404','refresh');
-					}
-				}
-			}
-			elseif(user_type()=='2')
-			{
-				if(in_array('2',user_view()))
-				{
-					$data['user_view']=user_view();
-					$data['user_edit']=user_edit();
-					if($channel=="" || $channel=='hoteratus'){
-				    $this->views('channel/reservation_list',$data);
-					}else{
-							$this->views('channel/reservation_by_channel',$data);
-					}
-				}
-				else
-				{
-					redirect(base_url());
-				}
-			}
-		}
-		else if(admin_id()!='' && admin_type()=='1')
-		{
-			$this->is_admin();
-		    if($channel=="" || $channel=='hoteratus'){
-				    $this->views('channel/reservation_list',$data);
-					}else{
-							$this->views('channel/reservation_by_channel',$data);
-					}
-
-		}*/
+                                }
+                                 $html.='</tbody> </table> </div></div></div>';
+                                 echo $html;
+                            }
+                            else
+                            {
+                            	$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+                            	echo $html;
+                            }
+                      
+                 
+              
+	
+		
 	}
 
 	function table_mapping(){

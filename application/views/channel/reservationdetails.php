@@ -1455,8 +1455,8 @@ $("#submitpay").click(function() {
         return;
     }
 
-    var data =  $("#paymentapplication").serialize();
-   data= data.concat( $("#ccinfo").serialize()); 
+    var data =  $("#paymentapplication").serialize() + "&"+$("#ccinfo").serialize();
+   
     $.ajax({
         type: "POST",
         url: "<?php echo lang_url(); ?>reservation/PaymentApplication",

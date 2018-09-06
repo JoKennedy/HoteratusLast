@@ -264,7 +264,7 @@ class POS extends Front_Controller {
 		$data['AllCategories']=$this->db->query("SELECT * FROM itemcategory  where  posId=$posid ")->result_array();
 		$this->views('Restaurant/categories',$data);
 	}
-	function viewSales($hotelid,$posid)
+	function viewReports($hotelid,$posid)
 	{
 
 		$hotelid= unsecure($hotelid);
@@ -278,11 +278,16 @@ class POS extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 
-		$this->views('Restaurant/sales',$data);
+		$this->views('Restaurant/reports',$data);
 	}
-	function salesReport($date1,$date2,$type,$posid)
+	function salesReport()
 	{
-		$types=array('1'=>'Group by Date','2'=>'Group by Users','3'=>'Group by Item','4'=>'Group by Category','5'=>'Summarized Report','6'=>'Detailed Report');
+
+		$date1=date('Y-m-d',strtotime(getpost('startdate')));
+		$date2=date('Y-m-d',strtotime(getpost('enddate')));
+		$type=getpost('type');
+		$posid=getpost('posid');
+		$types=array('1'=>'Group by Date','2'=>'Group by Users','3'=>'Group by Item','4'=>'Group by Category','5'=>'Summarized Report','6'=>'Detailed Report','7'=>'Group by Order','8'=>'Cancelations');
 
 		switch ($type) {
 			case '1':
@@ -296,6 +301,68 @@ class POS extends Front_Controller {
 				$data
 				$this->views('Restaurant/reportdate',$data);*/
 				break;
+			case '7':
+
+				$result=$this->db->query("SELECT orderslistid ordernumber,a.datetime,b.description tablename,concat(c.firstname,' ', c.lastname) attended, totalorder(a.orderslistid) TotalOrder,concat(d.fname,' ',d.lname) Billedby
+					FROM orderslist a 
+					left join mypostable b on a.mypostableid=b.postableid
+					left join mystaffpos c on a.StaffCode=c.mystaffposid
+					left join manage_users d on a.userid=d.user_id
+					where a.active=2 and b.myposid=2 and convert(datetime,date) between '$date1' and '$date2'
+					order  by convert(datetime,date) asc ")->result_array();
+				$html='';
+				if(count($result)>0)
+				{
+					$html='<div><center><h1><span class="label label-primary">'.$types[$type].'</span></h1></center></div>';
+					$html.='<div class="graph">
+							<div class="table-responsive">
+									<div class="clearfix"></div>
+									<table id="tablestaff" class="table table-bordered">
+											<thead>
+													<tr>
+															<th>#</th>
+															<th>Order Number</th>
+															<th>Date Time</th>
+															<th>Table Name</th>
+															<th>Attended by</th>
+															<th>Total Order</th>
+															<th>Billed By</th>
+													</tr>
+																		 </thead>
+											<tbody>';
+					$i=0;
+					$total=0;
+					foreach ($result as  $value) {
+						$i++;
+						$total+=$value['TotalOrder'];
+						$html.=' <tr  class="'.($i%2?'active':'success').'"> 
+								<th scope="row">'.$i.' </th> 
+								<td>'.$value['ordernumber'].'</td> 
+								<td>'.date('m/d/Y->h:m',strtotime($value['datetime'])).'</td>
+								<td>'.$value['tablename'].'</td>
+								<td>'.$value['attended'].'</td>
+								<td>'.number_format($value['TotalOrder'], 2, '.', ',').'</td>
+								<td>'.$value['Billedby'].'</td>
+								 </tr>';
+
+
+					}
+					
+					$html.='</tbody>
+									</table>
+									</div> 									
+									</div>';
+					$html.='<div><center><h1><strong class="label label-primary">Total:'.number_format($total, 2, '.', ',').'<strong></h1></center></div>';
+				}
+				else
+				{
+					$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+				}
+
+				echo json_encode(array('html'=>$html));
+				break;
+
+				
 			
 			default:
 				$result='';
@@ -433,24 +500,53 @@ class POS extends Front_Controller {
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
+	function totaldueorder()
+	{	$tableid=getpost('tableid');
+		$Order=$this->db->query("select ordersListid
+            from orderslist a 
+            where a.mypostableid=$tableid  and a.active =1 limit 1")->row()->ordersListid;
+		$orderinfo=$this->db->query("select  ifnull(totalorder($Order),0)-ifnull(totalpaidorder($Order),0) totaldue")->row_array();
+		echo json_encode($orderinfo);
+	}
 	function PaymentApplication()
 	{
-		
-		switch ($_POST['paymentTypeId']) {
+	
+		switch (getpost('paymentTypeId')) {
 
 			case '1':
-			$data['paymenttypeid']=$_POST['paymentTypeId'];
-			$data['providerid']=$_POST['providerid'];
-			$data['ccholder']=$_POST['ccholder'];
-			$data['ccnumberlast']=$_POST['ccnumber'];
-			$data['amount']=$_POST['amountdue'];
-			$data['Description']=$_POST['Description'];
-			$data['currency']=$_POST['currency'];
-			$data['ordenid']="";
+			$data['paymenttypeid']=getpost('paymentTypeId');
+			$data['providerid']=getpost('providerid');
+			$data['ccholder']=getpost('ccholder');
+			$data['ccnumberlast']=getpost('ccnumber');
+			$data['amount']=getpost('amountdue');
+			$data['Description']=getpost('Description');
+			$data['currency']=getpost('currency');
 			$data['userid']=user_id();
+			$tableid=getpost('tableid');
 
-				
-# ordenpaymentid, paymenttypeid, providerid, ccholder, ccnumberlast, amount, Description, currency, ordenid, userid
+			$Order=$this->db->query("select ordersListid
+            from orderslist a 
+            where a.mypostableid=$tableid  and a.active =1 limit 1")->row()->ordersListid;
+			$data['ordenid']=$Order;
+			if(insert_data("ordenpayments",$data))
+			{
+				$orderinfo=$this->db->query("select totalpaidorder($Order) totalpaid, totalorder($Order) totalorder")->row_array();
+
+				if($orderinfo["totalpaid"]>=$orderinfo["totalorder"])
+				{
+					update_data("orderslist",array("active"=>2),array("ordersListid"=>$Order));
+					echo json_encode(array("success"=>true,"payment"=>"Complete"));
+				}
+				else
+				{
+					echo json_encode(array("success"=>true,"payment"=>"Partial","totaldue"=>($orderinfo["totalorder"]-$orderinfo["totalpaid"])));
+				}
+			}
+			else
+			{
+				echo json_encode(array("success"=>false,"payment"=>"Something went Wrong"));
+			}
+
 
 				break;
 
@@ -471,34 +567,7 @@ class POS extends Front_Controller {
 				# code...
 				break;
 		}
-		/* array(13) {
-  ["paymentTypeId"]=>
-  string(1) "1"
-  ["providerid"]=>
-  string(1) "0"
-  ["currency"]=>
-  string(1) "0"
-  ["Description"]=>
-  string(0) ""
-  ["amountdue"]=>
-  string(7) "300.00 "
-  ["nada"]=>
-  string(7) "cctype="
-  ["ccholder"]=>
-  string(0) ""
-  ["ccnumber"]=>
-  string(0) ""
-  ["cccvv"]=>
-  string(0) ""
-  ["ccmonth"]=>
-  string(0) ""
-  ["ccyear"]=>
-  string(0) ""
-  ["cccountry"]=>
-  string(3) "240"
-  ["channelname"]=>
-  string(9) "Hoteratus"
-}*/
+
 
 	} 
 	function viewTask($hotelid,$posid)
@@ -783,6 +852,7 @@ class POS extends Front_Controller {
 			$main['mypostableid']= $tableid;
 			$main['StaffCode']= '';
 			$main['active']= 1;
+			$main['userid']=user_id();
 			insert_data('orderslist',$main);
 
 			$info['ordersListid']=$this->db->insert_id();

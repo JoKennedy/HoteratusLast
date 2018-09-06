@@ -281,9 +281,37 @@ var posid = "<?=$Posinfo['myposId']?>";
 var namepos = "<?=$Posinfo['description']?>";
 
 function payInvoice()
-{   $("#amountdue").val($("#totaltopay").html());
-    $("#PaymentP").modal();
+{   
+   
+        $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/totaldueorder",
+        data: {"tableid":tableid},
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["totaldue"] > 0) {
+
+                $("#amountdue").val(msg["totaldue"]);
+                $("#PaymentP").modal();
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text: "This order has no outstanding balance" ,
+                    icon: "warning",
+                    button: "Ok!",
+                });
+
+            }
+        }
+    });
 }
+    
 $("#submitpay").click(function() {
 
     var pid = $("#paymentTypeId").val();
@@ -326,31 +354,44 @@ $("#submitpay").click(function() {
          return;
     }
 
-    var data =  $("#paymentapplication").serialize();
-   data= data.concat( $("#ccinfo").serialize()); 
+    var data =  $("#paymentapplication").serialize() + "&" +  $("#ccinfo").serialize();
+
 
     $.ajax({
         type: "POST",
-        //dataType: "json",
+        dataType: "json",
         url: "<?php echo lang_url(); ?>pos/PaymentApplication",
-        data: data,
+        data: data+"&tableid="+tableid,
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
             unShowWait();
-            alert(msg);
-            return;
-            if (msg["result"] == "0") {
-                swal({
+
+            if (msg["success"]) {
+                if(msg["payment"]=="Complete")
+                {
+                    swal({
                     title: "Success",
-                    text: "Price Saved!",
+                    text: "Full Payment Applied!",
                     icon: "success",
                     button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
+                    }).then((n) => {
+                        location.href="<?=site_url('pos/viewpos/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>";
+                    });
+                }
+                else
+                {
+                     swal({
+                    title: "Success",
+                    text: "Partial Payment Applied!",
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                    $("#amountdue").val(msg["totaldue"]);
+                }
+                
             } else {
 
                 swal({

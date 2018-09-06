@@ -43,7 +43,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">Sales<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?=site_url('pos/viewSales/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Sales</a></li>
+                        <li><a href="<?=site_url('pos/viewReports/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">Reports</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

@@ -29,6 +29,8 @@
     <!--fin de iconos-->
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <link href="<?php echo base_url();?>user_asset/back/css/styletable.css" rel='stylesheet' type='text/css' />
+    
     <!-- Custom CSS -->
     <link href="<?php echo base_url();?>user_asset/back/css/style.css" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->

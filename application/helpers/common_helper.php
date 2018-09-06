@@ -277,6 +277,10 @@ function get_location($ip=NULL)
 	return false;
 	
 }
+function getpost($key="")
+{	$ci =& get_instance();
+	return $ci->input->post($key);
+}
 function get_agent()
 {
 	$ci =& get_instance();

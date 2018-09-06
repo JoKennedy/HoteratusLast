@@ -158,6 +158,7 @@ $(".sidebar-icon").click(function() {
 <script src="<?php echo base_url();?>user_asset/back/js/jquery.nicescroll.js"></script>
 <script src="<?php echo base_url();?>user_asset/back/js/jquery.nicescroll.min.js"></script>
 <script src="<?php echo base_url();?>user_asset/back/js/scripts.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo base_url();?>user_asset/back/js/bootstrap.min.js"></script>
 </body>

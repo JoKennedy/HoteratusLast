@@ -740,22 +740,28 @@ class Reservation_model extends CI_Model
             return false;
     }
 
-    function AllReservationList()
+    function AllReservationList($date1,$date2,$channels,$status)
     {
         $result=array();
         $hotelid=hotel_id();
         $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
         $LogoReservation=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
         $alllogo=array();
+        $hoteratus=array();
 
-        $hoteratus=$this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
-            b.property_name roomName
-        FROM manage_reservation a        
-        left join manage_property b on a.room_id = b.property_id     
-        where a.hotel_id=$hotelid and a.channel_id=0 order by current_date_time desc")->result_array();
+        if (strlen($channels)==0 || $channels==0 ) {
+            
+            $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+
+            $hoteratus=$this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
+                b.property_name roomName
+            FROM manage_reservation a        
+            left join manage_property b on a.room_id = b.property_id     
+            where a.hotel_id=$hotelid and a.channel_id=0 and (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2' or STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2' ) ".(strlen($status)==0?'':$sta)." order by current_date_time desc")->result_array();
+         }
 
         $allchannel=$this->db->query("select  a.channel_id,channel_name from user_connect_channel a
-                                        left join manage_channel b on a.channel_id=b.channel_id where a.hotel_id =$hotelid order by channel_id ")->result_array();
+                                        left join manage_channel b on a.channel_id=b.channel_id where a.hotel_id =$hotelid ".(strlen($channels)==0?'':' and a.channel_id='.$channels)." order by channel_id ")->result_array();
 
         if( count($hoteratus)>0)
         {   

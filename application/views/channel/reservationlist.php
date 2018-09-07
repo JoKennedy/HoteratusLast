@@ -15,7 +15,7 @@
     color: black;
 }
 </style>
-<div class="outter-wp">
+<div class="outter-wp" style="height: 3000px;">
     <!--sub-heard-part-->
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
@@ -31,14 +31,8 @@
     </div>
     <div class="clearfix"></div>
     <div style="float: left;" class="buttons-ui">
-        <label class="control-label">Records</label>
-        <select id="mostrar" class="blue">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-        <select id="channels" class="blue">
+
+        <select onchange="list()" id="channels" class="green">
             <option value="">All Reservations</option>
             <option value="0">Manual Booking</option>
             <?php if (count($AllChannel)>0) {
@@ -48,17 +42,19 @@
                             }
                         } ?>
         </select>
-        <select id="status" class="blue">
+        <select onchange="list()" id="status" class="green">
             <option value="">All Status</option>
-            <option value="Canceled">Canceled</option>
-            <option value="Reserved">Reserved</option>
-            <option value="Modified">Modified</option>
-            <option value="No Show">No Show</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Unchecked">Unchecked</option>
+            <option value="0">Canceled</option>
+            <option value="1">Reserved</option>
+            <option value="2">Modified</option>
+            <option value="3">No Show</option>
+            <option value="4">Confirmed</option>
+            <option value="5">Checkin</option>
+            <option value="6">Checkout</option>
+            <option value="7">Unchecked</option>
         </select>
-        <input id="date1" style="background-color: white; width:200px; " type="text" class="blue datepickers" value="" placeholder="">
-        <input id="date2" style="background-color: white; width:200px;" type="text" class="blue datepickers" value="" placeholder="">
+        <input  id="date1" style="background-color: white; width:200px; " type="text" class="green datepickers" value="" placeholder="">
+        <input  id="date2" style="background-color: white; width:200px;" type="text" class="green datepickers" value="" placeholder="">
     </div>
     <div class="clearfix"></div>
     <div id="reservationlist">
@@ -100,6 +96,9 @@
 </div>
 <script>
 $('.datepickers').datepicker();
+$(".datepickers").change(function(event) {
+    list();
+});
 
 function csv() {
     $(".buttons-csv").trigger("click");
@@ -120,13 +119,13 @@ function PRINT() {
 function Export() {
     $("#export").modal();
 }
-$(document).ready(function() {
-
-     $.ajax({
+function list()
+{
+       $.ajax({
         type: "POST",
         //dataType: "json",
         url: "<?php echo lang_url(); ?>reservation/reservationlisthtml",
-        data: {},
+        data: {'date1':$("#date1").val(),'date2':$("#date2").val(),'channels':$("#channels").val(),'status':$("#status").val()},
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);
@@ -135,8 +134,21 @@ $(document).ready(function() {
             unShowWait();
 
            $("#reservationlist").html(msg);
+
+             $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+
+
         }
     });
+}
+$(document).ready(function() {
+
+  list();
     
 });
 </script>

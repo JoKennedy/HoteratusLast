@@ -2515,22 +2515,24 @@ class booking_model extends CI_Model
         }
     }
 
-    function ReservationList($hotelid)
+    function ReservationList($hotelid,$date1,$date2,$status)
     {
-            $booking=$this->db->query("SELECT b.room_res_id reservation_id, concat(a.id,'-',roomreservation_id) reservation_code, case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,
-                  guest_name  Full_Name , d.property_id room_id , 2 channel_id, arrival_date start_date,b.RoomNumber RoomNumber, departure_date end_date,
-                b.date_time booking_date, f.currency_id currency_id, b.totalprice price, DATEDIFF( departure_date,arrival_date) num_nights, 1 num_rooms,b.current_date_time,
-                g.channel_name channel_name, e.property_name roomName FROM 
-                import_reservation_BOOKING a
-                left join import_reservation_BOOKING_ROOMS b on a.id=b.reservation_id
-                left join import_mapping_BOOKING c on b.id=c.B_room_id and b.rate_id=c.B_rate_id and a.hotel_hotel_id=c.hotel_id
-                left join roommapping d on d.channel_id=2 and  c.import_mapping_id=d.import_mapping_id and c.channel_id=d.channel_id
-                left join manage_property e on d.property_id = e.property_id
-                left join currency f on a.currencycode=f.currency_code
-                left join manage_channel g on  c.channel_id=g.channel_id
-                where 
-                a.hotel_hotel_id=$hotelid
-                order by b.current_date_time desc;")->result_array();
+         $sta="and case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+
+        $booking=$this->db->query("SELECT b.room_res_id reservation_id, concat(a.id,'-',roomreservation_id) reservation_code, case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,
+              guest_name  Full_Name , d.property_id room_id , 2 channel_id, arrival_date start_date,b.RoomNumber RoomNumber, departure_date end_date,
+            b.date_time booking_date, f.currency_id currency_id, b.totalprice price, DATEDIFF( departure_date,arrival_date) num_nights, 1 num_rooms,b.current_date_time,
+            g.channel_name channel_name, e.property_name roomName FROM 
+            import_reservation_BOOKING a
+            left join import_reservation_BOOKING_ROOMS b on a.id=b.reservation_id
+            left join import_mapping_BOOKING c on b.id=c.B_room_id and b.rate_id=c.B_rate_id and a.hotel_hotel_id=c.hotel_id
+            left join roommapping d on d.channel_id=2 and  c.import_mapping_id=d.import_mapping_id and c.channel_id=d.channel_id
+            left join manage_property e on d.property_id = e.property_id
+            left join currency f on a.currencycode=f.currency_code
+            left join manage_channel g on  c.channel_id=g.channel_id
+            where 
+            a.hotel_hotel_id=$hotelid and (arrival_date between '$date1' and '$date2' ) ".(strlen($status)==0?'':$sta)."
+            order by b.current_date_time desc;")->result_array();
 
             return $booking;
     }

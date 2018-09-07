@@ -689,21 +689,25 @@ class expedia_model extends CI_Model
         return "Syncro Done Expedia";
     }
     
-    function ReservationList($hotelid)
-    {
-            $expedia=$this->db->query("SELECT a.import_reserv_id reservation_id, booking_id reservation_code, case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,
-                 a.name Full_Name , d.property_id room_id , 1 channel_id, arrival start_date,a.RoomNumber RoomNumber, departure end_date,
-                a.created_time booking_date, f.currency_id currency_id, a.amountAfterTaxes price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,a.current_date_time,
-                g.channel_name channel_name, d.property_name roomName FROM 
-                import_reservation_EXPEDIA a
-                left join import_mapping b on a.roomTypeID=b.roomtype_id and  a.ratePlanID= b.rate_type_id
-                left join roommapping c on c.channel_id=1 and  b.map_id=c.import_mapping_id 
-                left join manage_property d on c.property_id = d.property_id
-                left join manage_channel g on  c.channel_id=g.channel_id
-                left join currency f on a.currency=f.currency_code
-                where 
-                a.hotel_id=$hotelid
-                order by a.current_date_time desc;")->result_array();
+    function ReservationList($hotelid,$date1,$date2,$status)
+    {       
+        
+
+        $sta="and case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+
+        $expedia=$this->db->query("SELECT a.import_reserv_id reservation_id, booking_id reservation_code, case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,
+             a.name Full_Name , d.property_id room_id , 1 channel_id, arrival start_date,a.RoomNumber RoomNumber, departure end_date,
+            a.created_time booking_date, f.currency_id currency_id, a.amountAfterTaxes price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,a.current_date_time,
+            g.channel_name channel_name, d.property_name roomName FROM 
+            import_reservation_EXPEDIA a
+            left join import_mapping b on a.roomTypeID=b.roomtype_id and  a.ratePlanID= b.rate_type_id
+            left join roommapping c on c.channel_id=1 and  b.map_id=c.import_mapping_id 
+            left join manage_property d on c.property_id = d.property_id
+            left join manage_channel g on  c.channel_id=g.channel_id
+            left join currency f on a.currency=f.currency_code
+            where 
+            a.hotel_id=$hotelid  and (arrival between '$date1' and '$date2' ) ".(strlen($status)==0?'':$sta)."
+            order by a.current_date_time desc;")->result_array();
 
             return $expedia;
     }

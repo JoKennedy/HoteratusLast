@@ -7,7 +7,7 @@ class POS extends Front_Controller {
 	function is_login()
 	{
 		if(!user_id())
-		redirect(base_url());
+		redirect(base_url()); 
 		return;
 	}
 
@@ -287,19 +287,122 @@ class POS extends Front_Controller {
 		$date2=date('Y-m-d',strtotime(getpost('enddate')));
 		$type=getpost('type');
 		$posid=getpost('posid');
-		$types=array('1'=>'Group by Date','2'=>'Group by Users','3'=>'Group by Item','4'=>'Group by Category','5'=>'Summarized Report','6'=>'Detailed Report','7'=>'Group by Order','8'=>'Cancelations');
+		$types=array('1'=>'Group by Date','2'=>'Group by Users and Date','3'=>'Group by Item','4'=>'Group by Category','5'=>'Summarized Report','6'=>'Detailed Report','7'=>'Group by Order','8'=>'Cancelations','9'=>'Group by Employee and Date');
 
 		switch ($type) {
 			case '1':
+					$result=$this->db->query("SELECT count(orderslistid) totalordernumber ,convert(datetime,date) datee, sum(totalorder(a.orderslistid)) TotalOrder
+						FROM orderslist a 
+						left join mypostable b on a.mypostableid=b.postableid
+						left join mystaffpos c on a.StaffCode=c.mystaffposid
+						left join manage_users d on a.userid=d.user_id
+						where a.active=2 and b.myposid=$posid and convert(datetime,date) between '$date1' and '$date2'
+						group by convert(datetime,date)
+						order  by convert(datetime,date) asc ")->result_array();
+				$html='';
+				if(count($result)>0)
+				{
+					$html='<div><div style="float: right;" class="buttons-ui">
+					            <a onclick="Export()" class="btn green">Export</a>
+					        </div> <div class="clearfix"></div><center><h1><span class="label label-primary">'.$types[$type].'</span></h1></center></div>';
+					$html.='<div class="graph">
+							<div class="table-responsive">
+									<div class="clearfix"></div>
+									<table id="myTable" class="table table-bordered">
+											<thead>
+													<tr>	<th>#</th>
+															<th>Date</th>
+															<th>Total Order #</th>
+															<th>Total Amount</th>
+													</tr>
+																		 </thead>
+											<tbody>';
+					$i=0;
+					$total=0;
+					foreach ($result as  $value) {
+						$i++;
+						$total+=$value['TotalOrder'];
+						$html.=' <tr  class="'.($i%2?'active':'success').'"> 
+								<th scope="row">'.$i.' </th> 
+								<td>'.date('m/d/Y',strtotime($value['datee'])).'</td>
+								<td>'.number_format($value['totalordernumber'], 2, '.', ',').'</td>
+								<td>'.number_format($value['TotalOrder'], 2, '.', ',').'</td>  
+								 </tr>';
 
-				/*$result=$this->db->query("SELECT a.ordersListid, convert(datetime,date) datetime,sum(ifnull((SELECT  price FROM itemprice WHERE ITEMID= b.itemid and isitem = case when b.isitem=1 then 1 else 0 end AND `datetime` <= a.datetime ORDER BY `datetime` DESC LIMIT 1),0)) price
-		            from orderslist a 
-		            left join  orderlistdetails b on a.ordersListid = b.ordersListid 
-		            left join itempos c on b.itemid=c.itemPosId and b.isitem=1
-		            left join Recipes d on b.itemid=d.recipeid and b.isitem=0
-		            where  a.active =1 group by convert(datetime,date) order by convert(datetime,date)")->result_array();
-				$data
-				$this->views('Restaurant/reportdate',$data);*/
+
+					}
+					
+					$html.='</tbody>
+									</table>
+									</div> 									
+									</div>';
+					$html.='<div><center><h1><strong class="label label-primary">Total:'.number_format($total, 2, '.', ',').'<strong></h1></center></div>';
+				}
+				else
+				{
+					$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+				}
+
+				echo json_encode(array('html'=>$html));
+				
+				break;
+			case '2':
+					$result=$this->db->query("SELECT count(orderslistid) totalordernumber ,convert(datetime,date) datee,sum( totalorder(a.orderslistid)) TotalOrder,concat(d.fname,' ',d.lname) Billedby
+						FROM orderslist a 
+						left join mypostable b on a.mypostableid=b.postableid
+						left join mystaffpos c on a.StaffCode=c.mystaffposid
+						left join manage_users d on a.userid=d.user_id
+						where a.active=2 and b.myposid=$posid and convert(datetime,date) between '$date1' and '$date2'
+						group by convert(datetime,date), concat(d.fname,' ',d.lname)
+						order  by convert(datetime,date) asc ")->result_array();
+				$html='';
+				if(count($result)>0)
+				{
+					$html='<div><div style="float: right;" class="buttons-ui">
+					            <a onclick="Export()" class="btn green">Export</a>
+					        </div> <div class="clearfix"></div><center><h1><span class="label label-primary">'.$types[$type].'</span></h1></center></div>';
+					$html.='<div class="graph">
+							<div class="table-responsive">
+									<div class="clearfix"></div>
+									<table id="myTable" class="table table-bordered">
+											<thead>
+													<tr>	<th>#</th>
+															<th>Date</th>
+															<th>Billed By</th>
+															<th>Total Order #</th>
+															<th>Total Amount</th>
+													</tr>
+																		 </thead>
+											<tbody>';
+					$i=0;
+					$total=0;
+					foreach ($result as  $value) {
+						$i++;
+						$total+=$value['TotalOrder'];
+						$html.=' <tr  class="'.($i%2?'active':'success').'"> 
+								<th scope="row">'.$i.' </th> 
+								<td>'.date('m/d/Y',strtotime($value['datee'])).'</td>
+								<td>'.$value['Billedby'].'</td>
+								<td>'.number_format($value['totalordernumber'], 2, '.', ',').'</td>
+								<td>'.number_format($value['TotalOrder'], 2, '.', ',').'</td>  
+								 </tr>';
+
+
+					}
+					
+					$html.='</tbody>
+									</table>
+									</div> 									
+									</div>';
+					$html.='<div><center><h1><strong class="label label-primary">Total:'.number_format($total, 2, '.', ',').'<strong></h1></center></div>';
+				}
+				else
+				{
+					$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+				}
+
+				echo json_encode(array('html'=>$html));
+				
 				break;
 			case '7':
 
@@ -308,19 +411,20 @@ class POS extends Front_Controller {
 					left join mypostable b on a.mypostableid=b.postableid
 					left join mystaffpos c on a.StaffCode=c.mystaffposid
 					left join manage_users d on a.userid=d.user_id
-					where a.active=2 and b.myposid=2 and convert(datetime,date) between '$date1' and '$date2'
+					where a.active=2 and b.myposid=$posid and convert(datetime,date) between '$date1' and '$date2'
 					order  by convert(datetime,date) asc ")->result_array();
 				$html='';
 				if(count($result)>0)
 				{
-					$html='<div><center><h1><span class="label label-primary">'.$types[$type].'</span></h1></center></div>';
+					$html='<div><div style="float: right;" class="buttons-ui">
+					            <a onclick="Export()" class="btn green">Export</a>
+					        </div> <div class="clearfix"></div><center><h1><span class="label label-primary">'.$types[$type].'</span></h1></center></div>';
 					$html.='<div class="graph">
 							<div class="table-responsive">
 									<div class="clearfix"></div>
-									<table id="tablestaff" class="table table-bordered">
+									<table id="myTable" class="table table-bordered">
 											<thead>
-													<tr>
-															<th>#</th>
+													<tr>	<th>#</th>
 															<th>Order Number</th>
 															<th>Date Time</th>
 															<th>Table Name</th>
@@ -362,8 +466,129 @@ class POS extends Front_Controller {
 				echo json_encode(array('html'=>$html));
 				break;
 
+			case '8':
+
+			$result=$this->db->query("SELECT orderslistid ordernumber,a.datetime,b.description tablename,concat(c.firstname,' ', c.lastname) attended, totalorder(a.orderslistid) TotalOrder,concat(d.fname,' ',d.lname) Billedby, reasoncancelled
+				FROM orderslist a 
+				left join mypostable b on a.mypostableid=b.postableid
+				left join mystaffpos c on a.StaffCode=c.mystaffposid
+				left join manage_users d on a.userid=d.user_id
+				where a.active=0 and b.myposid=$posid and convert(datetime,date) between '$date1' and '$date2'
+				order  by convert(datetime,date) asc ")->result_array();
+			$html='';
+			if(count($result)>0)
+			{
+				$html='<div><div style="float: right;" class="buttons-ui">
+				            <a onclick="Export()" class="btn green">Export</a>
+				        </div> <div class="clearfix"></div><center><h1><span class="label label-danger">'.$types[$type].'</span></h1></center></div>';
+				$html.='<div class="graph">
+						<div class="table-responsive">
+								<div class="clearfix"></div>
+								<table id="myTable" class="table table-bordered">
+										<thead>
+												<tr>	<th>#</th>
+														<th>Order Number</th>
+														<th>Date Time</th>
+														<th>Table Name</th>
+														<th>Attended by</th>
+														<th>Total Order</th>
+														<th>Billed By</th>
+														<th>Comments</th>
+												</tr>
+																	 </thead>
+										<tbody>';
+				$i=0;
+				$total=0;
+				foreach ($result as  $value) {
+					$i++;
+					$total+=$value['TotalOrder'];
+					$html.=' <tr  class="'.($i%2?'active':'success').'"> 
+							<th scope="row">'.$i.' </th> 
+							<td>'.$value['ordernumber'].'</td> 
+							<td>'.date('m/d/Y->h:m',strtotime($value['datetime'])).'</td>
+							<td>'.$value['tablename'].'</td>
+							<td>'.$value['attended'].'</td>
+							<td>'.number_format($value['TotalOrder'], 2, '.', ',').'</td>
+							<td>'.$value['Billedby'].'</td>
+							<td>'.$value['reasoncancelled'].'</td>
+							 </tr>';
+
+
+				}
 				
-			
+				$html.='</tbody>
+								</table>
+								</div> 									
+								</div>';
+				$html.='<div><center><h1><strong class="label label-danger">Total:'.number_format($total, 2, '.', ',').'<strong></h1></center></div>';
+			}
+			else
+			{
+				$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+			}
+
+			echo json_encode(array('html'=>$html));
+			break;
+
+				
+			case '9':
+				$result=$this->db->query("SELECT count(orderslistid) totalordernumber ,convert(datetime,date) datee,concat(c.firstname,' ', c.lastname) attended, sum(totalorder(a.orderslistid)) TotalOrder
+						FROM orderslist a 
+						left join mypostable b on a.mypostableid=b.postableid
+						left join mystaffpos c on a.StaffCode=c.mystaffposid
+						left join manage_users d on a.userid=d.user_id
+						where a.active=2 and b.myposid=$posid and convert(datetime,date) between '$date1' and '$date2'
+						group by convert(datetime,date),concat(c.firstname,' ', c.lastname)
+						order  by convert(datetime,date) asc ")->result_array();
+				$html='';
+				if(count($result)>0)
+				{
+					$html='<div><div style="float: right;" class="buttons-ui">
+					            <a onclick="Export()" class="btn green">Export</a>
+					        </div> <div class="clearfix"></div><center><h1><span class="label label-primary">'.$types[$type].'</span></h1></center></div>';
+					$html.='<div class="graph">
+							<div class="table-responsive">
+									<div class="clearfix"></div>
+									<table id="myTable" class="table table-bordered">
+											<thead>
+													<tr>	<th>#</th>
+															<th>Date</th>
+															<th>Attended By</th>
+															<th>Total Order #</th>
+															<th>Total Amount</th>
+													</tr>
+																		 </thead>
+											<tbody>';
+					$i=0;
+					$total=0;
+					foreach ($result as  $value) {
+						$i++;
+						$total+=$value['TotalOrder'];
+						$html.=' <tr  class="'.($i%2?'active':'success').'"> 
+								<th scope="row">'.$i.' </th> 
+								<td>'.date('m/d/Y',strtotime($value['datee'])).'</td>
+								<td>'.$value['attended'].'</td>
+								<td>'.number_format($value['totalordernumber'], 2, '.', ',').'</td>
+								<td>'.number_format($value['TotalOrder'], 2, '.', ',').'</td>  
+								 </tr>';
+
+
+					}
+					
+					$html.='</tbody>
+									</table>
+									</div> 									
+									</div>';
+					$html.='<div><center><h1><strong class="label label-primary">Total:'.number_format($total, 2, '.', ',').'<strong></h1></center></div>';
+				}
+				else
+				{
+					$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+				}
+
+				echo json_encode(array('html'=>$html));
+				
+				break;
 			default:
 				$result='';
 				break;
@@ -2124,7 +2349,7 @@ class POS extends Front_Controller {
 		$data['Description']=$_POST['description'];
 		$data['proccess']=$_POST['process'];
 		$data['active']=1;
-		$data['enddate']=$_POST['deadline'];
+		$data['enddate']=date('Y-m-d',strtotime($_POST['deadline']));
 
 
 
@@ -2147,7 +2372,7 @@ class POS extends Front_Controller {
 		$data['staffid']=$_POST['staffidup'];
 		$data['Description']=$_POST['descriptionup'];
 		$data['proccess']=$_POST['processup'];
-		$data['enddate']=$_POST['deadlineup'];
+		$data['enddate']=date('Y-m-d',strtotime($_POST['deadlineup']));;
 
 
 

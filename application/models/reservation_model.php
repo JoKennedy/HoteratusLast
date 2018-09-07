@@ -757,7 +757,7 @@ class Reservation_model extends CI_Model
                 b.property_name roomName
             FROM manage_reservation a        
             left join manage_property b on a.room_id = b.property_id     
-            where a.hotel_id=$hotelid and a.channel_id=0 and (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2' or STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2' ) ".(strlen($status)==0?'':$sta)." order by current_date_time desc")->result_array();
+            where a.hotel_id=$hotelid and a.channel_id=0 and (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') ".(strlen($status)==0?'':$sta)." order by current_date_time desc")->result_array();
          }
 
         $allchannel=$this->db->query("select  a.channel_id,channel_name from user_connect_channel a
@@ -775,7 +775,7 @@ class Reservation_model extends CI_Model
               if ($canalid==1) {
                 
                 $this->load->model('expedia_model');
-                $expedia=$this->expedia_model->ReservationList($hotelid);
+                $expedia=$this->expedia_model->ReservationList($hotelid,$date1,$date2,$status);
                  if(count($expedia)>0)
                  {
                     $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
@@ -783,7 +783,7 @@ class Reservation_model extends CI_Model
                  }
               }
               elseif ($canalid==2) {
-                 $booking=$this->booking_model->ReservationList($hotelid);
+                 $booking=$this->booking_model->ReservationList($hotelid,$date1,$date2,$status);
                  if(count($booking)>0)
                  {
                     $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
@@ -792,7 +792,7 @@ class Reservation_model extends CI_Model
               }
               elseif ($canalid==9) {
                  $this->load->model('airbnb_model');
-                $airbnb=$this->airbnb_model->ReservationList($hotelid);
+                $airbnb=$this->airbnb_model->ReservationList($hotelid,$date1,$date2,$status);
                  if(count($airbnb)>0)
                  {
                     $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));

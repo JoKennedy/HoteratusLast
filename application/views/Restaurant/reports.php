@@ -1,4 +1,22 @@
-<div class="outter-wp">
+
+<style type="text/css" media="screen">
+.dt-buttons {
+    float: left;
+}
+
+.buttons-excel,
+.buttons-csv,
+.buttons-copy,
+.buttons-pdf,
+.buttons-print {
+    display: none;
+}
+
+.dataTables_filter input {
+    color: black;
+} 
+</style>
+<div class="outter-wp" style="height: 4000px;">
     <!--sub-heard-part-->
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
@@ -15,8 +33,7 @@
     <div>
         <?php include("menu.php") ?>
     </div>
-
-
+        
         <div class="col-md-12">
             <div class="col-md-4 form-group1">
                 <label class="control-label"><strong>Start Date</strong></label>
@@ -37,25 +54,16 @@
             <button onclick="ShowReports(7)" style="width: 100%;" type="button" class="btn btn-info" >Group by Order</button>
         </div>
          <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info" >Group by Date</button>
+            <button onclick="ShowReports(1)" style="width: 100%;" type="button" class="btn btn-info" >Group by Date</button>
         </div>
          <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info ">Group by Users</button>
-        </div>
-         <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info" >Group by Product</button>
-        </div>
-         <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info">Group by Category</button>
+            <button onclick="ShowReports(2)" style="width: 100%;" type="button" class="btn btn-info ">Group by Users and Date</button>
         </div>
         <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info" >Summarized Report </button>
+            <button onclick="ShowReports(9)" style="width: 100%;" type="button" class="btn btn-info ">Group by Employee and Date</button>
         </div>
          <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info ">Detailed Report</button>
-        </div>
-         <div class="col-md-4 form-group1">
-            <button style="width: 100%;" type="button" class="btn btn-info ">Orders Cancelled</button>
+            <button onclick="ShowReports(8)" style="width: 100%;" type="button" class="btn btn-info ">Orders Cancelled</button>
         </div>
        
     </div>
@@ -64,7 +72,27 @@
         
     </div>
 
-
+<div id="export" class="modal fade" role="dialog" style="z-index: 1400;">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div align="center">
+                        <h1><span class="label label-primary">Options to Import</span></h1>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="buttons-ui">
+                        <a onclick="csv()" class="btn orange">CSV</a>
+                        <a onclick="Excel()" class="btn green">Excel</a>
+                        <a onclick="PDF()" class="btn yellow">PDF</a>
+                        <a onclick="PRINT()" class="btn blue">Print</a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
@@ -109,6 +137,7 @@
             success: function(msg) {
                 unShowWait();
                 $("#resultreport").html(msg['html']);
+                orderby();
                
             }
         });
@@ -120,3 +149,46 @@
 
    
 </script>
+<script>
+
+function csv() {
+    $(".buttons-csv").trigger("click");
+}
+
+function Excel() {
+    $(".buttons-excel").trigger("click");
+}
+
+function PDF() {
+    $(".buttons-pdf").trigger("click");
+}
+
+function PRINT() {
+    $(".buttons-print").trigger("click");
+}
+
+function Export() {
+    $("#export").modal();
+}
+function orderby()
+{
+    $('#myTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "order": [[ 1, "desc" ]]
+    });
+    
+}
+
+</script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables-init.js"></script>

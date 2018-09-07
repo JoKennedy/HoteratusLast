@@ -1912,23 +1912,25 @@ class airbnb_model extends CI_Model
             }
         }
     }
-    function ReservationList($hotelid)
+    function ReservationList($hotelid,$date1,$date2,$status)
     {
-            $booking=$this->db->query("SELECT a.Import_reservation_ID reservation_id, ResID_Value reservation_code, case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 else 5 end status,
-                  a.name  Full_Name , d.property_id room_id , 9 channel_id, arrival start_date,a.RoomNumber, departure end_date,
-                ImportDate booking_date, f.currency_id currency_id, AmountAfterTax price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,ImportDate current_date_time,
-                g.channel_name channel_name, e.property_name roomName FROM 
-                import_reservation_AIRBNB a
-                left join import_mapping_AIRBNB c on a.RoomTypeCode=c.RoomId and a.hotel_id=c.hotel_id
-                left join roommapping d on d.channel_id=9 and  c.import_mapping_id=d.import_mapping_id and c.channel_id=d.channel_id
-                left join manage_property e on d.property_id = e.property_id
-                left join currency f on a.Currency=f.currency_code
-                left join manage_channel g on  c.channel_id=g.channel_id
-                where 
-                a.hotel_id=$hotelid
-                order by a.ImportDate desc;")->result_array();
+        $sta="and case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
 
-            return $booking;
+        $airbnb=$this->db->query("SELECT a.Import_reservation_ID reservation_id, ResID_Value reservation_code, case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,
+              a.name  Full_Name , d.property_id room_id , 9 channel_id, arrival start_date,a.RoomNumber, departure end_date,
+            ImportDate booking_date, f.currency_id currency_id, AmountAfterTax price, DATEDIFF( departure,arrival) num_nights, 1 num_rooms,ImportDate current_date_time,
+            g.channel_name channel_name, e.property_name roomName FROM 
+            import_reservation_AIRBNB a
+            left join import_mapping_AIRBNB c on a.RoomTypeCode=c.RoomId and a.hotel_id=c.hotel_id
+            left join roommapping d on d.channel_id=9 and  c.import_mapping_id=d.import_mapping_id and c.channel_id=d.channel_id
+            left join manage_property e on d.property_id = e.property_id
+            left join currency f on a.Currency=f.currency_code
+            left join manage_channel g on  c.channel_id=g.channel_id
+            where 
+            a.hotel_id=$hotelid and (arrival between '$date1' and '$date2' ) ".(strlen($status)==0?'':$sta)."
+            order by a.ImportDate desc;")->result_array();
+
+            return $airbnb;
     }
     function reservationdetails($channelId,$reservationId,$hotelid)
     {

@@ -41,7 +41,7 @@
                                 $i++;
                                 $class=($value['proccess']<=10?'danger':($value['proccess']<=20?'warning':($value['proccess']<=50?'info':($value['proccess']<100?'inverse':'success'))));
                                 
-                                $update="'".$value['staffid']."','".$value['Description']."','".  $value['proccess']."','".$value['enddate']."','".$value['taskid']."'";
+                                $update="'".$value['staffid']."','".$value['Description']."','".  $value['proccess']."','".date('m/d/Y',strtotime($value['enddate']))."','".$value['taskid']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['staffname'].'  </td> 
                                 <td> '.$value['Description'].'  </td> <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active"><div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">DeadLine To Complete</label>
-                            <input style="background:white; color:black; text-align: center;" name="deadline" id="deadline" type="date" placeholder="DeadLine" required="">
+                            <input class="datepicker" style="background:white; color:black; text-align: center;" name="deadline" id="deadline" type="text" placeholder="DeadLine" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Process Status</label>
@@ -162,7 +162,7 @@
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">DeadLine To Complete</label>
-                            <input style="background:white; color:black; text-align: center;" name="deadlineup" id="deadlineup" type="date" placeholder="DeadLine" required="">
+                            <input class="datepicker" style="background:white; color:black; text-align: center;" name="deadlineup" id="deadlineup" type="text" placeholder="DeadLine" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Process Status</label>
@@ -186,8 +186,9 @@
 </div>
 </div>
 <script type="text/javascript">
+    $(".datepicker").datepicker();
      var fecha = new Date($.now());
-    $("#deadline").attr('min', formatoDate(fecha));
+   
 function saveTask() {
 
     var data = new FormData($("#taskC")[0]);
@@ -336,12 +337,11 @@ function updateTask() {
 
 function showupdate(staffid, task, processu, enddate, id) {
 
-
     $("#staffidup").val(staffid);
     $("#descriptionup").val(task);
     $("#processup").val(processu);
     $("#taskid").val(id);
-    $("#deadlineup").val(enddate.substr(0,10));
+    $("#deadlineup").val(enddate);
     $("#updatetask").modal();
 
 }

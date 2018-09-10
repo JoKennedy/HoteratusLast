@@ -591,6 +591,7 @@ class POS extends Front_Controller {
 				break;
 			default:
 				$result='';
+				echo json_encode(array('html'=>'<center><h1><span class="label label-danger">No Record Found</span></h1></center>'));
 				break;
 		}
    
@@ -616,6 +617,36 @@ class POS extends Front_Controller {
 												left join units c on a.unitid = c.unitid
 												where b.posid=$posid ")->result_array();
 		$this->views('Restaurant/products',$data);
+	}
+	function viewLocalConfig($hotelid,$posid)
+	{
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Configurations';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllSchedule']=array();
+		$this->views('Restaurant/localconfig',$data);
+	}
+	function viewEmployeeschedule($hotelid,$posid,$employeeid=0)
+	{
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Configurations';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllSchedule']=array();
+		$this->views('Restaurant/employeeschedule',$data);
 	}
 	function viewRecipes($hotelid,$posid)
 	{

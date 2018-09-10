@@ -228,6 +228,16 @@
                     <form id="EmployeeUP">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                         <input type="hidden" name="mystaffposid" id="mystaffposid" value="">
+                         <div class="col-md-12 form-group1 " >
+                            <div class="onoffswitch" style="float: right;">
+                                <input type="checkbox" name="statusid" class="onoffswitch-checkbox" id="statusid" >
+                                <label class="onoffswitch-label" for="statusid">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">First Name</label>
                             <input style="background:white; color:black;" name="nameup" id="nameup" type="text" placeholder="First Name" required="">

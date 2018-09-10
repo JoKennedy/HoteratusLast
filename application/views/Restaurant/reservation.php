@@ -109,8 +109,12 @@
                             <input class="datepickers" style="background:white; color:black;" name="deadline" id="deadline" type="text" placeholder="Select a Date" required="">
                         </div>
                         <div class="col-md-12 form-group1">
-                            <label class="control-label">Hour [18:00]</label>
-                            <input style="background:white; color:black; width: 100%" name="hourtime" id="hourtime" type="time" placeholder="Main Name" required="">
+                            <label class="control-label">Check-In</label>
+                            <input style="background:white; color:black; width: 100%" name="hourtime1" id="hourtime1" type="text" placeholder="Hour" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Check-Out</label>
+                            <input style="background:white; color:black; width: 100%" name="hourtime2" id="hourtime2" type="text" placeholder="Hour" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Room Number</label>
@@ -195,10 +199,14 @@
 </div>
 </div>
 </div>
+<link href="<?php echo base_url();?>user_asset/back/css/jquery.timepicker.min.css" rel="stylesheet">
+<script src="<?php echo base_url();?>user_asset/back/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
 var fecha = new Date($.now());
 
 $('.datepickers').datepicker({ minDate: new Date(), dateFormat: 'yy-mm-dd', });
+$('#hourtime1').timepicker({ 'timeFormat': 'H:i:A' });
+$('#hourtime2').timepicker({ 'timeFormat': 'h:i A' });
 
 function saveReservation() {
 

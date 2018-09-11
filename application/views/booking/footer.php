@@ -22,6 +22,7 @@
 <script src="<?php echo base_url();?>user_assets/custombox/dist/custombox.min.js"></script>
 <script src="<?php echo base_url();?>user_assets/custombox/jquery.core.js"></script>
 <script src="<?php echo base_url();?>user_assets/custombox/jquery.app.js"></script>
+
 <?php echo theme_js('jquery.creditCardValidator.js', true);?>
 <?php echo theme_js('channel_helper.js', true);?>
 </body>

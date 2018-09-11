@@ -247,7 +247,7 @@ function findroomavailable() {
         data: data,
         beforeSend: function() {
             showWait('Looking for available rooms for this dates');
-            setTimeout(function() { unShowWait(); }, 100000);
+            setTimeout(function() {unShowWait(); }, 10000);
         },
         success: function(msg) {
             $("#fechas").html(msg['header']);

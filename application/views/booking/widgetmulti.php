@@ -149,7 +149,7 @@
 								
 								echo '<select name="num_person" class="form-control">';
 									
-									   $qry1 = $this->db->query("SELECT max(member_count) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$widget['hotel_id']."'");
+									   $qry1 = $this->db->query("SELECT max(member_count) as maxNumber FROM `manage_property` WHERE  `owner_id`='".$widget['userid']."'");
 									      $res1 = $qry1->result_array();
 									      $numAdult = $res1[0]['maxNumber'];
 									      for ($i=1; $i<=$numAdult; $i++) { 

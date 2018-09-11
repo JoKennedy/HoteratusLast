@@ -31,66 +31,7 @@
     <div class="clearfix"></div>
 </div>
 <div id="createbook" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                
-                <h4 class="modal-title">Create a Reservation</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span> 
-            </div>
-            <div>
-                <div class="graph-form">
-                    <form id="bookC">
-                        <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Main Name</label>
-                            <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label"><?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?></label>
-                            <select style="width: 100%; padding: 9px; " id="tableid" name="tableid">
-                                <?php
-                                    if(count($AllTable)>0)
-                                    {
-                                        echo '<option value="0">Select a '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' </option>'; 
-                                        foreach ($AllTable as  $value) {
-                                            echo '<option value="'.$value['postableid'].'">'.$value['description'].'==>Cap:'.$value['qtyPerson'].'</option>';
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo '<option value="0">there are no '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' created</option>'; 
-                                    }
-                                    
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Date</label>
-                            <input class="datepickers" style="background:white; color:black;" name="deadline" id="deadline" type="text" placeholder="Select a Date" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Hour [18:00]</label>
-                            <input style="background:white; color:black; width: 100%" name="hourtime" id="hourtime" type="time" placeholder="Main Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Room Number</label>
-                            <input style="background:white; color:black; " name="roomid" id="roomid" type="text" placeholder="Room Number" required="">
-                        </div>
-                        <div id="respuesta"></div>
-                        <div class="clearfix"> </div>
-                        <br>
-                        <br>
-                        <div class="buttons-ui">
-                            <a onclick="saveReservation()" class="btn green">Save</a>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+       <?=include('createreservation.php')?>
 </div>
 
 </div>

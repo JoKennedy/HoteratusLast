@@ -23,7 +23,10 @@ class Booking extends Front_Controller {
     {
         parent::__construct();
         $this->load->database();
+        $this->load->helper('common');
         $this->load->model('booking_engine_model', 'booking');
+
+
     }
 
 	function get_reservation(){
@@ -82,6 +85,7 @@ class Booking extends Front_Controller {
         $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
         $data['booking'] = get_data('booking_engine',array('hotel_id'=>hotel_id()))->row_array();
         $data['widget'] = get_data('booking_widget',array('hotel_id'=>hotel_id()))->row_array();
+        $data['widgetM'] = get_data('booking_widget',array('userid'=>user_id()))->row_array();
         $this->views('booking/engine',$data);   
     }
 
@@ -168,10 +172,46 @@ class Booking extends Front_Controller {
             $this->db->insert('booking_widget', $data);
         }
     }
+     function update_widget2(){
+        if(admin_id()=='')
+        {
+            $this->is_login();
+        }
+        else
+        {
+            $this->is_admin();
+        }
+        extract($this->input->post());
+        $data['show_header'] = $header;
+        $data['guest_number'] = $guest_number2;
+        $data['ask_children'] = $children;
+        $data['layout'] = $layout2;
+        $data['floating_position'] = $floating_position2;
+        $data['open_page'] = $open_page2;
+        $data['theme'] = $theme2;
+        $data['font'] = $font2;
+        $data['custom_css'] = $custom_css2;
+        $rows = $this->db->get_where('booking_widget', array('userid'=>user_id()))->num_rows();
+        if($rows > 0){
+            $this->db->update('booking_widget', $data, array('userid'=>user_id()));
+        }else{
+            $data['userid'] = user_id();
+            $this->db->insert('booking_widget', $data);
+        }
 
+        echo $this->db->last_query();
+    }
     function test(){
         $data['widget'] = get_data('booking_widget', array('hotel_id'=>hotel_id()))->row_array();
         $data['page_heading'] = 'Booking Widget';
+        $data['booking'] = get_data('booking_engine',array('hotel_id'=>hotel_id()))->row_array();
+        $this->load->view('booking/header', $data);
+        $this->load->view('booking/test', $data);
+    }
+    function test2(){
+        $data['widget'] = get_data('booking_widget', array('userid'=>user_id()))->row_array();
+        $data['page_heading'] = 'Booking Widget';
+        $data['booking'] = get_data('booking_engine',array('hotel_id'=>hotel_id()))->row_array();
         $this->load->view('booking/header', $data);
         $this->load->view('booking/test', $data);
     }
@@ -187,21 +227,26 @@ class Booking extends Front_Controller {
         $data['hotel_id'] = $id;
         $id = insep_decode($id);
 
+
         $data['widget'] = get_data('booking_widget', array('hotel_id'=>$id))->row_array();
+        $data['booking'] = get_data('booking_engine',array('hotel_id'=>$id))->row_array();
         $data['page_heading'] = 'Booking Widget';
+
         $this->load->view('booking/header', $data);
         $this->load->view('booking/widget', $data);
+
     }
-       function widgetmulti($userid=""){
-        if(!$userid || $userid="" ){
+    function widgetmulti($userid=""){
+        if(!isset($userid) || $userid=="" ){
             $this->load->view('admin/404');
             die();
         }
 
         $data['user_id'] = $userid;
         $id = insep_decode($userid);
-        $data['allhotel']= $this->db->query("select * from manage_hotel where owner_id = $id and hotel_id <> $id") ;
 
+        $data['allhotel']= $this->db->query("select * from manage_hotel where owner_id = $id order by trim(property_name)") ;
+;
         if($data['allhotel']->num_rows==0)
         {   echo '<h1 align="center"> This Hotel Not Exists </h1>';
             die;
@@ -209,7 +254,7 @@ class Booking extends Front_Controller {
 
 
       
-        $data['widget'] = get_data('booking_widget', array('hotel_id'=>$id))->row_array();
+        $data['widget'] = get_data('booking_widget', array('userid'=>$id))->row_array();
         $data['page_heading'] = 'Booking Widget';
         $this->load->view('booking/header', $data);
         $this->load->view('booking/widgetmulti', $data);

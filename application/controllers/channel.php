@@ -436,7 +436,20 @@ class Channel extends Front_Controller {
 	{
 		$result['success']=false;
 		$result['msg']='something went Wrong';
-		 if($this->channel_model->updatenewuserassg($_POST))
+		if($this->channel_model->updatenewuserassg($_POST))
+		{
+			$result['success']=true;
+
+		}
+
+		echo json_encode($result);
+	}function updatenewuserassgActive()
+	{	
+		$data['status']=($_POST['status']==0?'1':'0');
+
+		$result['success']=false;
+		$result['msg']='something went Wrong';
+		if(update_data('manage_users',$data,array('user_id'=>$_POST['userid'])))
 		{
 			$result['success']=true;
 

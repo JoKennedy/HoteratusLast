@@ -595,8 +595,8 @@ function activeInactive(id,status)
         $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "<?php echo lang_url(); ?>channel/updatenewuserassg",
-                data: data,
+                url: "<?php echo lang_url(); ?>channel/updatenewuserassgActive",
+                data: {'userid':id,'status':status},
                 beforeSend: function() {
                     showWait();
                     setTimeout(function() { unShowWait(); }, 10000);

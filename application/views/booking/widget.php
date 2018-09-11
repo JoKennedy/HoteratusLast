@@ -97,13 +97,14 @@
 	}
 	<?= (isset($widget['custom_css'])) ? $widget['custom_css'] : '' ; ?>
 </style>
-<div class="<?= $floating; ?>">
+<div class="<?= $floating; ?>"> 
 	<div class="panel panel-<?= $theme; ?>">
 		<?php  
 			$widget['show_header'] = (isset($widget['show_header'])) ? $widget['show_header'] : '1';
 			if($widget['show_header'] !== '0'){
 				echo '<div class="panel-heading">Booking Online</div>';
 			}
+
 		?>
 		<div class="panel-body">
 			<form action="<?= lang_url().'booking/get_reservation'  ?>" target="<?= $target ?>" method="post">

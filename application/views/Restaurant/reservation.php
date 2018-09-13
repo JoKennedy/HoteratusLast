@@ -43,11 +43,11 @@
                             $i=0;
                             foreach ($ALLReservation as  $value) {
                                 $i++;
-                                $update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;
+                                $update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime1']."'"  ;
                                 $date = date_create($value['datetimereservation']);
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['signer'].'  </td> 
                                 <td> '.$value['marketingp'].'  </td> <td>'.$value['tablename'].' </td> <td>'.date_format($date, 'm/d/Y').' </td>
-                                 <td>'.$value['starttime'].' </td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                 <td>'.$value['starttime1'].' </td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
 
                             }
 
@@ -142,85 +142,7 @@ var fecha = new Date($.now());
 $('.datepickers').datepicker({ minDate: new Date(), dateFormat: 'yy-mm-dd', });
 
 
-function saveReservation() {
 
-    var data = $("#bookC").serialize();
-
-    if ($("#signer").val() <= 3) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Main Name!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#tableid").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Selected a Table  To Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#deadline").val().length <= 0) {
-
-        swal({
-            title: "upps, Sorry",
-            text: "Selected a Date To Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#hourtime").val().length <= 0) {
-
-        swal({
-            title: "upps, Sorry",
-            text: "Type a Hour To Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
-
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "<?php echo lang_url(); ?>pos/saveReservation",
-        data: data,
-        beforeSend: function() {
-            showWait();
-            setTimeout(function() { unShowWait(); }, 10000);
-        },
-        success: function(msg) {
-            unShowWait();
-            if (msg["success"]) {
-                swal({
-                    title: "Success",
-                    text: "Book Created!",
-                    icon: "success",
-                    button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
-            } else {
-
-                swal({
-                    title: "upps, Sorry",
-                    text: msg["msg"],
-                    icon: "warning",
-                    button: "Ok!",
-                });
-            }
-
-
-
-
-
-        }
-    });
-
-}
 
 function updateReservation() {
 

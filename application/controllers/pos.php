@@ -205,7 +205,7 @@ class POS extends Front_Controller {
 
 			 		foreach ($datos as $value) {
 
-			 			if("$i:00:00"==$value['starttime'])
+			 			if("$i:00:00"==$value['starttime1'])
 			 			{
 			 				$dato=$value;
 			 				break;
@@ -216,8 +216,8 @@ class POS extends Front_Controller {
 			 			}
 			 			
 			 		}
-			 	$color=(isset($dato['starttime'])?'#FF5733':'#52c748');
-		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime'])?'R':'A').'</td>';  
+			 	$color=(isset($dato['starttime1'])?'#FF5733':'#52c748');
+		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime1'])?'R':'A').'</td>';  
 
 		 	}
 	
@@ -630,8 +630,25 @@ class POS extends Front_Controller {
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllSchedule']=array();
+		$data['AllSchedule']=$this->db->query("SELECT * from myposschedule where posid=$posid order by daysofweek ")->row_array();
 		$this->views('Restaurant/localconfig',$data);
+	}
+	function SaveLocalConfig()
+	{
+		
+		$data['posid']=$_POST['posid'];
+		$data['daysofweek']=$_POST['day'];
+		$data['startdate']=$_POST['hourtime1'];
+		$data['enddate']=$_POST['hourtime2'];
+
+		$result=array('success'=>false,'message'=>'Something went Wrong');
+		if(insert_data('myposschedule',$data))
+		{
+			$result['success']=true;
+		}
+
+		echo json_encode($result);
+
 	}
 	function viewEmployeeschedule($hotelid,$posid,$employeeid=0)
 	{
@@ -979,7 +996,7 @@ class POS extends Front_Controller {
 			left join mypostable b on a.mypostableid=b.postableid
             left join mypos c on a.mypostableid =c.myposId
 			where b.myposId=$posid
-            order by datetimereservation desc,starttime desc")->result_array();
+            order by datetimereservation desc,starttime1 desc")->result_array();
 
 		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();
 		$this->views('Restaurant/reservation',$data);
@@ -2223,43 +2240,47 @@ class POS extends Front_Controller {
 
 	}
 
-	function reservationinhouse()
+	function reservationinhouse($date1='',$type=0)
 	{
 		$hotelid=hotel_id();
+		if($date1=='')
+		{
+			$date1=date('Y-m-d');
+		}
 		$totalReservation=array();
 		$hoteratus=$this->db->query("SELECT hotel_id, Roomnumber, guest_name, 0 channelid,reservation_id ,reservation_code reservation_number
 					FROM manage_reservation 
-					where STR_TO_DATE(end_date ,'%d/%m/%Y') >=current_date() and STR_TO_DATE(start_date ,'%d/%m/%Y')  <=current_date()
+					where STR_TO_DATE(end_date ,'%d/%m/%Y') >='$date1' and STR_TO_DATE(start_date ,'%d/%m/%Y')  <='$date1'
 					 and hotel_id =$hotelid and  status ='Checkin' ")->result_array();
 		$totalReservation = array_merge($totalReservation,$hoteratus);
 
 		$booking=$this->db->query("SELECT hotel_hotel_id hotel_id, Roomnumber, guest_name, channel_id channelid,room_res_id reservation_id , concat(reservation_id,'-',roomreservation_id)  reservation_number
 		FROM import_reservation_BOOKING_ROOMS 
-		where arrival_date <=current_date() and departure_date >=current_date()
+		where arrival_date <='$date1' and departure_date >='$date1'
 		and status <>'cancelled' and hotel_hotel_id =$hotelid ")->result_array();
 		$totalReservation = array_merge($totalReservation,$booking);
 
 
 		$expedia=$this->db->query("SELECT hotel_id, Roomnumber,`name` guest_name, channel_id channelid,import_reserv_id reservation_id, `number` 						reservation_number
 									FROM import_reservation_EXPEDIA 
-									where departure >=current_date() 
-									and arrival <=current_date() 
+									where departure >='$date1' 
+									and arrival <='$date1' 
 									and type <>'Cancel' and hotel_id =$hotelid ")->result_array();
 		$totalReservation = array_merge($totalReservation,$expedia);
 
 		$despegar=$this->db->query("SELECT hotel_id,'' Roomnumber,`name` guest_name, channel_id channelid,Import_reservation_ID reservation_id,
 									ResID_Value reservation_number
 									FROM import_reservation_DESPEGAR 
-									where departure >=current_date() 
-									and arrival <=current_date() 
+									where departure >='$date1' 
+									and arrival <='$date1'
 									and ResStatus <>'Cancel' and hotel_id =$hotelid ")->result_array();
 		$totalReservation = array_merge($totalReservation,$despegar);
 
 		$airbnb=$this->db->query("SELECT hotel_id,'' Roomnumber,`name` guest_name, channel_id channelid,Import_reservation_ID reservation_id ,
 								ResID_Value reservation_number
 								FROM import_reservation_AIRBNB 
-								where departure >=current_date() 
-								and arrival <=current_date() 
+								where departure >='$date1'
+								and arrival <='$date1'
 								and ResStatus <>'Cancelled' and hotel_id =$hotelid ")->result_array();
 		$totalReservation = array_merge($totalReservation,$airbnb);
 
@@ -2285,16 +2306,17 @@ class POS extends Front_Controller {
 													<th>#</th>
 													<th>Full Name</th>
 													<th>Room Number</th>
-													<th>Charge</th>
+													<th>'.($type==0?'Charge':'Book').'</th>
 											</tr>
 																 </thead>
 									<tbody>';
 						$i=0;
 						foreach ($totalReservation as  $value) {
 							$i++;
+							$book="'".$value['guest_name']."','".$value['Roomnumber']."'";
 							$html.=' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$value['reservation_number'].
 								' </th> <td>'.$value['guest_name'].'  </td> <td>'.$value['Roomnumber'].'</td>
-									<td  align="center"><a  onclick="chargetoRoom('."'".$value['reservation_id']."','".$value['channelid']."'".');">
+									<td  align="center"><a  onclick="'.($type==0?'chargetoRoom('."'".$value['reservation_id']."','".$value['channelid']."'".')':'bookroom('.$book.')').';">
 									 <i class="fa fa-check-circle fa-2x"></i></a> </td> </tr>';
 
 
@@ -2642,7 +2664,8 @@ class POS extends Front_Controller {
 	{
 		
 		$data['datetimereservation']=$_POST['deadline'];
-		$data['starttime']=$_POST['hourtime'];
+		$data['starttime1']=$_POST['hourtime1'];
+		$data['starttime2']=$_POST['hourtime2'];
 		$data['mypostableid']=$_POST['tableid'];
 		$data['Roomid']=(strlen($_POST['roomid'])==0?null:$_POST['roomid']);
 		$data['signer']=$_POST['signer'];
@@ -2651,7 +2674,7 @@ class POS extends Front_Controller {
 							left join mypostable b on a.mypostableid=b.postableid
 							where mypostableid=".$data['mypostableid']."
 							and datetimereservation='".$data['datetimereservation']."' 
-							and time('".$data['starttime']."') between starttime and time(time(starttime) + time(averagetimeuse))")->row()->total;
+							and starttime1 between time('".$data['starttime1']."') and time('".$data['starttime2']."') ")->row()->total;
 
 		if($total>0)
 		{
@@ -2680,7 +2703,7 @@ class POS extends Front_Controller {
 	{
 		
 		$data['datetimereservation']=$_POST['deadlineup'];
-		$data['starttime']=$_POST['hourtimeup'];
+		$data['starttime1']=$_POST['hourtimeup'];
 		$data['mypostableid']=$_POST['tableidup'];
 		$data['Roomid']=(strlen($_POST['roomidup'])==0?null:$_POST['roomidup']);
 		$data['signer']=$_POST['signerup'];

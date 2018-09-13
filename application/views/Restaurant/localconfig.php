@@ -15,24 +15,12 @@
         <?php include("menu.php") ?>
     </div>
     <div class="clearfix"></div>
-    <?php 
 
-    $company_name=(isset($BillInfo['company_name'])?$BillInfo['company_name']:'');
-    $town=(isset($BillInfo['town'])?$BillInfo['town']:'');
-    $address=(isset($BillInfo['address'])?$BillInfo['address']:'');
-    $zip_code=(isset($BillInfo['zip_code'])?$BillInfo['zip_code']:'');
-    $mobile=(isset($BillInfo['mobile'])?$BillInfo['mobile']:'');
-    $vat=(isset($BillInfo['vat'])?$BillInfo['vat']:'');
-    $reg_num=(isset($BillInfo['reg_num'])?$BillInfo['reg_num']:'');
-    $email_address=(isset($BillInfo['email_address'])?$BillInfo['email_address']:'');
-    $country=(isset($BillInfo['country'])?$BillInfo['country']:'');
-
-    ?>
     <div class="graph-form">
         <form id="SchedulePos">
            <div class="col-md-12 form-group1 " >
               <div class="onoffswitch" style="float: left;">
-                  <input type="checkbox" name="statusid" class="onoffswitch-checkbox" id="statusid" >
+                  <input type="checkbox" name="statusid" class="onoffswitch-checkbox" id="statusid" <?=($Posinfo['active']==1?'checked':'')?> >
                   <label class="onoffswitch-label" for="statusid">
                       <span class="onoffswitch-inner"></span>
                       <span class="onoffswitch-switch"></span>
@@ -40,43 +28,35 @@
               </div>
           </div>
           <div class="clearfix"></div>
-           <div class="col-md-3" >
-                <?php
-                echo '<div class="panel-default"> <div class="panel-heading"> <h3 class="panel-title">Days Of The Week</h3> </div> ';
-                 echo '<div class="panel-body">';
-                $days = array("Sunday"=>1, "Monday"=>2, "Tuesday"=>3, "Wednesday"=>4,"Thursday"=>5,"Friday"=>6, "Saturday"=>7);
-                
-                foreach ($days as $day => $key) {
 
-                                echo '<div class="col-md-12 ">
-                                             <table>
-                                                <tbody>
-                                                <tr>
-                                                <td><input type="checkbox" name="days[]" id="days'.$key.'" value="'.$key.'" checked></td>
-                                                <td><label for="days'.$key.'">&nbsp '.$day.'</label></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>';
+            <div class="col-md-4 form-group1 form-last">
+                    <label style="padding:4px;" class="control-label controls">Day of the Week</label>
+                    <select style="width: 100%; padding: 9px;" name="day" id="day">
+                        <?php
+
+                            $days = array(1=>"Sunday", 2=>"Monday", 3=>"Tuesday", 4=>"Wednesday",5=>"Thursday",6=>"Friday", 7=>"Saturday");
+                             echo '<option  value="0" >Select a Day</option>';
+                            foreach ($days as $key  =>$day ) {
+
+                                echo '<option value="'.$key.'" >'.$day.'</option>';
+
                             }
-                            echo ' <div class="clearfix"> </div> </div> </div>';
-
-
                         ?>
+                    </select>
             </div>
-            <div class="col-md-9 form-group1">
-                <div class="col-md-6 form-group1">
+
+                <div class="col-md-4 form-group1">
                   <label class="control-label">Open</label>
                   <input style="background:white; color:black; width: 100%" name="hourtime1" id="hourtime1" type="text" placeholder="Hour" required="">
                 </div>
-                <div class="col-md-6 form-group1">
+                <div class="col-md-4 form-group1">
                     <label class="control-label">Close</label>
                     <input style="background:white; color:black; width: 100%" name="hourtime2" id="hourtime2" type="text" placeholder="Hour" required="">
                 </div>
                  <div class="buttons-ui col-md-12 form-group1">
-                    <a onclick="add()" class="btn green">Add Schedule</a>
+                    <a onclick="saveDay()" class="btn green">Add Schedule</a>
                 </div>
-            </div>
+             </form>
 
             <div class="clearfix"> </div>
             <br>
@@ -96,15 +76,15 @@
                     </thead>
                     <tbody>
                         <?php if (count($AllSchedule)>0) {
-
+                           $days = array(1=>"Sunday", 2=>"Monday", 3=>"Tuesday", 4=>"Wednesday",5=>"Thursday",6=>"Friday", 7=>"Saturday");
                             $i=0;
                             foreach ($AllSchedule as  $value) {
                                 $i++;
-                                $update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;
-                                $date = date_create($value['datetimereservation']);
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['signer'].'  </td> 
-                                <td> '.$value['marketingp'].'  </td> <td>'.$value['tablename'].' </td> <td>'.date_format($date, 'm/d/Y').' </td>
-                                 <td>'.$value['starttime'].' </td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
+
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> 
+                                <td> '.$days[$value['daysofweek']].'  </td> 
+                                <td> '.$value['startdate'].'  </td> 
+                                <td>'.$value['enddatedate'].' </td> </tr>   ';
 
                             }
 
@@ -123,7 +103,7 @@
         </div>
     </div>
             <div class="clearfix"> </div>
-        </form>
+       
     </div>
 </div>
 </div>
@@ -131,49 +111,56 @@
 <link href="<?php echo base_url();?>user_asset/back/css/jquery.timepicker.min.css" rel="stylesheet">
 <script src="<?php echo base_url();?>user_asset/back/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
-$('#hourtime1').timepicker({ 'timeFormat': 'H:i:A' });
-$('#hourtime2').timepicker({ 'timeFormat': 'h:i A' });
-function saveCategory() {
+    var posid="<?=$Posinfo['myposId']?>";
+    $('#hourtime1').timepicker({ 'timeFormat': 'h:i A' });
+    $('#hourtime2').timepicker({ 'timeFormat': 'h:i A' });
 
-
-
-    var data = new FormData($("#CategoryC")[0]);
-    if ($("#categoryname").val().length < 3) {
+    function saveDay () {
+        
+    if ($("#day").val() == 0) {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Category Name!",
+            text: "Select a Day to Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
-    } else if ($("#Image").val().length < 1) {
+    } else if ($("#hourtime1").val() == '') {
         swal({
             title: "upps, Sorry",
-            text: "Missing Field Imagen!",
+            text: "Selected a Opening Time To Continue!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } else if ($("#hourtime2").val() =='') {
+
+        swal({
+            title: "upps, Sorry",
+            text: "Selected a Closing Time To Continue!",
             icon: "warning",
             button: "Ok!",
         });
         return;
     }
 
-
-    $.ajax({
+ var data ={'posid':posid,'day':$("#day").val(),'hourtime1':$("#hourtime1").val(),'hourtime2':$("#hourtime2").val()}        
+     $.ajax({
         type: "POST",
-        dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>pos/saveCategory",
+        //dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/SaveLocalConfig",
         data: data,
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
-
-            if (msg["result"] == "0") {
+            unShowWait();
+            alert(msg);
+            if (msg["success"]) {
                 swal({
                     title: "Success",
-                    text: "Category Created!",
+                    text: "Schedule Updated!",
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
@@ -183,19 +170,17 @@ function saveCategory() {
 
                 swal({
                     title: "upps, Sorry",
-                    text: "Category was not Created! Error: " + msg["result"],
+                    text: msg["msg"],
                     icon: "warning",
                     button: "Ok!",
                 });
             }
 
-            unShowWait();
-
-
-
         }
     });
 
 
-}
+    }
+
+
 </script>

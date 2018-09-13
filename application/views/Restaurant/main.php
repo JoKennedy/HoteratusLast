@@ -25,7 +25,7 @@
                     if ($value['appointment']>0) {
                         $time = date("H:i:s");
                         $today=date("Y-m-d");
-                        $appointment=$this->db->query("Select  * from mypostablereservation where mypostableid = ".$value['postableid']." and datetimereservation='$today' and starttime>='$time' order by starttime asc Limit 1")->row_array();
+                        $appointment=$this->db->query("Select  * from mypostablereservation where mypostableid = ".$value['postableid']." and datetimereservation='$today' and starttime1>='$time' order by starttime1 asc Limit 1")->row_array();
 
                     if(count($appointment)>0)
                     {
@@ -55,7 +55,7 @@
 
                    echo ' <div class="col-md-4" style="padding: 10px;">
                     <a onclick=" showWait('."Opening <br> Please Wait".')" href="'.site_url('pos/viewtable/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']).'/'.insep_encode($value['postableid'])).'" style="width:200px; height:200px "
-                    class="'.($value['active']==1?"btn green":($value['active']==2?"btn red":($value['active']==3?"btn yellow":($value['active']==4?"btn blue":"btn purple")))).'">'.$value['description'].' <br> '.($value['active']==1?"Available":($value['active']==2?"In Use":($value['active']==3?"Cleaning":($value['active']==4?"Reserved by <br>".$appointment['signer']." <br> For <br> ".$appointment['starttime']."<br> Time to Arrival <br> $timellegada ":"Unknown")))).' </a>
+                    class="'.($value['active']==1?"btn green":($value['active']==2?"btn red":($value['active']==3?"btn yellow":($value['active']==4?"btn blue":"btn purple")))).'">'.$value['description'].' <br> '.($value['active']==1?"Available":($value['active']==2?"In Use":($value['active']==3?"Cleaning":($value['active']==4?"Reserved by <br>".$appointment['signer']." <br> For <br> ".$appointment['starttime1']."<br> Time to Arrival <br> $timellegada ":"Unknown")))).' </a>
                     </div> ';
                 }
 

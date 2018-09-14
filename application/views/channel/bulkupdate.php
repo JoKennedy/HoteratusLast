@@ -137,13 +137,13 @@
                                             <td width="10%" >'.$value['property_name'].'</td> 
 
                                             <td  class="form-group1 availa" style="display:none;width:18%; " id="availa">
-                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][availability]" id="availability" type="text" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
+                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][availability]" id="availability" type="text"  class="availability" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
                                             </td>
                                             <td  class="form-group1 price" style="display:none;width:15%;" id="pricet">
-                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][price]" id="price" type="text" placeholder="Price" >
+                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="room['.$value['property_id'].'][price]" class="pric" id="price" type="text" placeholder="Price" >
                                             </td>
                                             <td  class="form-group1 minimum" style="display:none;width:18%;" id=minimumt>
-                                                <input  style="background:white; color:black; " name="room['.$value['property_id'].'][minimumstay]" id="minimum" type="text" placeholder=Minimum Stay" >
+                                                <input  style="background:white; color:black; " name="room['.$value['property_id'].'][minimumstay]" id="minimum" class="mini" type="text" placeholder=Minimum Stay" >
                                             </td>
                                             <td width="14%" class="form-group1 cta" style="display:none; text-align:center;" id="ctat">
                                                 <label for="cta" >CTA</label> <br>
@@ -173,19 +173,19 @@
                                             <td width="10%" >'.$value['property_name'].'['.$rate['name'].']</td> 
 
                                             <td  class="form-group1 availa" style="display:none;width:18%; " id="availa">
-                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][availability]" id="availability" type="text" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
+                                                <input width="100px" style="background:white; color:black;" onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][availability]" class="availability" id="availability" type="text" placeholder="Availability" onchange="return validarmaximo('.$value['existing_room_count'].',this);" >
                                             </td>
                                             <td  class="form-group1 price" style="display:none;width:15%;" id="pricet">
-                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][price]" id="price" type="text" placeholder="Price" >
+                                                <input  style="background:white; color:black;  " onkeypress="return justNumbers(event);" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][price]" class="pric" id="price" type="text" placeholder="Price" >
                                             </td>
                                             <td  class="form-group1 minimum" style="display:none;width:18%;" id=minimumt>
-                                                <input  style="background:white; color:black; " name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][minimumstay]" id="minimum" type="text" placeholder=Minimum Stay" >
+                                                <input  style="background:white; color:black; " name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][minimumstay]" id="minimum" class="mini" type="text" placeholder=Minimum Stay" >
                                             </td>
                                             <td width="14%" class="form-group1 cta" style="display:none; text-align:center;" id="ctat">
                                                 <label for="cta" >CTA</label> <br>
-                                                <input  name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="1" >
+                                                <input class="ctac" name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="1" >
                                                 <label for="cta">Y</label>
-                                                <input   name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="0" >
+                                                <input class="ctac"  name="subroom['.$value['property_id'].']['.$rate['ratetypeid'].'][cta]" id="cta" type="radio" value="0" >
                                                 <label for="cta">N</label>
                                             </td>
                                             <td width="14%" class="form-group1 ctd" style="display:none; text-align:center;" id="ctdt">
@@ -274,7 +274,24 @@ function cambio(id) {
 }
 function verificarupdate()
 {
-    if($("td[class=availa]").css("display")!='none' && $("input[id=availability]").val()==""  )
+    var avai=1;
+    var pric=1;
+    var min=1;
+    //disponibilidad
+    $(".availa").each(function(index, el) {
+         if($(el).css("display") !='none'  )
+         {  if(avai==1){avai=0}
+            $(".availability").each(function(ind, elem) {
+                
+                if($(elem).val() !='')
+                {
+                    avai=2;
+                }
+            });
+         }
+    });
+
+    if(avai==0 )
     {      
             falta=1;
             swal({
@@ -284,11 +301,24 @@ function verificarupdate()
                 button: "Ok!",
             });
             return false;
-            
     }
-     if($("td[id=pricet]").css("display")!='none' && $("input[id=price]").val()==""  )
+    //price
+     $(".price").each(function(index, el) {
+         if($(el).css("display") !='none'  )
+         {  if(pric==1){pric=0}
+            $(".pric").each(function(ind, elem) {
+                
+                if($(elem).val() !='')
+                {
+                    pric=2;
+                }
+            });
+         }
+    });
+
+    if(pric==0 )
     {      
-            falta=1;
+           falta=1;
             swal({
                 title: "upps, Sorry",
                 text: "Type the Price to continue !",
@@ -297,9 +327,23 @@ function verificarupdate()
             });
             return false;
     }
-     if($("td[id=minimumt]").css("display")!='none' && $("input[id=minimum]").val()==""  )
+    //minimo
+    $(".minimum").each(function(index, el) {
+         if($(el).css("display") !='none'  )
+         {  if(min==1){min=0}
+            $(".mini").each(function(ind, elem) {
+                
+                if($(elem).val() !='')
+                {
+                    min=2;
+                }
+            });
+         }
+    });
+
+    if(min==0 )
     {      
-            falta=1;
+           falta=1;
             swal({
                 title: "upps, Sorry",
                 text: "Type the Minimum to continue !",
@@ -308,7 +352,9 @@ function verificarupdate()
             });
             return false;
     }
-     if($("td[id=ctat]").css("display")!='none' && !$("input[id=cta]").is(":checked")  )
+
+
+    if($("td[id=ctat]").css("display")!='none' && !$("input[id=cta]").is(":checked")  )
     {      
             falta=1;
             swal({

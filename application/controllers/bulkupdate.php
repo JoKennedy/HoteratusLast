@@ -53,8 +53,8 @@ class bulkupdate extends Front_Controller
 		
 		$rooms=$this->cleanArray($_POST['room']);
 		$subrooms=$this->cleanArray($_POST['subroom']);
-
-		if(count($rooms)>0)
+		var_dump($rooms);
+		if($rooms)
 		{
 
 			foreach ($rooms as $roomid => $room) {

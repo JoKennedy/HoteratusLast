@@ -201,7 +201,7 @@
             button: "Ok!",
         });
         return;
-    }else if ($("#hourtime2").val().length <= 0) {
+    } else if ($("#hourtime2").val().length <= 0) {
 
         swal({
             title: "upps, Sorry",

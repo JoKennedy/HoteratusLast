@@ -28,8 +28,10 @@
                             <th  width="5%">#</th>
                             <th>Staff Name</th>
                             <th>Task Description</th>
-                            <th>Process</th>
+                            <th>Process</th> 
                             <th>Status</th>
+                            <th>Date</th>
+                            <th>Hour</th>
                             <th>Edit</th>
                         </tr>
                     </thead>
@@ -41,11 +43,15 @@
                                 $i++;
                                 $class=($value['proccess']<=10?'danger':($value['proccess']<=20?'warning':($value['proccess']<=50?'info':($value['proccess']<100?'inverse':'success'))));
                                 
-                                $update="'".$value['staffid']."','".$value['Description']."','".  $value['proccess']."','".date('m/d/Y',strtotime($value['enddate']))."','".$value['taskid']."'";
+                                $update="'".$value['staffid']."','".$value['Description']."','".  $value['proccess']."','".date('m/d/Y',strtotime($value['enddate']))."','".$value['taskid']."','".$value['endtime']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['staffname'].'  </td> 
-                                <td> '.$value['Description'].'  </td> <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active"><div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
-                                  <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                <td> '.$value['Description'].'  </td> 
+                                <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
+                                <td>'.date('m/d/Y',strtotime($value['enddate'])).'</td>
+                                <td>'.$value['endtime'].'</td>
+                                  <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>  ';
 
                             }
 
@@ -103,6 +109,10 @@
                         <div class="col-md-12 form-group1">
                             <label class="control-label">DeadLine To Complete</label>
                             <input class="datepicker" style="background:white; color:black; text-align: center;" name="deadline" id="deadline" type="text" placeholder="DeadLine" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Hour</label>
+                            <input style="background:white; color:black; width: 100%" name="endtime" id="endtime" type="text" placeholder="Hour" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Process Status</label>
@@ -164,6 +174,10 @@
                             <label class="control-label">DeadLine To Complete</label>
                             <input class="datepicker" style="background:white; color:black; text-align: center;" name="deadlineup" id="deadlineup" type="text" placeholder="DeadLine" required="">
                         </div>
+                         <div class="col-md-12 form-group1">
+                            <label class="control-label">Hour</label>
+                            <input style="background:white; color:black; width: 100%" name="endtimeup" id="endtimeup" type="text" placeholder="Hour" required="">
+                        </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Process Status</label>
                             <input  style="background:white; color:black; text-align: center;" name="processup" id="processup" type="text" onkeypress="return justNumbers(event);" required="" value="0" minlength="1" maxlength="3">
@@ -185,7 +199,11 @@
 </div>
 </div>
 </div>
+<link href="<?php echo base_url();?>user_asset/back/css/jquery.timepicker.min.css" rel="stylesheet">
+<script src="<?php echo base_url();?>user_asset/back/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
+    $('#endtime').timepicker({ 'timeFormat': 'h:i A' });
+     $('#endtimeup').timepicker({ 'timeFormat': 'h:i A' });
     $(".datepicker").datepicker();
      var fecha = new Date($.now());
    
@@ -335,13 +353,14 @@ function updateTask() {
 }
 
 
-function showupdate(staffid, task, processu, enddate, id) {
+function showupdate(staffid, task, processu, enddate, id,endtime) {
 
     $("#staffidup").val(staffid);
     $("#descriptionup").val(task);
     $("#processup").val(processu);
     $("#taskid").val(id);
     $("#deadlineup").val(enddate);
+    $("#endtimeup").val(endtime);
     $("#updatetask").modal();
 
 }

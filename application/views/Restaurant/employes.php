@@ -29,8 +29,10 @@
                             <th>#</th>
                             <th>Employee Name</th>
                             <th>Employee Type</th>
+                            <th>Email</th>
                             <th>Status</th>
                             <th>Edit</th>
+                            <th>Schedule</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,9 +41,16 @@
 														$i=0;
 														foreach ($AllStaff as  $value) {
 																$i++;
-																$update="'".$value['firstname']."','".$value['lastname']."','".$value['gender']."','".$value['stafftypeid']."','".$value['photo']."','".$value['mystaffposid']."'";
-																echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['fullname'].'  </td> 
-																<td> '.$value['stafftypename'].'  </td> <td> '.($value['active']==1?'Active':'Deactive').'</td> <td><a href="#updateemployee" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> </tr>   ';
+																$update="'".$value['firstname']."','".$value['lastname']."','".$value['gender']."','".$value['stafftypeid']."','".$value['photo']."','".$value['mystaffposid']."','".$value['active']."','".$value['email']."'";
+																echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> 
+                                                                <td> '.$value['fullname'].'  </td> 
+																<td> '.$value['stafftypename'].'  </td> 
+                                                                <td> '.$value['email'].'  </td> 
+                                                                <td> '.($value['active']==1?'Active':'Deactive').'</td> 
+                                                                <td><a href="#updateemployee" onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td>
+                                                                <td><a href="'.site_url('pos/viewEmployeeschedule/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']).'/'.$value['mystaffposid']).'" ><i class="fa fa-cog"></i></a></td>  
+                                                                
+                                                                </tr>   ';
 
 														}
 												} ?>
@@ -197,6 +206,10 @@
                             </select>
                         </div>
                         <div class="col-md-12 form-group1">
+                            <label class="control-label">Email</label>
+                            <input style="background:white; color:black;" name="email" id="email" type="text" placeholder="Email" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
                             <label class="control-label">Imagen</label>
                             <input style="background:white; color:black;" type="file" id="Image" name="Image">
                         </div>
@@ -270,6 +283,10 @@
 
 															?>
                             </select>
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Email</label>
+                            <input style="background:white; color:black;" name="emailup" id="emailup" type="text" placeholder="Email" required="">
                         </div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Imagen</label>
@@ -568,13 +585,15 @@ function updateStaff() {
 }
 
 
-function showupdate(name, lastname, gender, stafftypeid, photo, mystaffposid) {
+function showupdate(name, lastname, gender, stafftypeid, photo, mystaffposid,status,email) {
 
     $("#nameup").val(name);
     $("#lastnameup").val(lastname);
     $("#staffTypeup").val(stafftypeid);
     $("#genderup").val(gender);
     $("#mystaffposid").val(mystaffposid);
+    $("#emailup").val(email);
+    $("#statusid").attr('checked',(status==1?true:false));
 }
 
 $.fn.pageMe = function(opts) {

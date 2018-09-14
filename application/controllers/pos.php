@@ -137,7 +137,7 @@ class POS extends Front_Controller {
 		$fecha = new DateTime();
 		$fecha->modify('last day of this month');
 		$lastday= $fecha->format('d');
-		
+		$posid=$_POST['posid'];
 
 		
 		$hotel_id=hotel_id();
@@ -170,7 +170,7 @@ class POS extends Front_Controller {
 		 
 
 
-		$room=$this->db->query("SELECT * FROM mypostable where myposid=2")->result_array();
+		$room=$this->db->query("SELECT * FROM mypostable where myposid=$posid")->result_array();
 
 		$body='<tbody>';
 
@@ -182,26 +182,13 @@ class POS extends Front_Controller {
 			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['description'].'</td> </tr> ';
 			$room2='';
 
-				/*
-			if ($showr==1) {
-
-					foreach ($roomnumber as  $rooms) {
-						$room2 .='<tr> <td></td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
-
-						$room2 .= $this->ReservationShow($rooms,$date1,$value['property_id']);
-
-					}	
-
-
-			}
-			*/
-
 			$dato=null;
 
 			$datos= $this->db->query("SELECT * FROM mypostablereservation where datetimereservation='".date('Y-m-d'). "' and mypostableid= ".$value['postableid'])->result_array(); 
 			
 
 			 for ($i=0; $i <=23 ; $i++) { 
+
 
 			 		foreach ($datos as $value) {
 
@@ -216,8 +203,10 @@ class POS extends Front_Controller {
 			 			}
 			 			
 			 		}
-			 	$color=(isset($dato['starttime1'])?'#FF5733':'#52c748');
-		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime1'])?'R':'A').'</td>';  
+			 	$isOpen=$this->isOpenPos($posid,$dataini,"$i:00:00");
+			
+			 	$color=(isset($dato['starttime1']) || $isOpen ==0?'#FF5733':'#52c748');
+		 		$precio.='<td bgcolor="'.$color.'" style="font-size: 12px; text-align:center;" >'.(isset($dato['starttime1']) || $isOpen ==0?($isOpen==0?'C':'R'):'A').'</td>';  
 
 		 	}
 	
@@ -230,6 +219,13 @@ class POS extends Front_Controller {
 
 		$body .='</tbody> </table>';
 		echo  $html.$header1.$header2.$body;
+
+	}
+	function isOpenPos($posid,$date1,$hour1)
+	{	
+		$day= date('N', strtotime($date1));
+		$avai=$this->db->query("SELECT count(*) avai from myposschedule where posid=$posid and daysofweek= $day and time('$hour1') between startdate and enddate")->row_array()['avai'];
+		return $avai;
 
 	}
 	function viewCreationtable($hotelid,$posid)
@@ -630,7 +626,7 @@ class POS extends Front_Controller {
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllSchedule']=$this->db->query("SELECT * from myposschedule where posid=$posid order by daysofweek ")->row_array();
+		$data['AllSchedule']=$this->db->query("SELECT * from myposschedule where posid=$posid order by daysofweek ")->result_array();
 		$this->views('Restaurant/localconfig',$data);
 	}
 	function SaveLocalConfig()
@@ -638,8 +634,8 @@ class POS extends Front_Controller {
 		
 		$data['posid']=$_POST['posid'];
 		$data['daysofweek']=$_POST['day'];
-		$data['startdate']=$_POST['hourtime1'];
-		$data['enddate']=$_POST['hourtime2'];
+		$data['startdate']=date('H:00:00',strtotime($_POST['hourtime1']));
+		$data['enddate']=date('H:00:00',strtotime($_POST['hourtime2']));
 
 		$result=array('success'=>false,'message'=>'Something went Wrong');
 		if(insert_data('myposschedule',$data))
@@ -650,7 +646,7 @@ class POS extends Front_Controller {
 		echo json_encode($result);
 
 	}
-	function viewEmployeeschedule($hotelid,$posid,$employeeid=0)
+	function viewEmployeeschedule($hotelid,$posid,$employeeid=1)
 	{
 		$hotelid= unsecure($hotelid);
 		$posid =insep_decode($posid);
@@ -662,8 +658,26 @@ class POS extends Front_Controller {
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
-		$data['AllSchedule']=array();
+		$data['AllSchedule']=$this->db->query("SELECT * from staffschedule where staffid=$employeeid order by daysofweek ")->result_array();
+		$data['staffinfo']=get_data('mystaffpos',array('mystaffposid'=>$employeeid))->row_array();
 		$this->views('Restaurant/employeeschedule',$data);
+	}
+	function SaveEmployeeSchedule()
+	{
+		
+		$data['staffid']=$_POST['staffid'];
+		$data['daysofweek']=$_POST['day'];
+		$data['startdate']=date('H:00:00',strtotime($_POST['hourtime1']));
+		$data['enddate']=date('H:00:00',strtotime($_POST['hourtime2']));
+
+		$result=array('success'=>false,'message'=>'Something went Wrong');
+		if(insert_data('staffschedule',$data))
+		{
+			$result['success']=true;
+		}
+
+		echo json_encode($result);
+
 	}
 	function viewRecipes($hotelid,$posid)
 	{
@@ -764,7 +778,7 @@ class POS extends Front_Controller {
 		$data['StaffInfo']=$this->db->query("SELECT a.*, b.name occupation
 			FROM mystaffpos a
 			left join stafftype b on a.stafftypeid = b.stafftypeid
-			where a.hotelid =$hotelid ")->result_array();
+			where a.hotelid =$hotelid and a.active=1 and isWorking(a.mystaffposid)>0")->result_array();
 
 		$data['waiter']=(count($data['OrderInfo'])==0 || $data['OrderInfo'][0]['StaffCode']==0 ?'':$this->db->query("select concat(firstname,' ',lastname) name from mystaffpos where mystaffposid =".$data['OrderInfo'][0]['StaffCode'])->row()->name);
 
@@ -1018,6 +1032,8 @@ class POS extends Front_Controller {
 		$data['AllTable']=$this->db->query("SELECT * FROM mypostable  where  myposId=$posid ")->result_array();
 		$this->views('Restaurant/calendar',$data);
 	}
+
+
 
 	function allitem($catid='')
 	{
@@ -1968,6 +1984,7 @@ class POS extends Front_Controller {
 				$data['stafftypeid']=$_POST['staffType'];
 				$data['hotelid']=hotel_id();
 				$data['active']=1;
+				$data['email']=$_POST['email'];
 			    if(insert_data('mystaffpos',$data))
 				{
 					$result["result"]="0";
@@ -2040,7 +2057,8 @@ class POS extends Front_Controller {
 				$data['lastname']=$_POST['lastnameup'];
 				$data['gender']=$_POST['genderup'];
 				$data['stafftypeid']=$_POST['staffTypeup'];
-				$data['active']=1;
+				$data['active']=(isset($_POST['statusid'])?1:0);
+				$data['email']=$_POST['emailup'];
 			    if(update_data('mystaffpos',$data,array('mystaffposid' =>$_POST['mystaffposid'])))
 				{
 					$result["result"]="0";
@@ -2403,12 +2421,14 @@ class POS extends Front_Controller {
 		$data['proccess']=$_POST['process'];
 		$data['active']=1;
 		$data['enddate']=date('Y-m-d',strtotime($_POST['deadline']));
-
+		$data['endtime']=date('H:00:00',strtotime($_POST['endtime']));
 
 
 		if(insert_data('Task',$data))
 		{
 			$result["result"]= "0";
+
+			//enviar por correo todo esto blalalal
 		}
 		else 
 		{
@@ -2425,7 +2445,8 @@ class POS extends Front_Controller {
 		$data['staffid']=$_POST['staffidup'];
 		$data['Description']=$_POST['descriptionup'];
 		$data['proccess']=$_POST['processup'];
-		$data['enddate']=date('Y-m-d',strtotime($_POST['deadlineup']));;
+		$data['enddate']=date('Y-m-d',strtotime($_POST['deadlineup']));
+		$data['endtime']=date('H:00:00',strtotime($_POST['endtimeup']));
 
 
 
@@ -2663,9 +2684,9 @@ class POS extends Front_Controller {
 	function saveReservation()
 	{
 		
-		$data['datetimereservation']=$_POST['deadline'];
-		$data['starttime1']=$_POST['hourtime1'];
-		$data['starttime2']=$_POST['hourtime2'];
+		$data['datetimereservation']=date('Y-m-d',strtotime($_POST['deadline']));
+		$data['starttime1']=date('H:00:00',strtotime($_POST['hourtime1']));
+		$data['starttime2']=date('H:00:00',strtotime($_POST['hourtime2']));
 		$data['mypostableid']=$_POST['tableid'];
 		$data['Roomid']=(strlen($_POST['roomid'])==0?null:$_POST['roomid']);
 		$data['signer']=$_POST['signer'];
@@ -2674,12 +2695,18 @@ class POS extends Front_Controller {
 							left join mypostable b on a.mypostableid=b.postableid
 							where mypostableid=".$data['mypostableid']."
 							and datetimereservation='".$data['datetimereservation']."' 
-							and starttime1 between time('".$data['starttime1']."') and time('".$data['starttime2']."') ")->row()->total;
+							and time('".date('H:00:00',strtotime($data['starttime1']))."') between starttime1 and  SUBTIME( starttime2,'00:01') ")->row()->total;
+
 
 		if($total>0)
 		{
 			$result['success']=false;
 			$result['msg']='This table is occupied for that date and time, Select other Table or Time';
+		}
+		else if($this->isOpenPos($_POST['posid'],$data['datetimereservation'],date('H:00:00',strtotime($data['starttime1'])))==0)
+		{
+			$result['success']=false;
+			$result['msg']='The post is closed at this time';
 		}
 		else
 		{

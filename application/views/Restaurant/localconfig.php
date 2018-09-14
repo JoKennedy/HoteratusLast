@@ -1,4 +1,4 @@
-<div class="outter-wp" style="height: 3000px;">
+<div class="outter-wp" >
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
             <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
@@ -34,7 +34,7 @@
                     <select style="width: 100%; padding: 9px;" name="day" id="day">
                         <?php
 
-                            $days = array(1=>"Sunday", 2=>"Monday", 3=>"Tuesday", 4=>"Wednesday",5=>"Thursday",6=>"Friday", 7=>"Saturday");
+                            $days = array(7=>"Sunday", 1=>"Monday", 2=>"Tuesday", 3=>"Wednesday",4=>"Thursday",5=>"Friday", 6=>"Saturday");
                              echo '<option  value="0" >Select a Day</option>';
                             foreach ($days as $key  =>$day ) {
 
@@ -75,16 +75,17 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         <?php if (count($AllSchedule)>0) {
-                           $days = array(1=>"Sunday", 2=>"Monday", 3=>"Tuesday", 4=>"Wednesday",5=>"Thursday",6=>"Friday", 7=>"Saturday");
+                            
                             $i=0;
                             foreach ($AllSchedule as  $value) {
                                 $i++;
-
+                               
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> 
                                 <td> '.$days[$value['daysofweek']].'  </td> 
                                 <td> '.$value['startdate'].'  </td> 
-                                <td>'.$value['enddatedate'].' </td> </tr>   ';
+                                <td>'.$value['enddate'].' </td> </tr>   ';
 
                             }
 
@@ -147,7 +148,7 @@
  var data ={'posid':posid,'day':$("#day").val(),'hourtime1':$("#hourtime1").val(),'hourtime2':$("#hourtime2").val()}        
      $.ajax({
         type: "POST",
-        //dataType: "json",
+        dataType: "json",
         url: "<?php echo lang_url(); ?>pos/SaveLocalConfig",
         data: data,
         beforeSend: function() {
@@ -156,7 +157,6 @@
         },
         success: function(msg) {
             unShowWait();
-            alert(msg);
             if (msg["success"]) {
                 swal({
                     title: "Success",

@@ -43,11 +43,11 @@
                             $i=0;
                             foreach ($ALLReservation as  $value) {
                                 $i++;
-                                $update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime']."'"  ;
+                                $update="'".$value['mypostablereservationid']."','".$value['mypostableid']."','".  $value['datetimereservation']."','".$value['signer']."','".$value['Roomid']."','".$value['starttime1']."'"  ;
                                 $date = date_create($value['datetimereservation']);
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['signer'].'  </td> 
                                 <td> '.$value['marketingp'].'  </td> <td>'.$value['tablename'].' </td> <td>'.date_format($date, 'm/d/Y').' </td>
-                                 <td>'.$value['starttime'].' </td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
+                                 <td>'.$value['starttime1'].' </td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>   ';
 
                             }
 
@@ -68,67 +68,7 @@
     <div class="clearfix"></div>
 </div>
 <div id="createbook" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Create a Reservation</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-            </div>
-            <div>
-                <div class="graph-form">
-                    <form id="bookC">
-                        <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Main Name</label>
-                            <input style="background:white; color:black;" name="signer" id="signer" type="text" placeholder="Main Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">
-                                <?=($Posinfo['postypeID']==1?'Table':'Treatment Room')?>
-                            </label>
-                            <select style="width: 100%; padding: 9px; " id="tableid" name="tableid">
-                                <?php
-                                    if(count($AllTable)>0)
-                                    {
-                                        echo '<option value="0">Select a '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' </option>'; 
-                                        foreach ($AllTable as  $value) {
-                                            echo '<option value="'.$value['postableid'].'">'.$value['description'].'==>Cap:'.$value['qtyPerson'].'</option>';
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo '<option value="0">there are no '.($Posinfo['postypeID']==1?'Tables':'Treatment Room').' created</option>'; 
-                                    }
-                                    
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Date</label>
-                            <input class="datepickers" style="background:white; color:black;" name="deadline" id="deadline" type="text" placeholder="Select a Date" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Hour [18:00]</label>
-                            <input style="background:white; color:black; width: 100%" name="hourtime" id="hourtime" type="time" placeholder="Main Name" required="">
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Room Number</label>
-                            <input style="background:white; color:black; " name="roomid" id="roomid" type="text" placeholder="Room Number" required="">
-                        </div>
-                        <div id="respuesta"></div>
-                        <div class="clearfix"> </div>
-                        <br>
-                        <br>
-                        <div class="buttons-ui">
-                            <a onclick="saveReservation()" class="btn green">Save</a>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+   <?=include('createreservation.php')?>
 </div>
 <div id="updatebook" class="modal fade" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -195,90 +135,14 @@
 </div>
 </div>
 </div>
+
 <script type="text/javascript">
 var fecha = new Date($.now());
 
 $('.datepickers').datepicker({ minDate: new Date(), dateFormat: 'yy-mm-dd', });
 
-function saveReservation() {
-
-    var data = $("#bookC").serialize();
-
-    if ($("#signer").val() <= 3) {
-        swal({
-            title: "upps, Sorry",
-            text: "Missing Field Main Name!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#tableid").val() == 0) {
-        swal({
-            title: "upps, Sorry",
-            text: "Selected a Table  To Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#deadline").val().length <= 0) {
-
-        swal({
-            title: "upps, Sorry",
-            text: "Selected a Date To Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    } else if ($("#hourtime").val().length <= 0) {
-
-        swal({
-            title: "upps, Sorry",
-            text: "Type a Hour To Continue!",
-            icon: "warning",
-            button: "Ok!",
-        });
-        return;
-    }
 
 
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "<?php echo lang_url(); ?>pos/saveReservation",
-        data: data,
-        beforeSend: function() {
-            showWait();
-            setTimeout(function() { unShowWait(); }, 10000);
-        },
-        success: function(msg) {
-            unShowWait();
-            if (msg["success"]) {
-                swal({
-                    title: "Success",
-                    text: "Book Created!",
-                    icon: "success",
-                    button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
-            } else {
-
-                swal({
-                    title: "upps, Sorry",
-                    text: msg["msg"],
-                    icon: "warning",
-                    button: "Ok!",
-                });
-            }
-
-
-
-
-
-        }
-    });
-
-}
 
 function updateReservation() {
 

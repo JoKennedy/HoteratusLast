@@ -65,7 +65,37 @@
          <div class="col-md-4 form-group1">
             <button onclick="ShowReports(8)" style="width: 100%;" type="button" class="btn btn-info ">Orders Cancelled</button>
         </div>
-       
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Day Sales</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Closure of the Day</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Cost of the day</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Inventory</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Hours worked by employees</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Profit and loss report</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Sales report by product type</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Product popularity report</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Recipe</button>
+        </div>
+        <div class="col-md-4 form-group1">
+            <button onclick="ShowReports(0)" style="width: 100%;" type="button" class="btn btn-info ">Product Prices</button>
+        </div>
+
     </div>
     <div class="clearfix"></div>
     <div id="resultreport">

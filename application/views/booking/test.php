@@ -85,12 +85,12 @@
 		margin-top: 75vh;
 	}
 </style>
-<div class="<?= $floating; ?>">
+<div  class="<?= $floating; ?>">
 	<div class="panel panel-<?= $theme; ?>">
 		<?php  
 			$widget['show_header'] = (isset($widget['show_header'])) ? $widget['show_header'] : '1';
 			if($widget['show_header'] !== '0'){
-				echo '<div class="panel-heading">Booking Online</div>';
+				echo '<div class="panel-heading" >Booking Online</div>';		
 			}
 		?>
 		<div class="panel-body">

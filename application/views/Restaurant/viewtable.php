@@ -280,6 +280,12 @@ var tableid = "<?= $TableInfo['postableid']?>";
 var posid = "<?=$Posinfo['myposId']?>";
 var namepos = "<?=$Posinfo['description']?>";
 
+function discountpp()
+{
+    var total = $("#totaltopay").val()-$("#discount").val();
+    $("#totaltopay2").html(total);
+    
+}
 function payInvoice()
 {   
    
@@ -287,7 +293,7 @@ function payInvoice()
         type: "POST",
         dataType: "json",
         url: "<?php echo lang_url(); ?>pos/totaldueorder",
-        data: {"tableid":tableid},
+        data: {"tableid":tableid,'discount':$("#discount").val()},
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);

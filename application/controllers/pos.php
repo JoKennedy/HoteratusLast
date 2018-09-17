@@ -10,6 +10,15 @@ class POS extends Front_Controller {
 		redirect(base_url()); 
 		return;
 	}
+	function mailsettings()
+    {
+        $this->load->library('email');
+        $config['wrapchars'] = 76; // Character count to wrap at.
+        $config['priority']  = 1; // Character count to wrap at.
+        $config['mailtype']  = 'html'; // text or html Type of mail. If you send HTML email you must send it as a complete web page. Make sure you don't have any relative links or relative image paths otherwise they will not work.
+        $config['charset']   = 'utf-8'; // Character set (utf-8, iso-8859-1, etc.).
+        $this->email->initialize($config);
+    }
 
 	function ordenhtml($data)
 	{
@@ -993,6 +1002,69 @@ class POS extends Front_Controller {
 
 
 		$this->views('Restaurant/inventory',$data);
+	}
+	function saveStock()
+	{
+		$result['success']=false;
+		$result['message']="Something went wrong";
+
+		$kardex['itemid']=$_POST['productids'];
+		$kardex['orderid']=0;
+		$kardex['qty']=$_POST['stocks'];
+		$kardex['isitem']=1;
+		$kardex['type']=1;
+		if(insert_data('kardex',$kardex))
+		{
+			$result['success']=true;
+		}
+		echo json_encode($result);
+	}
+	function showstock()
+	{
+
+		$alllist=$this->db->query("select * from kardex where itemid = ".$_POST['id']." order by datetimemove desc")->result_array();
+		$html='';
+			$html.= '<div class="graph-visual tables-main">
+        <div class="graph">
+            <div class="table-responsive">
+              
+                    <table id="myTable2" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr style="height:2px;">
+                            	<th>#</th>
+                                <th>Date</th>
+                                <th>Transation Type</th>
+                                <th>Qty</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>';
+			
+							
+					
+                            if (count($alllist)>0) {
+                            	$i=0;
+                                foreach ($alllist as  $value) {
+                                	$i++;
+                                    $html.=' <tr scope="row"  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.'</span> </th>
+										<td>'.date('m/d/Y',strtotime($value['datetimemove'])).' </td>
+										<td>'.($value['type']==0?'Invoiced':($value['type']==2?'Remove Item':'Increment Stock')).' </td>
+										<td>'.$value['QTY'].' </td>
+                                      </tr>  ';
+
+                                }
+                                 $html.='</tbody> </table> </div></div></div>';
+                                 echo $html;
+                            }
+                            else
+                            {
+                            	$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+                            	echo $html;
+                            }
+                      
+                 
+              
+	
 	}
 	function viewReservation($hotelid,$posid)
 	{
@@ -2428,7 +2500,23 @@ class POS extends Front_Controller {
 		{
 			$result["result"]= "0";
 
-			//enviar por correo todo esto blalalal
+			$staffinfo=$this->db->query("select * from mystaffpos where mystaffposid=".$data['staffid'])->row_array();
+			$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
+
+
+			if(strlen($staffinfo['email'])!=0)
+			{
+				$para = $staffinfo['email'];
+				$titulo = 'New assigned task';
+			   	$cabeceras = 'MIME-Version: 1.0' . "\r\n";
+	    		$cabeceras .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+	    		$cabeceras .="From: Hoteratus (XML Conection)  <xml@hoteratus.com> \r\n";
+	    		$enviado = mail($para, $titulo, $this->templateTask($staffinfo,$data,$titulo), $cabeceras);
+			}
+
+			
+     
+
 		}
 		else 
 		{
@@ -2453,6 +2541,19 @@ class POS extends Front_Controller {
 		if(update_data('Task',$data,array("taskid"=>$_POST['taskid'])))
 		{
 			$result["result"]= "0";
+				$staffinfo=$this->db->query("select * from mystaffpos where mystaffposid=".$data['staffid'])->row_array();
+			$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
+
+
+			if(strlen($staffinfo['email'])!=0)
+			{
+				$para = $staffinfo['email'];
+				$titulo = 'Updated assigned task';
+			   	$cabeceras = 'MIME-Version: 1.0' . "\r\n";
+	    		$cabeceras .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+	    		$cabeceras .="From: Hoteratus (XML Conection)  <xml@hoteratus.com> \r\n";
+	    		$enviado = mail($para, $titulo, $this->templateTask($staffinfo,$data,$titulo), $cabeceras);
+			}
 		}
 		else 
 		{
@@ -2462,7 +2563,299 @@ class POS extends Front_Controller {
 		 echo json_encode($result);
 
 	}
+	function templateTask($infostaff,$data,$titulo)
+	{
+		return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
+			<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+				<title>'.$titulo.'</title>
+				<style type="text/css">
+
+			@media screen and (max-width: 600px) {
+			    table[class="container"] {
+			        width: 95% !important;
+			    }
+			}
+
+				#outlook a {padding:0;}
+					body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+					.ExternalClass {width:100%;}
+					.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+					#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+					img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
+					a img {border:none;}
+					.image_fix {display:block;}
+					p {margin: 1em 0;}
+					h1, h2, h3, h4, h5, h6 {color: black !important;}
+
+					h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
+
+					h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+						color: red !important; 
+					 }
+
+					h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+						color: purple !important; 
+					}
+
+					table td {border-collapse: collapse;}
+
+					table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+
+					a {color: #000;}
+
+					@media only screen and (max-device-width: 480px) {
+
+						a[href^="tel"], a[href^="sms"] {
+									text-decoration: none;
+									color: black; /* or whatever your want */
+									pointer-events: none;
+									cursor: default;
+								}
+
+						.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+									text-decoration: default;
+									color: orange !important; /* or whatever your want */
+									pointer-events: auto;
+									cursor: default;
+								}
+					}
+
+
+					@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+						a[href^="tel"], a[href^="sms"] {
+									text-decoration: none;
+									color: blue; /* or whatever your want */
+									pointer-events: none;
+									cursor: default;
+								}
+
+						.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+									text-decoration: default;
+									color: orange !important;
+									pointer-events: auto;
+									cursor: default;
+								}
+					}
+
+					@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+						/* Put your iPhone 4g styles in here */
+					}
+
+					@media only screen and (-webkit-device-pixel-ratio:.75){
+						/* Put CSS for low density (ldpi) Android layouts in here */
+					}
+					@media only screen and (-webkit-device-pixel-ratio:1){
+						/* Put CSS for medium density (mdpi) Android layouts in here */
+					}
+					@media only screen and (-webkit-device-pixel-ratio:1.5){
+						/* Put CSS for high density (hdpi) Android layouts in here */
+					}
+					/* end Android targeting */
+					h2{
+						color:#181818;
+						font-family:Helvetica, Arial, sans-serif;
+						font-size:22px;
+						line-height: 22px;
+						font-weight: normal;
+					}
+					a.link1{
+
+					}
+					a.link2{
+						color:#fff;
+						text-decoration:none;
+						font-family:Helvetica, Arial, sans-serif;
+						font-size:16px;
+						color:#fff;border-radius:4px;
+					}
+					p{
+						color:#555;
+						font-family:Helvetica, Arial, sans-serif;
+						font-size:16px;
+						line-height:160%;
+					}
+				</style>
+
+			<script type="colorScheme" class="swatch active">
+			  {
+			    "name":"Default",
+			    "bgBody":"ffffff",
+			    "link":"fff",
+			    "color":"555555",
+			    "bgItem":"ffffff",
+			    "title":"181818"
+			  }
+			</script>
+
+			</head>
+			<body>
+				
+				<table cellpadding="0" width="100%" cellspacing="0" border="0" id="backgroundTable" class="bgBody">
+				<tr>
+					<td>
+				<table cellpadding="0" width="620" class="container" align="center" cellspacing="0" border="0">
+				<tr>
+					<td>
+			
+
+					<table cellpadding="0" cellspacing="0" border="0" align="center" width="600" class="container">
+						<tr>
+							<td class="movableContentContainer bgItem">
+
+								<div class="movableContent">
+									<table cellpadding="0" cellspacing="0" border="0" align="center" width="600" class="container">
+										<tr height="40">
+											<td width="200">&nbsp;</td>
+											<td width="200">&nbsp;</td>
+											<td width="200">&nbsp;</td>
+										</tr>
+										<tr>
+											<td width="200" valign="top">&nbsp;</td>
+											<td width="200" valign="top" align="center">
+												<div class="contentEditableContainer contentImageEditable">
+								                	<div class="contentEditable" align="center" >
+								                  		<img src="'.base_url().'user_asset/back/images/logo.png" width="155" height="155"  alt="Logo"  data-default="placeholder" />
+								                	</div>
+								              	</div>
+											</td>
+											<td width="200" valign="top">&nbsp;</td>
+										</tr>
+										<tr height="25">
+											<td width="200">&nbsp;</td>
+											<td width="200">&nbsp;</td>
+											<td width="200">&nbsp;</td>
+										</tr>
+									</table>
+								</div>
+
+								<div class="movableContent">
+									<table cellpadding="0" cellspacing="0" border="0" align="center" width="600" class="container">
+										<tr>
+											<td width="100%" colspan="3" align="center" style="padding-bottom:10px;padding-top:25px;">
+												<div class="contentEditableContainer contentTextEditable">
+								                	<div class="contentEditable" align="center" >
+								                  		<h2 >'.$titulo.'</h2>
+								                	</div>
+								              	</div>
+											</td>
+										</tr>
+										<tr>
+											<td width="100">&nbsp;</td>
+											<td width="400" align="center">
+												<div class="contentEditableContainer contentTextEditable">
+								                	<div class="contentEditable" align="left" >
+								                  		<p >Hi '.$infostaff['firstname'].' '.$infostaff['lastname'].',
+								                  			<br/>
+								                  			<br/>
+															'.$data['Description'].'.</p>
+								                	</div>
+								              	</div>
+											</td>
+											<td width="100">&nbsp;</td>
+										</tr>
+									</table>
+									<table cellpadding="0" cellspacing="0" border="0" align="center" width="600" class="container">
+										<tr>
+											<td width="200">&nbsp;</td>
+											<td width="200" align="center" style="padding-top:25px;">
+												<table cellpadding="0" cellspacing="0" border="0" align="center" width="200" height="50">
+													<tr>
+														<td bgcolor="#ED006F" align="center" style="border-radius:4px;" width="200" height="50">
+															<div class="contentEditableContainer contentTextEditable">
+											                	<div class="contentEditable" align="center" >
+											                  		<a target="_blank" href="#" class="link2">Click here to see it</a>
+											                	</div>
+											              	</div>
+														</td>
+													</tr>
+												</table>
+											</td>
+											<td width="200">&nbsp;</td>
+										</tr>
+									</table>
+								</div>
+
+
+								<div class="movableContent">
+									<table cellpadding="0" cellspacing="0" border="0" align="center" width="600" class="container">
+										<tr>
+											<td width="100%" colspan="2" style="padding-top:65px;">
+												<hr style="height:1px;border:none;color:#333;background-color:#ddd;" />
+											</td>
+										</tr>
+										<tr>
+											<td width="60%" height="70" valign="middle" style="padding-bottom:20px;">
+												<div class="contentEditableContainer contentTextEditable">
+								                	<div class="contentEditable" align="left" >
+								                  		<span style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;">Sent to [email] by [CLIENTS.COMPANY_NAME]</span>
+														<br/>
+														<span style="font-size:11px;color:#555;font-family:Helvetica, Arial, sans-serif;line-height:200%;">[CLIENTS.ADDRESS] | [CLIENTS.PHONE]</span>
+														<br/>
+														<span style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;">
+														<a target="_blank" href="[FORWARD]" style="text-decoration:none;color:#555">Forward to a friend</a>
+														</span>
+														<br/>
+														<span style="font-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-height:200%;">
+														<a target="_blank" href="[UNSUBSCRIBE]" style="text-decoration:none;color:#555">click here to unsubscribe</a></span>
+								                	</div>
+								              	</div>
+											</td>
+											<td width="40%" height="70" align="right" valign="top" align="right" style="padding-bottom:20px;">
+												<table width="100%" border="0" cellspacing="0" cellpadding="0" align="right">
+													<tr>
+														<td width="57%"></td>
+														<td valign="top" width="34">
+															<div class="contentEditableContainer contentFacebookEditable" style="display:inline;">
+										                        <div class="contentEditable" >
+										                            <img src="'.base_url().'user_asset/back/images/facebook.png" data-default="placeholder" data-max-width="30" data-customIcon="true" width="30" height="30" alt="facebook" style="margin-right:40x;">
+										                        </div>
+										                    </div>
+														</td>
+														<td valign="top" width="34">
+															<div class="contentEditableContainer contentTwitterEditable" style="display:inline;">
+										                      <div class="contentEditable" >
+										                        <img src="'.base_url().'user_asset/back/images/twitter.png" data-default="placeholder" data-max-width="30" data-customIcon="true" width="30" height="30" alt="twitter" style="margin-right:40x;">
+										                      </div>
+										                    </div>
+														</td>
+														<td valign="top" width="34">
+															<div class="contentEditableContainer contentImageEditable" style="display:inline;">
+										                      <div class="contentEditable" >
+										                        <a target="_blank" href="#" data-default="placeholder"  style="text-decoration:none;">
+																	<img src="'.base_url().'user_asset/back/images/pinterest.png" width="30" height="30" data-max-width="30" alt="pinterest" style="margin-right:40x;" />
+																</a>
+										                      </div>
+										                    </div>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</div>
+
+
+							</td>
+						</tr>
+					</table>
+
+					
+					
+
+				</td></tr></table>
+				
+					</td>
+				</tr>
+				</table>
+
+
+			</body>
+			</html>';
+	}
 	function infoStation()
 	{
 
@@ -2666,6 +3059,9 @@ class POS extends Front_Controller {
 		$data['hotelid']=$hotelid;
 		$data['giftcardnumber']=$number;
 		$data['secrectcode']=strtoupper(sprintf('%04s-%04s-%05s',substr($str, 0, 4),substr($str, 4, 4),substr($str, 8, 6))); 
+		$data['assignedto']=$_POST['assignedto'];
+		$data['buyername']=$_POST['buyername'];
+		$data['transferable']=(isset($_POST['rtype'])?1:0);
 		$data['userid']=user_id();
 
 		if(insert_data('giftcard',$data))
@@ -2676,8 +3072,6 @@ class POS extends Front_Controller {
 		{
 			$result['success']=false;
 		}
-
-
 		echo json_encode($result);
 		return;
 	}
@@ -2903,13 +3297,15 @@ class POS extends Front_Controller {
 					$table.=' <tr >  <td  style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>SUBTOTAL</strong> </td> <td style="text-align:right;">'.number_format($subtotal, 2, '.', '').' </td> </tr>
 					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>TAX RATE</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event);"  type="text" value="0.00" > </td> </tr>
 					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>SALES TAX</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event);"  type="text" value="0.00" ></td> </tr>
-					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>OTHER</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event);"  type="text" value="0.00" ></td> </tr>
-					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>TOTAL</strong> </td> <td id="totaltopay" style="text-align:right;">'.number_format($subtotal, 2, '.', '').' </td> </tr>';
+					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>DISCOUNT</strong> </td> <td> <input style="text-align:right; background:white; color:black; border-style:hidden; width:100%;" onkeypress="return justNumbers(event); " onblur="discountpp()" id="discount" type="text" value="0.00" ></td> </tr>
+					<tr> <td style="border-top-style:hidden;border-left-style:hidden;border-bottom-style:hidden; text-align:right;" colspan="4"> <strong>TOTAL</strong> </td> <td id="totaltopay2" style="text-align:right;">'.number_format($subtotal, 2, '.', '').' </td> </tr>';
+
 					$table.='</tbody>
 									</table>
 									</div> </div> <div class="clearfix"></div>
 									<div class="buttons-ui">
 			                            <a onclick="payInvoice()" class="btn blue"><i class="fa fa-credit-card"></i> Pay</a>
+			                            <input id="totaltopay" type="hidden" value="'.number_format($subtotal, 2, '.', '').'" />
 			                        </div>
 									';
 		}

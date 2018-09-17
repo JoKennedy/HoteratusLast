@@ -172,45 +172,45 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
 	        return;
     	}
     
-    var data = new FormData($("#imagensend")[0]);
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        contentType: false,
-        processData: false,
-        url: "<?php echo lang_url(); ?>channel/saveuserimage",
-        data: data,
-        beforeSend: function() {
-            showWait();
-            setTimeout(function() { unShowWait(); }, 10000);
-        },
-        success: function(msg) {
-            unShowWait();
-            if (msg["success"]) {
-                swal({
-                    title: "Success",
-                    text: "Imagen Changed!",
-                    icon: "success",
-                    button: "Ok!",
-                }).then((n) => {
-                    location.reload();
-                });
-            } else {
+        var data = new FormData($("#imagensend")[0]);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            url: "<?php echo lang_url(); ?>channel/saveuserimage",
+            data: data,
+            beforeSend: function() {
+                showWait();
+                setTimeout(function() { unShowWait(); }, 10000);
+            },
+            success: function(msg) {
+                unShowWait();
+                if (msg["success"]) {
+                    swal({
+                        title: "Success",
+                        text: "Imagen Changed!",
+                        icon: "success",
+                        button: "Ok!",
+                    }).then((n) => {
+                        location.reload();
+                    });
+                } else {
 
-                swal({
-                    title: "upps, Sorry",
-                    text: msg["message"],
-                    icon: "warning",
-                    button: "Ok!",
-                });
+                    swal({
+                        title: "upps, Sorry",
+                        text: msg["message"],
+                        icon: "warning",
+                        button: "Ok!",
+                    });
+                }
+
+
+
+
+
             }
-
-
-
-
-
-        }
-    });
+        });
 	}
 
 </script>

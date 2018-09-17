@@ -49,9 +49,10 @@
                                 <td> '.$value['Description'].'  </td> 
                                 <td align="center"> <span class="percentage">'.$value['proccess'].'%</span> <div class="progress progress-striped active">
                                 <div class="progress-bar progress-bar-'.$class.'" style="width: '.$value['proccess'].'%"></div></div></td>
+                                <td align="center">'.($value['active']==1?'Active':'Deactive').'</td>
                                 <td>'.date('m/d/Y',strtotime($value['enddate'])).'</td>
                                 <td>'.$value['endtime'].'</td>
-                                  <td align="center">'.($value['active']==1?'Active':'Deactive').'</td> <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>  ';
+                                   <td><a  onclick ="showupdate('.$update.')"><i class="fa fa-cog"></i></a></td> </tr>  ';
 
                             }
 
@@ -259,6 +260,7 @@ function saveTask() {
                     icon: "success",
                     button: "Ok!",
                 }).then((n) => {
+                    $("#createtask").fadeOut('fast');
                     location.reload();
                 });
             } else {

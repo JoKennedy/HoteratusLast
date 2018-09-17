@@ -28,7 +28,11 @@
                             <th  width="5%">#</th>
                             <th>Gift Number</th>
                             <th>Secret Code</th>
+                            <th>Buyer Name</th>
+                            <th>Assigned To</th>
+                            <th>Transferable</th>
                             <th>Amount</th>
+                            <th style="text-align:center; width: 5%;">Print</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,8 +41,15 @@
                             $i=0;
                             foreach ($AllGiftCard as  $value) {
                                 $i++;
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['giftcardnumber'].'  </td> 
-                                <td> '.$value['secrectcode'].'  </td><td>'.number_format($value['amount'], 2, '.', '').' </td> </tr>   ';
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> 
+                                <td> '.$value['giftcardnumber'].'  </td> 
+                                <td> '.$value['secrectcode'].'  </td>
+                                <td>'.$value['buyername'].' </td>
+                                <td>'.$value['assignedto'].' </td>
+                                <td>'.($value['transferable']==1?'Yes':'No').' </td>
+                                <td>'.number_format($value['amount'], 2, '.', '').' </td> 
+                                <td style="text-align:center;"><a onclick="printcard()"><i class="fa fa-print"></i></a></td>
+                                </tr>   ';
 
                             }
 
@@ -71,8 +82,27 @@
                     <form id="GiftCardC">
                         <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
                         <div class="col-md-12 form-group1">
+                            <label class="control-label">Assigned to</label>
+                            <input style="background:white; color:black;"  name="assignedto" id="assignedto" type="text" placeholder="Assigned To" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Buyer Name</label>
+                            <input style="background:white; color:black;"  name="buyername" id="buyername" type="text" placeholder="Buyer Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
                             <label class="control-label">Gift Card Amount</label>
                             <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="amount" id="amount" type="text" placeholder="Gift Card Amount" required="">
+                        </div>
+                         <div class="col-md-3 form-group1">
+                                <label class="control-label"><strong>Transferable</strong></label>
+                        </div>
+                        <div class="col-md-3 form-group1">
+                            <label class="control-label">Yes</label>
+                            <input name="rtype" id="rtype" type="radio" value="1" >
+                        </div>
+                         <div class="col-md-3 form-group1">
+                            <label class="control-label">No<input  name="rtype" id="rtype" type="radio" checked="" value="0" ></label>
+                            
                         </div>
                         <div id="respuesta"></div>
                         <div class="clearfix"> </div>
@@ -95,6 +125,16 @@
 
 
 <script type="text/javascript">
+    function printcard()
+    {
+        
+        swal({
+            title: "upps, Sorry",
+            text: "Connect a printer to continue" ,
+            icon: "warning",
+            button: "Ok!",
+        });
+    }
 function saveGiftCard() {
 
     var data = $("#GiftCardC").serialize();
@@ -150,115 +190,22 @@ function saveGiftCard() {
 }
 
 
+function Paginar() {
+     $('#giftcardtable').DataTable();
 
-
-
-$.fn.pageMe = function(opts) {
-    var $this = this,
-        defaults = {
-            perPage: 7,
-            showPrevNext: false,
-            hidePageNumbers: false
-        },
-        settings = $.extend(defaults, opts);
-
-    var listElement = $this.find('tbody');
-    var perPage = settings.perPage;
-    var children = listElement.children();
-    var pager = $('.pager');
-
-    if (typeof settings.childSelector != "undefined") {
-        children = listElement.find(settings.childSelector);
-    }
-
-    if (typeof settings.pagerSelector != "undefined") {
-        pager = $(settings.pagerSelector);
-    }
-
-    var numItems = children.size();
-    var numPages = Math.ceil(numItems / perPage);
-
-    pager.data("curr", 0);
-
-    if (settings.showPrevNext) {
-        $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
-    }
-
-    var curr = 0;
-    while (numPages > curr && (settings.hidePageNumbers == false)) {
-        $('<li><a href="#" class="page_link">' + (curr + 1) + '</a></li>').appendTo(pager);
-        curr++;
-    }
-
-    if (settings.showPrevNext) {
-        $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
-    }
-
-    pager.find('.page_link:first').addClass('active');
-    pager.find('.prev_link').hide();
-    if (numPages <= 1) {
-        pager.find('.next_link').hide();
-    }
-    pager.children().eq(1).addClass("active");
-
-    children.hide();
-    children.slice(0, perPage).show();
-
-    pager.find('li .page_link').click(function() {
-        var clickedPage = $(this).html().valueOf() - 1;
-        goTo(clickedPage, perPage);
-        return false;
-    });
-    pager.find('li .prev_link').click(function() {
-        previous();
-        return false;
-    });
-    pager.find('li .next_link').click(function() {
-        next();
-        return false;
-    });
-
-    function previous() {
-        var goToPage = parseInt(pager.data("curr")) - 1;
-        goTo(goToPage);
-    }
-
-    function next() {
-        goToPage = parseInt(pager.data("curr")) + 1;
-        goTo(goToPage);
-    }
-
-    function goTo(page) {
-        var startAt = page * perPage,
-            endOn = startAt + perPage;
-
-        children.css('display', 'none').slice(startAt, endOn).show();
-
-        if (page >= 1) {
-            pager.find('.prev_link').show();
-        } else {
-            pager.find('.prev_link').hide();
-        }
-
-        if (page < (numPages - 1)) {
-            pager.find('.next_link').show();
-        } else {
-            pager.find('.next_link').hide();
-        }
-
-        pager.data("curr", page);
-        pager.children().removeClass("active");
-        pager.children().eq(page + 1).addClass("active");
-
-    }
-};
-
-function Paginar(numeroP = 10) {
-    $('#giftcardtable').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: numeroP });
 }
 $(document).ready(function() {
 
-    Paginar(10);
+    Paginar();
 
 });
 </script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables-init.js"></script>

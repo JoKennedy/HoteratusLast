@@ -284,6 +284,7 @@ function discountpp()
 {
     var total = $("#totaltopay").val()-$("#discount").val();
     $("#totaltopay2").html(total);
+    $("#discountP").val($("#discount").val());
     
 }
 function payInvoice()

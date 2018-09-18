@@ -79,10 +79,16 @@
                             <label for="sendcvv" class="control-label"><strong>Send CVV  </strong></label>
                             <input id="sendcvv" value="1" class="input-small" type="checkbox" name="sendcvv">
                         </div>
-                        <div class="col-md-7 form-group1">
-                            <label class="control-label"><strong>Amount To Pay </strong></label>
-                            <input style="color:white; width: 75%; text-align: right;" onkeypress="return justNumbers(event);" type="text" id="amountdue" name="amountdue" value="0">
-                            <input type="hidden" value=""  Name="nada" readonly="">
+                        <div class="col-md-12">
+                            <div class="col-md-6 form-group1">
+                                <label class="control-label"><strong>Amount To Pay </strong></label>
+                                <input style="color:white; width: 75%; text-align: right;" onkeypress="return justNumbers(event);" type="text" id="amountdue" name="amountdue" value="0">
+                                <input type="hidden" value=""  Name="nada" readonly="">
+                            </div>
+                             <div class="col-md-5 form-group1">
+                                <label class="control-label"><strong>Total Discount </strong></label>
+                                <input style="color:white; width: 75%; text-align: center;" onkeypress="return justNumbers(event);" type="text" id="discountP" name="discountP" value="0" readonly="">
+                            </div>
                         </div>
                     </div>
                     <br>

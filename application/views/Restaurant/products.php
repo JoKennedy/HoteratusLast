@@ -16,6 +16,7 @@
     </div>
     <div style="float: right; " class="buttons-ui">
         <a href="#createproduct" data-toggle="modal" class="btn blue">Add New Products</a>
+        <a href="#createMeasurement" data-toggle="modal" class="btn blue">Add New Measurement</a>
     </div>
     <div class="clearfix"></div>
     <div class="graph-visual tables-main">
@@ -301,10 +302,104 @@
         </div>
     </div>
 </div>
+<div id="createMeasurement" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <h4 class="modal-title">Create a Measurement</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span> 
+            </div>
+            <div>
+                <div class="graph-form">
+                    <form id="MeasurementC">
+                        <input type="hidden" name="posid" id="posid" value="<?=$Posinfo['myposId']?>">
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Measurement Name</label>
+                            <input style="background:white; color:black;" name="Mname" id="Mname" type="text" placeholder="Measurement Name" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Measurement Symbol</label>
+                            <input style="background:white; color:black;" name="Symbol" id="Symbol" type="text" placeholder="Measurement Symbol" required="">
+                        </div>
+                        <div class="col-md-12 form-group1">
+                            <label class="control-label">Equivalent or Description</label>
+                            <input style="background:white; color:black;" name="Equivalente" id="Equivalente" type="text" placeholder="Equivalent or Description" required="">
+                        </div>
+
+                        <div class="buttons-ui">
+                            <a onclick="saveMeasurement()" class="btn green">Save</a>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 </div>
 <script type="text/javascript">
+function saveMeasurement()
+{
 
+    if ($("#Mname").val().length == 0  ) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Measurement Name!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } 
+     if ($("#Symbol").val().length == 0  ) {
+        swal({
+            title: "upps, Sorry",
+            text: "Missing Field Measurement Symbol!",
+            icon: "warning",
+            button: "Ok!",
+        });
+        return;
+    } 
+
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "<?php echo lang_url(); ?>pos/saveMeasurement",
+        data: $("#MeasurementC").serialize(),
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+            unShowWait();
+            if (msg["success"]) {
+                swal({
+                    title: "Success",
+                    text: "Measurement Saved!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    $("#createMeasurement").fadeOut('slow');
+                    location.reload();
+                });
+            } else {
+
+                swal({
+                    title: "upps, Sorry",
+                    text:  msg["message"],
+                    icon: "warning",
+                    button: "Ok!",
+                });
+            }
+        }
+    });
+
+
+    //saveMeasurement
+}
 function savePrice()
 {
     if ($("#newprice").val().length == 0 || $("#newprice").val()==0 ) {

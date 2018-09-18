@@ -9,7 +9,33 @@
  
     <div >
       <?php include("menu.php") ?>
+    </div> 
+    <div class="col-md-12">
+        <div class="col-md-3 form-group1">
+            <label class="control-label">
+                Turns 
+            </label>
+            <select onchange="changeturn(this.value)" style="width: 100%; padding: 9px; " id="turnid" name="turnid">
+                <?php
+
+                if(count($AllTurns)>0 && $Posinfo['postypeID']==1  )
+                {
+                    echo '<option value="-1">Select a Turns</option>'; 
+                    echo '<option value="0">All Turns</option>'; 
+                    foreach ($AllTurns as  $value) {
+                        echo '<option value="'.$value['posturnid'].'" '.(isset($Turnuser['turnid']) && $Turnuser['turnid']==$value['posturnid']?'selected':'').'>'.$value['name'].'</option>';
+                    }
+                }
+                else
+                {
+                    echo '<option value="0">there are no Turns created</option>'; 
+                }
+
+                ?>
+            </select>
+        </div>
     </div>
+    
     <div class="graph-form">
         <h4>All <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?></h4>
         <div class="graph-form">
@@ -74,3 +100,46 @@
 </div>
 </div>
 </div>
+<script type="text/javascript">
+    var posid="<?=$Posinfo['myposId']?>"
+    function changeturn(id)
+    {
+
+
+        $.ajax({
+            type: "POST",
+            //dataType: "json",
+            url: "<?php echo lang_url(); ?>pos/saveposturnuser",
+            data: {'id':id,'posid':posid},
+            beforeSend: function() {
+                showWait();
+                setTimeout(function() { unShowWait(); }, 10000);
+            },
+            success: function(msg) {
+                unShowWait();
+                alert(msg);
+                return;
+                if (msg["success"]) {
+                    swal({
+                        title: "Success",
+                        text: "Turn Changed!!",
+                        icon: "success",
+                        button: "Ok!",
+                    }).then((n) => {
+                        location.reload();
+                    });
+                } else {
+
+                    swal({
+                        title: "upps, Sorry",
+                        text: msg["message"],
+                        icon: "warning",
+                        button: "Ok!",
+                    });
+                }
+
+            }
+        });
+    }
+
+</script>

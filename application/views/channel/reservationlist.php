@@ -140,7 +140,7 @@ function list()
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
-                "order": [[ 7, "asc" ]]
+                "order": [[ 8, "desc" ]]
             });
 
 

@@ -25,7 +25,16 @@
                                     <?=($Posinfo['postypeID']==1?'Tables':'Treatment Room')?>
                                 </a>
                             </li>
-                            <?php }  ?>
+                            <?php if($Posinfo['postypeID']==1 )
+                            { ?>
+                            <li>
+                                <a href="<?=site_url('pos/viewTurns/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>">
+                                    Config Turns
+                                </a>
+                            </li>
+                            <?php } }  ?>
+                        
+
                             <li><a href="<?=site_url('pos/viewEmployees/'.secure($Posinfo['hotelId']).'/'.insep_encode($Posinfo['myposId']))?>" ">Employees</a></li>
           <li><a href="<?=site_url( 'pos/viewCategories/'.secure($Posinfo[ 'hotelId']). '/'.insep_encode($Posinfo[ 'myposId']))?>">Categories</a>
                             </li>

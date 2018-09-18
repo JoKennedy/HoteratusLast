@@ -51,6 +51,8 @@ class POS extends Front_Controller {
 		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
 		
 		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
+		$data['AllTurns']=$this->db->query("select * from posturns where posid=$posid ")->result_array();
+		$data['Turnuser']=$this->db->query("select * from posturnusers where posid=$posid and userid=".user_id())->row_array();
 
 		switch ($data['Posinfo']['postypeID']) {
 			case '1':
@@ -64,6 +66,26 @@ class POS extends Front_Controller {
 				break;
 		}
 		
+	}
+	function saveposturnuser()
+	{	$turnid=$_POST['id'];
+		$posid=$_POST['posid'];
+
+		$posuser=$this->db->query("select * from posturnusers where posid=$posid and userid=".user_id())->row_array();
+
+
+		if(count($posuser)>0)
+		{
+			update_data('posturnusers',array('turnid'=>$turnid),array('posid'=>$posid,'userid='.user_id()));
+		}
+		else
+		{
+			insert_data('posturnusers',array('turnid'=>$turnid,'posid'=>$posid,'userid'=>user_id()));
+		}
+
+		echo $this->db->last_query();
+		echo json_encode(array('success'=>true));
+
 	}
 	public function ReservationShow($roomnumber,$date1, $roomtypeid)
 	{
@@ -623,6 +645,21 @@ class POS extends Front_Controller {
 												where b.posid=$posid ")->result_array();
 		$this->views('Restaurant/products',$data);
 	}
+	function saveMeasurement()
+	{	
+		$data['name']=getpost('Mname');
+		$data['Symbol']=getpost('Symbol');
+		$data['Equivalente']=getpost('Equivalente');
+
+		$result['success']=false;
+		$result['message']='Something went Wrong';
+
+		if(insert_data('units',$data))
+		{
+			$result['success']=true;
+		}
+		echo json_encode($result);
+	}
 	function viewLocalConfig($hotelid,$posid)
 	{
 		$hotelid= unsecure($hotelid);
@@ -638,6 +675,115 @@ class POS extends Front_Controller {
 		$data['AllSchedule']=$this->db->query("SELECT * from myposschedule where posid=$posid order by daysofweek ")->result_array();
 		$this->views('Restaurant/localconfig',$data);
 	}
+	function viewTurns($hotelid,$posid)
+	{
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Turns';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllTurns']=$this->db->query("select * from posturns where posid=$posid ")->result_array();
+		$this->views('Restaurant/turns',$data);
+	}
+
+	function saveTurn()
+	{
+		$result['success']=false;
+		$result['message']='Something went wrong';
+
+		$data['posid']=getpost('posid');
+		$data['name']=getpost('name');
+		$data['active']=1;
+
+		if(insert_data('posturns',$data))
+		{
+			$result['success']=true;
+		}
+
+		echo json_encode($result);
+	}
+	function updateTurn()
+	{
+		$result['success']=false;
+		$result['message']='Something went wrong';
+
+		$data['name']=getpost('nameU');
+		$data['active']=(isset($_POST['statusid'])?1:0);
+
+		if(update_data('posturns',$data,array("posturnid"=>getpost('turnid'))))
+		{
+			$result['success']=true;
+		}
+
+		echo json_encode($result);
+	}
+
+	function viewTurnDetails($hotelid,$posid,$turnid)
+	{
+		$hotelid= unsecure($hotelid);
+		$posid =insep_decode($posid);
+		$turnid=insep_decode($turnid);
+		$this->is_login();
+		$hotelid=hotel_id();
+		$today=date('Y-m-d');
+    	$data['page_heading'] = 'Turn Details';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['Posinfo']=$this->db->query("SELECT a.*, b.description postype, c.numbertable  FROM mypos a left join postype b on a.postypeid=b.postypeid left join myposdetails c on a.myposId=c.myposId where hotelid=$hotelid and a.myposId=$posid ")->row_array();
+		$data['AllDetails']=$this->db->query("SELECT a.*, case when posturndetailid is not null then 1 else 0 end  selected, c.name Category
+		FROM 
+		itempos a
+		left join posturndetails b on a.itemPosId=b.itemid and isitem=1
+		left join itemcategory c on a.itemcategoryid = c.itemcategoryID
+		where c.posid=$posid order by c.name, a.name ")->result_array();
+		$data['turninfo']=get_data('posturns',array('posturnid'=>$turnid))->row_array();
+		$this->views('Restaurant/turndetails',$data);
+	}
+	function saveTurnDetails()
+	{
+		$turnid=$_POST['turnid'];
+		$isitem=$_POST['isitem'];
+		if(isset($_POST['productid']))
+		{
+			$scriptsql='';
+			$scriptsql .=" insert into posturndetails (posturnid, itemid, isitem, active) values ";
+			$scripv='';
+			foreach ($_POST['productid'] as  $value) {
+				
+				$scripv .=($scripv!=''?",($turnid,$value,$isitem,1)":"($turnid,$value,$isitem,1)");
+			}
+
+			if(strlen($scripv)>0)
+			{	
+				$this->db->query("delete from posturndetails where posturnid=$turnid");
+				$this->db->query($scriptsql.$scripv);
+
+				echo json_encode(array("success"=>true,"message"=>"Something went wrong"));
+				return;
+			}
+			else
+			{
+				echo json_encode(array("success"=>false,"message"=>"Something went wrong"));
+				return;
+			}
+		}
+		else
+		{
+			echo json_encode(array("success"=>false,"message"=>"You must select a product to Continue"));
+			return;
+		}
+
+
+
+
+	}
+
 	function SaveLocalConfig()
 	{
 		
@@ -793,15 +939,17 @@ class POS extends Front_Controller {
 
 		$data['Categories']=$this->db->query("SELECT * from itemcategory where posid= $posid")->result_array();
 		$data['Recipes']=$this->db->query("SELECT * from Recipes where posid= $posid")->result_array();
+
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
 	function totaldueorder()
 	{	$tableid=getpost('tableid');
+		$totaldiscount=getpost('discount');
 		$Order=$this->db->query("select ordersListid
             from orderslist a 
             where a.mypostableid=$tableid  and a.active =1 limit 1")->row()->ordersListid;
-		$orderinfo=$this->db->query("select  ifnull(totalorder($Order),0)-ifnull(totalpaidorder($Order),0) totaldue")->row_array();
+		$orderinfo=$this->db->query("select  ifnull(totalorder($Order),0)-(ifnull(totalpaidorder($Order),0)+$totaldiscount) totaldue")->row_array();
 		echo json_encode($orderinfo);
 	}
 	function PaymentApplication()
@@ -817,6 +965,7 @@ class POS extends Front_Controller {
 			$data['amount']=getpost('amountdue');
 			$data['Description']=getpost('Description');
 			$data['currency']=getpost('currency');
+			$data['discount']=getpost('discountP');
 			$data['userid']=user_id();
 			$tableid=getpost('tableid');
 

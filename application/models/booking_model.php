@@ -121,7 +121,7 @@ class booking_model extends CI_Model
                 $mail_data .= '<strong> Response </strong> <br>';
                 $mail_data .= $output;
                  mail("xml@hoteratus.com", " Booking.Com Request and Response Rooms Syncro" . $hotelid, $mail_data, $headers);
-
+ 
                 $data_api = simplexml_load_string($output);
                 $error    = @$data_api->fault;
                 /* echo($output); */

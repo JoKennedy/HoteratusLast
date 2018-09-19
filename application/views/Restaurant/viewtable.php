@@ -739,7 +739,7 @@ function CategoryItem(id) {
     $.ajax({
         type: "POST",
         url: "<?php echo lang_url(); ?>pos/allitem",
-        data: { "catid": id, "tableid": tableid },
+        data: { "catid": id, "tableid": tableid ,'posid':posid},
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);

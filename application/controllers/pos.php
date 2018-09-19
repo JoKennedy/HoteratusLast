@@ -53,7 +53,7 @@ class POS extends Front_Controller {
 		$data['AllTable']=$this->db->query("SELECT a.*,(select count(*)  from mypostablereservation b where b.mypostableid=a.postableid and  datetimereservation='$today' ) appointment, (select count(*) from orderslist  where mypostableid= a.postableid and active =1 ) used FROM mypostable a where  myposId=$posid ")->result_array();
 		$data['AllTurns']=$this->db->query("select * from posturns where posid=$posid ")->result_array();
 		$data['Turnuser']=$this->db->query("select * from posturnusers where posid=$posid and userid=".user_id())->row_array();
-
+ 
 		switch ($data['Posinfo']['postypeID']) {
 			case '1':
 				$this->views('Restaurant/main',$data);
@@ -76,14 +76,13 @@ class POS extends Front_Controller {
 
 		if(count($posuser)>0)
 		{
-			update_data('posturnusers',array('turnid'=>$turnid),array('posid'=>$posid,'userid='.user_id()));
+			update_data('posturnusers',array('turnid'=>$turnid),array('posid'=>$posid,'userid'=>user_id()));
 		}
 		else
 		{
 			insert_data('posturnusers',array('turnid'=>$turnid,'posid'=>$posid,'userid'=>user_id()));
 		}
 
-		echo $this->db->last_query();
 		echo json_encode(array('success'=>true));
 
 	}
@@ -739,9 +738,9 @@ class POS extends Front_Controller {
 		$data['AllDetails']=$this->db->query("SELECT a.*, case when posturndetailid is not null then 1 else 0 end  selected, c.name Category
 		FROM 
 		itempos a
-		left join posturndetails b on a.itemPosId=b.itemid and isitem=1
+		left join posturndetails b on a.itemPosId=b.itemid and isitem=1 and b.posturnid=$turnid
 		left join itemcategory c on a.itemcategoryid = c.itemcategoryID
-		where c.posid=$posid order by c.name, a.name ")->result_array();
+		where c.posid=$posid  order by c.name, a.name ")->result_array();
 		$data['turninfo']=get_data('posturns',array('posturnid'=>$turnid))->row_array();
 		$this->views('Restaurant/turndetails',$data);
 	}
@@ -937,7 +936,15 @@ class POS extends Front_Controller {
 
 		$data['waiter']=(count($data['OrderInfo'])==0 || $data['OrderInfo'][0]['StaffCode']==0 ?'':$this->db->query("select concat(firstname,' ',lastname) name from mystaffpos where mystaffposid =".$data['OrderInfo'][0]['StaffCode'])->row()->name);
 
-		$data['Categories']=$this->db->query("SELECT * from itemcategory where posid= $posid")->result_array();
+		$data['Categories']=$this->db->query("select distinct a.* 
+							from itemcategory a
+							left join itempos b on a.itemcategoryID=b.itemcategoryid
+							 
+							left join posturndetails c on b.itemPosId= c.itemid
+							left join posturnusers d on c.posturnid=d.posturnuserid
+							
+							where
+							 d.posid=$posid and d.userid =".user_id() )->result_array();
 		$data['Recipes']=$this->db->query("SELECT * from Recipes where posid= $posid")->result_array();
 
 		
@@ -1262,8 +1269,15 @@ class POS extends Front_Controller {
 		if($catid=='')
 		{
 			$catid=$_POST['catid'];
+			$posid=$_POST['posid'];
 		}
-		$allitem=$this->db->query("SELECT * from itempos where itemcategoryid=$catid  and active=1")->result_array();
+
+		$allitem=$this->db->query("	select c.* from
+						posturnusers a 
+						left join posturndetails  b on a.turnid=b.posturnid or a.turnid=0
+						left join  itempos c on b.itemid=c.itemPosId 
+						where
+						c.itemcategoryid=$catid and  a.posid=$posid and c.active=1 and a.userid=".user_id())->result_array();
 
 		if (count($allitem)==0) {
 

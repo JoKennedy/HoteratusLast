@@ -13,7 +13,7 @@
     <div class="col-md-12">
         <div class="col-md-3 form-group1">
             <label class="control-label">
-                Turns 
+                Turns
             </label>
             <select onchange="changeturn(this.value)" style="width: 100%; padding: 9px; " id="turnid" name="turnid">
                 <?php
@@ -21,7 +21,7 @@
                 if(count($AllTurns)>0 && $Posinfo['postypeID']==1  )
                 {
                     echo '<option value="-1">Select a Turns</option>'; 
-                    echo '<option value="0">All Turns</option>'; 
+                    echo '<option value="0" '.(isset($Turnuser['turnid']) && $Turnuser['turnid']==0?'selected':'').'>All Turns</option>'; 
                     foreach ($AllTurns as  $value) {
                         echo '<option value="'.$value['posturnid'].'" '.(isset($Turnuser['turnid']) && $Turnuser['turnid']==$value['posturnid']?'selected':'').'>'.$value['name'].'</option>';
                     }
@@ -108,7 +108,7 @@
 
         $.ajax({
             type: "POST",
-            //dataType: "json",
+            dataType: "json",
             url: "<?php echo lang_url(); ?>pos/saveposturnuser",
             data: {'id':id,'posid':posid},
             beforeSend: function() {
@@ -117,16 +117,12 @@
             },
             success: function(msg) {
                 unShowWait();
-                alert(msg);
-                return;
                 if (msg["success"]) {
                     swal({
                         title: "Success",
                         text: "Turn Changed!!",
                         icon: "success",
                         button: "Ok!",
-                    }).then((n) => {
-                        location.reload();
                     });
                 } else {
 

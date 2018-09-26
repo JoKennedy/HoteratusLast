@@ -117,12 +117,25 @@ class Channel extends Front_Controller {
 	{
 		if(user_id()=='')
 		{
-		$data['page_heading'] = 'Login';
-		$this->load->view('channel/new_login',$data);
-	    }
-	   else{
-	   		redirect('channel/dashboard','refresh');
-	   }
+			$data['page_heading'] = 'Login';
+			$this->load->view('channel/login',$data);
+		}
+		else
+		{
+			redirect('channel/dashboard','refresh');
+		}
+	}
+	function signup()
+	{
+		if(user_id()=='')
+		{
+			$data['page_heading'] = 'Register';
+			$this->load->view('channel/signup',$data);
+		}
+		else
+		{
+			redirect('channel/dashboard','refresh');
+		}
 	}
 
 	function propertynameused()

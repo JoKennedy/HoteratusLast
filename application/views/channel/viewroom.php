@@ -19,10 +19,10 @@
                     <nav>
                         <ul>
                             <li><a href="#section-1" class="icon-shop"><i class="fa fa-info-circle"></i> <span>Basic Info.</span></a></li>
-                            <li><a href="#section-2" class="icon-cup"><i class="fa fa-sort-numeric-asc"></i> <span>Room Numbers & Amenities</span></a></li>
+                            <li><a href="#section-2" class="icon-cup"><i class="fas fa-sort-numeric-up"></i> <span>Room Numbers & Amenities</span></a></li>
                             <li><a href="#section-3" class="icon-food"><i class="fa fa-cog"></i> <span>Rate Configuration</span></a></li>
                             <li><a href="#section-4" class="icon-lab"><i class="fa fa-plus"></i> <span>Extras & Photos </span></a></li>
-                            <li><a href="#section-5" class="icon-truck"> <i class="fa fa-bar-chart-o"></i><span>Revenue Manage</span></a></li>
+                            <li><a href="#section-5" class="icon-truck"> <i class="fas fa-chart-line"></i><span>Revenue Manage</span></a></li>
                         </ul>
                     </nav>
                     <div class="content tab">

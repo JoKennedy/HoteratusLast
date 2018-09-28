@@ -33,7 +33,7 @@
                                 $i++;
                                 $update="'".$value['paymentmethodid']."','".$value['name']."','".$value['email']."','".$value['apikey']."','".$value['merchantid']."','".$value['publickey']."','".$value['active']."','".$value['providerid']."'";
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
-                              </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#addPaymentUP" onclick ="updatePayment('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td>  </tr>   ';
+                              </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#addPaymentUP" onclick ="updatePayment('.$update.')" data-toggle="modal"> <i class="fa fa-edit"></i></a></td>  </tr>   ';
                             }
                            
 

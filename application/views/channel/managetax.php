@@ -35,7 +35,7 @@
                                 $i++;
                                 $update="'".$value['taxid']."','".$value['name']."','".$value['taxrate']."','".$value['includedprice']."','".$value['active']."'";
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> <td> '.$value['taxrate'].'%  </td> <td> '.($value['includedprice']==0?'No':'Yes').'  </td>
-                                <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#updateTax" onclick ="updateT('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td>  </tr>   ';
+                                <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#updateTax" onclick ="updateT('.$update.')" data-toggle="modal"> <i class="fa fa-edit"></i></a></td>  </tr>   ';
                             }
                            
 

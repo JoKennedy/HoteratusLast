@@ -34,7 +34,9 @@
     <!-- Custom CSS -->
     <link href="<?php echo base_url();?>user_asset/back/css/style.css" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->
-    <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">
+   <!-- <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">-->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'>
     <!-- lined-icons -->
@@ -263,7 +265,7 @@
                                     </ul>
                                 </li>-->
                                 <li class="dropdown note">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell-o"></i> <span class="badge">5</span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i> <span class="badge">5</span></a>
                                     <ul class="dropdown-menu two">
                                         <li>
                                             <div class="notification_header">

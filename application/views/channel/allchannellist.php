@@ -39,7 +39,7 @@
 
 												$conect= ($value['status']==3?'Conect': ($value['conect']==0?'Connect':'Connected'));
 
-												$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-chain-broken':'fa fa-link'));
+												$showconect=($value['status']==3?'fa fa-cog': ($value['conect']==0?'fa fa-unlink':'fa fa-link'));
 												$link=($value['status']==1?lang_url().'channel/ConfigurationChannel/'.insep_encode($value['channel_id']):'#');
 
 												echo' <tr  class="'.($i%2?'active':'').'"> <td style="text-align: left !important;"> <img  src="data:image/png;base64,'.$imagen.'" style="height: 35px;width: 85px;">&nbsp;&nbsp; '.$value['channel_name'].' </td> <td style="text-align:center;">'.$show_status.' </td> 

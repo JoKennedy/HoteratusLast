@@ -67,7 +67,7 @@
 
                                                     if ($value->message=='') {
                                                         echo'<li>
-                                                                <div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+                                                                <div class="timeline-badge success"><i class="fa fa-check-circle"></i></div>
                                                                     <div class="timeline-panel">
                                                                     <div class="timeline-heading">
                                                                         <h4 class="timeline-title">'.$value->channel_name.'</h4>
@@ -81,7 +81,7 @@
                                                     else
                                                     {
                                                         echo'<li>
-                                                                <div class="timeline-badge success"><i class="fa fa-star-o"></i></div>
+                                                                <div class="timeline-badge success"><i class="fa fa-star"></i></div>
                                                                     <div class="timeline-panel">
                                                                     <div class="timeline-heading">
                                                                         <h4 class="timeline-title">'.$value->channel_name.'</h4>
@@ -97,7 +97,7 @@
                                                 else
                                                 {
                                                     echo'<li>
-                                                        <div class="timeline-badge danger"><i class="fa fa-times-circle-o"></i></div>
+                                                        <div class="timeline-badge danger"><i class="fa fa-times-circle"></i></div>
                                                             <div class="timeline-panel">
                                                             <div class="timeline-heading">
                                                                 <h4 class="timeline-title">'.$value->channel_name.'</h4>

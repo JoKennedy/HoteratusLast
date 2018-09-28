@@ -51,7 +51,7 @@
                                 $value['brand']."','".$value['model']."','".$value['stock']."','".$value['unitid']."'";
 
                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['name'].'  </td> 
-                                <td> '.$value['Categoryname'].'  </td> <td>'.$value['unitname'].'</td><td>'.$value['brand'].'</td> <td>'.$value['model'].'</td> <td>'.$value['stock'].'</td> <td>'.$value['existencia'].'</td> <td>'.$value['price'].'</td> <td> <img id="img'.$value['itemPosId'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td> <td><a  onclick ="showkardex('."'".$value['itemPosId']."','".$value['name']."'".')"><i class="fa fa-inbox" aria-hidden="true"></i></a></td> </tr>   ';
+                                <td> '.$value['Categoryname'].'  </td> <td>'.$value['unitname'].'</td><td>'.$value['brand'].'</td> <td>'.$value['model'].'</td> <td>'.$value['stock'].'</td> <td>'.$value['existencia'].'</td> <td>'.$value['price'].'</td> <td> <img id="img'.$value['itemPosId'].'" width="50px" src="'.$value['photo'].'" > </td> <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#priceh" onclick =" showPrice('.$update.')" data-toggle="modal"> <i class="fa fa-edit"></i></a></td> <td><a  onclick ="showkardex('."'".$value['itemPosId']."','".$value['name']."'".')"><i class="fa fa-inbox" aria-hidden="true"></i></a></td> </tr>   ';
                             }
                            
                         } ?>

@@ -97,7 +97,7 @@
                         <div class="col-md-8">
                             <div class="input-group input-icon right">
                                 <span class="input-group-addon">
-                                    <i class="fa fa-envelope-o"></i>
+                                    <i class="fa fa-envelope"></i>
                                 </span>
                                 <input value="<?=(isset($Config['reservation_email'])?$Config['reservation_email']:'')?>" id="email" name="email" class="form-control1 icon" type="text" placeholder="Email Address">
                             </div>

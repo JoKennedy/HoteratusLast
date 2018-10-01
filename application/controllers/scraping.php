@@ -88,7 +88,7 @@ function index()
 	$date=date('Y-m-d');
 	$result='';
 
-	for ($i=0; $i <=20 ; $i++) { 
+	for ($i=0; $i <30 ; $i++) { 
 
 		if($i%2)
 		{
@@ -99,14 +99,11 @@ function index()
 			$result.=$this->scrapear2(date('Y-m-d',strtotime($date."+$i days"))) ;
 		}
 
-		 if($i%10)
-		 {
-		 	sleep(10);
-		 }
+		 
 
 	}
 	echo $result;
-	
+
 return;
 // Create DOM from URL or file
 

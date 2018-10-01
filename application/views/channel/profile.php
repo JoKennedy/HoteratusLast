@@ -103,7 +103,7 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
                 	 	if($value['extra_id']==0)
                 	 	{
                 	 		echo ' 
-                	 				<div class="timeline-badge info"><i class="fa fa-smile-o"></i></div>
+                	 				<div class="timeline-badge info"><i class="fa fa-smile"></i></div>
 			                        <div class="timeline-panel">
 			                            <div class="timeline-heading">
 			                                <h4 class="timeline-title"><a href="profile.html">'.$fname.' '.$lname .'</a></h4>
@@ -114,9 +114,9 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
 			                            </div>
 			                        </div>';
                 	 	}
-                	 	else if($value['extra_id']==1)
+                	 	else if($value['extra_id']==1) 
                 	 	{
-                	 		echo ' <div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+                	 		echo ' <div class="timeline-badge success"><i class="fa fa-check-circle"></i></div>
 		                        <div class="timeline-panel">
 		                            <div class="timeline-heading">
 		                                <h4 class="timeline-title"><a href="profile.html">'.$fname.' '.$lname .'</a></h4>
@@ -129,7 +129,7 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
                 	 	}
                 	 	if($value['extra_id']==2)
                 	 	{
-                	 		echo '<div class="timeline-badge danger"><i class="fa fa-times-circle-o"></i></div>
+                	 		echo '<div class="timeline-badge danger"><i class="fa fa-times-circle"></i></div>
 			                        <div class="timeline-panel">
 			                            <div class="timeline-heading">
 			                                <h4 class="timeline-title"><a href="profile.html">'.$fname.' '.$lname .'</a></h4>

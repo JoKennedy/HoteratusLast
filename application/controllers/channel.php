@@ -1633,7 +1633,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	}
 	function viewroom($hotelid,$roomid)
 	{
-		$this->is_login();
+		$this->is_login(); 
 		$hotelid=unsecure($hotelid);
 		$roomid=insep_decode($roomid);
 
@@ -1648,6 +1648,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['amenitiesroom']=explode(',', $data['Roominfo']['amenities']);
 		$data['ratetype']=$this->db->query("select a.*, case a.pricingtype when 1 then 'Room based pricing' when 2 then 'Guest based pricing' when 3 then 'Occupancy based Pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from ratetype a left join meal_plan b on a.mealplanid=meal_id where hotelid=$hotelid and  roomid =$roomid")->result_array();
 		$data['roomphotos']=$this->db->query("SELECT * FROM room_photos where room_id =$roomid")->result_array();
+		$data['Attributes']=$this->db->query("select * from room_attributes where hotelId =$hotelid")->result_array();
 
 		$this->views('channel/viewroom',$data);
 	}
@@ -1669,6 +1670,29 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 
 		echo $this->channel_model->saveAmenties($roomid,$hoteId,$amenitiesid);
 
+	}
+	function saveAmenty()
+	{
+		$AmenetyId=$_POST['AmenityTypeId'];
+		$AmenetyName=$_POST['AmenityName'];
+		$this->channel_model->saveAmenety($AmenetyId,$AmenetyName);
+
+	}
+	function saveAttribute()
+	{
+		$data['AttributeCode']=$_POST['AttributeCode'];
+		$data['AttributeName']=$_POST['AttributeName'];
+		$data['HotelId']=hotel_id();
+		$data['Active']=1;
+		
+		$this->channel_model->saveAttribute($data);
+
+	}
+	function loadAttributes()
+	{	
+		
+		$data=$_POST;
+		$this->channel_model->loadAttributes($data);
 	}
 	function saveBasicInfoRoom()
 	{

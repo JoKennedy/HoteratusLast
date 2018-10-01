@@ -20,7 +20,7 @@
                         <ul>
                             <li><a href="#section-1" class="icon-shop"><i class="fa fa-info-circle"></i> <span>Basic Info.</span></a></li>
                             <li><a href="#section-2" class="icon-cup"><i class="fas fa-sort-numeric-up"></i> <span>Room Numbers & Amenities</span></a></li>
-                            <li><a href="#section-3" class="icon-food"><i class="fa fa-cog"></i> <span>Rate Configuration</span></a></li>
+                            <li><a href="#section-3" class="icon-food"><i class="fa fa-cog"></i> <span>Rate Configuration & Attributes</span></a></li>
                             <li><a href="#section-4" class="icon-lab"><i class="fa fa-plus"></i> <span>Extras & Photos </span></a></li>
                             <li><a href="#section-5" class="icon-truck"> <i class="fas fa-chart-line"></i><span>Revenue Manage</span></a></li>
                         </ul>
@@ -184,7 +184,16 @@
                             <div class="forms-main">
                                 <div class="graph-form">
                                     <div class="validation-form">
-                                        <h3>Amenities</h3>
+                                        
+                                        <div class="buttons-ui" style="float:left;">
+                                            <center><h3>Amenities</h3></center>
+                                        </div>
+                                        <div class="buttons-ui" style="float:right;">
+                                            <a onclick="ShowaddAmenities()" class="btn green"><i class="fas fa-plus"></i> Add a New Amenity </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                            
+
                                         <form id="amenitiesInfo" onsubmit="return pres();">
                                             <input type="hidden" name="roomid" value="<?=insep_encode($Roominfo['property_id'])?>">
                                             <input type="hidden" name="hotelId" value="<?=insep_encode($Roominfo['hotel_id'])?>">
@@ -202,7 +211,7 @@
                                                     <?php
                                                      foreach ($amenitiesType as  $value) {
                                                          echo '<div class="context">';
-                                                        $amenitiesdestails=get_data('room_amenities',array('type_id' => $value['id'] ))->result_array();
+                                                        $amenitiesdestails=$this->db->query("select * from room_amenities where type_id=".$value['id']." and (hotelid=0 or hotelid=".$Roominfo['hotel_id'].") ")->result_array();
                                                         
                                                         foreach ($amenitiesdestails as $ame) {
 
@@ -224,92 +233,202 @@
                                         </form>
                                     </div>
                                 </div>
+                                <div id="newamenety" class="modal fade" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                               
+                                                <h4 class="modal-title">Create a New Amenities</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span> 
+                                            </div>
+                                            <div>
+                                                <div class="graph-form">
+                                                    <form id="AmenityC">
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">
+                                                                Amenity Type
+                                                            </label>
+                                                            <select style="width: 100%; padding: 9px; " id="AmenityTypeId" name="AmenityTypeId">
+                                                                <?php
+                                                                    if(count($amenitiesType)>0)
+                                                                    {
+                                                                        echo '<option value="0">Select a Amenity Type </option>'; 
+                                                                        foreach ($amenitiesType as  $value) {
+                                                                            echo '<option value="'.$value['id'].'">'.$value['amenities_type'].'</option>';
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Amenity Name</label>
+                                                            <input style="background:white; color:black;"  name="AmenityName" id="AmenityName" type="text" placeholder="Type a Amenity Name" required="">
+                                                        </div>
+                                                        
+                                                        <div class="clearfix"> </div>
+                                                        <br>
+                                                        <br>
+                                                        <div class="buttons-ui">
+                                                            <a onclick="addAmenities()" class="btn green"><i class="far fa-save"></i>Save</a>
+                                                        </div>
+                                                        <div class="clearfix"> </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <script type="text/javascript">
-                            function saveRoomNumber() {
-
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?php echo lang_url(); ?>channel/saveRoomNumber",
-                                    data: $('#RoomNumber').serialize(),
-                                    success: function(msg) {
-                                        if (msg == 0) {
-                                            swal({
-                                                title: "Done!",
-                                                text: "Room Number Update Successfully!",
-                                                icon: "success",
-                                                button: "Ok!",
-                                            });
-                                        } else {
-                                            swal({
-                                                title: "Alert!",
-                                                text: "Room Number did not Update Successfully!, Please Try again",
+                                function ShowaddAmenities()
+                                {
+                                    $("#newamenety").modal();
+                                }  
+                                function addAmenities()
+                                {
+                                    if($("#AmenityTypeId").val()==0 || $("#AmenityTypeId").val()=='' )
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Select a Amenity Type to Continue",
                                                 icon: "warning",
                                                 button: "Ok!",
                                             });
-                                        }
+                                        return;
                                     }
-                                });
-
-
-                                return false;
-                            }
-
-                            function pres() {
-
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?php echo lang_url(); ?>channel/saveAmenties",
-                                    data: $('#amenitiesInfo').serialize(),
-                                    success: function(msg) {
-                                        if (msg == 0) {
-                                            swal({
-                                                title: "Done!",
-                                                text: "Amenities Update Successfully!",
-                                                icon: "success",
-                                                button: "Ok!",
-                                            });
-                                        } else {
-                                            swal({
-                                                title: "Alert!",
-                                                text: "Amenities did not Update Successfully!, Please Try again",
+                                    else if($("#AmenityName").val()==0 || $("#AmenityName").val()=='' )
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Type a Amenity Name to Continue",
                                                 icon: "warning",
                                                 button: "Ok!",
                                             });
-                                        }
+                                        return;
                                     }
-                                });
 
 
-                                return false;
-                            }
-                            $(function() {
-                                $('.tabs nav a').on('click', function() {
-                                    show_content($(this).index());
-                                });
+                                    $.ajax({
+                                        type: "POST",
+                                        dataType: "json",
+                                        url: "<?php echo lang_url(); ?>channel/saveAmenty",
+                                        data: $("#AmenityC").serialize(),
+                                        beforeSend: function() {
+                                            showWait();
+                                            setTimeout(function() { unShowWait(); }, 10000);
+                                        },
+                                        success: function(msg) {
+                                            unShowWait();
+                                            if (msg["success"]) {
+                                                swal({
+                                                    title: "Success",
+                                                    text: "New Amenety was Add!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                }).then((n) => {
+                                                    location.reload();
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: "upps, Sorry",
+                                                    text:  msg["message"],
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+                                        }
+                                    });
+                                }   
 
-                                show_content(0);
+                                function saveRoomNumber() {
 
-                                function show_content(index) {
-                                    // Make the content visible
-                                    $('.tabs .context.visible').removeClass('visible');
-                                    $('.tabs .context:nth-of-type(' + (index + 1) + ')').addClass('visible');
 
-                                    // Set the tab to selected
-                                    $('.tabs nav.second a.selected').removeClass('selected');
-                                    $('.tabs navnav.second a:nth-of-type(' + (index + 1) + ')').addClass('selected');
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo lang_url(); ?>channel/saveRoomNumber",
+                                        data: $('#RoomNumber').serialize(),
+                                        success: function(msg) {
+                                            if (msg == 0) {
+                                                swal({
+                                                    title: "Done!",
+                                                    text: "Room Number Update Successfully!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: "Alert!",
+                                                    text: "Room Number did not Update Successfully!, Please Try again",
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+                                        }
+                                    });
+
+
+                                    return false;
                                 }
-                            });
+
+                                function pres() {
+
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo lang_url(); ?>channel/saveAmenties",
+                                        data: $('#amenitiesInfo').serialize(),
+                                        success: function(msg) {
+                                            if (msg == 0) {
+                                                swal({
+                                                    title: "Done!",
+                                                    text: "Amenities Update Successfully!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: "Alert!",
+                                                    text: "Amenities did not Update Successfully!, Please Try again",
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+                                        }
+                                    });
+
+
+                                    return false;
+                                }
+                                $(function() {
+                                    $('.tabs nav a').on('click', function() {
+                                        show_content($(this).index());
+                                    });
+
+                                    show_content(0);
+
+                                    function show_content(index) {
+                                        // Make the content visible
+                                        $('.tabs .context.visible').removeClass('visible');
+                                        $('.tabs .context:nth-of-type(' + (index + 1) + ')').addClass('visible');
+
+                                        // Set the tab to selected
+                                        $('.tabs nav.second a.selected').removeClass('selected');
+                                        $('.tabs navnav.second a:nth-of-type(' + (index + 1) + ')').addClass('selected');
+                                    }
+                                });
                             </script>
                         </section>
                         <section id="section-3">
+                            
+                            <div style="float: left;" >
+                                <h3>Rate Type</h3>
+                            </div>
                             <div style="float: right;" class="buttons-ui">
                                 <a href="#newRate" data-toggle="modal" class="btn blue">Create New Rate</a>
                             </div>
                             <div class="clearfix"></div>
-                            <h3>Rate Type</h3>
+                            
                             <div class="table-responsive">
                                 <div class="graph">
                                     <div class="tables">
@@ -352,6 +471,236 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="clearfix"></div>
+                            
+                            <div style="float: left;" class="buttons-ui">
+                                <h3>Attributes Room</h3>
+                            </div>
+                             <div style="float: right;" class="buttons-ui">
+                                <a href="#newattribute" data-toggle="modal" class="btn blue">Add New Attribute</a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="vali-form">
+                                <form id="addAttributes" accept-charset="utf-8" onsubmit="loadAttributes()">
+                                    <input type="hidden" name="RoomId" value="<?=$Roominfo['property_id']?>">
+                                    <div  class="graph">
+                                        <nav class="second">
+                                        <?php 
+
+                                          $numbers = explode(",", $Roominfo['existing_room_number']);
+                                            $count = count($Roominfo['existing_room_count'] ); 
+
+                                                if($count > 0){
+
+                                                    foreach ($numbers as $number) {
+                                                        echo '<a style="padding:2px;">';
+                                                        echo $number ;
+                                                        echo '</a>';
+                                                    }
+                                                }else{
+                                                    echo "<h4>There aren't existing room</h4>";
+                                                }
+                                        ?>
+                                        </nav>
+                                        <?php
+                                        $numbers =(explode(",", $Roominfo['existing_room_number']));
+                                         foreach ($numbers as  $number) {
+                                             echo '<div class="context">';
+                                             $attributeIds=$this->db->query("select AttributeIds from room_number_attributes where RoomId =".$Roominfo['property_id']." and RoomNumber='$number' ")->row_array();   
+
+                                            $attributeIds = (count($attributeIds)>0?explode(",", $attributeIds['AttributeIds']):array()); 
+
+                                            foreach ($Attributes as $Attribute) {
+
+                                               echo '<div class="col-md-4">
+                                               <input id="AttributeId'.$number.$Attribute['AttributeId'].'" type="checkbox" name="AttributeId['.$number.'][]" value="'.$Attribute['AttributeId'].'" '.(in_array($Attribute['AttributeId'], $attributeIds)?'checked':'').'>
+                                                        <label for="AttributeId'.$number.$Attribute['AttributeId'].'"><span></span>'.$Attribute['AttributeName'].'-'.$Attribute['AttributeCode'].'</label>
+                                                        </div>';
+                                            }
+                                            echo '</div>';
+
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="col-md-12 form-group button-2">
+                                            <a onclick="loadAttributes()" class="btn btn-primary">Save</a>
+                                    </div>               
+                                </form>
+                                
+
+                            </div>
+                            <div class="table-responsive">
+                                <div class="graph">
+                                    <div class="tables">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Attribute Code</th>
+                                                    <th>Attribute Name</th>
+                                                    <th>Status</th>
+                                                    <th align="center" width="5%"> Edit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+
+                                                if( count($Attributes)>0)
+                                                {
+                                                    $i=0;
+                                                    foreach($Attributes as $Attribute)
+                                                    {     
+                                                        $update="'".$Attribute['AttributeId']."','".$Attribute['AttributeCode']."','".$Attribute['AttributeName']."','".$Attribute['Active']."'";                                            
+                                                        $i++;
+                                                        echo '  <tr id="extra'.$i.'" class="'.($i%2?'active':'success').'">
+                                                                    <td>'.$i.'</td>
+                                                                    <td>'.$Attribute['AttributeCode'].'</td>
+                                                                    <td > '.$Attribute['AttributeName'].'</td>
+                                                                    <td >'.($Attribute['Active']==1?'Active':'Deactive').'</td>
+                                                                    <td align="center"> <a onclick="showratetype('.$update.')"><i class="fa fa-edit"></i> </a></td>
+                                                                </tr>';
+                                                    }
+                                                }                               
+ 
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                        <div align="center">
+                                            <?=( count($Attributes)==0?'<h4>This Room Has No Attribute</h4>':'') ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div id="newattribute" class="modal fade" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                               
+                                                <h4 class="modal-title">Create a New Attribute</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span> 
+                                            </div>
+                                            <div>
+                                                <div class="graph-form" >
+                                                    <form id="AttributeC" >
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Attribute Name</label>
+                                                            <input style="background:white; color:black;"  name="AttributeName" id="AttributeName" type="text" placeholder="Type a Attribute Name" required="">
+                                                        </div>
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Attribute Code</label>
+                                                            <input style="background:white; color:black;"  name="AttributeCode" id="AttributeCode" type="text" placeholder="Type a Attribute Code" required="" >
+                                                        </div>
+                                                        <div class="clearfix"> </div>
+                                                        <div class="buttons-ui">
+                                                            <a onclick="addAttribute()" class="btn green"><i class="far fa-save"></i> Save</a>
+                                                        </div>
+                                                        <div class="clearfix"> </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <script type="text/javascript">
+                                function loadAttributes()
+                                {
+                                    $.ajax({
+                                        type: "POST",
+                                        dataType: "json",
+                                        url: "<?php echo lang_url(); ?>channel/loadAttributes",
+                                        data: $("#addAttributes").serialize(),
+                                        beforeSend: function() {
+                                            showWait();
+                                            setTimeout(function() { unShowWait(); }, 10000);
+                                        },
+                                        success: function(msg) {
+                                            unShowWait();
+                                            if (msg["success"]) {
+                                                swal({
+                                                    title: "Success",
+                                                    text: "New Attribute was Add!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: "upps, Sorry",
+                                                    text:  msg["message"],
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+                                        }
+                                    });
+
+
+                                }
+                                function addAttribute()
+                                {   
+                                    if ($("#AttributeName").val().length==0  ) 
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Type a Attibute Name to Continue",
+                                                icon: "warning",
+                                                button: "Ok!",
+                                            }).then((n) => {
+                                               $("#AttributeName").focus();
+                                            });
+                                        
+                                        return;
+                                    }
+                                    else if($("#AttributeCode").val().length==0 )
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Type a Attibute Code to Continue",
+                                                icon: "warning",
+                                                button: "Ok!",
+                                            }).then((n) => {
+                                               $("#AttributeCode").focus();
+                                            });
+                                        return;
+                                    }
+
+                                    $.ajax({
+                                        type: "POST",
+                                        dataType: "json",
+                                        url: "<?php echo lang_url(); ?>channel/saveAttribute",
+                                        data: $("#AttributeC").serialize(),
+                                        beforeSend: function() {
+                                            showWait();
+                                            setTimeout(function() { unShowWait(); }, 10000);
+                                        },
+                                        success: function(msg) {
+                                            unShowWait();
+                                            if (msg["success"]) {
+                                                swal({
+                                                    title: "Success",
+                                                    text: "New Attribute was Add!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                }).then((n) => {
+                                                    location.reload();
+                                                });
+                                            } else {
+                                                swal({
+                                                    title: "upps, Sorry",
+                                                    text:  msg["message"],
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+                                        }
+                                    });
+
+                                    
+                                }
+
+
+                            </script>
                         </section>
                         <section id="section-4">
                             <div class="graph-form">

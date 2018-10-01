@@ -618,8 +618,24 @@
                             <li>+5719347603</li>
                         </ul>
                     </div>
+
                     <div class="clearfix"> </div>
                 </div>
+                <div class="contact-info">
+                    <div class="contact-info-left">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                    <div class="contact-info-right">
+                        <h5>Toll Free Number</h5>
+                        <ul>
+                            <li>(877) 781-2979</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="clearfix"> </div>
+                </div>
+                <br>
+                <br>
                 <div class="contact-info">
                     <div class="contact-info-left">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -681,7 +697,7 @@
                 <li><a class="page-scroll scroll" href="#team">Prices</a></li>
             </ul>
 -->
-            <div class="w3layouts_mail_grid">
+            <div class="w3layouts_mail_grid" >
                 <div class="col-md-3 w3layouts_mail_grid_left">
                     <div class="w3layouts_mail_grid_left2">
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
@@ -689,13 +705,7 @@
                         <a href="mailto:info@hoteratus.com">info@hoteratus.com</a>
                     </div>
                 </div>
-                <div class="col-md-3 w3layouts_mail_grid_left">
-                    <div class="w3layouts_mail_grid_left2">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                        <h3>Address</h3>
-                        <p>2170 Gaborone Place, Dulles, Virginia, United States.</p>
-                    </div>
-                </div>
+              
                 <div class="col-md-3 w3layouts_mail_grid_left">
                     <div class="w3layouts_mail_grid_left2">
                         <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
@@ -705,11 +715,25 @@
                 </div>
                 <div class="col-md-3 w3layouts_mail_grid_left">
                     <div class="w3layouts_mail_grid_left2">
+                        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                        <h3>Toll Free Number</h3>
+                        <p>(877) 781-2979</p>
+                    </div>
+                </div>
+                  <div class="col-md-3 w3layouts_mail_grid_left">
+                    <div class="w3layouts_mail_grid_left2">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <h3>Address</h3>
+                        <p>2170 Gaborone Place, Dulles, Virginia, United States.</p>
+                    </div>
+                </div>
+               <!-- <div class="col-md-3 w3layouts_mail_grid_left">
+                    <div class="w3layouts_mail_grid_left2">
                         <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
                         <h3>Web Site</h3>
                         <p>www.hoteratus.com</p>
                     </div>
-                </div>
+                </div>-->
                 <div class="clearfix"> </div>
             </div>
             <!-- copyright -->

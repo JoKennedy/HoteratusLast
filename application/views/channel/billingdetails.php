@@ -22,7 +22,7 @@
     $reg_num=(isset($BillInfo['reg_num'])?$BillInfo['reg_num']:'');
     $email_address=(isset($BillInfo['email_address'])?$BillInfo['email_address']:'');
     $country=(isset($BillInfo['country'])?$BillInfo['country']:'');
-
+    $Logo=(isset($BillInfo['Logo'])?$BillInfo['Logo']:'');
     ?>
     <div class="graph-form">
                     <form id="BillingInfo">
@@ -73,7 +73,22 @@
                             <label class="control-label">Billing Email</label>
                             <input style="background:white; color:black;" onkeyup="return validaemail(this.id)" name="bemail" id="bemail" type="text" placeholder="Billing Email" required=""  value="<?=$email_address?>">
                         </div>
-                     
+                        <center>
+                            <div class="col-md-6">
+                                        <div>
+                                            <?php
+                                                echo '<img src="'.base_url().(strlen($userimage)<5?"uploads/room_photos/noimage.jpg":$userimage).'"" class="img-responsive" alt="">'
+                                              ?>
+                                            
+                                        </div>
+                            </div>
+                            
+                            <div class="col-md-12 form-group1">
+
+                                     <label class="control-label">Imagen</label>
+                                    <input style="background:white; color:black;" type="file" id="Image" name="Image">
+                            </div>
+                        </center>
                         <div class="clearfix"> </div>
                         <br>
                         <br>

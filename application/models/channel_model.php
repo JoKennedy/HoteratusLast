@@ -651,7 +651,7 @@ class channel_model extends CI_Model
 
 			$roomid=$value['property_id'];
 			$ratetype=$this->db->query("select * from ratetype where roomid = ".$value['property_id']." order by name ")->result_array();
-
+			
 			$precio='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 			$avai='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
 			$min = '<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
@@ -775,7 +775,19 @@ class channel_model extends CI_Model
 			if ($showr==1) {
 
 					foreach ($roomnumber as  $rooms) {
-						$room2 .='<tr> <td></td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
+
+						$attributeids=$this->db->query("select * from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ")->row_array();
+
+						$attributeids['AttributeIds']=(isset($attributeids['AttributeIds'])?$attributeids['AttributeIds']:'0');
+
+						$attributes=$this->db->query("select * from room_attributes where AttributeId in( ".$attributeids['AttributeIds'].") order by AttributeCode")->result_array();
+
+						$atributetext='';
+
+						foreach ($attributes as $attribute) {
+							$atributetext .='<strong><span style="font-size:8px; " data-toggle="tooltip" data-placement="right" title="'.$attribute['AttributeName'].'">'.$attribute['AttributeCode'].'</span></strong> ';
+						}
+						$room2 .='<tr> <td> '.$atributetext.'</td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
 						$room2 .= $this->ReservationShow($rooms,$date1,$roomid);
 
@@ -799,8 +811,9 @@ class channel_model extends CI_Model
 
 		die;
 		return $html;
+
 	}
-	function saveRateType($data)
+	function saveRateType(int $data) 
 	{
 		$data['hotelid']=hotel_id();
 		$data['created']=date('Y-m-d h:m:s');
@@ -860,6 +873,62 @@ class channel_model extends CI_Model
 		{
 			return 1;
 		}
+	}
+	function saveAmenety($AmenetyId,$AmenetyName)
+	{
+		$data['type_id']=$AmenetyId;
+		$data['amenities_name']=$AmenetyName;
+		$data['HotelId']=hotel_id();
+		$data['status']=1;
+		$data['created_date']=date('Y-m-d H-m-s');
+
+		$result['success']=false;
+		$result['message']='Something went wrong';
+
+		if(insert_data('room_amenities',$data))
+		{	$result['success']=true;
+			echo json_encode($result);
+		}
+		else
+		{	$result['success']=false;
+			echo json_encode($result);
+		}
+
+		//# amenities_id, type_id, amenities_name, status, created_date, modified_date
+
+	}
+	function saveAttribute($data)
+	{
+		$result['success']=false;
+		$result['message']='Something went wrong';
+
+		if(insert_data('room_attributes',$data))
+		{	$result['success']=true;
+			echo json_encode($result);
+		}
+		else
+		{	$result['success']=false;
+			echo json_encode($result);
+		}
+	}
+	function loadAttributes($data)
+	{
+		$this->db->query("delete from room_number_attributes where RoomId =".$data['RoomId']);
+		$datos['RoomId']=$data['RoomId'];
+		$datos['Active']=1;
+		foreach ($data['AttributeId'] as $key => $value) {
+			$datos['RoomNumber']=$key;
+			$AttributeIds='';
+			foreach ($value as  $va) {
+				$AttributeIds.= (strlen($AttributeIds)>0?',':'').$va;
+			}
+			$datos['AttributeIds']=$AttributeIds;
+			insert_data('room_number_attributes',$datos);
+			
+		}
+
+		$result['success']=true;
+		echo json_encode($result);
 	}
 	function saveBasicInfoRoom($data)
 	{	

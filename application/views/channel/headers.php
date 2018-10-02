@@ -28,6 +28,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url();?>user_assets/favicon/favicon-16x16.png">
     <!--fin de iconos-->
     <!-- Bootstrap Core CSS -->
+    <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <link href="<?php echo base_url();?>user_asset/back/css/styletable.css" rel='stylesheet' type='text/css' />
     
@@ -36,7 +38,7 @@
     <!-- Graph CSS -->
    <!-- <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">-->
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
     <!-- jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'>
     <!-- lined-icons -->

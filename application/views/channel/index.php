@@ -3,7 +3,7 @@
 
 <head>
     <meta name="msapplication-TileImage" content="<?php echo base_url();?>user_assets/favicon/ms-icon-144x144.png">
-    <meta name="og:title" content="Hoteratus- Hospitality Sotfware Solutions" />
+    <meta name="og:title" content="Hoteratus- Hospitality Software Solutions" />
     <link rel="apple-touch-icon" sizes="57x57" href="<?php echo base_url();?>user_assets/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="<?php echo base_url();?>user_assets/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="<?php echo base_url();?>user_assets/favicon/apple-icon-72x72.png">

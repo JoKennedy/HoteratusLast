@@ -66,29 +66,29 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
                 </div>
             </div>
             <center>
-            <div class="col-md-6">
-                        <div>
-                        	<?php
-                        		echo '<img src="'.base_url().(strlen($userimage)<5?"uploads/room_photos/noimage.jpg":$userimage).'"" class="img-responsive" alt="">'
-                        	  ?>
-                            
-                        </div>
-            </div>
-            
-         	<div class="col-md-12 form-group1">
+                <div class="col-md-6">
+                            <div>
+                            	<?php
+                            		echo '<img src="'.base_url().(strlen($userimage)<5?"uploads/room_photos/noimage.jpg":$userimage).'"" class="img-responsive" alt="">'
+                            	  ?>
+                                
+                            </div>
+                </div>
+                
+             	<div class="col-md-12 form-group1">
 
-         		<form id="imagensend" accept-charset="utf-8">
-         			 <label class="control-label">Imagen</label>
-	            	<input style="background:white; color:black;" type="file" id="Image" name="Image">
+             		<form id="imagensend" accept-charset="utf-8">
+             			 <label class="control-label">Imagen</label>
+    	            	<input style="background:white; color:black;" type="file" id="Image" name="Image">
 
-         		</form>
-         		
-         		<div class="buttons-ui">
-                       <a onclick="saveimage()" class="btn green">Update Imagen</a>
-              </div>
-	           	</center>
-          	</div>
-          	  
+             		</form>
+             		
+             		<div class="buttons-ui">
+                           <a onclick="saveimage()" class="btn green">Update Imagen</a>
+                    </div>
+    	           	
+              	</div>
+          	</center> 
         </div>
         <div class="col-md-6 profile-info two">
             <h3 class="inner-tittle">Activity </h3>

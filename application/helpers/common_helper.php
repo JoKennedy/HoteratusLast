@@ -1,5 +1,12 @@
 <?php  
 /* helper for common functions */
+
+function is_login()
+{ 
+    if(!user_id())
+    redirect(base_url());
+    return;
+}
 function count_post_categories($id)
 {
 		$ci =& get_instance();

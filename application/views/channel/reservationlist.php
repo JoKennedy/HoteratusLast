@@ -43,7 +43,7 @@
                         } ?>
         </select>
         <select onchange="list()" id="status" class="green">
-            <option value="">All Status</option>
+            <option value="">All Status </option>
             <option value="0">Canceled</option>
             <option value="1">Reserved</option>
             <option value="2">Modified</option>

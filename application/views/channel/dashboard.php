@@ -133,7 +133,7 @@
                         <?php if (count($TopChannel)>0) { 
                                                     arsort($TopChannel);
                                                     foreach ($TopChannel as $key => $value) {
-                                                        echo '<li>'.$key.'<div class="text-success pull-right">'.$value.'<i class="fa fa-level-up"></i></div></li>';
+                                                        echo '<li>'.$key.'<div class="text-success pull-right">'.$value.'<i class="fa fa-level-up-alt"></i></div></li>';
                                                     }
                                                     
                                                     }

@@ -777,6 +777,7 @@ class channel_model extends CI_Model
 					foreach ($roomnumber as  $rooms) {
 
 						$attributeids=$this->db->query("select * from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ")->row_array();
+						$housekeepingstatus=$this->db->query("select * from housekeepingstatus where HousekeepingStatusId= `RoomStatusHousekeeping` ($roomid,'$rooms') limit 1   ")->row_array();
 
 						$attributeids['AttributeIds']=(isset($attributeids['AttributeIds'])?$attributeids['AttributeIds']:'0');
 
@@ -784,10 +785,12 @@ class channel_model extends CI_Model
 
 						$atributetext='';
 
+						$statusk=(isset($housekeepingstatus['Code'])?'<strong><span style="font-size:12px; " data-toggle="tooltip" data-placement="right" title="'.$housekeepingstatus['Name'].'">'.$housekeepingstatus['Code'].'</span></strong> ':'');
+
 						foreach ($attributes as $attribute) {
 							$atributetext .='<strong><span style="font-size:8px; " data-toggle="tooltip" data-placement="right" title="'.$attribute['AttributeName'].'">'.$attribute['AttributeCode'].'</span></strong> ';
 						}
-						$room2 .='<tr> <td> '.$atributetext.'</td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
+						$room2 .='<tr> <td style="background-color:'.(isset($housekeepingstatus['Code'])?$housekeepingstatus['Color']:'').'"> '.$statusk.' '.$atributetext.'</td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
 
 						$room2 .= $this->ReservationShow($rooms,$date1,$roomid);
 

@@ -74,7 +74,7 @@
                     <nav>
                         <ul>
                             <li><a onclick="showtab(1);" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>Details</span></a></li>
-                            <li><a onclick="showtab(2);" class="icon-cup"><i class="fa fa-file-text-o"></i> <span>Invoices</span></a></li>
+                            <li><a onclick="showtab(2);" class="icon-cup"><i class="fa fa-file-text"></i> <span>Invoices</span></a></li>
                             <li><a onclick="showtab(3);" class="icon-food"><i class="fa fa-envelope"></i> <span>Emails</span></a></li>
                             <li><a onclick="showtab(4);" class="icon-lab"><i class="fa fa-plus"></i> <span>Extras</span></a></li>
                              <li><a onclick="showtab(6);" class="icon-lab"><i  class="fa fa-comments"></i> <span>Reservation Notes</span></a></li>
@@ -482,7 +482,7 @@
                                             echo'<ul class="timeline" style="height:700px; overflow:auto; " >';
                                             foreach ($historyInfo as  $value) {
                                               echo'<li>
-                                                    <div class="timeline-badge '.($value['extra_id']==0?'success':($value['extra_id']==1?'warning':'danger')).'"><i class="'.($value['extra_id']==0 || $value['extra_id']==1 ?'fa fa-check-circle-o':'fa fa-times-circle-o').'"></i></div>
+                                                    <div class="timeline-badge '.($value['extra_id']==0?'success':($value['extra_id']==1?'warning':'danger')).'"><i class="'.($value['extra_id']==0 || $value['extra_id']==1 ?'fa fa-check-circle':'fa fa-times-circle').'"></i></div>
                                                         <div class="timeline-panel">
                                                         <div class="timeline-heading">
                                                             <h4 class="timeline-title">'.($value['extra_id']==0?'Insert':($value['extra_id']==1?'Modify':'Delete')).' '.$value['history_date'].'</h4>

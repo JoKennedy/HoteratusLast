@@ -385,26 +385,26 @@
             $id =  $this->db->insert_id();
 
             $this->load->model("room_auto_model");
-            $Roomnumber           = $this->room_auto_model->Assign_room(0,$id,$data['hotel_id'] );
+            $Roomnumber           = $this->room_auto_model->Assign_room($data['hotel_id'],$room_id,$_POST['date1'],$_POST['date2']);
             $indata['RoomNumber'] = $Roomnumber;
 
             update_data('manage_reservation',$indata,array('user_id'=> $user_id,'hotel_id'=>$data['hotel_id']  ,'reservation_id' => $id));
 
             $exp_month=$_POST['exp_month'];
-            $exp_year=$_POST['exp_year'];
+            $exp_year=$_POST['exp_year']; 
             $card_number=$_POST['card_number'];
             $card_type='';
             $card_name=$_POST['card_name'];
 
 
-
+/*
             $this->load->model("room_auto_model");
             $Roomnumber =   $this->room_auto_model->Assign_room(0,$id,$data['hotel_id'] );
             
             $indata['RoomNumber']=$Roomnumber;
 
             update_data('manage_reservation',$indata,array('hotel_id'=>$_POST['hotelid'],'reservation_id'=>$id));
-
+*/
 
             $extrasmontos = explode(",", $_POST['extrasmontos']);
             $extrasid =explode(",", $_POST['extrasid']);

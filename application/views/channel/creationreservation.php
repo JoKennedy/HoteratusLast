@@ -1,3 +1,45 @@
+<style type="text/css" media="screen">
+ .change_price span {
+    background-color: #ebd66f;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px;
+    text-transform: capitalize;
+    vertical-align: middle;
+}  
+.change_price .inr_cont {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #f7f7f7;
+    border-color: #31b0d5 #dddddd #dddddd;
+    border-image: none;
+    border-style: solid;
+    border-width: 5px 1px 1px;
+    box-shadow: 0 2px 2px #939393;
+    display: none;
+    height: auto;
+    padding: 5px;
+    position: absolute;
+    top: 42px;
+    width: 100%;
+} 
+.change_price .inr_cont p {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.change_price .inr_cont input {
+    height: 35px;
+    margin: 0 0 5px;
+    width: 100%;
+}
+
+
+</style>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <div align="center">
@@ -83,6 +125,7 @@
                     <input type="hidden" name="checkout" id="checkout">
                     <input type="hidden" name="child" id="child">
                     <input type="hidden" name="numroom" id="numroom">
+                    <input type="hidden" name="newprice" id="newprice">
                     <input type="hidden" name="adult" id="adult">
                     <input type="hidden" name="username" id="username" value="<?=$fname.' '.$lname?>">
                     
@@ -268,7 +311,11 @@ function showdetails(id) {
 
 }
 
-function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay) {
+function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay,idreplace) {
+
+    var newmonto= parseFloat($("#price_"+idreplace).html())*numnight;
+    $("#newprice").val((totalstay!=newmonto?newmonto:-1));
+    totalstay=(totalstay!=newmonto?newmonto:totalstay);
 
     $("#checkinr").html(date1.substring(8,10)+'/'+date1.substring(5,7)+'/'+date1.substring(0,4));
     $("#checkoutr").html(date2.substring(8,10)+'/'+date2.substring(5,7)+'/'+date2.substring(0,4));
@@ -282,7 +329,6 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
     $("#child").val(numchild);
     $("#numroom").val(numroom);
     $("#adult").val(adult);
-    
     $("#infoReservation").modal();
 
 }
@@ -365,4 +411,7 @@ function saveReservation()
         }
     });
 }
+
+
+
 </script>

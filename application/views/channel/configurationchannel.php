@@ -103,6 +103,41 @@
                             </div>
                         </div>
                 </div>
+                <div class="form-group">
+                    <label style="text-align: right;" class="col-md-3 control-label">Hotel ID</label>
+                        <div class="col-md-4">
+                            <div class="input-group input-icon right">
+                                <span class="input-group-addon">
+                                    <i class="fas fa-percentage"></i>
+                                    Percentage
+                                    <input value="<?=(isset($Config['hotel_channel_id'])?$Config['hotel_channel_id']:'')?>"  id="hotelid" name="hotelid"  type="radio" >
+                                </span>
+                            </div>
+                        </div>
+                         <div class="col-md-4">
+                            <div class="input-group input-icon right">
+                                <span class="input-group-addon">
+                                    <i class="fas fa-money-bill-alt"></i>
+                                    Money
+                                     <input value="<?=(isset($Config['hotel_channel_id'])?$Config['hotel_channel_id']:'')?>"  id="hotelid" name="hotelid"  type="radio" >
+                                </span>
+
+                                
+                            </div>
+                        </div>
+                </div>
+                
+                 <div class="form-group">
+                    <label style="text-align: right;" class="col-md-3 control-label">Reservation Email Address</label>
+                        <div class="col-md-8">
+                            <div class="input-group input-icon right">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                                <input value="<?=(isset($Config['reservation_email'])?$Config['reservation_email']:'')?>" id="email" name="email" class="form-control1 icon" type="text" placeholder="Email Address">
+                            </div>
+                        </div>
+                </div>
                 <div class="buttons-ui">
                         <a onclick="saveConfig()" class="btn blue">Save</a>
                 </div>

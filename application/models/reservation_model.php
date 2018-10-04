@@ -3203,6 +3203,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         $checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
 
+        $newprices=$_POST['newprice'];
+
         if($_POST['rateid']==0)
         {
              $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
@@ -3238,13 +3240,13 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                $currencycodes = get_data(HOTEL,array('hotel_id'=>hotel_id()))->row()->currency;
                $prices=0;
                $pricesdetails='';
+
                foreach ($result as $value) {
                    
-                   $prices += $value['price'];
+                   $prices += ($newprices=="-1"?$value['price']:$newprices);
 
-                   $pricesdetails .= (strlen($pricesdetails)>0?',':'').$value['price'];
+                   $pricesdetails .= (strlen($pricesdetails)>0?',':'').($newprices=="-1"?$value['price']:$newprices);
                }
-               
 
                 if  ($currencycodes==0)   {
                    $currencycodes   = 1;

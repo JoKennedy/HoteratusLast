@@ -239,9 +239,20 @@ class reservation extends Front_Controller {
 
                     <div class="col-md-4" style="text-align: right;">
                     	<div class="col-md-12">
-	                        <label>Avg. per night</label>
-	                        <h3>'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
-	                         <button onclick="reservethis('.$bookininfo.')" type="button"  class="btn btn-xs btn-info">Book This Room</button>
+                    		<label>Avg. per night</label>
+                    		<h2 class="change_price">
+											<span>change price ?</span>
+											<div class="inr_cont" style="display: none;">
+											<center><p style="font-size:14px;">Change Price</p></center>
+											<input id="new_'.$value['room_id'].'r0" class="form-control" style="height:50px; color:black; font-size:16px;" step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
+											<a id="b_'.$value['room_id'].'r0" class="change_amount"><i class="fa fa-check"></i></a> 
+											<a class="close_amount"><i class="fa fa-remove"></i></i></a>
+											</div>
+							</h2>
+                    		
+	                        
+	                        <h3 id="price_'.$value['room_id'].'r0">'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
+	                         <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r0'".')" type="button"  class="btn btn-xs btn-info">Book This Room</button>
                          </div>';
                          if (isset($value['rate'])) {
 
@@ -251,12 +262,22 @@ class reservation extends Front_Controller {
 	                         	$html .='<div class="col-md-12">
 	                         			<h3>'.$rate['name'].'</h3>
 				                        <label>Avg. per night</label>
-				                        <h3>'.number_format ( $rate['avgprice'] , 2 ,  "." , "," ).'</h3>
-				                         <button onclick="reservethis('.$bookininfo.')" type="button"  class="btn btn-xs btn-warning">Book This Rate</button>
+				                        <h2 class="change_price">
+											<span>change price ?</span>
+											<div class="inr_cont" style="display: none;">
+											<center><p style="font-size:14px;">Change Price</p></center>
+											<input id="new_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="form-control" style="height:50px; color:black; font-size:16px;"  step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
+											<a  id="b_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="change_amount"><i class="fa fa-check"></i></a> 
+											<a class="close_amount"><i class="fa fa-remove"></i></i></a>
+											</div>
+										</h2>
+				                        <h3  id="price_'.$value['room_id'].'r'.$rate['rate_types_id'].'">'.number_format ( $rate['avgprice'] , 2 ,  "." , "," ).'</h3>
+				                         <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r".$rate['rate_types_id']."'".')" type="button"  class="btn btn-xs btn-warning">Book This Rate</button>
 			                         </div>';	
 	                         }
 
                      	}
+
 
                $html .= '</div>
                     <div class="clearfix"></div>
@@ -278,7 +299,7 @@ class reservation extends Front_Controller {
                             <label><strong>Check-out:</strong>:'.$end_date.'</label> 
                         </div>
                         <div>
-                            <label><strong>Rooms:</strong>'. $rooms .'</label> 
+                            <label><strong>Rooms:</strong>'.$rooms .'</label> 
                         </div>
                         <div>
                             <label><strong>Guest:</strong>'.$adult.'</label> 
@@ -295,7 +316,8 @@ class reservation extends Front_Controller {
                 </div>
                 <hr size="10">
                 </div>
-                 <div class="clearfix"></div>' ;
+                 <div class="clearfix"></div>
+                 ';
 
                
 				}
@@ -307,7 +329,24 @@ class reservation extends Front_Controller {
 				
 			}
 
-		$data['detail']=$html;
+		$data['detail']=$html."<script>
+					$('.change_price span').on('click', function(e) {  
+					    $(this).next('.inr_cont').slideToggle();
+					});
+					$('.change_amount').click(function(e){
+						var id=this.id;
+						var replace=id.replace('b_','');
+						$('#price_'+replace).html(parseFloat($('#new_'+replace).val()));
+
+						$('.inr_cont').hide();
+					});
+
+					$('.close_amount').click(function(){
+						
+						$('.inr_cont').hide();
+					});
+				</script>
+                 " ;
 		$data['header']="Date Range: $start_date To $end_date";
 
 		echo json_encode($data);

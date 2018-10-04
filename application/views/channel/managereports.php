@@ -52,6 +52,9 @@
      <div class="col-md-4 form-group1">
         <button style="width: 100%;" type="button" class="btn btn-info ">No Show</button>
     </div>  
+     <div class="col-md-4 form-group1">
+        <button style="width: 100%;" type="button" class="btn btn-info ">Outstanding Balance </button>
+    </div>  
    
 </div>
 

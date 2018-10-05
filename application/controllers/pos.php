@@ -946,7 +946,7 @@ class POS extends Front_Controller {
 							where
 							 d.posid=$posid and d.userid =".user_id() )->result_array();
 		$data['Recipes']=$this->db->query("SELECT * from Recipes where posid= $posid")->result_array();
-
+ 
 		
 		$this->views('Restaurant/viewtable',$data);
 	}
@@ -3373,8 +3373,8 @@ class POS extends Front_Controller {
                     <h3><b>'.$Posinfo['description'].'</b></h3>
 
                 </div>
-                <div  style="float: right;">
-                    <img id="logo" src="'.base_url().'user_assets/images/logo.png" alt="Logo" />
+                <div  style="float: right; " >
+                    <img style=" width:150px; height:100px;" id="logo" src="'.base_url().$billing['Logo'].'" alt="Logo" />
                 </div>
                 <div class="clearfix"></div>
                 	<hr>

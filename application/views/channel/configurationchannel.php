@@ -103,14 +103,14 @@
                             </div>
                         </div>
                 </div>
-                <div class="form-group">
-                    <label style="text-align: right;" class="col-md-3 control-label">Hotel ID</label>
+                <div class="form-group col-md-12">
+                    <label style="text-align: right;" for="percentage" class="col-md-3 control-label">Commission Type</label>
                         <div class="col-md-4">
                             <div class="input-group input-icon right">
                                 <span class="input-group-addon">
                                     <i class="fas fa-percentage"></i>
-                                    Percentage
-                                    <input value="<?=(isset($Config['hotel_channel_id'])?$Config['hotel_channel_id']:'')?>"  id="hotelid" name="hotelid"  type="radio" >
+                                    <label  for="percentage" >Percentage</label>
+                                    <input value="0"  id="percentage" name="CommissionType"  type="radio" <?=(isset($Config['CommissionType']) && $Config['CommissionType']==0?'checked':'')?>>
                                 </span>
                             </div>
                         </div>
@@ -118,8 +118,8 @@
                             <div class="input-group input-icon right">
                                 <span class="input-group-addon">
                                     <i class="fas fa-money-bill-alt"></i>
-                                    Money
-                                     <input value="<?=(isset($Config['hotel_channel_id'])?$Config['hotel_channel_id']:'')?>"  id="hotelid" name="hotelid"  type="radio" >
+                                    <label  for="money" >Money</label>
+                                     <input value="1"  id="money" name="CommissionType"  type="radio" <?=(isset($Config['CommissionType']) && $Config['CommissionType']==1?'checked':'')?> >
                                 </span>
 
                                 
@@ -128,13 +128,13 @@
                 </div>
                 
                  <div class="form-group">
-                    <label style="text-align: right;" class="col-md-3 control-label">Reservation Email Address</label>
+                    <label style="text-align: right;" class="col-md-3 control-label">Commission Amount</label>
                         <div class="col-md-8">
                             <div class="input-group input-icon right">
                                 <span class="input-group-addon">
-                                    <i class="fa fa-envelope"></i>
+                                    <i class="fas fa-file-invoice-dollar"></i>
                                 </span>
-                                <input value="<?=(isset($Config['reservation_email'])?$Config['reservation_email']:'')?>" id="email" name="email" class="form-control1 icon" type="text" placeholder="Email Address">
+                                <input value="<?=(isset($Config['amount'])?$Config['amount']:'')?>" id="amount" name="amount" class="form-control1 icon" type="text" placeholder="Type Commission Amount ">
                             </div>
                         </div>
                 </div>
@@ -154,6 +154,7 @@
     function saveConfig() {
 
 
+
     var data = $("#configcreate").serialize();
     $.ajax({
         type: "POST",
@@ -165,6 +166,7 @@
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
+
             unShowWait();
             if (msg['success']) {
                 swal("The Set Up Saved Correctly", {

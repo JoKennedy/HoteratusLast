@@ -1,9 +1,8 @@
-
 <div class="modal-dialog">
     <div class="modal-content ">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-            <h4 class="modal-title">Payment Application</h4>
+            <h4 class="modal-title">Payment Details</h4>
         </div>
         <div id="msgpayment" class="alert alert-warning" style="display: none; text-align: center;">
             <strong>Warning!</strong>
@@ -15,7 +14,7 @@
                     <div class="form-body">
                         <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
                         <div class="col-md-12 form-group1">
-                            <label class="control-label"><strong>Payment Type</strong></label>
+                            <label class="control-label"><strong>Payment Method</strong></label>
                             <select name="paymentTypeId" id="paymentTypeId" class="form-control1">
                                 <?php
 
@@ -71,6 +70,46 @@
                                       ?>
                             </select>
                         </div>
+
+                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                            <div class="form-body">
+                                    <form id="ccinfo" accept-charset="utf-8">
+                                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                            <label class="control-label"><strong>Credit Card Type</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($cctype)?$cctype:'')?>" Name="cctype" >
+                                        </div>
+                                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                            <label class="control-label"><strong>Cardholder Name</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccname)?$ccname:'')?>" Name="ccholder" >
+                                        </div>
+                                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                            <label class="control-label"><strong>Card Number</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccnumber)?$ccnumber:'')?>" id="ccnumber" Name="ccnumber" >
+                                        </div>
+                                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                            <label class="control-label"><strong>CVV</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($cccvv)?$cccvv:'')?>" Name="cccvv" >
+                                        </div>
+                                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                            <label class="control-label"><strong>Expiration month</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccmonth)?$ccmonth:'')?>" Name="ccmonth" >
+                                        </div>
+                                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                                            <label class="control-label"><strong>Expiration Year</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccyear)?$ccyear:'')?>" Name="ccyear" >
+                                        </div>
+                                        <div class="col-md-12 form-group1" style="display: none;">
+                                            <label class="control-label"><strong>Expiration Year</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($country)?$country:'')?>" Name="cccountry" >
+                                        </div>
+                                        <div class="col-md-12 form-group1" style="display: none;">
+                                            <label class="control-label"><strong>Expiration Year</strong></label>
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ChannelName)?$ChannelName:'Hoteratus')?>" Name="channelname" >
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                        </div>
                         <div class="col-md-12 form-group1 metocc" style="display: none;">
                             <label class="control-label"><strong>Description</strong></label>
                             <input style="background:white; color:black; width: 100%;" Name="Description" placeholder="Type a Description">
@@ -79,28 +118,13 @@
                             <label for="sendcvv" class="control-label"><strong>Send CVV  </strong></label>
                             <input id="sendcvv" value="1" class="input-small" type="checkbox" name="sendcvv">
                         </div>
-                        <div class="col-md-12">
-                            <div class="col-md-6 form-group1">
-                                <label class="control-label"><strong>Amount To Pay </strong></label>
-                                <input style="color:white; width: 75%; text-align: right;" onkeypress="return justNumbers(event);" type="text" id="amountdue" name="amountdue" value="0">
-                                <input type="hidden" value=""  Name="nada" readonly="">
-                            </div>
-                             <div class="col-md-5 form-group1">
-                                <label class="control-label"><strong>Total Discount </strong></label>
-                                <input style="color:white; width: 75%; text-align: center;" onkeypress="return justNumbers(event);" type="text" id="discountP" name="discountP" value="0" readonly="">
-                            </div>
-                        </div>
+
                     </div>
                     <br>
                     <br>
                     <br>
                     <br>
                     <div class="clearfix"></div>
-                    <div class="buttons-ui col-md-12">
-                        <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
-                        <a id="submitpay" name="add" value="save" class="btn green"><i class="fa fa-check"></i> Submit Payment</a>
-                        <a onclick="showccinfo()" class="metocc btn yellow" style="display: none;">Show CC Info.</a>
-                    </div>
                     <div class="clearfix"></div>
                 </form>
             </div>

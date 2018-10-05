@@ -414,15 +414,7 @@ $("#submitpay").click(function() {
 
 });
 
-function Method(methodid) {
 
-    if (methodid > 1) {
-        $(".metocc").show();
-    } else {
-        $(".metocc").hide();
-        return;
-    }
-}
 function ChargeInvoice() {
 
     swal({

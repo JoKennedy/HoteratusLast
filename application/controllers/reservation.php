@@ -981,7 +981,10 @@ class reservation extends Front_Controller {
 	}
 	function saveReservation()
 	{
+
+
 		$result=$this->reservation_model->saveReservation();
+
 		if(!$result['success'])
 		{
 			echo json_encode($result);
@@ -1255,7 +1258,9 @@ class reservation extends Front_Controller {
 		$data= array_merge($user_details,$data);
 		$data['AllHotel']= get_data('manage_hotel',array('owner_id'=>user_id()))->result_array();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
-		
+		$data['payment']=$this->reservation_model->payment();
+		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
+		$data['currency']='USD';
 		$data['AllChannel']=$this->channel_model->allChannelsConnect();
 		$this->views('channel/reservationlist',$data);
 

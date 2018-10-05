@@ -190,7 +190,9 @@
                             <label class="control-label">Notes</label>
                             <textarea id="note" name="note" placeholder="Type Your Notes"></textarea>
                         </div>
-
+                        <div class="col-md-12 form-group1">
+                            <?php include("paymentreservations.php"); ?>
+                         </div>
                     </div>
                     <div style="float: right; width: 35%; text-align: left;" class="graph">
                         <h3><span >Stay Information</span></h3>
@@ -226,7 +228,7 @@
 
                             <h2>Due Now</h2>
                             <h3 id="totaldue"></h3>
-
+                         
                         </div>
                         <div class="buttons-ui">
                             <a onclick="saveReservation();" class="btn green">Book</a>
@@ -335,6 +337,7 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
 
 function saveReservation()
 {
+  
 
     if ($("#firstname").val()=="") {
         $("#firstname").focus();
@@ -375,11 +378,20 @@ function saveReservation()
         document.getElementById('arrival').setCustomValidity("");
     }
    
-
+    if($("#paymentTypeId").val()==0)
+    {
+        swal({
+                title: "Missing Field",
+                text: "Select a Method Type To Continue!",
+                icon: "warning",
+                button: "Ok!",
+                });
+        return;
+    }
     var data = $("#ReserveC").serialize();
     $.ajax({
         type: "POST",
-        dataType: "json",
+       dataType: "json",
         url: "<?php echo lang_url(); ?>reservation/saveReservation",
         data: data,
         beforeSend: function() {
@@ -411,6 +423,7 @@ function saveReservation()
         }
     });
 }
+
 
 
 

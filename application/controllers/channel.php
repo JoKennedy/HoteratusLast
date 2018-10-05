@@ -447,6 +447,7 @@ class Channel extends Front_Controller {
 	}
 	function updatenewuserassg()
 	{
+		
 		$result['success']=false;
 		$result['msg']='something went Wrong';
 		if($this->channel_model->updatenewuserassg($_POST))
@@ -1892,13 +1893,14 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$this->views('channel/configurationchannel',$data);
 	}
 	function saveconfigurationChannel()
-	{
+	{ 
 		$data['hotel_channel_id']=$_POST['hotelid'];
 		$data['status']=(isset($_POST['statusid']) && $_POST['statusid']=='on'?'enabled':'disabled');
 		$data['user_name']=$_POST['username'];
 		$data['user_password']=$_POST['password'];
 		$data['reservation_email']=$_POST['email'];
-	
+		$data['CommissionType']=(isset($_POST['CommissionType'])?$_POST['CommissionType']:'');
+		$data['amount']=$_POST['amount'];
 
 		if($_POST['user_connect_id']==0)
 		{

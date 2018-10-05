@@ -1399,15 +1399,7 @@ function payment(invoiceid, due) {
 
 }
 
-function Method(methodid) {
 
-    if (methodid > 1) {
-        $(".metocc").show();
-    } else {
-        $(".metocc").hide();
-        return;
-    }
-}
 
 $("#submitpay").click(function() {
 

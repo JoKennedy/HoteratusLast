@@ -74,7 +74,7 @@
                                         <ul>
                                             <li><a onclick="showtab(1);" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>User Informations</span></a></li>
                                             <li><a onclick="showtab(2);" class="icon-cup"><i class="fa fa-check-square"></i> <span>Hotel Access</span></a></li>
-                                            <li><a onclick="showtab(3);" class="icon-food"><i class="fa fa-check-square-o"></i> <span>Options Access</span></a></li>
+                                            <li><a onclick="showtab(3);" class="icon-food"><i class="fa fa-check-square"></i> <span>Options Access</span></a></li>
                                         </ul>
                                     </nav>
                                     <div class="content tab">
@@ -212,7 +212,7 @@
                                         <ul>
                                             <li><a onclick="showtab2(1);" class="icon-shop tab"><i class="fa fa-info-circle"></i> <span>User Informations</span></a></li>
                                             <li><a onclick="showtab2(2);" class="icon-cup"><i class="fa fa-check-square"></i> <span>Hotel Access</span></a></li>
-                                            <li><a onclick="showtab2(3);" class="icon-food"><i class="fa fa-check-square-o"></i> <span>Options Access</span></a></li>
+                                            <li><a onclick="showtab2(3);" class="icon-food"><i class="fa fa-check-square"></i> <span>Options Access</span></a></li>
                                         </ul>
                                     </nav>
                                     <div class="content tab">
@@ -553,6 +553,7 @@ function updateUser() {
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
+            
             unShowWait();
             if (msg["success"]) {
                 swal({

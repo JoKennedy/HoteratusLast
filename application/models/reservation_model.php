@@ -330,13 +330,27 @@ class Reservation_model extends CI_Model
 
             $roomtype= $this->db->query("select * from manage_property where property_id = ".$result['room_id'])->row_array();
 
+            if($result['PaymentMethodId']>1)
+            {
+                    require_once(APPPATH.'controllers/tokenex.php');
+                    $tokenex = new tokenex();
+                    $data['ccname']=(safe_b64decode($result['ccholder']));
+                    $data['ccnumber']=$tokenex->Detokenizar(safe_b64decode($result['ccnumber']));
+                    $data['ccmonth']=safe_b64decode($result['ccmonth']);
+                    $data['ccyear']=safe_b64decode($result['ccyear']);
+                    $data['cccvv']=safe_b64decode($result['cccvv']);
+                    $data['cctype']=safe_b64decode($result['cctype']);
+            }
+            else
+            {
+                $data['ccname']='';
+                $data['ccnumber']='';
+                $data['ccmonth']='';
+                $data['ccyear']='';
+                $data['cccvv']='';
+                $data['cctype']='';
+            }
             $data['ChannelName']='Manual Booking';
-            $data['ccname']='';
-            $data['ccnumber']='';
-            $data['ccmonth']='';
-            $data['ccyear']='';
-            $data['cccvv']='';
-            $data['cctype']='';
             $data['channelId']=$channelId;
             $data['reservatioID']=$result['reservation_id'];
             $data['reservationNumber']=$result['reservation_code'];
@@ -3199,6 +3213,9 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
   
     function saveReservation()
     {
+
+       
+
          $nights  =   ceil(abs(strtotime($_POST['checkout'] )- strtotime($_POST['checkin'] )) / 86400);
 
         $checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
@@ -3284,6 +3301,24 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $data['price']=$prices;
                 $data['price_details']=$pricesdetails;
                 $data['currency_id']=$currencycodes;
+                $data['PaymentMethodId']=$_POST['paymentTypeId'];
+                $data['ProviderId']=$_POST['providerid'];
+                $data['CurrencyCode']=$_POST['currency'];
+
+                if ($data['PaymentMethodId']>1) {
+
+                    require_once(APPPATH.'controllers/tokenex.php');
+                    $tokenex = new tokenex();
+                    $data['cctype']=safe_b64encode($_POST['cctype']);
+                    $data['ccholder']=safe_b64encode($_POST['ccholder']);
+                    $data['ccnumber']=safe_b64encode($tokenex->Tokenizar($_POST['ccnumber']));
+                    $data['cccvv']=safe_b64encode($_POST['cccvv']);
+                    $data['ccmonth']=safe_b64encode($_POST['ccmonth']);
+                    $data['ccyear']=safe_b64encode($_POST['ccyear']);
+                    $data['cccountry']=safe_b64encode($_POST['cccountry']);
+
+
+                }
 
                 if(insert_data('manage_reservation',$data))
                 {
@@ -3309,6 +3344,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                         update_data('manage_reservation',$indata,array('hotel_id'=> $data['hotel_id'],'reservation_id' => $id));
                     }
                     
+
                         require_once(APPPATH.'controllers/arrivalreservations.php');
                         $callAvailabilities = new arrivalreservations();
                         

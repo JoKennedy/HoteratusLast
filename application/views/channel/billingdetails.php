@@ -74,21 +74,21 @@
                             <input style="background:white; color:black;" onkeyup="return validaemail(this.id)" name="bemail" id="bemail" type="text" placeholder="Billing Email" required=""  value="<?=$email_address?>">
                         </div>
                         <center>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                         <div>
                                             <?php
-                                                echo '<img src="'.base_url().(strlen($userimage)<5?"uploads/room_photos/noimage.jpg":$userimage).'"" class="img-responsive" alt="">'
+                                                echo '<img src="'.base_url().(strlen($Logo)<5?"uploads/room_photos/noimage.jpg":$Logo).'"" class="img-responsive" alt="">'
                                               ?>
                                             
                                         </div>
                             </div>
-                            
+                            </center>
                             <div class="col-md-12 form-group1">
 
                                      <label class="control-label">Imagen</label>
                                     <input style="background:white; color:black;" type="file" id="Image" name="Image">
                             </div>
-                        </center>
+                        
                         <div class="clearfix"> </div>
                         <br>
                         <br>
@@ -196,14 +196,17 @@ function saveBilling()
      
          $.ajax({
             type: "POST",
-            dataType: "json",
+            //dataType: "json",
+            contentType: false,
+            processData: false,
             url: "<?php echo lang_url(); ?>channel/saveBillingDetails",
-            data: $("#BillingInfo").serialize(),
+            data:  new FormData($("#BillingInfo")[0]),
             beforeSend: function() {
                 showWait();
                 setTimeout(function() { unShowWait(); }, 10000);
             },
             success: function(msg) {
+                console.log(msg);
                 unShowWait();
                 if (msg["success"]) {
                     swal({

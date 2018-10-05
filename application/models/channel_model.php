@@ -346,11 +346,20 @@ class channel_model extends CI_Model
 
 		if(update_data('manage_users',$data,array('user_id'=>$infouser['useridup'])))
 		{
+
 			$data2['hotelids']=implode(",", $infouser['hotelidup']);
 			$data2['menuitemids']=implode(",", $infouser['menuitemidup']);
 			$data2['specialpermitids']='';
-
-			update_data('assignedhotels',$data2,array('userid'=>$infouser['useridup']));
+			$exist=$this->db->query("select * from assignedhotels where userid=".$infouser['useridup'])->result_array();
+			if(count($exist)>0)
+			{
+				update_data('assignedhotels',$data2,array('userid'=>$infouser['useridup']));
+			}
+			else
+			{
+				$data2['userid']=$infouser['useridup'];
+				insert_data('assignedhotels',$data2);
+			}
 
 			return true;
 
@@ -372,6 +381,25 @@ class channel_model extends CI_Model
 		$data['email_address']=$billd['bemail'];
 		$data['country']=$billd['country'];
 
+
+		if(strlen($_FILES["Image"]['name'])>5)
+		{
+			 $file = $_FILES["Image"];		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Billing/";
+
+		    $src = $carpeta.hotel_id().$nombre;
+		    move_uploaded_file($ruta_provisional, $src);
+
+		    $data['Logo']="/".$src;
+		}
+
 		if (count($exist)>0) {
 			
 			update_data('bill_info',$data,array('hotel_id'=>$hotelid));
@@ -383,6 +411,7 @@ class channel_model extends CI_Model
 			insert_data('bill_info',$data);
 			return 1;
 		}
+
 	}
 	function savePaymentMethod()
 	{

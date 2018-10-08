@@ -1666,10 +1666,10 @@ class POS extends Front_Controller {
 		$myposid=$_POST['posid'];
 
 		$available=$this->db->query("select *
-																from mypostable a
-																where
-																(select count(*) from orderslist where mypostableid= a.postableid and active= 1 )=0
-																and myposid=$myposid")->result_array();
+									from mypostable a
+									where
+									(select count(*) from orderslist where mypostableid= a.postableid and active= 1 )=0
+									and myposid=$myposid")->result_array();
 
 
 		if (count($available)==0) {

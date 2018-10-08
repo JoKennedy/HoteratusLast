@@ -1809,9 +1809,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	function saveBillingDetails()
 	{	$this->is_login();
 		$info=$this->channel_model->saveBillingDetails($_POST);
-		$data['value']=$info;
-		$data['success']=true;
-		echo json_encode($data);
+		echo json_encode($info);
 	}
 	function managepolicies()
 	{
@@ -1973,6 +1971,9 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 			left join manage_channel b on a.channel_id=b.channel_id
 			where  a.status='enabled' and hotel_id=".hotel_id())->result_array();
 		$data['YearM']=$this->db->query("select max(STR_TO_DATE(separate_date ,'%d/%m/%Y')) mayor from room_update where hotel_id=".hotel_id())->row()->mayor;
+		$data['payment']=$this->reservation_model->payment();
+		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
+		$data['currency']='USD';
 		$data['userConfig']=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array(); 
 		$this->views('channel/calendarfull',$data);
 	}

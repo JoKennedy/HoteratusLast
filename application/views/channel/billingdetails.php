@@ -196,7 +196,7 @@ function saveBilling()
      
          $.ajax({
             type: "POST",
-            //dataType: "json",
+            dataType: "json",
             contentType: false,
             processData: false,
             url: "<?php echo lang_url(); ?>channel/saveBillingDetails",
@@ -221,7 +221,7 @@ function saveBilling()
 
                     swal({
                         title: "upps, Sorry",
-                        text: "Billing Details Did not Update! Error:",
+                        text: "Billing Details Did not Update! Error:"+msg["message"],
                         icon: "warning",
                         button: "Ok!",
                     });

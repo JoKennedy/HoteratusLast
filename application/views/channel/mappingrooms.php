@@ -141,7 +141,7 @@
 
                         echo ' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.
                             ' </th> <td><strong>'.$value['property_name'].'</strong> Mapped to '.$channelinfo['channel_name'].' ['.$value['room_name'].'('.$value['room_id'].')  </td> <td style="text-align:center;">'.$value['currencypromotion'].'</td><td style="text-align:center;">'.$value['promotion'].'</td><td style="text-align:center;"><h5><span class="label label-'.(strtoupper($value['enabled'])=='ENABLED'?'success':'danger').'">'.strtoupper($value['enabled']).'</span></h5></td>
-                                <td  align="center"><a onclick="editMapping('.$update.')" data-toggle="tooltip" data-placement="top" title="Update Mapping"><i class="fa fa-pencil-square-o fa-2x"></i></a> <a onclick="deleteMapping('.$value['mapping_id'].')" data-toggle="tooltip" data-placement="top" title="Delete Mapping" ><i class="fa fa-trash-o fa-2x"></i></a></td> 
+                                <td  align="center"><a onclick="editMapping('.$update.')" data-toggle="tooltip" data-placement="top" title="Update Mapping"><i class="fa fa-pencil-square-o fa-2x"></i></a> <a onclick="deleteMapping('.$value['mapping_id'].')" data-toggle="tooltip" data-placement="top" title="Delete Mapping" ><i class="fa fa-trash fa-2x"></i></a></td> 
                                 <td  align="center"><a ><i class="fa fa-check-circle  fa-2x"></i></a> </td></tr>';
                     }
                    echo '</tbody></table></div> </div>';

@@ -474,7 +474,7 @@
                             <div class="clearfix"></div>
                             
                             <div style="float: left;" class="buttons-ui">
-                                <h3>Attributes Room</h3>
+                                <h3>Rooms Attributes</h3>
                             </div>
                              <div style="float: right;" class="buttons-ui">
                                 <a href="#newattribute" data-toggle="modal" class="btn blue">Add New Attribute</a>
@@ -682,8 +682,6 @@
                                                     text: "New Attribute was Add!",
                                                     icon: "success",
                                                     button: "Ok!",
-                                                }).then((n) => {
-                                                    location.reload();
                                                 });
                                             } else {
                                                 swal({

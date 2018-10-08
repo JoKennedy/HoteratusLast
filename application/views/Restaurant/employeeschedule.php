@@ -121,8 +121,8 @@
 <script src="<?php echo base_url();?>user_asset/back/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
     var staffid="<?=$staffinfo['mystaffposid']?>";
-    $('#hourtime1').timepicker({ 'timeFormat': 'h:i A' });
-    $('#hourtime2').timepicker({ 'timeFormat': 'h:i A' });
+    $('#hourtime1').timepicker({ 'timeFormat': 'h:i A','step': 15  });
+    $('#hourtime2').timepicker({ 'timeFormat': 'h:i A','step': 15   });
 
 function saveDay () {
         

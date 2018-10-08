@@ -95,8 +95,8 @@
 <link href="<?php echo base_url();?>user_asset/back/css/jquery.timepicker.min.css" rel="stylesheet">
 <script src="<?php echo base_url();?>user_asset/back/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
-    $('#hourtime1').timepicker({ 'timeFormat': 'h:i A' });
-    $('#hourtime2').timepicker({ 'timeFormat': 'h:i A' });
+    $('#hourtime1').timepicker({ 'timeFormat': 'h:i A','step': 15   });
+    $('#hourtime2').timepicker({ 'timeFormat': 'h:i A','step': 15   });
 
     $("#hourtime1").change(function(event) {
        $('#hourtime2').val($('#hourtime1').val());

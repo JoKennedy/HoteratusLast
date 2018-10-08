@@ -381,7 +381,8 @@ class channel_model extends CI_Model
 		$data['email_address']=$billd['bemail'];
 		$data['country']=$billd['country'];
 
-
+		$result['success']=false;
+		$result['message']='';
 		if(strlen($_FILES["Image"]['name'])>5)
 		{
 			 $file = $_FILES["Image"];		   	
@@ -394,24 +395,51 @@ class channel_model extends CI_Model
 		    $height = $dimensiones[1];
 		    $carpeta = "user_assets/images/Billing/";
 
-		    $src = $carpeta.hotel_id().$nombre;
-		    move_uploaded_file($ruta_provisional, $src);
 
-		    $data['Logo']="/".$src;
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+		    	$result['message']='Error, el archivo no es una imagen';
+		    }
+		    else if ($size > 1024*1024)
+		    {
+		    	$result['message']='Error, el tamaño máximo permitido es un 1MB';
+
+		    }
+		    else if ($width > 500 || $height > 500)
+		    {
+		    	$result['message']='Error la anchura y la altura maxima permitida es 500px';
+		    }
+		    else if($width < 60 || $height < 60)
+		    {
+		    	$result['message']='Error la anchura y la altura mínima permitida es 60px';
+		    }
+		    else
+
+		    {	
+		    	
+		       	$src = $carpeta.hotel_id().$nombre;
+			    move_uploaded_file($ruta_provisional, $src);
+
+			    $data['Logo']="/".$src; 
+		    }
+		    
 		}
 
 		if (count($exist)>0) {
 			
 			update_data('bill_info',$data,array('hotel_id'=>$hotelid));
-			return 2;
+			$result['success']=true;
+			$result['value']=2;
 		}
 		else
 		{	$data['hotel_id']=$hotelid;
 			$data['user_id']=user_id();
 			insert_data('bill_info',$data);
-			return 1;
+			$result['success']=true;
+			$result['value']=1;
 		}
 
+		return $result;
 	}
 	function savePaymentMethod()
 	{
@@ -593,16 +621,12 @@ class channel_model extends CI_Model
 			}
 			else
 			{
-				$contador++;
+				$repuesta .= '<td bgcolor="#E5E7E9"  > </td>';
 				
 			}
 		}
 
-		if($contador>0)
-		{
-			$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
-		}
-
+		
 		return $repuesta;
 
 
@@ -805,12 +829,12 @@ class channel_model extends CI_Model
 
 					foreach ($roomnumber as  $rooms) {
 
-						$attributeids=$this->db->query("select * from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ")->row_array();
+						
 						$housekeepingstatus=$this->db->query("select * from housekeepingstatus where HousekeepingStatusId= `RoomStatusHousekeeping` ($roomid,'$rooms') limit 1   ")->row_array();
 
-						$attributeids['AttributeIds']=(isset($attributeids['AttributeIds'])?$attributeids['AttributeIds']:'0');
+						
 
-						$attributes=$this->db->query("select * from room_attributes where AttributeId in( ".$attributeids['AttributeIds'].") order by AttributeCode")->result_array();
+						$attributes=$this->db->query("select * from room_attributes where AttributeId in(select AttributeIds from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ) order by AttributeCode")->result_array();
 
 						$atributetext='';
 

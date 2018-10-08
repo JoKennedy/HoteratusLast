@@ -26,33 +26,41 @@ public function scrapear($date)
 
 	$agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
 
-	$referer = 'http://www.hotelhunter.com';
+	$referer = 'http://www.booking.com';
 	$cookies = 'cookies.txt';
-	$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '',$agent); 
-	while ($content=='Forbidden') {
-		$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3'); 
-	}
-	$html= html_to_dom(str_replace('data-providername', 'name', $content));
+	$content= $this->cURL("https://www.booking.com/hotel/do/lifestyle-tropical-beach-resort-spa-all-inclusive.html?;checkin=$date1;checkout=$date2;dest_type=city;dist=0;group_adults=2;hapos=1;sb_price_type=total;type=total", '', $cookies, $referer, '',$agent); 
+
+
+	$html= html_to_dom($content);
 	$result='';
-	//echo $html;
-	foreach ($html->find('#hc_htl_pm_rates_content') as $tarifainfo) {
-	     	$result.= $date1.'hotelhunter';
-		foreach ($tarifainfo->find('.hc-ratesmatrix__dealsrow') as  $value) {
+	$roomname='';
+	echo $html;
+	foreach ($html->find('#available_rooms') as $Rooms) {
+		//echo $Rooms;
+	     echo $date.'=====<br>';	
+		foreach ($Rooms->find('tr') as $value) {
+		 	//echo $value;
+		 	if(strlen($value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0))>0)
+		 	{	
+		 		$roomname=$value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0);
 
-			if ($value->name=='Booking.com' || $value->name=='Agoda.com') {
+		 	}
+		 	if (strlen($value->find('.invisible_spoken',0))>0) {
+		 		echo $roomname;
+		 		echo $value->find('.invisible_spoken',0);
+		 		echo $value->find('.hprt-price-price',0);
+		 		echo '<br><br>';
+		 	
+		 	}
+		 	
 
-				$result.=  $value->name;
-				$result.=  $value->find('.hc-ratesmatrix__roomrate',0);
-				$result.=  $value->find('.hc-ratesmatrix__roomname',0).'<br>';
-			}
-			
-			
-		}       
+		 	
+		 }       
 		 
 	}
 	
 
-	return ($result==''?$html:$result);
+	return;
 }
 public function scrapear2($date)
 {
@@ -92,21 +100,15 @@ public function scrapear2($date)
 function index()
 {
 
-	$date=date('Y-m-d');
+	$date=date('Y-m-d',strtotime('2018-12-20'));
 	$result='';
 
-	for ($i=0; $i <30 ; $i++) { 
+	
 
-		if($i%2)
-		{
-			 $result.=$this->scrapear(date('Y-m-d',strtotime($date."+$i days"))) ;
-		}
-		else
-		{
-			$result.=$this->scrapear2(date('Y-m-d',strtotime($date."+$i days"))) ;
-		}
+	for ($i=0; $i <1 ; $i++) { 
 
-		 
+
+		$result.=$this->scrapear(date('Y-m-d',strtotime($date."+$i days"))) ;	 
 
 	}
 	echo $result;

@@ -728,7 +728,7 @@ class channel_model extends CI_Model
 
 			$dato=null;
 
-			$datos= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_update where hotel_id = $hotel_id  and room_id =".$value['property_id']  ." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y')  ")->result_array(); 	
+			$datos= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_update where hotel_id = $hotel_id  and room_id =".$value['property_id']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y')  ")->result_array(); 	
 
 			 for ($i=0; $i <=29 ; $i++) { 
 		 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
@@ -748,7 +748,12 @@ class channel_model extends CI_Model
 			 			
 			 		}
 
-		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.(isset($dato['price'])?$dato['price']:'Null').'</td>';  
+				
+				$Editprices='<a href="javascript:;" class="inline_username " data-type="number" data-name="price" data-pk="'.$datereal.'-'.$roomid.'" data-url="'.lang_url().'inventory/inline_edit_no" data-title="Change Price">'.(isset($dato['price'])?floatval($dato['price']):'Null').'</a>';
+
+				
+
+		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$Editprices.'</td>';  
 				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.(isset($dato['availability'])?$dato['availability']:'Null').' </td>';
 				$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dato['minimum_stay'])?$dato['minimum_stay']:'Null').' </td>';
 				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' readonly=""/> </td>';

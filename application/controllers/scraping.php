@@ -27,7 +27,19 @@ class scraping extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
 
-		$this->views('channel/managerooms',$data);
+		$this->views('salesmarketing/competitivesetanalisis',$data);
+    }
+    public function config()
+    {
+    	is_login();
+		$hotelid=hotel_id();
+    	$data['page_heading'] = 'Configuration Competitive Set Analisis';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
+
+		$this->views('salesmarketing/config',$data);
     }
 	public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
 	{
@@ -118,11 +130,12 @@ class scraping extends Front_Controller {
 	}
 	public function ScrapingBooking($start)
 	{
+		ini_set('max_execution_time', 0);
 		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
 
-			 for ($i=$start; $i <($start+90) ; $i++) { 
+			 for ($i=$start; $i <($start+360) ; $i++) { 
 
 				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;	 
 			}

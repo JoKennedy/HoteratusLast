@@ -77,6 +77,8 @@
             <label class="check">
                 <input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox">CTD</label>
         </div>
+        
+     
         <div class="clearfix"> </div>
     </div>
 </div>
@@ -153,6 +155,7 @@
 </div>
 </div>
 </div>
+
 <script type="text/javascript">
  var base_url = '<?php echo lang_url();?>';
 
@@ -263,6 +266,9 @@ function Calendario(obj,opt) {
         },
         success: function(html) {
             $("#calendario").html(html);
+            $('.inline_username').editable({
+                step: 'any',
+            });
             unShowWait();
 
         }
@@ -274,4 +280,7 @@ function gotoreser(urlr)
 }
 
 Calendario(0,1);
+
+
 </script>
+

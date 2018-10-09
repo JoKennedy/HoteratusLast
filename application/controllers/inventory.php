@@ -2699,6 +2699,9 @@ class Inventory extends Front_Controller
     
     function inline_edit_no($data = array())
     {
+
+
+     
         if (admin_id() == '') {
             $this->is_login();
         } else {

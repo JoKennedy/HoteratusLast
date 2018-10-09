@@ -30,10 +30,11 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+   
     <link href="<?php echo base_url();?>user_asset/back/css/styletable.css" rel='stylesheet' type='text/css' />
     
     <!-- Custom CSS -->
+    <link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <link href="<?php echo base_url();?>user_asset/back/css/style.css" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->
    <!-- <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">-->
@@ -45,25 +46,41 @@
     <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/icon-font.min.css" type='text/css' />
     <!-- //lined-icons -->
     <script src="<?php echo base_url();?>user_asset/back/js/jquery-1.10.2.min.js"></script>
+
+   <link href="<?php echo base_url();?>user_asset/back/css/bootstrap-editable.css" rel='stylesheet' type='text/css' />
+  
+
+    <script src="<?php echo base_url();?>user_asset/back/js/jquery-ui.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/amcharts.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/serial.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/light.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/radar.js"></script>
-    <script src="<?php echo base_url();?>user_asset/back/js/jquery.validate.js"></script>
     <link href="<?php echo base_url();?>user_asset/back/css/barChart.css" rel='stylesheet' type='text/css' />
     <link href="<?php echo base_url();?>user_asset/back/css/fabochart.css" rel='stylesheet' type='text/css' />
     <!--clock init-->
+    
+
+<script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/TweenLite.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/CSSPlugin.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/jquery.nicescroll.min.js"></script>
+
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="<?php echo base_url();?>user_asset/back/js/bootstrap.min.js"></script>
+
+
     <script src="<?php echo base_url();?>user_asset/back/js/css3clock.js"></script>
     <!--Easy Pie Chart-->
     <!--skycons-icons-->
+
     <script src="<?php echo base_url();?>user_asset/back/js/skycons.js"></script>
-    <script src="<?php echo base_url();?>user_asset/back/js/jquery.easydropdown.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/helpers.js"></script>
-    
+    <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/vroom.css">
+    <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/vroom.js"></script>
       <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/jquery-ui.css">  
-    <script src="<?php echo base_url();?>user_asset/back/js/jquery-ui.js"></script>
-
+     <script src="<?php echo base_url();?>user_asset/back/js/bootstrap-editable.min.js"></script>
+ <script src="<?php echo base_url();?>user_asset/back/js/scripts.js"></script>
     <!--//skycons-icons-->
 </head>
 

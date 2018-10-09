@@ -18,8 +18,9 @@
 				<div class="graph">
 				
 				
+		<a href="#" id="username" data-type="text" data-pk="1" data-name="username" data-url="post.php" data-original-title="Enter username">superuser</a>
+			<a href="#" id="group" data-type="select" data-name="group" data-pk="1" data-value="5" data-source="groups.php" data-original-title="Select group">Admin</a>
 
-			
 				</div>
 				
 			</div>
@@ -31,7 +32,22 @@
 		<!--footer section end-->
 	</div>
 </div>
+<div  class="clearfix"></div>			 
+
 
 <script type="text/javascript">
 
 </script>
+
+
+
+ <script type="text/javascript">
+        $(document).ready(function () {
+
+  $('#username').editable({
+                step: 'any',
+            });
+  $('#group').editable();
+});    
+</script>
+

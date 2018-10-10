@@ -928,7 +928,7 @@ var roomtype = "<?=$roomTypeID?>";
 var adults = "<?=$numberAdults?>";
 var children = "<?=$numberChilds?>";
 var avgpern = "<?=$avgpernight?>";
-
+var currentdate="<?=date('Y-m-d')?>";
 
 function setnewprice() {
     $("#newprice").val(0.00);
@@ -1064,8 +1064,66 @@ function changestatus() {
 }
 
 function applystatus(id) {
-    var data = { 'resid': resID, 'statusid': id, 'username': userName };
 
+    var data = { 'resid': resID, 'statusid': id, 'username': userName };
+  
+    if(id==5 && checkin!=currentdate)
+    {
+       
+        swal({
+              title: "Check-In is out of date!",
+              text: "Do you want to change the status anyway?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (!willDelete) {
+                return;
+              }else{
+                completestatus(data);
+              }
+            });
+    }
+    else if(id==6 && checkout!=currentdate)
+    {
+       
+        swal({
+              title: "Check-Out is out of date!",
+              text: "Do you want to change the status anyway?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (!willDelete) {
+                return;
+              }else{
+                completestatus(data);
+              }
+            });
+    }
+    else
+    {
+        swal({
+              title: "Change of status",
+              text: "Do you want to change the status anyway?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (!willDelete) {
+                return;
+              }else{
+                completestatus(data);
+              }
+            });
+    }
+    
+}
+function completestatus(data)
+{
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -1095,7 +1153,6 @@ function applystatus(id) {
         }
     });
 }
-
 function addNote() {
     if ($("#usernote").val() == "") {
         swal({
@@ -1222,9 +1279,9 @@ $(document).ready(function() {
 
     var fecha = new Date($.now());
     var dias = 1; // Número de días a agregar
-    $("#date1Edit").attr('min', formatDate(fecha));
+    $("#date1Edit").attr('min', currentdate);
     fecha.setDate(fecha.getDate() + dias);
-    $("#date2Edit").attr('min', formatDate(fecha));
+    $("#date2Edit").attr('min', currentdate);
 
 });
 
@@ -1447,18 +1504,15 @@ $("#submitpay").click(function() {
         return;
     }
 
-    var data =  $("#paymentapplication").serialize() + "&"+$("#ccinfo").serialize();
+    var data =  $("#paymentapplication").serialize() + "&"+$("#ccinfo").serialize()+"&invoiceid="+invoid+"&username="+userName;
    
     $.ajax({
         type: "POST",
+        dataType:"json",
         url: "<?php echo lang_url(); ?>reservation/PaymentApplication",
         data: data,
         success: function(msg) {
-
-            alert(msg);
-            return;
-
-            if (msg == 0) {
+            if (msg['success']) {
 
                 swal({
                     title: "Done!",
@@ -1471,7 +1525,7 @@ $("#submitpay").click(function() {
             } else {
                 swal({
                     title: "Warning!",
-                    text: msg,
+                    text: msg['message'],
                     icon: "warning",
                     button: "Ok!",
                 });

@@ -238,8 +238,10 @@ class bulkupdate extends Front_Controller
 		echo getsincro();
 	}
 
+
 	function savechangecalendar()
 	{
+
 		$name=$_POST['name'];
         $value=$_POST['value'];
         $pk=explode(',',$_POST['pk']);
@@ -258,6 +260,9 @@ class bulkupdate extends Front_Controller
       	if($name=='price')
       	{
       		$datos['PriceRevenue']=$value;
+      	}else if($name=='availability' && $value=0)
+      	{
+      		$datos['stop_sell']=1;
       	}
 		//print_r($datos);
 		//print_r($condicion);
@@ -268,6 +273,52 @@ class bulkupdate extends Front_Controller
       	{
       		update_data('room_rate_types_base',$datos,$condicion);
       	}
+
+      	$this->sincronizar($pk);
+
+
+	}
+	function sincronizar($info)
+    {
+       
+		$canales=$this->db->query("select channel_id from roommapping where property_id=".$info[1])->result_array();
+
+		$inicialdate=$info[0];
+		$FinalDate=$info[0];
+		$hotelid=$info[3];
+		$userid=user_id();
+
+		foreach ($canales as $value) {
+			$Channelid=$value['channel_id'];
+		    if ($Channelid == 36) {
+		        $this->load->model("despegar_model");
+		        $this->despegar_model->SincroCalender($inicialdate, $FinalDate,$userid, $hotelid);
+		        
+		        
+		    } elseif ($Channelid == 1) {
+		        $this->load->model("expedia_model");
+		        $this->expedia_model->SincroCalender($inicialdate, $FinalDate,$userid, $hotelid,'All');
+		        
+		    } elseif ($Channelid == 2) {
+		        
+		        $this->load->model("booking_model");
+		        $this->booking_model->SincroCalender($inicialdate, $FinalDate,$userid, $hotelid);
+
+
+		    } elseif ($Channelid == 9) {
+		        
+		        $this->load->model("airbnb_model");
+		        $FinalDate=date('y-m-d',strtotime($FinalDate.'+1 days'));
+		        $this->airbnb_model->SincroCalender($inicialdate, $FinalDate,$userid, $hotelid);
+		    }elseif ($Channelid == 19) {
+		        
+		        $this->load->model("agoda_model");
+		        $this->agoda_model->SincroCalender($inicialdate, $FinalDate,$userid, $hotelid);
+		    }
+		
+        }
+        
+        
 
 	}
 	

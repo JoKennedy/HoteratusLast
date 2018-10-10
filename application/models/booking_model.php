@@ -126,7 +126,7 @@ class booking_model extends CI_Model
                 $error    = @$data_api->fault;
                 /* echo($output); */
                 if ($error) {
-                    $this->inventory_model->store_error($userid, $hotelid, $channel_id, (string) $data_api->fault->attributes()->string, 'Bulk Update', date('m/d/Y h:i:s a', time()));
+                    $this->inventory_model->store_error($userid, $hotelid, 2, (string) $data_api->fault->attributes()->string, 'Bulk Update', date('m/d/Y h:i:s a', time()));
                     $BookingErrors .= "* Booking Error Sincro Rooms" . $error;
                 } else {
                     $BookingErrors .= "*Booking Synced Rooms";

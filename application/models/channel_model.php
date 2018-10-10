@@ -750,9 +750,9 @@ class channel_model extends CI_Model
 			 		}
 
 				
-				$Editprices=(isset($dato['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Price">'.floatval($dato['price']).'</a>':'Null');
-				$Editava=(isset($dato['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Availability">'.intval($dato['availability']).'</a>':'Null');
-				$Editminimum=(isset($dato['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Minimum Stay">'.intval($dato['minimum_stay']).'</a>':'Null');
+				$Editprices=(isset($dato['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" " data-title="Change Price">'.floatval($dato['price']).'</a>':'Null');
+				$Editava=(isset($dato['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'"  data-title="Change Availability">'.intval($dato['availability']).'</a>':'Null');
+				$Editminimum=(isset($dato['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'"  data-title="Change Minimum Stay">'.intval($dato['minimum_stay']).'</a>':'Null');
 				
 
 		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$Editprices.'</td>';  
@@ -811,9 +811,9 @@ class channel_model extends CI_Model
 				 			
 				 		}
 
-				 	$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
-				 	$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');
-				$Editminimumr=(isset($dator['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Minimum Stay">'.intval($dator['minimum_stay']).'</a>':'Null');
+				 	$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
+				 	$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');
+				$Editminimumr=(isset($dator['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Minimum Stay">'.intval($dator['minimum_stay']).'</a>':'Null');
 
 			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';  
 					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editavar.' </td>';

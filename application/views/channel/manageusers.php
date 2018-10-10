@@ -39,8 +39,8 @@
 
                                                                 echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['fullname'].'  </td> 
                                                                 <td> '.$value['user_name'].'  </td>  <td> '.$value['email_address'].'  </td>
-                                                                <td> '.($value['status']==1?'Active':'Deactive').'</td> <td style="text-align:center;"><a  onclick =" showupdate('.$update.')" data-toggle="modal"><i class="fa fa-cog"></i></a></td> 
-                                                                <td style="text-align:center;"><a  onclick =" activeInactive('.$value['user_id'].','.$value['status'].')" data-toggle="modal"><i class="fa fa-unlock-alt"></i></a></td>
+                                                                <td> '.($value['status']==1?'Active':'Deactive').'</td> <td style="text-align:center;"><a   onclick =" showupdate('.$update.')" ><i class="fa fa-cog"></i></a></td> 
+                                                                <td style="text-align:center;"><a  onclick =" activeInactive('.$value['user_id'].','.$value['status'].')" ><i class="fa fa-unlock-alt"></i></a></td>
                                                                 </tr>   ';
 
                                                         }
@@ -420,7 +420,7 @@ function saveUser() {
             setTimeout(function() { unShowWait(); }, 10000);
         },
         success: function(msg) {
-            alert(msg);
+
             unShowWait();
             if (msg["success"]) {
                 swal({
@@ -672,23 +672,7 @@ function validaremail(id) {
 
     }
 
-    var data = { "email": emailval };
-    $.ajax({
-        type: "POST",
-        url: '<?php echo lang_url(); ?>channel/emailused',
-        data: data,
-
-        success: function(html) {
-
-            if (html.trim() != '0') {
-                email.setCustomValidity("This Email already exists");
-                return false;
-            } else {
-                email.setCustomValidity("");
-                return true;
-            }
-        }
-    });
+    
 }
 
 function validarusername(id) {

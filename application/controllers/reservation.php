@@ -923,7 +923,10 @@ class reservation extends Front_Controller {
 	{
 		switch ($_POST['paymentTypeId']) {
 			case '1':
-				# code...
+				
+				$result= $this->reservation_model->invoicepaymentapply($_POST['invoiceid'],$_POST['paymentTypeId'],$_POST['amountdue'],$_POST['providerid'],$_POST['username'],$_POST['currency']);
+
+				echo json_encode($result);
 				break;
 
 			case '2':

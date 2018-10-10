@@ -272,13 +272,11 @@ function Calendario(obj,opt) {
         },
         success: function(html) {
             $("#calendario").html(html);
-            $('.inline_username').editable(/*{
-                    
-              success: function(response, newValue) {
-       alert(response);
-
-    } 
-            }*/);
+            $('.inline_username').editable({
+                url: function (params) {                     
+                   return saveChange(params);
+                } 
+            });
             unShowWait();
 
         }
@@ -287,6 +285,19 @@ function Calendario(obj,opt) {
 function gotoreser(urlr)
 {
    window.location=urlr;
+}
+function saveChange(params)
+{
+    var data={'name':params['name'],'pk':params['pk'],'value':params['value']};
+
+
+    $.ajax({
+        type: "POST",
+        //dataType: "json",
+        url: base_url + 'bulkupdate/savechangecalendar',
+        data:data 
+    });
+   return;
 }
 
 Calendario(0,1);

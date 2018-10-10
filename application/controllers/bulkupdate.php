@@ -40,7 +40,7 @@ class bulkupdate extends Front_Controller
 	function bulkUpdateProcess()
 	{	
 
-		 $this->is_login();
+		$this->is_login();
 
 		$countdate=count($_POST['date1Edit']);
 		$DatesRange=array();
@@ -238,5 +238,37 @@ class bulkupdate extends Front_Controller
 		echo getsincro();
 	}
 
+	function savechangecalendar()
+	{
+		$name=$_POST['name'];
+        $value=$_POST['value'];
+        $pk=explode(',',$_POST['pk']);
+
+        $date=$pk[0];
+        $roomid=$pk[1];
+        $rateid=$pk[2];
+        $hotelid=$pk[3];
+
+      	$datos[$name]=$value;
+      	$condicion['hotel_id']=$hotelid;
+      	$condicion['individual_channel_id']=0;
+      	$condicion['room_id']=$roomid;
+      	$condicion['separate_date']=date('d/m/Y',strtotime($date));
+
+      	if($name=='price')
+      	{
+      		$datos['PriceRevenue']=$value;
+      	}
+		//print_r($datos);
+		//print_r($condicion);
+      	if ($rateid==0) {
+      		update_data('room_update',$datos,$condicion);
+      	}
+      	else
+      	{
+      		update_data('room_rate_types_base',$datos,$condicion);
+      	}
+
+	}
 	
 }

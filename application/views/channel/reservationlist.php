@@ -14,6 +14,7 @@
 .dataTables_filter input {
     color: black;
 }
+
 </style>
 <div class="outter-wp" style="height: 3000px;">
     <!--sub-heard-part-->
@@ -134,6 +135,9 @@ function list()
             unShowWait();
 
            $("#reservationlist").html(msg);
+            $('.inline_username').editable(/*{
+             url: 'post.php' 
+          }*/);
 
              $('#myTable').DataTable({
                 dom: 'Bfrtip',

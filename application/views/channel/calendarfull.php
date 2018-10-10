@@ -1,4 +1,10 @@
+<style type="text/css">
+    .inline_username{
+        color: black;
+        
+    }
 
+</style>
 <div class="outter-wp">
     <!--sub-heard-part-->
     <div class="sub-heard-part">
@@ -266,9 +272,13 @@ function Calendario(obj,opt) {
         },
         success: function(html) {
             $("#calendario").html(html);
-            $('.inline_username').editable({
-                step: 'any',
-            });
+            $('.inline_username').editable(/*{
+                    
+              success: function(response, newValue) {
+       alert(response);
+
+    } 
+            }*/);
             unShowWait();
 
         }

@@ -137,7 +137,12 @@ class Channel extends Front_Controller {
 			redirect('channel/dashboard','refresh');
 		}
 	}
+	function allroomtest()
+	{
 
+		$rooms = $this->db->query("select property_id value, property_name text from manage_property where hotel_id=".hotel_id())->result_array();
+			echo json_encode($rooms); 
+	}
 	function propertynameused()
 	{
 

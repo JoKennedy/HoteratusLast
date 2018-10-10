@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Inventory extends Front_Controller
-{
+{ 
     
     private $currency_code;
     
@@ -2699,13 +2699,16 @@ class Inventory extends Front_Controller
     
     function inline_edit_no($data = array())
     {
+        $name=$_POST['name']
+        $datos['testt']=$_POST['name'];
+print_r($_POST);
 
-
-     
+        insert_data('test',$datos);
+     return;
         if (admin_id() == '') {
             $this->is_login();
         } else {
-            $this->is_admin();
+            $this->is_admin(); 
         }
         if (user_type() == '1' || user_type() == '2' && in_array('3', user_edit()) || admin_id() != '' && admin_type() == '1') {
             extract($this->input->post());

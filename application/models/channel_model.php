@@ -638,6 +638,7 @@ class channel_model extends CI_Model
 		$cta=$_POST['cta'];
 		$ctd=$_POST['ctd'];
 		$showr=$_POST['show'];
+		$hotelid=hotel_id();
 		$dataini=(date('m')==$_POST['monthid'] && date('Y')==$_POST['yearid']?date('Y-m-d'):date('Y-m-d',strtotime($_POST['yearid'].'-'.$_POST['monthid'].'-01')));
 		if($_POST['opt']==2)
 		{
@@ -651,7 +652,7 @@ class channel_model extends CI_Model
 			}
 			else
 			{
- 				insert_data('ConfigUsers',array('CalenderShowR'=>$showr,'hotelID'=>hotel_id(),'UserID'=>user_id()));
+ 				insert_data('ConfigUsers',array('CalenderShowR'=>$showr,'hotelID'=>$hotelid,'UserID'=>user_id()));
 			}
 		}
 
@@ -749,13 +750,14 @@ class channel_model extends CI_Model
 			 		}
 
 				
-				$Editprices='<a href="javascript:;" class="inline_username " data-type="number" data-name="price" data-pk="'.$datereal.'-'.$roomid.'" data-url="'.lang_url().'inventory/inline_edit_no" data-title="Change Price">'.(isset($dato['price'])?floatval($dato['price']):'Null').'</a>';
-
+				$Editprices=(isset($dato['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Price">'.floatval($dato['price']).'</a>':'Null');
+				$Editava=(isset($dato['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Availability">'.intval($dato['availability']).'</a>':'Null');
+				$Editminimum=(isset($dato['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Minimum Stay">'.intval($dato['minimum_stay']).'</a>':'Null');
 				
 
 		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$Editprices.'</td>';  
-				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.(isset($dato['availability'])?$dato['availability']:'Null').' </td>';
-				$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dato['minimum_stay'])?$dato['minimum_stay']:'Null').' </td>';
+				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editava.' </td>';
+				$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimum.' </td>';
 				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' readonly=""/> </td>';
 				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' readonly="" /> </td>';
 				$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dato['stop_sell'])?($dato['stop_sell']==1?'checked':''):'').' /> </td>';
@@ -774,6 +776,9 @@ class channel_model extends CI_Model
 			$body .=$precio.$avai.$min.$ctas.$ctds.$sss;
 
 			foreach ($ratetype as  $rate) {
+
+				
+
 				$precio='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 				$avai='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
 				$min = '<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
@@ -806,9 +811,13 @@ class channel_model extends CI_Model
 				 			
 				 		}
 
-			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.(isset($dator['price'])?$dator['price']:'Null').'</td>';  
-					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.(isset($dator['availability'])?$dator['availability']:'Null').' </td>';
-					$min.='<td style="font-size: 12px; text-align:center; "> '.(isset($dator['minimum_stay'])?$dator['minimum_stay']:'Null').' </td>';
+				 	$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
+				 	$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');
+				$Editminimumr=(isset($dator['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" data-url="'.lang_url().'bulkupdate/savechangecalendar" data-title="Change Minimum Stay">'.intval($dator['minimum_stay']).'</a>':'Null');
+
+			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';  
+					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editavar.' </td>';
+					$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimumr.' </td>';
 					$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').' readonly=""/> </td>';
 					$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['ctd'])=='1'?($dator['ctd']==1?'checked':''):'').' readonly="" /> </td>';
 					$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dator['stop_sell'])?($dator['stop_sell']==1?'checked':''):'').' /> </td>';

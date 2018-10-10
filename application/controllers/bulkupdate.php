@@ -260,7 +260,7 @@ class bulkupdate extends Front_Controller
       	if($name=='price')
       	{
       		$datos['PriceRevenue']=$value;
-      	}else if($name=='availability' && $value=0)
+      	}else if($name=='availability' && $value==0)
       	{
       		$datos['stop_sell']=1;
       	}

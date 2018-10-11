@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class housekeeping_model extends CI_Model{
 	public function __construct()
-	{       
+	{
 		parent::__construct();
 
-	} 
+	}
 
 	function saveStatus($datos)
 	{
@@ -23,17 +23,17 @@ class housekeeping_model extends CI_Model{
 		}
 
 		echo json_encode($result);
-		
+
 	}
 
-	function AllRoomS($statusid=0)
+	function AllRoomS($statusid=0,$roomid=0)
 	{	//RoomStatusHousekeeping(RoomId,RoomNumber)
-		$allRoom=$this->db->query("select * from manage_property where hotel_id=".hotel_id())->result_array();
+		$allRoom=$this->db->query("select * from manage_property where ($roomid=0 or property_id =$roomid ) and hotel_id=".hotel_id())->result_array();
 		$allRoomS=array();
 
 		$i=0;
 		foreach ($allRoom as $value) {
-			
+
 			$RoomsNumber=(explode(",", $value['existing_room_number']));
 
 			foreach ($RoomsNumber as $Number) {
@@ -41,7 +41,7 @@ class housekeeping_model extends CI_Model{
 				if(strlen($Number)>0)
 				{
 					$Room=$this->db->query("select `RoomStatusHousekeepingString` (".$value['property_id'].",'$Number') status,`RoomStatusHousekeeping` (".$value['property_id'].",'$Number') statusid ,`RoomStatusHousekeepingColor` (".$value['property_id'].",'$Number') Color ")->row_array();
-					if($statusid==0)
+					if($statusid==-1)
 					{
 						$value['HousekeepingStatus']=$Room['status'];
 						$value['HousekeepingStatusId']=$Room['statusid'];
@@ -60,9 +60,9 @@ class housekeeping_model extends CI_Model{
 						$i++;
 					}
 				}
-				
+
 			}
-			
+
 		}
 
 		return $allRoomS;
@@ -70,19 +70,51 @@ class housekeeping_model extends CI_Model{
 	function updateStatus($datos)
 	{
 
-		
-		$data['RoomId']=$datos['roomid'];
-		$data['RoomNumber']=$datos['RoomNumber'];
-		$data['HousekeepingStatusId']=$datos['StatusId'];
+		$pk=explode(',',$datos['pk']);
+		$value=$datos['value'];
+
+		$data['RoomId']=$pk[0];
+		$data['RoomNumber']=$pk[1];
+		$data['HousekeepingStatusId']=$value;
 		$data['UserId']=user_id();
 
 		$result['success']=false;
 		$result['message']='Something went Wrong';
 		if(insert_data('housekeepingroomstatus',$data))
-		{
+		{	$color=$this->db->query("select Color from housekeepingstatus where HousekeepingStatusId=".$value)->row_array();
 			$result['success']=true;
+			$result['color']=$color['Color'];
 		}
-		
+
 		echo json_encode($result);
+	}
+	function updateStatusBulk($datos)
+	{
+		var_dump($datos);
+
+		return;
+		$pk=explode(',',$datos['pk']);
+		$value=$datos['value'];
+
+		$data['RoomId']=$pk[0];
+		$data['RoomNumber']=$pk[1];
+		$data['HousekeepingStatusId']=$value;
+		$data['UserId']=user_id();
+
+		$result['success']=false;
+		$result['message']='Something went Wrong';
+		if(insert_data('housekeepingroomstatus',$data))
+		{	$color=$this->db->query("select Color from housekeepingstatus where HousekeepingStatusId=".$value)->row_array();
+			$result['success']=true;
+			$result['color']=$color['Color'];
+		}
+
+		echo json_encode($result);
+	}
+	public function HousekeepingStatusList()
+	{
+		$AllStatus=$this->db->query("select HousekeepingStatusId value, Name text from housekeepingstatus where HotelId=0 or HotelId =".hotel_id())->result_array();
+		return $AllStatus;
+
 	}
 }

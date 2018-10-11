@@ -14,7 +14,11 @@
 .dataTables_filter input {
     color: black;
 }
-</style> 	
+h3.popover-title {
+  color:black;
+}
+
+</style>
 
 <div class="outter-wp" style="height: 3000px;">
 		<!--sub-heard-part-->
@@ -25,31 +29,80 @@
 				<li class="active">Rooms Status</li>
 			</ol>
 		   </div>
-			<div  class="clearfix"></div>			 
+			<div  class="clearfix"></div>
 
 			<div class="graph-visual tables-main">
-				    <div style="float: left;" class="buttons-ui">
 
+				<div style="float: left;" class="buttons-ui">
+                <select onchange="changeList(this.value)" id="displaynumber" class="green">
+                    <option value="10">10</option>
+                    <option value="25" selected>25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+
+                </select>
 				        <select onchange="List()" id="HousekeepingStatusId" class="green">
-				            <option value="0">All Status</option>
+				            <option value="-1" selected>All Status</option>
 				            <?php if (count($AllStatus)>0) {
 
 				                            foreach ($AllStatus as  $value) {
-				                                echo '<option value="'.$value['HousekeepingStatusId'].'">'.$value['Name'].'</option>';
+				                                echo '<option value="'.$value['value'].'">'.$value['text'].'</option>';
 				                            }
 				                        } ?>
 				        </select>
+                <select onchange="List()" id="RoomTypeId" class="green">
+				            <option value="0" selected>All Rooms Type</option>
+				            <?php if (count($AllRooms)>0) {
+
+				                            foreach ($AllRooms as  $value) {
+				                                echo '<option value="'.$value['property_id'].'">'.$value['property_name'].'</option>';
+				                            }
+				                        } ?>
+				        </select>
+
+
 				    </div>
 				<div style="float: right; " class="buttons-ui">
 			        <a href="#createstatus" data-toggle="modal" class="btn blue">Add New Status</a>
 			        <a onclick="Export()" class="btn green">Export</a>
+              <a onclick="ShowBulk()" class="btn red">Bulk Update Status</a>
 			    </div>
-			    <div  class="clearfix"></div>					
-				<div class="graph">
-					
-					<div id="AllRoomId"></div>
-			
-				</div>
+
+          <div  class="clearfix"></div>
+          <form id="informacion">
+              <div class="bulkupdate graph" style="display:none;">
+                <center>  <h4><span class="label label-default">Bulk Update Housekeeping Status</span></h4>
+
+                  <div class="col-md-12 form-group1">
+                      <label class="control-label">Housekeeping Status</label>
+                      <select style="width: 100%; padding: 9px;" name="statusbulk" id="statusbulk">
+                         <option value="0" selected>Select a Status</option>
+                         <?php
+                            if (count($AllStatus)>0) {
+                              foreach ($AllStatus as  $value) {
+                                  echo '<option value="'.$value['value'].'">'.$value['text'].'</option>';
+                              }
+                            }
+                          ?>
+                     </select>
+                  </div>
+                  <br>
+                  <div class="col-md-12">
+
+                      <a onclick="updatestatusbulk()" class="btn green">Update</a>
+                  </div>
+                  </center>
+
+                  <div  class="clearfix"></div>
+              </div>
+
+      				<div class="graph">
+
+      					<div id="AllRoomId"></div>
+
+      				</div>
+        </form>
 				<div  class="clearfix"></div>
 			</div>
 		</div>
@@ -60,7 +113,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-               
+
                 <h4 class="modal-title">Create a Status</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span> </button>
@@ -68,7 +121,7 @@
             <div>
                 <div class="graph-form">
                     <form id="statusC">
-                        
+
                         <div class="col-md-12 form-group1">
                             <label class="control-label">Status</label>
                             <input style="background:white; color:black;" name="statusname" id="statusname" type="text" placeholder="Status Name" required="">
@@ -115,76 +168,64 @@
             </div>
         </div>
 </div>
-<div id="changestatus" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-               
-                <h4 class="modal-title">Change Status</h4>
-                    <button id="closechange" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span> </button>
-            </div>
-            <div>
-                <div class="graph-form">
-                    <form id="statusUP">
-                    	<input type="hidden" name="roomid" id="roomid" value="">
-                    	<input type="hidden" id="oldstatusid" value="">
-                    	<input type="hidden" id="RoomNumber" name="RoomNumber" value="">
-                         <div class="col-md-12 form-group1">
-                           <center> <label class="control-label">Room Number</label>
-                            <h3><span class="label label-primary" id="roomnumber"></span></h3></center>
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <center><label class="control-label">Room Type</label>
-                            <h3><span class="label label-primary" id="roomtype"></span></h3></center>
-                        </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label">Status</label>
-                            <select style="width: 100%; padding: 9px; "  id="StatusId" name="StatusId" >
-			            		<?php if (count($AllStatus)>0) {
 
-			                            foreach ($AllStatus as  $value) {
-			                                echo '<option id="'.$value['Color'].'" value="'.$value['HousekeepingStatusId'].'">'.$value['Name'].'</option>';
-			                            }
-			                        } ?>
-				        	</select>
-                        </div>
-                       
-                        <div class="clearfix"> </div>
-                        <br>
-                        <br>
-                        <div class="buttons-ui">
-                            <a onclick="updateStatus()" class="btn green">Change</a>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <script src="<?php echo base_url();?>user_asset/back/js/colorpicker.js"></script>
 <script type="text/javascript">
+var bulkupdate =0;
 	$('#color').simpleColor();
+  function updatestatusbulk(){
 
 
-	function changeStatus(roomid,roomnumber,statusid,roomtype)
-	{	
-		$("#roomid").val(roomid);
-		$("#oldstatusid").val(statusid);
-		$("#roomnumber").html(roomnumber);
-		$("#RoomNumber").val(roomnumber);
-		$("#roomtype").html(roomtype);
-		$("#StatusId").val(statusid);
-		$("#changestatus").modal();
-	}
+    $.ajax({
+          type: "POST",
+          //dataType: "json",
+          url: "<?php echo lang_url(); ?>housekeeping/updateStatusBulk",
+          data: $("#informacion").serialize(),
+          success: function(msg) {
+            alert(msg);return;
+              if (msg["success"]) {
+
+              } else {
+                  swal({
+                      title: "upps, Sorry",
+                      text:  msg["message"],
+                      icon: "warning",
+                      button: "Ok!",
+                  });
+              }
+          }
+      });
+  }
+  function ShowBulk()
+  {
+    bulkupdate =(bulkupdate==0?1:0);
+    $(".bulkupdate").css('display',(bulkupdate==1?'':'none'));
+
+  }
+  function changeList(number)
+  {
+      $('#myTable').DataTable({
+         dom: 'Bfrtip',
+         "destroy":true,
+         "displayLength": number,
+         buttons: [
+             'copy', 'csv', 'excel', 'pdf', 'print'
+         ],
+         "order": [[ 0, "asc" ]]
+     });
+
+     if(bulkupdate==1){
+       $(".bulkupdate").css('display','');
+     }
+
+  }
 	function List()
 	{
 		$.ajax({
 		        type: "POST",
 		        //dataType: "json",
 		        url: "<?php echo lang_url(); ?>housekeeping/RoomListHTML",
-		        data: {'status':$("#HousekeepingStatusId").val()},
+		        data: {'status':$("#HousekeepingStatusId").val(),'roomid':$("#RoomTypeId").val()},
 		        beforeSend: function() {
 		            showWait();
 		            setTimeout(function() { unShowWait(); }, 10000);
@@ -192,21 +233,27 @@
 		        success: function(msg) {
 		            unShowWait();
 		           $("#AllRoomId").html(msg);
-
+               $('.inline_username').editable({
+                 url: function (params) {
+                    return updateStatus(params);
+                 }
+             });
 		             $('#myTable').DataTable({
 		                dom: 'Bfrtip',
+                    "displayLength": $("#displaynumber").val(),
 		                buttons: [
 		                    'copy', 'csv', 'excel', 'pdf', 'print'
 		                ],
 		                "order": [[ 0, "asc" ]]
 		            });
-
-
+                $('#myTable_paginate').click(function(){
+                  $(".bulkupdate").css('display',(bulkupdate==1?'':'none'));
+                });
 		        }
 		    });
 	}
 	function saveStatus()
-	{	
+	{
 
 
 		if ($("#statusname").val().length==0) {
@@ -268,61 +315,20 @@
 		        }
 		    });
 	}
-	function updateStatus()
-	{	
+	function updateStatus(params)
+	{
+    var data={'name':params['name'],'pk':params['pk'],'value':params['value']};
+    pk=params['pk'].split(',');
 
-		
-		if ($("#StatusId").val()==0 || $("#StatusId").val()==null) {
-			 swal({
-            title: "upps, Sorry",
-            text: "Select a Status To Continue!",
-            icon: "warning",
-            button: "Ok!",
-	        });
-	        return;
-		}
-		if ($("#oldstatusid").val()==$("#StatusId").val()) {
-			 swal({
-            title: "upps, Sorry",
-            text: "You Must Select a Different Status To Continue!",
-            icon: "warning",
-            button: "Ok!",
-	        });
-	        return;
-		}
 		  $.ajax({
 		        type: "POST",
 		        dataType: "json",
 		        url: "<?php echo lang_url(); ?>housekeeping/updateStatus",
-		        data: $("#statusUP").serialize(),
-		        beforeSend: function() {
-		            showWait();
-		            setTimeout(function() { unShowWait(); }, 10000);
-		        },
+		        data: data,
 		        success: function(msg) {
-		            unShowWait();
 		            if (msg["success"]) {
-		                swal({
-		                    title: "Success",
-		                    text: "Status Changed!",
-		                    icon: "success",
-		                    button: "Ok!",
-		                }).then((n) => {
-		                	//<a  >'.$value['HousekeepingStatus'].' </a>
-
-
-		                	var update ="'"+$("#roomid").val()+"','"+$("#RoomNumber").val()+"','"+$("#StatusId").val()+"','"+$("#name"+$("#roomid").val()+"r"+$("#RoomNumber").val()).html()+"'";
-		                	var combo = document.getElementById("StatusId");
-							var selected = combo.options[combo.selectedIndex].text;
-							$("#row"+$("#roomid").val()+"r"+$("#RoomNumber").val()).css('background-color',combo.options[combo.selectedIndex].id);
-
-		                    $("#"+$("#roomid").val()+"r"+$("#RoomNumber").val())
-		                    .html('<h3><span  class="label label-primary"><a style="color:white" onclick="changeStatus('+update+')" data-toggle="tooltip" data-placement="bottom" title="Change Status">'+selected+' <i class="fa fa-exchange-alt"></i></a></span></h3>');
-		                    $("#closechange").trigger('click');
-
-		                });
+		               $("#row"+pk[0]+"r"+pk[1]).css('background-color',msg['color']);
 		            } else {
-
 		                swal({
 		                    title: "upps, Sorry",
 		                    text:  msg["message"],
@@ -330,7 +336,6 @@
 		                    button: "Ok!",
 		                });
 		            }
-
 		        }
 		    });
 	}
@@ -355,7 +360,7 @@
 	$(document).ready(function() {
 
   		List();
-    
+
 	});
 	function csv() {
     	$(".buttons-csv").trigger("click");

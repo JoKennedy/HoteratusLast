@@ -158,9 +158,10 @@ class Reservation_model extends CI_Model
 
         return $notes;
     }
-    function invoicepaymentapply($reservationinvoiceid,$paymenttypeid,$amount,$paymentmethod,$username)
+    function invoicepaymentapply($reservationinvoiceid,$paymenttypeid,$amount,$paymentmethod,$username,$currency)
     {
-
+        $results['success']=false;
+        $results['message']='';
         $invoiceinfo=$this->db->query("SELECT * from reservationinvoice
                                     where reservationinvoiceid =$reservationinvoiceid
                                     ")->row_array();
@@ -184,20 +185,23 @@ class Reservation_model extends CI_Model
                                     group by a.number, a.datecreate")->row_array();
         $deuda=$result['Total'] -$pagado['total'];
 
+        if($deuda==0)
+        {
+             $results['message']='Has no outstanding balance, check and try again';
+             return $results;
+        }
+        else if ($amount >$deuda) {
+             $results['message']= 'The amount is different from the debt, check and try again';
+             return $results;
+             
+        }
 
-            if($deuda==0)
-            {
-                return 'Has no outstanding balance, check and try again';
-            }
-            else if ($amount !=$deuda) {
-                 return 'The amount is different from the debt, check and try again';
-            }
 
 
-        if ($paymentmethod==0) {
+        if ($paymenttypeid==1) {
 
             
-              $cash= array('reservationinvoiceid' =>($reservationinvoiceid) , 'paymenttypeid' =>($paymenttypeid),'amount' =>$amount,'comments' =>'','datecreate' =>date('Y-m-d H:i:s'),'paymentmethod' =>$paymentmethod);
+              $cash= array('reservationinvoiceid' =>($reservationinvoiceid) , 'paymenttypeid' =>($paymenttypeid),'amount' =>$amount,'comments' =>'','datecreate' =>date('Y-m-d H:i:s'),'paymentmethod' =>$paymentmethod,'currency'=>$currency);
 
              if(insert_data('reservationpaymenttype',$cash))
                 {
@@ -206,17 +210,10 @@ class Reservation_model extends CI_Model
                     $data = array('channel_id'=>$invoiceinfo['channelId'],'Userid'=>$userid,'reservation_id'=>$invoiceinfo['reservationId'],'description'=>$description,'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>0);
                     insert_data('new_history',$data);
                 }
+                $results['success']=true;
+               return $results;
+        }
 
-            return '0';
-        }
-        elseif ($paymentmethod==1) {
-            
-            return 'Stripe is not active to apply payments';
-        }
-        else
-        {
-            return 'uncollected collection Type, Payment not applied';
-        }
     }
     function reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails)
     {

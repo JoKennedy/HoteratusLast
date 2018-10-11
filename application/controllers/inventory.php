@@ -727,11 +727,7 @@ class Inventory extends Front_Controller
     }
     function main_full_update()
     {
-        if (admin_id() == '') {
-            $this->is_login();
-        } else {
-            $this->is_admin();
-        }
+
         $main_full_update = $this->inventory_model->main_full_update();
         /* if($main_full_update)
         {
@@ -2699,12 +2695,6 @@ class Inventory extends Front_Controller
     
     function inline_edit_no($data = array())
     {
-        $name=$_POST['name']
-        $datos['testt']=$_POST['name'];
-print_r($_POST);
-
-        insert_data('test',$datos);
-     return;
         if (admin_id() == '') {
             $this->is_login();
         } else {

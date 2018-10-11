@@ -484,9 +484,6 @@ if(falta==1)return;
             });
         },
         
-        success: function(msg) {
-           alert(msg);
-        }
     });
 
 

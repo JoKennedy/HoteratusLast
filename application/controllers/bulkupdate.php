@@ -41,6 +41,7 @@ class bulkupdate extends Front_Controller
 	{	
 
 		$this->is_login();
+		ini_set('max_execution_time', 60000);
 
 		$countdate=count($_POST['date1Edit']);
 		$DatesRange=array();

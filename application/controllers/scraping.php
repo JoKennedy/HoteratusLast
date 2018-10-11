@@ -130,12 +130,12 @@ class scraping extends Front_Controller {
 	}
 	public function ScrapingBooking($start)
 	{
-		ini_set('max_execution_time', 0);
+		ini_set('max_execution_time', 12000);
 		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
 
-			 for ($i=$start; $i <($start+360) ; $i++) { 
+			 for ($i=$start; $i <($start+90) ; $i++) { 
 
 				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;	 
 			}

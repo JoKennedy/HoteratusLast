@@ -62,9 +62,11 @@ class housekeeping extends Front_Controller {
 									  $CurrentStatus='<a style="padding: 0px; color:white;" href="#" class="inline_username" data-type="select" data-pk="'
 										.$value['property_id'].','.$value['RoomNumber'].'" data-name="HousekeepingStatusId" data-value="'.$value['HousekeepingStatusId'].'" data-source="'.lang_url().'housekeeping/HousekeepingStatusList" data-title="Change Housekeeping Status"></a>';
 
-                    $html.=' <tr id="row'.$value['property_id'].'r'.$value['RoomNumber'].'"scope="row"  style="background-color:'.$value['HousekeepingColor'].'">
+                    $html.=' <tr id="row'.$value['property_id'].'r'.$value['RoomNumber'].'" scope="row"  style="background-color:'.$value['HousekeepingColor'].'">
 										<th style="text-align:center;" scope="row"><h4><span class="label label-primary">'.$value['RoomNumber'].'</span></h4> </th>
-										<td class="bulkupdate" style="text-align:center; display:none;" scope="row"><h4><span class="label label-primary"><input class="select" name="select[]" value="'.$value['property_id'].','.$value['RoomNumber'].'" type="checkbox"></span></h4> </td>
+										<td class="bulkupdate" style="text-align:center; display:none;" scope="row"><h4>
+										<span class="label label-primary"><input id="'.$value['property_id'].'r'.$value['RoomNumber'].'" class="select"
+										name="select[]" value="'.$value['property_id'].','.$value['RoomNumber'].'" type="checkbox"></span></h4> </td>
                     	<td style="text-align:center;" ><h3><span id="name'.$value['property_id'].'r'.$value['RoomNumber'].'" class="label label-primary">'.$value['property_name'].'</span></h3>  </td>
                     	<td id="'.$value['property_id'].'r'.$value['RoomNumber'].'" style="text-align:center; "> <h3><span  class="label label-primary">'.$CurrentStatus.' <i class="fa fa-exchange-alt"></i></span></h3> </td>
                    		 </tr>  ';

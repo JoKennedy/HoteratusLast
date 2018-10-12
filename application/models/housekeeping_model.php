@@ -90,26 +90,33 @@ class housekeeping_model extends CI_Model{
 	}
 	function updateStatusBulk($datos)
 	{
-		var_dump($datos);
 
-		return;
-		$pk=explode(',',$datos['pk']);
-		$value=$datos['value'];
-
-		$data['RoomId']=$pk[0];
-		$data['RoomNumber']=$pk[1];
-		$data['HousekeepingStatusId']=$value;
-		$data['UserId']=user_id();
-
-		$result['success']=false;
-		$result['message']='Something went Wrong';
-		if(insert_data('housekeepingroomstatus',$data))
-		{	$color=$this->db->query("select Color from housekeepingstatus where HousekeepingStatusId=".$value)->row_array();
+		try {
+			$statusid=$datos['statusbulk'];
+			$roomToUpdate=$datos['select'];
 			$result['success']=true;
+			$result['message']='Something went Wrong';
+			foreach ($roomToUpdate as  $value) {
+				$room=explode(',',$value);
+				$data['RoomId']=$room[0];
+				$data['RoomNumber']=$room[1];
+				$data['HousekeepingStatusId']=$statusid;
+				$data['UserId']=user_id();
+				insert_data('housekeepingroomstatus',$data);
+			}
+			$color=$this->db->query("select Color,Name from housekeepingstatus where HousekeepingStatusId=".$statusid)->row_array();
 			$result['color']=$color['Color'];
+			$result['name']=$color['Name'];
+			$result['id']=$statusid;
+			echo json_encode($result);
+		} catch (\Exception $e)
+		{
+			$result['success']=false;
+			echo json_encode($result);
 		}
 
-		echo json_encode($result);
+
+
 	}
 	public function HousekeepingStatusList()
 	{

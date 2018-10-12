@@ -36,9 +36,9 @@ h3.popover-title {
 				<div style="float: left;" class="buttons-ui">
                 <select onchange="changeList(this.value)" id="displaynumber" class="green">
                     <option value="10">10</option>
-                    <option value="25" selected>25</option>
+                    <option value="25" >25</option>
                     <option value="50">50</option>
-                    <option value="100">100</option>
+                    <option value="100" selected>100</option>
                     <option value="200">200</option>
 
                 </select>
@@ -172,18 +172,52 @@ h3.popover-title {
 <script src="<?php echo base_url();?>user_asset/back/js/colorpicker.js"></script>
 <script type="text/javascript">
 var bulkupdate =0;
+var vcount =0;
 	$('#color').simpleColor();
   function updatestatusbulk(){
 
+    if ($("#statusbulk").val()==0) {
+       swal({
+            title: "upps, Sorry",
+            text: "Select a Status To Continue!",
+            icon: "warning",
+            button: "Ok!",
+          });
+          return;
+    }
+
+    $('input[class=select]:checked').each(function() {
+      vcount =1;
+    });
+
+    if(vcount==0)
+    {
+      swal({
+           title: "upps, Sorry",
+           text: "Select a Room Number To Continue!",
+           icon: "warning",
+           button: "Ok!",
+         });
+         return;
+    }
+vcount=0;
 
     $.ajax({
           type: "POST",
-          //dataType: "json",
+          dataType: "json",
           url: "<?php echo lang_url(); ?>housekeeping/updateStatusBulk",
           data: $("#informacion").serialize(),
           success: function(msg) {
-            alert(msg);return;
+
               if (msg["success"]) {
+                $('input[class=select]:checked').each(function() {
+                  $("#row"+$(this).prop("id")).css('background-color',msg['color']);
+                    $("#row"+$(this).prop("id")+' a').attr('data-value',msg['id']);
+                    $("#row"+$(this).prop("id")+' a').html(msg['name']);
+                  $(this).prop("checked",false);
+                });
+
+                ShowBulk();
 
               } else {
                   swal({
@@ -215,7 +249,7 @@ var bulkupdate =0;
      });
 
      if(bulkupdate==1){
-       $(".bulkupdate").css('display','');
+       $(".bulkupdate").css('display',(bulkupdate==1?'':'none'));
      }
 
   }

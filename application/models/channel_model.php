@@ -1,4 +1,4 @@
-<?php 
+<?php
 ini_set('memory_limit', '-1');
 ini_set('display_errors','1');
 class channel_model extends CI_Model
@@ -10,7 +10,7 @@ class channel_model extends CI_Model
 		//$this->db->where('user_password',$this->input->post('login_pwd'));
 		$res = $this->db->get(TBL_USERS);
 
-		
+
 		if($res->num_rows()>0)
 		{
 			$result = $res->row();
@@ -20,13 +20,13 @@ class channel_model extends CI_Model
 
 
 			if($check)
-			{	  
+			{
 				if($result->attempt_cnt<=6 && $result->pw_ck=='0' || $result->pw_ck=='2')
-					{  
-						if($result->pw_ck=='0'){				 	
+					{
+						if($result->pw_ck=='0'){
 					 	$pdata = array('pw_ck'=>'1');
-					 	$Updatess = update_data(TBL_USERS,$pdata,array('user_id'=>$result->user_id));				 	
-					   } 
+					 	$Updatess = update_data(TBL_USERS,$pdata,array('user_id'=>$result->user_id));
+					   }
 
 						$Adata = array('attempt_cnt'=>'0');
 						$Update_attempt = update_data(TBL_USERS,$Adata,array('user_id'=>$result->user_id));
@@ -44,19 +44,19 @@ class channel_model extends CI_Model
 					else
 					{
 						if($result->User_Type=='1')
-						{					
+						{
 							$this->session->set_userdata('ch_user_id',$result->user_id);
 							$this->session->set_userdata('ch_user_type',$result->User_Type);
 							$hotel_id = get_data(HOTEL,array('owner_id'=>$result->user_id))->row()->hotel_id;
 							$this->session->set_userdata('ch_hotel_id',$hotel_id);
 							if($result->pw_ck=='2')
-							{							
+							{
 							   return 1;
 							}
 							/*elseif($result->pw_ck=='1')
-							{	*/						
+							{	*/
 								return 12;
-							/*}*/	
+							/*}*/
 						}
 						elseif($result->User_Type=='2')
 						{
@@ -70,7 +70,7 @@ class channel_model extends CI_Model
 							$this->session->set_userdata('ch_hotel_id',$hotel_id);
 							$this->session->set_userdata('specialpermitid',$assingn_hotel['specialpermitids']);
 							if($result->pw_ck=='2')
-							{							
+							{
 							   return 1;
 							}
 
@@ -79,12 +79,12 @@ class channel_model extends CI_Model
 					}
 				}
 				else
-				{ 
+				{
 					return 10;
 				}
 		  }
 			else
-			{					
+			{
 			$attempt_cnt = $result->attempt_cnt;
 			if($attempt_cnt!='')
 			{
@@ -96,31 +96,31 @@ class channel_model extends CI_Model
 			    {
 			    	$Cnt = $result->attempt_cnt;
 			    }
-			}	
+			}
 			else
 			{
 				$Cnt = 1;
-			}		
-	     	
-	     	$login_cnt = $result->attempt_cnt;	
+			}
+
+	     	$login_cnt = $result->attempt_cnt;
 
 			if($login_cnt<=6)
-			{					
+			{
 				if($result->pw_ck=='0')
-				{		 	
+				{
 			 		$pdata = array('pw_ck'=>'1');
-			 		$Updatess = update_data(TBL_USERS,$pdata,array('user_id'=>$result->user_id));				 	
-			    } 
+			 		$Updatess = update_data(TBL_USERS,$pdata,array('user_id'=>$result->user_id));
+			    }
 
 				$Udate = array('attempt_cnt'=>$Cnt);
 				$update_user = update_data(TBL_USERS,$Udate,array('user_id'=>$result->user_id));
 				if($login_cnt==6)
-				{					
+				{
 
-						$seed = str_split('abcdefghijklmnopqrstuvwxyz'.'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.'0123456789!@#$%^&*()'); 
-						shuffle($seed);  
+						$seed = str_split('abcdefghijklmnopqrstuvwxyz'.'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.'0123456789!@#$%^&*()');
+						shuffle($seed);
 						 $rand = '';
-						foreach (array_rand($seed, 10) as $k) 
+						foreach (array_rand($seed, 10) as $k)
 						{
 						  $rand .= $seed[$k];
 						}
@@ -128,7 +128,7 @@ class channel_model extends CI_Model
 
 						$t_hasher = new PasswordHash(8, FALSE);
 
-						$hash = $t_hasher->HashPassword($password);		
+						$hash = $t_hasher->HashPassword($password);
 
 						$old_password = $result->user_password;
 
@@ -138,9 +138,9 @@ class channel_model extends CI_Model
 
 						if($new_count>=4)
 						{
-							$new = array($hash=>"1");	
+							$new = array($hash=>"1");
 
-							$passs = array_shift($org_pass);			
+							$passs = array_shift($org_pass);
 
 							$insert_pass = array_merge($org_pass, $new);
 
@@ -153,18 +153,18 @@ class channel_model extends CI_Model
 							$insert_pass = array_merge($org_pass, $new);
 
 							$encode_password = json_encode($insert_pass);
-						}	
+						}
 
 						$updata['password']=$hash;
 
 						$updata['user_password'] = $encode_password;
 
-						
+
 						/*echo '<pre>';
 						print_r($updata);die;*/
 
 						if(update_data(TBL_USERS,$updata,array('user_id'=>$result->user_id)))
-						{							
+						{
 						$user_info = get_data(TBL_USERS,array('user_id'=>$result->user_id))->row();
 
 						$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
@@ -186,7 +186,7 @@ class channel_model extends CI_Model
 						'###NAME###'=>$result->fname.' '.$result->lname,
 						'###password###'=>$password,
 						'###SITENAME###'=>$admin_detail->company_name,
-						);			
+						);
 
 						$subject_data = array(
 						'###SITENAME###'=>$admin_detail->company_name,
@@ -200,25 +200,25 @@ class channel_model extends CI_Model
 						$this->email->message($content_pop);
 
 						if($this->email->send())
-						{							
+						{
 						//send_notification($admin_detail->email_id,$this->input->post('email_address'),$content_pop,$subject_new);
 						}
 						 return 8;
 						}
 						else
-						{							
+						{
 						 return false;
 						}
-					
-				}					
-			}			
+
+				}
+			}
 			//	return 0;
 			}
-			
-		} 
+
+		}
 		else
 		{
-			
+
 			return 0;  // no account..
 		}
 	}
@@ -276,10 +276,10 @@ class channel_model extends CI_Model
 			$user_emal = get_data('manage_users',array('user_id'=>$user_id))->row_array();
 
 			$check = $hasherpass->CheckPassword($oldpass, $user_emal['password']);
-			
+
 
 			if ($check) {
-				
+
 				$hash = $hasherpass->HashPassword($newpass);
 				$cdata['password']=$hash;
 				update_data('manage_users',$cdata,array('user_id'=>$user_id));
@@ -293,7 +293,7 @@ class channel_model extends CI_Model
 
 	}
 	function savenewuserassg($infouser)
-	{	
+	{
 		$hasherpass = new PasswordHash(8, FALSE);
 		$data['User_Type']=2;
 		$data['owner_id']=user_id();
@@ -331,7 +331,7 @@ class channel_model extends CI_Model
 
 	}
 	function updatenewuserassg($infouser)
-	{	
+	{
 		$hasherpass = new PasswordHash(8, FALSE);
 		$data['fname']=$infouser['fnameup'];
 		$data['lname']=$infouser['lnameup'];
@@ -340,7 +340,7 @@ class channel_model extends CI_Model
 		{
 			$data['password']=$hasherpass->HashPassword($infouser['passwordup']);
 		}
-		
+
 
 
 
@@ -385,7 +385,7 @@ class channel_model extends CI_Model
 		$result['message']='';
 		if(strlen($_FILES["Image"]['name'])>5)
 		{
-			 $file = $_FILES["Image"];		   	
+			 $file = $_FILES["Image"];
 		    $nombre = $file["name"] ;
 		    $tipo = $file["type"];
 		    $ruta_provisional = $file["tmp_name"];
@@ -415,18 +415,18 @@ class channel_model extends CI_Model
 		    }
 		    else
 
-		    {	
-		    	
+		    {
+
 		       	$src = $carpeta.hotel_id().$nombre;
 			    move_uploaded_file($ruta_provisional, $src);
 
-			    $data['Logo']="/".$src; 
+			    $data['Logo']="/".$src;
 		    }
-		    
+
 		}
 
 		if (count($exist)>0) {
-			
+
 			update_data('bill_info',$data,array('hotel_id'=>$hotelid));
 			$result['success']=true;
 			$result['value']=2;
@@ -457,11 +457,11 @@ class channel_model extends CI_Model
 		{
 			return false;
 		}
-		
+
 	}
 	function updatePaymentMethod()
 	{
-		
+
 		$data['email']=$_POST['emailup'];
 		$data['apikey']=$_POST['apikeyup'];
 		$data['merchantid']=$_POST['merchantidup'];
@@ -475,7 +475,7 @@ class channel_model extends CI_Model
 		{
 			return false;
 		}
-		
+
 	}
 	function saveTax()
 	{
@@ -549,7 +549,7 @@ class channel_model extends CI_Model
 		}
 		$row = $query->row();
 		$getvl=$row->connected_channel;
-        $exp_hids=explode(",",$getvl); 
+        $exp_hids=explode(",",$getvl);
 		$connected_channel = array_unique($exp_hids);
 		$this->db->select('*');
 		$this->db->where_in('channel_id',$connected_channel);
@@ -561,11 +561,11 @@ class channel_model extends CI_Model
 		$hotel_id=hotel_id();
 
 
-	$result = $this->db->query("SELECT case status when 'Active' then 1 when 'new' then 2 when 'Process' then 3 else 0 end status, a.channel_name,image, 
-		(select count(*) from user_connect_channel where hotel_id= $hotel_id and channel_id=a.channel_id ) conect, channel_id
-		FROM manage_channel a  order by channel_name")->result_array();
+		$result = $this->db->query("SELECT case status when 'Active' then 1 when 'new' then 2 when 'Process' then 3 else 0 end status, a.channel_name,image,
+			(select count(*) from user_connect_channel where hotel_id= $hotel_id and channel_id=a.channel_id ) conect, channel_id
+			FROM manage_channel a  order by channel_name")->result_array();
 
-		return $result;
+			return $result;
 	}
 
 
@@ -574,11 +574,11 @@ class channel_model extends CI_Model
 		$hotel_id=hotel_id();
 		$repuesta='';
 		$contador=0;
-		
-		
 
-		for ($i=0; $i <=29 ; $i++) { 
-		
+
+
+		for ($i=0; $i <=30 ; $i++) {
+
 			$fecha=date('Y-m-d',strtotime($date1."+$i days"));
 
 			$path="uploads/logo/small/475551.png";
@@ -593,11 +593,11 @@ class channel_model extends CI_Model
 					left join import_mapping_BOOKING c on a.id= c.B_room_id and a.rate_id = c.B_rate_id
 					left join roommapping d on c.import_mapping_id=d.import_mapping_id and d.channel_id=2
 					left join manage_property e on d.property_id = e.property_id
-					WHERE  '$fecha' between a.arrival_date and 
+					WHERE  '$fecha' between a.arrival_date and
 					DATE_ADD(a.departure_date, INTERVAL -1 DAY)
 					and a.hotel_hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid and a.status <>'cancelled'")->row_array();
 			}
-			
+
 
 
 			if (isset($result['noche'])){
@@ -609,7 +609,7 @@ class channel_model extends CI_Model
 				$result['noche']= ceil(abs(strtotime($result['date2']) - strtotime($result['date1'])) / 86400);
 
 				$color=($result['status']=='Checkin'?'#096fbf':($result['status']=='Checkout'?'#FF5733':'#52c748') )  ;
-				
+
 				if ($contador>0) {
 					$repuesta .= '<td bgcolor="#E5E7E9" COLSPAN="'.$contador.'" > </td>';
 					$contador=0;
@@ -617,23 +617,23 @@ class channel_model extends CI_Model
 				$repuesta .= '<td onclick="gotoreser('."'".site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id']))."'".')" bgcolor="'.$color.'" COLSPAN="'.$result['noche'].'" > <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'"> </td>';
 
 				$i += $result['noche']-1;
-				
+
 			}
 			else
 			{
 				$repuesta .= '<td bgcolor="#E5E7E9"  > </td>';
-				
+
 			}
 		}
 
-		
+
 		return $repuesta;
 
 
 	}
 	function calendarFull()
 	{
-		
+
 		$ss=$_POST['sales'];
 		$cta=$_POST['cta'];
 		$ctd=$_POST['ctd'];
@@ -642,7 +642,7 @@ class channel_model extends CI_Model
 		$dataini=(date('m')==$_POST['monthid'] && date('Y')==$_POST['yearid']?date('Y-m-d'):date('Y-m-d',strtotime($_POST['yearid'].'-'.$_POST['monthid'].'-01')));
 		if($_POST['opt']==2)
 		{
-			$test=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array(); 
+			$test=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array();
 
 			if(count($test)>0)
 			{
@@ -661,40 +661,40 @@ class channel_model extends CI_Model
 		$fecha = new DateTime();
 		$fecha->modify('last day of this month');
 		$lastday= $fecha->format('d');
-		
 
-		
+
+
 		$hotel_id=hotel_id();
 
-		
+
 		$html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB" > ';
 		 $header1='<thead> <tr> <th style="text-align:center; "> Room Name </th>';
 		 $header2=' <thead> <tr> <th bgcolor="#E5E7E9"> </th> <th bgcolor="#E5E7E9"></th>';
 
 		 $mes= '';
-		 for ($i=0; $i <=29 ; $i++) { 
+		 for ($i=0; $i <=30 ; $i++) {
 		 	$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 
-		 	
+
 		 	 if ($mes!=date('Y M',strtotime($date1."+$i days"))) {
 		 	 	$mes=date('Y M',strtotime($date1."+$i days"));
 
 		 	 	$dia =date('d',strtotime($date1."+$i days"));
 
 		 	 	$header1 .='<th  COLSPAN="'.($i==0?($lastday-($dia-1))+1:30-($i-1)) .'" style="text-align:center; margin: 15px; padding: 15px;"> '.$mes.' </th>';
-		 	
+
 
 		 	 }
 		 	 $dias=date('D',strtotime($date1."+$i days"));
-		 	 $header2.= '<th bgcolor="'.($dias=='Sat' || $dias=='Sun'?'#FBFCFC':'#E5E7E9').'" style=" font-size:15px; text-align:center;  margin: 10px; padding: 5px;">'.date('d',strtotime($date1."+$i days")).'<br>'.$dias.'</th>';	
-		 	 
+		 	 $header2.= '<th bgcolor="'.($dias=='Sat' || $dias=='Sun'?'#FBFCFC':'#E5E7E9').'" style=" font-size:15px; text-align:center;  margin: 10px; padding: 5px;">'.date('d',strtotime($date1."+$i days")).'<br>'.$dias.'</th>';
+
 
 		 }
 
-		
+
 		 $header1 .=' </tr> </thead> ';
 		 $header2 .='	</tr> </thead>';
-		 
+
 
 
 		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by property_name ")->result_array();
@@ -705,7 +705,7 @@ class channel_model extends CI_Model
 
 			$roomid=$value['property_id'];
 			$ratetype=$this->db->query("select * from ratetype where roomid = ".$value['property_id']." order by name ")->result_array();
-			
+
 			$precio='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 			$avai='<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
 			$min = '<tr> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
@@ -721,7 +721,7 @@ class channel_model extends CI_Model
 			{
 				$faltan=$value['existing_room_count']-count($roomnumber);
 
-				for ($i=0; $i < $faltan; $i++) { 
+				for ($i=0; $i < $faltan; $i++) {
 					array_push($roomnumber, "f$i");
 				}
 			}
@@ -729,14 +729,14 @@ class channel_model extends CI_Model
 
 			$dato=null;
 
-			$datos= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_update where hotel_id = $hotel_id  and room_id =".$value['property_id']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y')  ")->result_array(); 	
+			$datos= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_update where hotel_id = $hotel_id  and room_id =".$value['property_id']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y')  ")->result_array();
 
-			 for ($i=0; $i <=29 ; $i++) { 
+			 for ($i=0; $i <=30 ; $i++) {
 		 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 
 			 		foreach ($datos as $value) {
 
-			 			
+
 			 			if(date('Y-m-d',strtotime($value['datereal']))==date('Y-m-d',strtotime($datereal)))
 			 			{
 			 				$dato=$value;
@@ -746,16 +746,16 @@ class channel_model extends CI_Model
 			 			{
 			 				$dato=null;
 			 			}
-			 			
+
 			 		}
 
-				
+
 				$Editprices=(isset($dato['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" " data-title="Change Price">'.floatval($dato['price']).'</a>':'Null');
 				$Editava=(isset($dato['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'"  data-title="Change Availability">'.intval($dato['availability']).'</a>':'Null');
 				$Editminimum=(isset($dato['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'"  data-title="Change Minimum Stay">'.intval($dato['minimum_stay']).'</a>':'Null');
-				
 
-		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$Editprices.'</td>';  
+
+		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$Editprices.'</td>';
 				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editava.' </td>';
 				$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimum.' </td>';
 				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' readonly=""/> </td>';
@@ -777,7 +777,7 @@ class channel_model extends CI_Model
 
 			foreach ($ratetype as  $rate) {
 
-				
+
 
 				$precio='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 				$avai='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
@@ -786,19 +786,19 @@ class channel_model extends CI_Model
 				$ctds = '<tr class="rate'.$rate['roomid'].'ctd" style="display:none"><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
 				$sss = '<tr class="rate'.$rate['roomid'].'ss" style="display:none"><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
 				$body .='<tr style="display:none" class="rate'.$rate['roomid'].'">  <td ROWSPAN="4" style="margin: 5px; padding:5px; color:#5dade2;">'.$rate['name'].'</td> </tr> ';
-				$room2='';	
-				
+				$room2='';
+
 
 				$dato=null;
 
-				$datosr= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_rate_types_base where hotel_id = $hotel_id  and room_id =".$rate['roomid']." and rate_types_id=".$rate['ratetypeid']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y') ")->result_array(); 	
+				$datosr= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_rate_types_base where hotel_id = $hotel_id  and room_id =".$rate['roomid']." and rate_types_id=".$rate['ratetypeid']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y') ")->result_array();
 
-				 for ($i=0; $i <=29 ; $i++) { 
+				 for ($i=0; $i <=30 ; $i++) {
 			 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 
 				 		foreach ($datosr as $valuer) {
 
-				 			
+
 				 			if(date('Y-m-d',strtotime($valuer['datereal']))==date('Y-m-d',strtotime($datereal)))
 				 			{
 				 				$dator=$valuer;
@@ -808,14 +808,14 @@ class channel_model extends CI_Model
 				 			{
 				 				$dator=null;
 				 			}
-				 			
+
 				 		}
 
 				 	$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
 				 	$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');
-				$Editminimumr=(isset($dator['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Minimum Stay">'.intval($dator['minimum_stay']).'</a>':'Null');
+					$Editminimumr=(isset($dator['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Minimum Stay">'.intval($dator['minimum_stay']).'</a>':'Null');
 
-			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';  
+			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';
 					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editavar.' </td>';
 					$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimumr.' </td>';
 					$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').' readonly=""/> </td>';
@@ -833,20 +833,20 @@ class channel_model extends CI_Model
 				$ctas .='</tr>';
 				$ctds .='</tr>';
 				$sss .='</tr>';
-				
+
 				$body .=$precio.$avai.$min.$ctas.$ctds.$sss;
 
-		 		
-		 	}
-			
-			if ($showr==1) {
 
+		 	}
+
+			if ($showr==1) {
+				//	$allreservations=$this->reservation_model->AllReservationList();
 					foreach ($roomnumber as  $rooms) {
 
-						
+
 						$housekeepingstatus=$this->db->query("select * from housekeepingstatus where HousekeepingStatusId= `RoomStatusHousekeeping` ($roomid,'$rooms') limit 1   ")->row_array();
 
-						
+
 
 						$attributes=$this->db->query("select * from room_attributes where AttributeId in(select AttributeIds from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ) order by AttributeCode")->result_array();
 
@@ -861,11 +861,11 @@ class channel_model extends CI_Model
 
 						$room2 .= $this->ReservationShow($rooms,$date1,$roomid);
 
-					}	
+					}
 
 
 			}
-			
+
 			$room2.='</tr>';
 			$body.=($showr==1?$room2:'');
 		}
@@ -875,15 +875,12 @@ class channel_model extends CI_Model
 		return $html.$header1.$header2.$body;
 
 
-
-
-		print_r($datos);
-
-		die;
-		return $html;
+	}
+	function showRoomNumbers()
+	{
 
 	}
-	function saveRateType(int $data) 
+	function saveRateType(int $data)
 	{
 		$data['hotelid']=hotel_id();
 		$data['created']=date('Y-m-d h:m:s');
@@ -898,9 +895,9 @@ class channel_model extends CI_Model
 			{
 				echo json_encode(array('success'=>false));
 			}
-			
+
 		} catch (Exception $e) {
-			
+
 			echo json_encode(array('success'=>false,'message'=>$e));
 		}
 
@@ -921,9 +918,9 @@ class channel_model extends CI_Model
 			{
 				echo json_encode(array('success'=>false));
 			}
-			
+
 		} catch (Exception $e) {
-			
+
 			echo json_encode(array('success'=>false,'message'=>$e));
 		}
 	}
@@ -994,14 +991,14 @@ class channel_model extends CI_Model
 			}
 			$datos['AttributeIds']=$AttributeIds;
 			insert_data('room_number_attributes',$datos);
-			
+
 		}
 
 		$result['success']=true;
 		echo json_encode($result);
 	}
 	function saveBasicInfoRoom($data)
-	{	
+	{
 		$roomid=insep_decode($data['roomid']);
 		$hotelid=insep_decode($data['hotelId']);
 		$info['property_name']=$data['roomname'];
@@ -1014,7 +1011,7 @@ class channel_model extends CI_Model
 		$info['area']=$data['Area'];
 		$info['description']=$data['description'];
 		$info['meal_plan']=$data['MealPlanid'];
-		
+
 		if(update_data('manage_property',$info,array('property_id'=>$roomid,'hotel_id'=>$hotelid)))
 		{
 			return 0;
@@ -1052,7 +1049,7 @@ class channel_model extends CI_Model
 		else
 		{
 			return 1;
-		}	
+		}
 	}
 	function updateRevenue($roomid,$hotelId,$maximo,$Percentage)
 	{
@@ -1069,23 +1066,23 @@ class channel_model extends CI_Model
 	}
 	function user_channel_hotel()
 	{
-		
-		
-		
+
+
+
 		// echo TBL_CHANNEL;
 		// echo "<br/>";
 		// echo MAP;
 		// echo "<br/>";
 		// echo  CONNECT;
-		
+
 		$query = $this->db->query('SELECT GROUP_CONCAT(C.channel_id) AS connected_channel FROM `'.CONNECT.'` C JOIN `'.MAP.'` M  ON M.channel_id=C.channel_id where C.user_id='.current_user_type().' AND C.hotel_id='.hotel_id().' AND C.status="enabled"');
 		$row = $query->row();
-		
+
 		$getvl=$row->connected_channel;
-		
-        $exp_hids	=explode(",",$getvl); 
+
+        $exp_hids	=explode(",",$getvl);
 		$connected_channel = array_unique($exp_hids);
-		
+
 		// echo $connected_channel;
 		// die;
 		$this->db->select('channel_id,channel_name');
@@ -1095,8 +1092,8 @@ class channel_model extends CI_Model
 		// die;
 		return $channel->result_array();
 	}
-	
-	
+
+
 
     function recom_channel()
 
@@ -1115,7 +1112,7 @@ class channel_model extends CI_Model
 
        $getvl=$row->connected_channel;
 
-       $exp_hids=explode(",",$getvl); 
+       $exp_hids=explode(",",$getvl);
 
        $connected_channel = array_unique($exp_hids);
 
@@ -1131,8 +1128,8 @@ class channel_model extends CI_Model
 
     }
 
-	
-	
+
+
 
     function hotel_channel()
 
@@ -1147,7 +1144,7 @@ class channel_model extends CI_Model
 
        $getvl=$row->connected_channel;
 
-       $exp_hids=explode(",",$getvl); 
+       $exp_hids=explode(",",$getvl);
 
        $connected_channel = array_unique($exp_hids);
 
@@ -1164,7 +1161,7 @@ class channel_model extends CI_Model
 
 
 
-	
+
 	function add_photo($filename)
 	{
 		$ho_id = get_data(TBL_PHOTO,array('room_id'=>insep_decode($this->input->post('hotel_id'))))->row_array();
@@ -1198,9 +1195,9 @@ class channel_model extends CI_Model
 				return false;
 			}
 		}
-		
+
 	}
-	
+
 	// Channel Section Start
 	function count_all_channels()
 	{
@@ -1222,7 +1219,7 @@ class channel_model extends CI_Model
 		$data['channel_subscribe_planid']  = insep_decode($payment_id);
 		$data['channel_subscribe_price'] = $plan_details->channel_price;
 		$data['channel_subscribe_method'] = 'CRIDIT CARD';
-		
+
 				if($plan_duration=='Month')
 				{
 					$plan = 1;
@@ -1247,49 +1244,49 @@ class channel_model extends CI_Model
 	}
 	function payment_success_mail($user_id='',$payment_id)
 	{
-		
+
 		$get_email_info		=	get_mail_template('14');
-		
+
 		$email_subject1= $get_email_info['subject'];
 
-		$email_content1= $get_email_info['message']; 
+		$email_content1= $get_email_info['message'];
 		if(insep_decode($payment_id)==1)
 		{
 			$plan_names = get_data(CHA_PLAN,array('channel_id'=>insep_decode($payment_id)))->row();
 			$plan_name = $plan_names->channel_price.' '.$plan_names->channel_plan;
 		}
-		else		
+		else
 		{
 			$plan_name = get_data(CHA_PLAN,array('channel_id'=>insep_decode($payment_id)))->row()->channel_plan;
 		}
 
 		$row=get_data(TBL_USERS,array('user_id'=>current_user_type()))->row();
 
-	  	$aa=array(  				 
+	  	$aa=array(
 
-		'###USERNAME###'=>$row->fname.' '.$row->lname, 		
+		'###USERNAME###'=>$row->fname.' '.$row->lname,
 
-		'###id###'=>$row->transaction_id, 
+		'###id###'=>$row->transaction_id,
 
-	    '###TYPE###'=>$plan_name, 
+	    '###TYPE###'=>$plan_name,
 
-		'###Validity###'=>$row->plan_to, 
+		'###Validity###'=>$row->plan_to,
 
-		'###status###'=>'Success', 		 
+		'###status###'=>'Success',
 
-		); 
+		);
 
 	$email_content=strtr($email_content1,$aa);
 	//print_r($email_content);
-	$admin_mail = get_data('site_config',array('id'=>'1'))->row(); 
+	$admin_mail = get_data('site_config',array('id'=>'1'))->row();
 
-	$this->mailsettings();   
+	$this->mailsettings();
 
 	$this->email->from($admin_mail->email_id);
 
-	$this->email->to($row->email_address); 
+	$this->email->to($row->email_address);
 
-	$this->email->subject($email_subject1); 
+	$this->email->subject($email_subject1);
 
 	$this->email->message($email_content);
 
@@ -1304,27 +1301,27 @@ class channel_model extends CI_Model
 
 
 	/*function mailsettings()
-	{ 	  
-		$this->load->library('email');  
+	{
+		$this->load->library('email');
 		$config['wrapchars'] = 76;  // Character count to wrap at.
 		$config['priority'] = 1;  // Character count to wrap at.
 		$config['mailtype'] = 'html'; // text or html Type of mail. If you send HTML email you must send it as a complete web page. Make sure you don't have any relative links or relative image paths otherwise they will not work.
 		$config['charset'] = 'utf-8'; // Character set (utf-8, iso-8859-1, etc.).
-		$this->email->initialize($config);	 	    
+		$this->email->initialize($config);
 	}*/
 
 	function mailsettings()
-	{ 	  
-		$this->load->library('email');  
+	{
+		$this->load->library('email');
 		$config['wrapchars'] = 76;  // Character count to wrap at.
 		$config['priority'] = 1;  // Character count to wrap at.
 		$config['mailtype'] = 'html'; // text or html Type of mail. If you send HTML email you must send it as a complete web page. Make sure you don't have any relative links or relative image paths otherwise they will not work.
 		$config['charset'] = 'utf-8'; // Character set (utf-8, iso-8859-1, etc.).
-		$this->email->initialize($config);	 	    
-	} 
+		$this->email->initialize($config);
+	}
 
 
-	// Channel Section End           
+	// Channel Section End
 
          function get_password(){
 		$this->db->where('user_id',$this->session->userdata('ch_user_id'));
@@ -1345,9 +1342,9 @@ class channel_model extends CI_Model
 			return true;
 		}
 		else{return false;}
-			
+
 	}
-	
+
 	/*function update_password($new_pass)
 	{
 		$t_hasher = new PasswordHash(8, FALSE);
@@ -1364,13 +1361,13 @@ class channel_model extends CI_Model
 
 
 	function update_password($new_pass)
-	{	
+	{
 
 		$t_hasher = new PasswordHash(8, FALSE);
 
-		$hash121212 = $t_hasher->HashPassword($new_pass);	
+		$hash121212 = $t_hasher->HashPassword($new_pass);
 
-		$user_password_det = get_data(TBL_USERS,array('user_id'=>$this->session->userdata('ch_user_id')));	
+		$user_password_det = get_data(TBL_USERS,array('user_id'=>$this->session->userdata('ch_user_id')));
 
 
 		if($user_password_det->num_rows()==1)
@@ -1380,28 +1377,28 @@ class channel_model extends CI_Model
 			$old_password = $password_det->user_password;
 
 			$org_pass = json_decode($old_password,true);
-					
+
 
 			$check12 = '';
 
 			if(is_array($org_pass))
 			{
 				  foreach($org_pass as $key=>$value){
-		    	
+
 		    		$check12 .= $t_hasher->CheckPassword($new_pass, $key);
-		    	}	
+		    	}
 			}
-		  	 
+
 
 			/*if (array_key_exists($hash121212,$org_pass))
-			{ 
+			{
 				echo 'sdsdjsd';die;
-			    return false;				
+			    return false;
 			}*/
 			if($check12!='')
 			{
 				//echo 'dsdsdsdsd isfdd';die;
-				return false;		
+				return false;
 			}
 			else
 			{
@@ -1416,13 +1413,13 @@ class channel_model extends CI_Model
 					{
 						$t_hasher = new PasswordHash(8, FALSE);
 
-			            $hash = $t_hasher->HashPassword($new_pass);	
+			            $hash = $t_hasher->HashPassword($new_pass);
 
-						$new = array($hash=>"1");	
+						$new = array($hash=>"1");
 					}
-					
 
-					$passs = array_shift($org_pass);							
+
+					$passs = array_shift($org_pass);
 
 					$insert_pass = array_merge($org_pass, $new);
 
@@ -1450,14 +1447,14 @@ class channel_model extends CI_Model
 
 					$t_hasher = new PasswordHash(8, FALSE);
 
-					$hash = $t_hasher->HashPassword($new_pass);	
+					$hash = $t_hasher->HashPassword($new_pass);
 
-					$new = array($hash=>"1");	
+					$new = array($hash=>"1");
 
 
 					$insert_pass = '';
 
-					$encode_password = json_encode($insert_pass);	
+					$encode_password = json_encode($insert_pass);
 
 					$update_pass = array('password'=>$hash,'user_password'=>$encode_password,'pw_ck'=>'2');
 
@@ -1471,11 +1468,11 @@ class channel_model extends CI_Model
 					{
 						return false;
 					}
-			 }	
-		   }		  
+			 }
+		   }
 	}
 }
-	
+
 	/*Start hiding from IE Mac \*/
 	function assign_hotels()
 	{
@@ -1495,7 +1492,7 @@ class channel_model extends CI_Model
 	/*Stop hiding from IE Mac */
 	//02/12/2015...
 	function all_users()
-	{	
+	{
 		$this->db->where('hotel_id',hotel_id());
 		if(user_type()=='1' || admin_id()!='' && admin_type()=='1'){
 			$this->db->where('owner_id',user_id());
@@ -1512,12 +1509,12 @@ class channel_model extends CI_Model
 			{
 				$assign_user[]= $assign->user_id;
 			}
-		
+
 		$this->db->where('owner_id',user_id());
 		$this->db->where_not_in('user_id',$assign_user);
 		$this->db->where('User_Type','2');
 		$res = $this->db->get('manage_users');
-		
+
 		if($res->num_rows > 0)
 		{
 			return $res->result();
@@ -1541,7 +1538,7 @@ class channel_model extends CI_Model
 			}
 		}
 	}
-	
+
 	function add_user()
 	{
 		$user_name = implode(',',$this->security->xss_clean($this->input->post('user_name')));
@@ -1585,7 +1582,7 @@ class channel_model extends CI_Model
 		return false;
 	}
 	}
-	
+
 	// update user...
 	function update_user($priviledge_id)
 	{
@@ -1606,11 +1603,11 @@ class channel_model extends CI_Model
 			return false;
 		}
 	}
-	
+
 	// delete users..
 	function delete_user($u_id,$us_id)
 	{
-		$result = $this->del_users();	
+		$result = $this->del_users();
 		$res = explode(',',$result->assigned_user);
 		$del = array_search($us_id,$res);
 		unset($res[$del]);
@@ -1623,7 +1620,7 @@ class channel_model extends CI_Model
 		delete_data(TBL_USERS,array('user_id'=>$us_id));
 		return true;
 	}
-	
+
 	// delete users....
 	function del_users(){
 		$this->db->where('owner_id',current_user_type());
@@ -1634,8 +1631,8 @@ class channel_model extends CI_Model
 			return $res->row();
 		}
 			return false;
-	}	
-	
+	}
+
 	// get access..
 	function get_access(){
 		$this->db->where('owner_id',user_id());
@@ -1646,7 +1643,7 @@ class channel_model extends CI_Model
 		}
 			return false;
 	}
-	
+
 	//get_user_list...
 	function get_user_list(){
 		$this->db->order_by('priviledge_id','desc');
@@ -1667,8 +1664,8 @@ class channel_model extends CI_Model
 			return false;
 		}
 	}
-	
-	//get user name 
+
+	//get user name
 	 function get_username($user_id)
 	{
 		$this->db->where('owner_id',current_user_type());
@@ -1683,8 +1680,8 @@ class channel_model extends CI_Model
 		{
 			return false;
 		}
-	} 
-	
+	}
+
 	function fetch_access($getacc){
 		$this->db->where('acc_id',$getacc);
 		$query = $this->db->get('user_access');
@@ -1694,7 +1691,7 @@ class channel_model extends CI_Model
 		}
 			return false;
 	}
-	
+
 	function get_user($priviledge_id){
 		$this->db->where('priviledge_id',$priviledge_id);
 		if(user_type()=='1' || admin_id()!='' && admin_type()=='1'){
@@ -1709,21 +1706,21 @@ class channel_model extends CI_Model
 			return $res->result();
 		}
 			return false;
-	}	
-	
-	
+	}
+
+
 
 function update_users($priviledge_id)
 {
 	$user_access = $this->security->xss_clean($this->input->post('access_options'));
-	
+
 	$access = json_encode($user_access);
 
     $data = array(
 					'access'=>$access,
                  );
     $this->db->where('owner_id',current_user_type());
-	
+
 	$this->db->where('user_id',insep_decode($this->input->post('user_id')));
 
     $this->db->where('hotel_id',hotel_id());
@@ -1750,7 +1747,7 @@ function update_users($priviledge_id)
 }
 
 
-	
+
 	// count_connected_channels...
 	function count_connected_channels(){
 		if(user_type()=='1' || admin_id()!='' && admin_type()=='1'){
@@ -1761,9 +1758,9 @@ function update_users($priviledge_id)
 		}
 		$this->db->where('hotel_id',hotel_id());
 		$res = $this->db->get('user_connect_channel');
-		return $res->num_rows;	
+		return $res->num_rows;
 	}
-	
+
 	function connected_channelss(){
 		if(user_type()=='1' || admin_id()!='' && admin_type()=='1'){
 			$this->db->where('user_id',current_user_type());
@@ -1778,8 +1775,8 @@ function update_users($priviledge_id)
 		}
 			return false;
 	}
-	
-	
+
+
 
     // channel_image...
 
@@ -1797,8 +1794,8 @@ function update_users($priviledge_id)
            return true;
 
     }
-	
-	
+
+
 
     function get_room_name(){
 
@@ -1815,9 +1812,9 @@ function update_users($priviledge_id)
     }
 
        $this->db->where('hotel_id',hotel_id());
-	   
+
 	   $this->db->where('status','Active');
-	   
+
 	   $this->db->order_by('property_id','desc');
 
        $res = $this->db->get('manage_property');
@@ -2049,10 +2046,10 @@ function get_connect_channels(){
 	$userid='';
 	$hotelid=hotel_id();
 	$today=date('Y-m-d');
-  
-	$sql = "SELECT a.status,b.channel_name,  
+
+	$sql = "SELECT a.status,b.channel_name,
 			(select error_message from channel_error where channel_id  = a.channel_id  and STR_TO_DATE(error_date_time ,'%m/%d/%Y') = '$today' ORDER BY error_date_time DESC LIMIT 1  ) message
-			FROM user_connect_channel a 
+			FROM user_connect_channel a
 			left join manage_channel b on a.channel_id =b.channel_id
 			where  a.hotel_id = $hotelid ";
 	$ver = $this->db->query($sql);
@@ -2068,9 +2065,9 @@ function allChannelsConnect(){
 	$userid='';
 	$hotelid=hotel_id();
 	$today=date('Y-m-d');
-	
-	$sql = "SELECT a.status,b.channel_name, a.channel_id 
-			FROM user_connect_channel a 
+
+	$sql = "SELECT a.status,b.channel_name, a.channel_id
+			FROM user_connect_channel a
 			left join manage_channel b on a.channel_id =b.channel_id
 			where a.hotel_id = $hotelid ";
 	$ver = $this->db->query($sql);
@@ -2091,7 +2088,7 @@ function allChannelsConnect(){
     	}else{
     		foreach($query->result() as $message)
     			return $message->error_message;
-    	} 
+    	}
     }
 
 	function get_channel_id($view_channel)
@@ -2109,7 +2106,7 @@ function allChannelsConnect(){
 		}
 	}
 
-        
+
     function new_notification()
     {
          $this->db->where('status','unseen');
@@ -2140,7 +2137,7 @@ function allChannelsConnect(){
     }
 
      //12/02/2016...
-     
+
     function total_today_reservation()
 	{
 		$this->db->where('user_id',current_user_type());
@@ -2171,7 +2168,7 @@ function getMappedRoom_Rate($channel_id)
 		GROUP BY `rate_id`
 		)
 		ORDER BY `property_id`");
-		
+
 		/* $query = $this->db->query("(
 		SELECT * FROM `roommapping`
 		WHERE `owner_id` = '".current_user_type()."' AND `hotel_id` = '".hotel_id()."' AND `channel_id` = '".$channel_id."' AND `rate_id` ='0'
@@ -2182,7 +2179,7 @@ function getMappedRoom_Rate($channel_id)
 		WHERE `owner_id` = '".current_user_type()."' AND `hotel_id` = '".hotel_id()."' AND `channel_id` = '".$channel_id."' AND `rate_id` !='0'
 		)
 		ORDER BY `property_id`"); */
-		
+
 		if($query)
 		{
 			return $query->result();
@@ -2219,16 +2216,16 @@ Thanks for cooperation<br>
 Best regards from<br>
 hoteratus team.";
 
-		$this->mailsettings();   
+		$this->mailsettings();
 		if($senderdetails != ""){
 			$this->email->from($senderdetails);
 		}else{
 			$this->email->from('connectivity@hoteratus.com');
 		}
 
-		$this->email->to($data['recipients']); 
+		$this->email->to($data['recipients']);
 
-		$this->email->subject($data['subject']); 
+		$this->email->subject($data['subject']);
 
 		$this->email->message($content);
 
@@ -2252,7 +2249,7 @@ hoteratus team.";
         {
            return true;
         }
-        return false;   
+        return false;
     }
 
      function insert($table,$data) {
@@ -2261,7 +2258,7 @@ hoteratus team.";
     }
 
      function get_details_unique($table,$field=null,$value=null,$field1=null,$value1=null)
-    {		
+    {
 		if($field!='')
 		{
 			$this->db->where($field, $value);
@@ -2269,8 +2266,8 @@ hoteratus team.";
 		if($field1!='')
 		{
 			$this->db->where($field1, $value1);
-		}				
-		$q = $this->db->get($table);		
+		}
+		$q = $this->db->get($table);
         return $q->row();
     }
 
@@ -2293,16 +2290,16 @@ hoteratus team.";
 		$email_content1 = $this->input->post('descrpation');
 		$email_subject1 = $this->input->post('subject');
         foreach ($email as  $email_address) {
-	   $aa=array(  				 
-         	'###status###'=>'Success', 		 
-         ); 
+	   $aa=array(
+         	'###status###'=>'Success',
+         );
 	    $email_content=strtr($email_content1,$aa);
-	    
-		$admin_mail = get_data('site_config',array('id'=>'1'))->row(); 
-		$this->mailsettings();   
+
+		$admin_mail = get_data('site_config',array('id'=>'1'))->row();
+		$this->mailsettings();
 		$this->email->from($admin_mail->email_id);
-		$this->email->to($email_address); 
-		$this->email->subject($email_subject1); 
+		$this->email->to($email_address);
+		$this->email->subject($email_subject1);
 		$this->email->message($email_content);
 		$this->email->send();
          }

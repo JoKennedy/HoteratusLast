@@ -22,7 +22,7 @@
                                         if (count($payment['type'])>0) {
                                             echo '<option value="0" onclick="Method(0)"  >Select a payment Type</option>';
                                             foreach ($payment['type'] as $value) {
-                                                
+
                                                 echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['paymenttypeid'].'">'.$value['description'].'</option>';
                                             }
                                         }
@@ -42,7 +42,7 @@
                                         if (count($payment['method'])>0) {
                                             echo '<option value="0" onclick="Method(0)"  >Select a Collection Type</option>';
                                             foreach ($payment['method'] as $value) {
-                                                
+
                                                 echo '<option  value="'.$value['providerid'].'">'.$value['name'].'</option>';
 
 
@@ -61,10 +61,10 @@
                             <select name="currency" id="currency" class="form-control1">
                                 <?php
 
-                                       
+
                                             echo '<option value="0" >Select a Currency</option>';
                                             foreach ($Currencies as $value) {
-                                                
+
                                                 echo '<option  value="'.$value['currency_code'].'"'.((isset($currency)?$currency:'USD')==$value['currency_code']?'selected':'').' >'.$value['currency_code'].'</option>';
                                             }
 
@@ -99,7 +99,9 @@
                     <div class="buttons-ui col-md-12">
                         <a type="button" class="btn red" data-dismiss="modal"><i class="fa fa-times"></i>Close</a>
                         <a id="submitpay" name="add" value="save" class="btn green"><i class="fa fa-check"></i> Submit Payment</a>
-                        <a onclick="showccinfo()" class="metocc btn yellow" style="display: none;">Show CC Info.</a>
+                        <?php  if ($User_Type==1 || in_array(3, $specialpermit)) {
+              						echo '<a onclick="showccinfo()" class="metocc btn yellow" style="display: none;">Show CC Info.</a>';
+              					} ?>
                     </div>
                     <div class="clearfix"></div>
                 </form>

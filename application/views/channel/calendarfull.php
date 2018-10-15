@@ -1,7 +1,7 @@
 <style type="text/css">
     .inline_username{
         color: black;
-        
+
     }
 
 </style>
@@ -34,10 +34,10 @@
                 <?php
 
 						$lastyear=date('Y',strtotime($YearM));
-						
-					    for ($i=$hoy['year']; $i <= $lastyear ; $i++) { 
+
+					    for ($i=$hoy['year']; $i <= $lastyear ; $i++) {
 					     	 echo '<option  value="'.$i.'"'.($i==$hoy['year']?'selected':'').' >'.$i.'</option>';
-					     } 
+					     }
 					?>
             </select>
         </div>
@@ -83,8 +83,8 @@
             <label class="check">
                 <input onclick=" showoption(this.id,this.checked)" id="ctd" type="checkbox">CTD</label>
         </div>
-        
-     
+
+
         <div class="clearfix"> </div>
     </div>
 </div>
@@ -142,9 +142,9 @@
 	                    	}
 
 	                    	echo ' <div class="clearfix"> </div> </div>';
-	                        
-	                       
-	                        
+
+
+
 	                    ?>
 					</div>
                     <div class="col-md-12 text-right">
@@ -152,7 +152,7 @@
             			<button type="button" onclick="sendUpdate()" class="btn btn-xs btn-success ">Start Update</button>
        			 	</div>
        			</form>
-            
+
 
                 <div class="clearfix"></div>
             </div>
@@ -169,13 +169,13 @@
 
  function showrate(obj,id)
  {
-   
+
    if($(obj).hasClass('fa-plus'))
    {
         $(obj).removeClass('fa-plus');
         $(obj).addClass('fa-minus');
         $(".rate" + id).css({
-        display: '' 
+        display: ''
         });
 
         $(".rate" + id+'ctd').addClass('ctd');
@@ -253,7 +253,7 @@ function showoption(id, value) {
 }
 
 function Calendario(obj,opt) {
-   
+
    if (opt==2) {
         if(showr==($("#show").prop('checked') ? 1 : 0))
         {
@@ -267,15 +267,15 @@ function Calendario(obj,opt) {
         url: base_url + 'channel/Calendarview',
         data: data,
         beforeSend: function() {
-            showWait('Update Calendar, Please Wait'); 
+            showWait('Update Calendar, Please Wait');
             setTimeout(function() { unShowWait(); }, 100000);
         },
         success: function(html) {
             $("#calendario").html(html);
             $('.inline_username').editable({
-                url: function (params) {                     
+                url: function (params) {
                    return saveChange(params);
-                } 
+                }
             });
             unShowWait();
 
@@ -295,13 +295,22 @@ function saveChange(params)
         type: "POST",
         //dataType: "json",
         url: base_url + 'bulkupdate/savechangecalendar',
-        data:data 
+        data:data
     });
    return;
 }
-
+function saveChange2(params)
+{
+    var data={'name':$(params).attr('name'),'pk':$(params).val(),'value':($(params).prop('checked')==true?'1':0)};
+    $.ajax({
+        type: "POST",
+        //dataType: "json",
+        url: base_url + 'bulkupdate/savechangecalendar',
+        data:data
+    });
+   return;
+}
 Calendario(0,1);
 
 
 </script>
-

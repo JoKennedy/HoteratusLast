@@ -758,9 +758,9 @@ class channel_model extends CI_Model
 		 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$Editprices.'</td>';
 				$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dato['availability'])?($dato['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editava.' </td>';
 				$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimum.' </td>';
-				$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' readonly=""/> </td>';
-				$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' readonly="" /> </td>';
-				$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dato['stop_sell'])?($dato['stop_sell']==1?'checked':''):'').' /> </td>';
+				$ctas.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.',0,'.$hotelid.'" name ="cta" type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' /> </td>';
+				$ctds.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.',0,'.$hotelid.'" name ="ctd" type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' /> </td>';
+				$sss.='<td style="font-size: 12px; text-align:center; " > <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.',0,'.$hotelid.'" name ="stop_sell" type="checkbox" '.(isset($dato['stop_sell'])?($dato['stop_sell']==1?'checked':''):'').' /> </td>';
 
 
 
@@ -818,9 +818,9 @@ class channel_model extends CI_Model
 			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';
 					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editavar.' </td>';
 					$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimumr.' </td>';
-					$ctas.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').' readonly=""/> </td>';
-					$ctds.='<td style="font-size: 12px; text-align:center; "> <input type="checkbox" '.(isset($dator['ctd'])=='1'?($dator['ctd']==1?'checked':''):'').' readonly="" /> </td>';
-					$sss.='<td style="font-size: 12px; text-align:center; " > <input type="checkbox" '.(isset($dator['stop_sell'])?($dator['stop_sell']==1?'checked':''):'').' /> </td>';
+					$ctas.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="cta" type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').'/> </td>';
+					$ctds.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="ctd" type="checkbox" '.(isset($dator['ctd'])=='1'?($dator['ctd']==1?'checked':''):'').'  /> </td>';
+					$sss.='<td style="font-size: 12px; text-align:center; " > <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="stop_sell" type="checkbox" '.(isset($dator['stop_sell'])?($dator['stop_sell']==1?'checked':''):'').' /> </td>';
 
 
 

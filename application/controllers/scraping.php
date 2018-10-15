@@ -6,28 +6,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class scraping extends Front_Controller {
 
 
-	
+
  	public function __construct()
     {
     	require_once('simple_html_dom.php');
-        
+
         parent::__construct();
-        
-        //load base libraries, helpers and models      
-      
-        
+
+        //load base libraries, helpers and models
+
+
     }
     public function competitiveset()
     {
-    	is_login();
-		$hotelid=hotel_id();
-    	$data['page_heading'] = 'Competitive Set Analisis';
-    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
-		$data= array_merge($user_details,$data);
-		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
-		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
+			is_login();
+			$hotelid=hotel_id();
+			$data['page_heading'] = 'Competitive Set Analisis';
+			$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+			$data= array_merge($user_details,$data);
+			$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+			$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
 
-		$this->views('salesmarketing/competitivesetanalisis',$data);
+			$this->views('salesmarketing/competitivesetanalisis',$data);
     }
     public function config()
     {
@@ -38,8 +38,38 @@ class scraping extends Front_Controller {
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
 		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
-
+		$data['AllOtas']=$this->db->query("select * from HotelOtas where active =1")->result_array();
 		$this->views('salesmarketing/config',$data);
+    }
+    public function savemaping()
+    {	
+    	$map=explode(',', $_POST['pk']);
+    	$value=$_POST['value'];
+    	$RoomOutName=$map[0];
+    	$HotelOutId=$map[1];
+    	$ChannelId=$map[2];
+    	$hotelid=hotel_id();
+
+    	$info=$this->db->query("select * from HotelOutRoomMapping where ChannelId =$ChannelId  and RoomOutName ='$RoomOutName'  and HotelId=$hotelid")->row_array();
+
+    	if(count($info)>0)
+    	{
+
+    		$data['RoomID']=$value;
+    		update_data('HotelOutRoomMapping',$data,array('ChannelId'=>$ChannelId,'RoomOutName' =>$RoomOutName,'HotelId'=>$hotelid));
+    	}
+    	else
+    	{
+    		$data['RoomOutName']=$RoomOutName;
+    		$data['HotelId']=$hotelid;
+    		$data['RoomID']=$value;
+    		$data['HotelOutId']=$HotelOutId;
+    		$data['ChannelId']=$ChannelId;
+    		insert_data('HotelOutRoomMapping',$data);
+    	}
+    	$result['success']=true;
+    	echo json_encode($result);
+
     }
 	public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
 	{
@@ -51,7 +81,7 @@ class scraping extends Front_Controller {
 
 		$referer = 'http://www.booking.com';
 		$cookies = 'cookies.txt';
-		$content= $this->cURL("https://www.booking.com/hotel/do/$HotelNameOut.html?checkin=$date1;checkout=$date2;dest_type=city;dist=0;group_adults=2;hapos=1;sb_price_type=total;type=total", '', $cookies, $referer, '',$agent); 
+		$content= $this->cURL("https://www.booking.com/hotel/do/$HotelNameOut.html?checkin=$date1;checkout=$date2;dest_type=city;dist=0;group_adults=2;hapos=1;sb_price_type=total;type=total", '', $cookies, $referer, '',$agent);
 
 
 		$html= html_to_dom($content);
@@ -59,17 +89,17 @@ class scraping extends Front_Controller {
 		$roomname='';
 
 		foreach ($html->find('#available_rooms') as $Rooms) {
-			
+
 			foreach ($Rooms->find('tr') as $value) {
-			 	
+
 			 	if(strlen($value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0))>0)
-			 	{	
-			 		$roomname=$value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0)->text(); 		
+			 	{
+			 		$roomname=$value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0)->text();
 
 			 	}
 			 	if (strlen($roomname)>0 && strlen($value->find('.invisible_spoken',0))>0 && count($value->find('.hprt-price-price'))>0) {
 
-			 		
+
 			 		$person=$value->find('.invisible_spoken',0)->text();
 			 		$prices=$value->find('.hprt-price-price',0)->text();
 			 		$info['ChannelId']=$ChannelId;
@@ -78,18 +108,18 @@ class scraping extends Front_Controller {
 			 		$info['MaxPeople']=(string)$person;
 			 		$info['DateCurrent']=$date1;
 			 		$info['Prices']=(string)$prices;
-			 		
+
 
 			 		insert_data('HotelScrapingInfo',$info);
 			 		//print_r($info);
 			 	}
-			 	
 
-			 	
-			 }       
-			 
+
+
+			 }
+
 		}
-		
+
 
 		return;
 	}
@@ -101,10 +131,10 @@ class scraping extends Front_Controller {
 
 		$referer = 'http://www.hotelhunter.com';
 		$cookies = 'cookies2.txt';
-		$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3'); 
+		$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3');
 
 		while ($content=='Forbidden') {
-			$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3'); 
+			$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3');
 		}
 		$html= html_to_dom(str_replace('data-providername', 'name', $content));
 
@@ -119,25 +149,25 @@ class scraping extends Front_Controller {
 					$result.=  $value->find('.hc-ratesmatrix__roomrate',0);
 					$result.=  $value->find('.hc-ratesmatrix__roomname',0).'<br>';
 				}
-				
-				
-			}       
-			 
+
+
+			}
+
 		}
-		
+
 
 		return ($result==''?$html:$result);
 	}
 	public function ScrapingBooking($start)
 	{
-		ini_set('max_execution_time', 12000);
+		set_time_limit(0);
 		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
 
-			 for ($i=$start; $i <($start+90) ; $i++) { 
+			 for ($i=$start; $i <($start+90) ; $i++) {
 
-				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;	 
+				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;
 			}
 			echo "Propiedad ".$HotelInfo['HotelID'].'<br>';
 		}
@@ -148,12 +178,12 @@ class scraping extends Front_Controller {
 		$date=date('Y-m-d',strtotime('2018-12-01'));
 		$result='';
 
-		
-
-		for ($i=0; $i <1 ; $i++) { 
 
 
-			$result.=$this->scrapear(date('Y-m-d',strtotime($date."+$i days"))) ;	 
+		for ($i=0; $i <1 ; $i++) {
+
+
+			$result.=$this->scrapear(date('Y-m-d',strtotime($date."+$i days"))) ;
 
 		}
 		echo $result;
@@ -167,10 +197,10 @@ class scraping extends Front_Controller {
 		echo $html; return;
 	$i = 1;
 		foreach ($html->find('li.channels-content-item') as $video) {
-		        
+
 		        //echo $video;
 		       foreach ($video->find('div.yt-lockup-content') as  $title) {
-		       	
+
 		       	echo $title->find('a.yt-uix-sessionlink', 0)->title;
 		       	echo '<br>';
 
@@ -220,7 +250,7 @@ class scraping extends Front_Controller {
 
 	    $tiempo = time();
 
-	    
+
 	    //Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3";
 
 	    $ch = curl_init($url);
@@ -255,6 +285,8 @@ class scraping extends Front_Controller {
 	        return $page;
 	    }
 	    return 'Forbidden';
-	} 
+	}
+
+	
 
 }

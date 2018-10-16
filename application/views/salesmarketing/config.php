@@ -32,7 +32,7 @@
 												<?php
 													foreach ($AllOtas as  $ota)
 													{
-														echo '<a style="height:150px;" >';
+														echo '<a style="height:150px;" > ';
 														echo $ota['Name'];
 														echo '</a>';
 													}
@@ -41,23 +41,31 @@
 
 											<?php
 											foreach ($AllOtas as  $ota) {
+
+													$mainhotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=1")->row_array();
 													echo '<div class="context col-md-12">  ';
 													$i=1;
+
+													echo '<input  style="background:white; color:black; width:100%" type="input"  name="main_'.$ota['HotelOtaId'].'_'.(isset($mainhotels['HotelsOutId'])?$mainhotels['HotelsOutId']:$i).'_1" value="'.@$mainhotels['HotelName'].'" placeholder="Main Property Name">
+													 <input style="background:white; color:black; width:100%" type="input"  name="main_'.$ota['HotelOtaId'].'_'.(isset($mainhotels['HotelsOutId'])?$mainhotels['HotelsOutId']:$i).'_2"
+													value="'.@$mainhotels['HotelNameChannel'].'" placeholder="'.$ota['Name'].' Main Property Name" > ';
+													$i++;
+
 													echo '<table class="table table-bordered">
 													<thead>
 													<tr>
-													<th  width="5%">#</th>
+													<th width="5%">#</th>
 													<th>Hotel Name</th>
 													<th>'.$ota['Name'].' Name</th>
 													<th>Active</th>
 													</tr>
 													</thead>';
-													$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1")->result_array();
+													$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=0")->result_array();
 												foreach ($hotels as $hotel) {
 
 														echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
-														<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$hotel['HotelsOutId'].'_'.$ota['HotelOtaId'].'_1" value="'.$hotel['HotelName'].'" > </td>
-														<td> <input style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$hotel['HotelsOutId'].'_'.$ota['HotelOtaId'].'_2" value="'.$hotel['HotelNameChannel'].'" > </td>
+														<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$ota['HotelOtaId'].'_'.$hotel['HotelsOutId'].'_1" value="'.$hotel['HotelName'].'" > </td>
+														<td> <input style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$ota['HotelOtaId'].'_'.$hotel['HotelsOutId'].'_2" value="'.$hotel['HotelNameChannel'].'" > </td>
 														<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
 														$i++;
 												}
@@ -65,8 +73,8 @@
 												while ($i <= 6 && $ota['HotelOtaId']==2) {
 
 													echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
-													<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$i.'_'.$ota['HotelOtaId'].'_1" placeholder="Property Name"> </td>
-													<td> <input style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$i.'_'.$ota['HotelOtaId'].'_2" placeholder="'.$ota['Name'].' Property Name" > </td>
+													<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$ota['HotelOtaId'].'_'.$i.'_1" placeholder="Property Name"> </td>
+													<td> <input style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$ota['HotelOtaId'].'_'.$i.'_2" placeholder="'.$ota['Name'].' Property Name" > </td>
 													<td><center>No Created</center></td></tr>	 ';
 													$i++;
 												}
@@ -114,11 +122,12 @@
 							foreach ($AllOtas as  $ota) {
 								echo '<div class="context col-md-12">  ';
 								$i=1;
-								$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1")->result_array();
+								$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=0")->result_array();
+
 								foreach ($hotels as  $hotel) {
 									echo '<center><h1><span class="label label-primary">'.$hotel['HotelName'].'</span></h1></center>';
 
-									$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomID,a.ChannelId
+									$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId
 											FROM HotelScrapingInfo a
 											left join HotelOutRoomMapping b on a.RoomName=b.RoomOutName and a.HotelOutId=b.HotelOutId
 											where a.HotelOutId=".$hotel['HotelsOutId']."
@@ -136,16 +145,19 @@
 												</thead>';
 										foreach ($Rooms as $room) {
 
-											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].'" data-value="'.$room['RoomID'].'" data-source="'.lang_url().'channel/allroomtest" title="Select Room Type"></a>';
+											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].'" data-value="'.$room['RoomNameLocal'].'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'" title="Select Room Type"></a>';
 
 											echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
-											<td> '.$room['RoomName'].' </td>
+											<td> '.$room['RoomName'].'-'.$room['MaxPeople'].' </td>
 											<td>'.$roomNameC.'</td>
 											<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
 											$i++;
 
 										}
 										echo '</table>';
+									}
+									else{
+										echo '<center><a onclick="FindRoomtype('.$ota['HotelOtaId'].')" class="btn blue">Find Rooms Types</button></a>';
 									}
 								}
 								echo '</div>';
@@ -174,19 +186,72 @@
 </div>
 </div>
 <script>
+function FindRoomtype(cid)
+{
+	var data={'channelid':cid};
+	$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: '<?=lang_url()?>scraping/findroomtype',
+			data:data,
+			beforeSend: function() {
+					showWait('Searching Rooms Types');
+					setTimeout(function() { unShowWait(); }, 36000);
+			},
+			success:function(m)
+			{
 
+				unShowWait();
+				if(m['success'])
+				{
+					 swal({
+									title: "Done",
+									text: m['message'],
+									icon: "success",
+									button: "Ok!",
+							}).then((m)=>{
+								window.location.reload();
+							});
+				}else{
+					swal({
+									title: "Upps ",
+									text: m['message'],
+									icon: "warning",
+									button: "Ok!",
+							});
+				}
+			}
+	});
+}
 function saveProps()
 {
 	var data= $("#roomsout").serialize();
 
 	$.ajax({
 			type: "POST",
-			//dataType: "json",
+			dataType: "json",
 			url: '<?=lang_url()?>scraping/saveproperty',
 			data:data,
 			success:function(m)
 			{
-				alert(m);
+				if(m['success'])
+				{
+					 swal({
+									title: "Save",
+									text: 'Done',
+									icon: "success",
+									button: "Ok!",
+							}).then((m)=>{
+								window.location.reload();
+							});;
+				}else{
+					swal({
+									title: "Upps ",
+									text: 'Something Went Wrong',
+									icon: "warning",
+									button: "Ok!",
+							});
+				}
 			}
 	});
 

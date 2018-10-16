@@ -9,6 +9,7 @@ class scraping extends Front_Controller {
 
  	public function __construct()
     {
+
     	require_once('simple_html_dom.php');
 
         parent::__construct();
@@ -55,14 +56,14 @@ class scraping extends Front_Controller {
     	if(count($info)>0)
     	{
 
-    		$data['RoomID']=$value;
+    		$data['RoomNameLocal']=$value;
     		update_data('HotelOutRoomMapping',$data,array('ChannelId'=>$ChannelId,'RoomOutName' =>$RoomOutName,'HotelId'=>$hotelid));
     	}
     	else
     	{
     		$data['RoomOutName']=$RoomOutName;
     		$data['HotelId']=$hotelid;
-    		$data['RoomID']=$value;
+    		$data['RoomNameLocal']=$value;
     		$data['HotelOutId']=$HotelOutId;
     		$data['ChannelId']=$ChannelId;
     		insert_data('HotelOutRoomMapping',$data);
@@ -76,63 +77,180 @@ class scraping extends Front_Controller {
     	$dato=array();
       foreach ($_POST as $key => $value) {
       	$room=explode('_',$key);
+
       	$data[$room[0]][$room[1]][$room[2]][$room[3]]=$value;
       }
 
-      
+      foreach ($data as $tipo => $canales) {
+
+
+        if($tipo=='new')
+        {
+
+          foreach ($canales as $canalid => $info) {
+            foreach ($info as $updateid => $infoto) {
+
+              if(strlen($infoto[1])==0)continue;
+              $savedata=array();
+              $savedata['HotelName']=$infoto[1];
+              $savedata['HotelNameChannel']=$infoto[2];
+              $savedata['ChannelId']=$canalid;
+              $savedata['HotelID']=hotel_id();
+              $savedata['Active']=1;
+              $savedata['Main']=0;
+              insert_data('HotelsOut',$savedata);
+            }
+          }
+        }
+        else if($tipo=='main')
+        {
+          foreach ($canales as $canalid => $info) {
+            foreach ($info as $updateid => $infoto) {
+
+
+              $savedata=array();
+              $savedata['HotelName']=$infoto[1];
+              $savedata['HotelNameChannel']=$infoto[2];
+              $exist=$this->db->query("select * from HotelsOut where HotelsOutId=$updateid and HotelID=".hotel_id()." and Main=1 and ChannelId=$canalid")->row_array();
+              if(!isset($exist['HotelsOutId']))
+              {
+                $savedata['ChannelId']=$canalid;
+                $savedata['HotelID']=hotel_id();
+                $savedata['Active']=1;
+                $savedata['Main']=1;
+                insert_data('HotelsOut',$savedata);
+
+              }
+              else {
+                update_data('HotelsOut',$savedata,array('HotelsOutId'=>$updateid,'HotelID'=>hotel_id(),'Main'=>1));
+              }
+            }
+          }
+        }
+        else {
+
+          foreach ($canales as $canalid => $info) {
+            foreach ($info as $updateid => $infoto) {
+              if(strlen($infoto[1])==0) {$this->db->query("delete from HotelsOut where HotelsOutId=$updateid and HotelID=".hotel_id()." and Main=0"); continue;}
+              $savedata=array();
+              $savedata['HotelName']=$infoto[1];
+              $savedata['HotelNameChannel']=$infoto[2];
+              update_data('HotelsOut',$savedata,array('HotelsOutId'=>$updateid,'HotelID'=>hotel_id()));
+            }
+          }
+        }
+      }
+
+      $result['success']=true;
+      echo json_encode($result);
+
     }
-  public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
-	{
-		$date1=$date;
-		$date2=date('Y-m-d',strtotime($date."+1 days"));
+    public function allmainroom($ChannelId)
+    {
+      $allroom= $this->db->query("select b.RoomName value,  concat(b.RoomName,'-',b.MaxPeople) text
+      from HotelsOut a
+      left join HotelScrapingInfo b on a.HotelsOutId=b.HotelOutId
+      where
+      a.hotelid=".hotel_id()."
+      and a.main=1
+      and a.ChannelId=$ChannelId
+      group by b.RoomName,b.MaxPeople,b.ChannelId ")->result_array();
+
+      echo json_encode($allroom);
+    }
+    public function findroomtype($ChannelId='')
+    {
+        $ChannelId=($ChannelId==''?$_POST['channelid']:$ChannelId);
+
+        switch ($ChannelId) {
+          case '1':
+            $result['success']=false;
+            $result['message']='Channel Expedia not working by the moment';
+            break;
+          case '2':
+                set_time_limit(0);
+                $ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2 and HotelID=".hotel_id())->result_array();
+                $date=date('Y-m-d');
+                $start=137;
+                foreach ($ConfigHoteles as  $HotelInfo) {
+
+                   for ($i=$start; $i <($start+30) ; $i++) {
+
+                    $this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;
+                  }
+                  echo "Propiedad ".$HotelInfo['HotelID'].'<br>';
+                }
+                if(count($ConfigHoteles)>0)
+                {
+                  $result['success']=true;
+                  $result['message']='All Rooms Type Were import!!';
+                }
+                else{
+                  $result['success']=false;
+                  $result['message']='You must config all hotel before importing rooms type!!';
+                }
+            break;
+          default:
+          $result['success']=false;
+          $result['message']='This Channel not working by the moment';
+          break;
+            break;
+        }
+
+        echo json_encode($result);
+    }
+    public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
+  	{
+  		$date1=$date;
+  		$date2=date('Y-m-d',strtotime($date."+1 days"));
 
 
-		$agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
+  		$agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
 
-		$referer = 'http://www.booking.com';
-		$cookies = 'cookies.txt';
-		$content= $this->cURL("https://www.booking.com/hotel/do/$HotelNameOut.html?checkin=$date1;checkout=$date2;dest_type=city;dist=0;group_adults=2;hapos=1;sb_price_type=total;type=total", '', $cookies, $referer, '',$agent);
+  		$referer = 'http://www.booking.com';
+  		$cookies = 'cookies.txt';
+  		$content= $this->cURL("https://www.booking.com/hotel/$HotelNameOut.html?checkin=$date1;checkout=$date2", '', $cookies, $referer, '',$agent);
 
+  		$html= html_to_dom($content);
 
-		$html= html_to_dom($content);
-		$result='';
-		$roomname='';
+  		$result='';
+  		$roomname='';
 
-		foreach ($html->find('#available_rooms') as $Rooms) {
+  		foreach ($html->find('#available_rooms') as $Rooms) {
 
-			foreach ($Rooms->find('tr') as $value) {
+  			foreach ($Rooms->find('tr') as $value) {
 
-			 	if(strlen($value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0))>0)
-			 	{
-			 		$roomname=$value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0)->text();
+  			 	if(strlen($value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0))>0)
+  			 	{
+  			 		$roomname=$value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0)->text();
 
-			 	}
-			 	if (strlen($roomname)>0 && strlen($value->find('.invisible_spoken',0))>0 && count($value->find('.hprt-price-price'))>0) {
-
-
-			 		$person=$value->find('.invisible_spoken',0)->text();
-			 		$prices=$value->find('.hprt-price-price',0)->text();
-			 		$info['ChannelId']=$ChannelId;
-			 		$info['RoomName']=$roomname;
-			 		$info['HotelOutId']=$HotelOutId;
-			 		$info['MaxPeople']=(string)$person;
-			 		$info['DateCurrent']=$date1;
-			 		$info['Prices']=(string)$prices;
+  			 	}
+  			 	if (strlen($roomname)>0 && strlen($value->find('.invisible_spoken',0))>0 && count($value->find('.hprt-price-price'))>0) {
 
 
-			 		insert_data('HotelScrapingInfo',$info);
-			 		//print_r($info);
-			 	}
+  			 		$person=$value->find('.invisible_spoken',0)->text();
+  			 		$prices=$value->find('.hprt-price-price',0)->text();
+  			 		$info['ChannelId']=$ChannelId;
+  			 		$info['RoomName']=$roomname;
+  			 		$info['HotelOutId']=$HotelOutId;
+  			 		$info['MaxPeople']=(string)$person;
+  			 		$info['DateCurrent']=$date1;
+  			 		$info['Prices']=(string)$prices;
+
+
+  			 		insert_data('HotelScrapingInfo',$info);
+  			 		//print_r($info);
+  			 	}
 
 
 
-			 }
+  			 }
 
-		}
+  		}
 
 
-		return;
-	}
+		    return;
+	  }
 	public function scrapear2($date)
 	{
 		$date1=$date;
@@ -170,18 +288,19 @@ class scraping extends Front_Controller {
 	}
 	public function ScrapingBooking($start)
 	{
-		set_time_limit(0);
+    set_time_limit(0);
 		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
 
-			 for ($i=$start; $i <($start+90) ; $i++) {
+			 for ($i=$start; $i <($start+30) ; $i++) {
 
 				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;
 			}
 			echo "Propiedad ".$HotelInfo['HotelID'].'<br>';
 		}
 	}
+
 	function index()
 	{
 
@@ -296,6 +415,7 @@ class scraping extends Front_Controller {
 	    }
 	    return 'Forbidden';
 	}
+
 
 
 

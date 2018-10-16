@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lugar=0;//0 trabajo 1 casa
+$lugar=1;//0 trabajo 1 casa
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +20,14 @@ switch ($lugar) {
 	case 0:
 		$config['base_url'] = "http://127.0.0.1:8080/";
 		break;
-	
+
 	default:
 		$config['base_url'] = "http://127.0.0.1/";
 		break;
 }
 
 
-//$config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/'; 
+//$config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
 
 /*
 |--------------------------------------------------------------------------

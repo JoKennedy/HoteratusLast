@@ -19,30 +19,30 @@ class scraping extends Front_Controller {
     }
     public function competitiveset()
     {
-			is_login();
-			$hotelid=hotel_id();
-			$data['page_heading'] = 'Competitive Set Analisis';
-			$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
-			$data= array_merge($user_details,$data);
-			$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
-			$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
+        is_login();
+        $hotelid=hotel_id();
+        $data['page_heading'] = 'Competitive Set Analisis';
+        $user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+        $data= array_merge($user_details,$data);
+        $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+        $data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
 
-			$this->views('salesmarketing/competitivesetanalisis',$data);
+        $this->views('salesmarketing/competitivesetanalisis',$data);
     }
     public function config()
     {
     	is_login();
-		$hotelid=hotel_id();
-    	$data['page_heading'] = 'Configuration Competitive Set Analisis';
-    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
-		$data= array_merge($user_details,$data);
-		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
-		$data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
-		$data['AllOtas']=$this->db->query("select * from HotelOtas where active =1")->result_array();
-		$this->views('salesmarketing/config',$data);
+      $hotelid=hotel_id();
+      $data['page_heading'] = 'Configuration Competitive Set Analisis';
+      $user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+      $data= array_merge($user_details,$data);
+      $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+      $data['allRooms']=$this->db->query("select a.*, case a.pricing_type when 1 then 'Room based pricing' when 2 then 'Guest based pricing' else 'Not available' end  PricingName, case when b.meal_name is null then 'No Plan' else b.meal_name end meal_name   from manage_property a left join meal_plan b on a.meal_plan=meal_id where hotel_id=$hotelid")->result_array();
+      $data['AllOtas']=$this->db->query("select * from HotelOtas where active =1")->result_array();
+      $this->views('salesmarketing/config',$data);
     }
     public function savemaping()
-    {	
+    {
     	$map=explode(',', $_POST['pk']);
     	$value=$_POST['value'];
     	$RoomOutName=$map[0];
@@ -71,7 +71,17 @@ class scraping extends Front_Controller {
     	echo json_encode($result);
 
     }
-	public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
+    public function saveproperty()
+    {
+    	$dato=array();
+      foreach ($_POST as $key => $value) {
+      	$room=explode('_',$key);
+      	$data[$room[0]][$room[1]][$room[2]][$room[3]]=$value;
+      }
+
+      
+    }
+  public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
 	{
 		$date1=$date;
 		$date2=date('Y-m-d',strtotime($date."+1 days"));
@@ -287,6 +297,6 @@ class scraping extends Front_Controller {
 	    return 'Forbidden';
 	}
 
-	
+
 
 }

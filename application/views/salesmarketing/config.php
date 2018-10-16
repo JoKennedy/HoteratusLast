@@ -24,15 +24,15 @@
 							<section  id="section-1" class="content-current sec" >
 								<div  class="forms-main">
 									<div class="graph-form">
-										<form class=""  method="post">
+										<form id="roomsout"  method="post">
 										<div class="vali-form">
 											<div class="graph">
 
 											<nav class="second" >
 												<?php
-													foreach ($AllOtas as  $ota) 
+													foreach ($AllOtas as  $ota)
 													{
-														echo '<a style="height:150px;" id="ota'.$ota['HotelOtaId'].'">';
+														echo '<a style="height:150px;" >';
 														echo $ota['Name'];
 														echo '</a>';
 													}
@@ -56,17 +56,17 @@
 												foreach ($hotels as $hotel) {
 
 														echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
-														<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="'.$hotel['HotelsOutId'].'" value="'.$hotel['HotelName'].'" > </td>
-														<td> <input style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="'.$hotel['HotelsOutId'].'" value="'.$hotel['HotelNameChannel'].'" > </td>
+														<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$hotel['HotelsOutId'].'_'.$ota['HotelOtaId'].'_1" value="'.$hotel['HotelName'].'" > </td>
+														<td> <input style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$hotel['HotelsOutId'].'_'.$ota['HotelOtaId'].'_2" value="'.$hotel['HotelNameChannel'].'" > </td>
 														<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
 														$i++;
 												}
 
-												while ($i <= 6) {
+												while ($i <= 6 && $ota['HotelOtaId']==2) {
 
 													echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
-													<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="'.$i.'" placeholder="Property Name"> </td>
-													<td> <input style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="'.$i.'" placeholder="'.$ota['Name'].' Property Name" > </td>
+													<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$i.'_'.$ota['HotelOtaId'].'_1" placeholder="Property Name"> </td>
+													<td> <input style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$i.'_'.$ota['HotelOtaId'].'_2" placeholder="'.$ota['Name'].' Property Name" > </td>
 													<td><center>No Created</center></td></tr>	 ';
 													$i++;
 												}
@@ -79,7 +79,7 @@
 												</div>
 												</div>
 											<div class="buttons-ui">
-												<a onclick="saveTask()" class="btn green">Save</a>
+												<a onclick="saveProps()" class="btn green">Save</a>
 											</div>
 
 
@@ -143,7 +143,7 @@
 											<td>'.$roomNameC.'</td>
 											<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
 											$i++;
-									
+
 										}
 										echo '</table>';
 									}
@@ -154,7 +154,7 @@
 
 							</div>
 							</div>
-					
+
 							</form>
 							</div>
 							<div class="clearfix"></div>
@@ -175,8 +175,20 @@
 </div>
 <script>
 
-function showotas(id,opt)
+function saveProps()
 {
+	var data= $("#roomsout").serialize();
+
+	$.ajax({
+			type: "POST",
+			//dataType: "json",
+			url: '<?=lang_url()?>scraping/saveproperty',
+			data:data,
+			success:function(m)
+			{
+				alert(m);
+			}
+	});
 
 }
 function showtab(id)
@@ -211,7 +223,7 @@ jQuery(document).ready(function($) {
 });
 
 function saveChange(params)
-{	
+{
 	var data={'name':params['name'],'pk':params['pk'],'value':params['value']};
 
     $.ajax({

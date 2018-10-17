@@ -18,6 +18,7 @@ define('FILE_READ_MODE', 0644);
 define('FILE_WRITE_MODE', 0666);
 define('DIR_READ_MODE', 0755);
 define('DIR_WRITE_MODE', 0755);
+define('LUGAR', 1);
 
 /*
 |--------------------------------------------------------------------------
@@ -127,8 +128,8 @@ define('WE','welcome_remainder_emails');
 define('BILL','bill_info');
 define('EX','extras');
 define('IN','invoice');
-define('EXP_RESERV','import_reservation_EXPEDIA'); 
-define('IM_EXP','import_mapping'); 
+define('EXP_RESERV','import_reservation_EXPEDIA');
+define('IM_EXP','import_mapping');
 define('IM_RECO','import_mapping_RECOLINE');
 define('CONNECT','user_connect_channel');
 define('ICAL','ical_link');
@@ -142,9 +143,9 @@ define("IM_HOTELBEDS","import_mapping_HOTELBEDS");
 define("IM_HOTELBEDS_ROOMS","import_mapping_HOTELBEDS_ROOMS");
 define("HBEDS_RESER","import_reservation_HOTELBEDS");
 
-define('BOOK_RESERV','import_reservation_BOOKING'); 
-define('BOOK_ROOMS','import_reservation_BOOKING_ROOMS'); 
-define('BOOK_ADDON','import_reservation_BOOKING_ADDON'); 
+define('BOOK_RESERV','import_reservation_BOOKING');
+define('BOOK_ROOMS','import_reservation_BOOKING_ROOMS');
+define('BOOK_ADDON','import_reservation_BOOKING_ADDON');
 define('ALL_XML','all_channel_xml');
 define('B_WAY','booking_one_way_params');
 define('CARD','card_details');
@@ -193,4 +194,3 @@ define('IPWHITELIST', implode(',', include(APPPATH.'config/whitelist.php')));
 
 define('CCTYPES', 'credit_card_types');
 define('BANK', 'bank_details');
-

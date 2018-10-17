@@ -208,7 +208,6 @@ vcount=0;
           url: "<?php echo lang_url(); ?>housekeeping/updateStatusBulk",
           data: $("#informacion").serialize(),
           success: function(msg) {
-
               if (msg["success"]) {
                 $('input[class=select]:checked').each(function() {
                   $("#row"+$(this).prop("id")).css('background-color',msg['color']);

@@ -145,7 +145,7 @@
 												</thead>';
 										foreach ($Rooms as $room) {
 
-											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].'" data-value="'.$room['RoomNameLocal'].'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'" title="Select Room Type"></a>';
+											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].'" data-value="'.$room['RoomNameLocal'].'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'/1" title="Select Room Type"></a>';
 
 											echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
 											<td> '.$room['RoomName'].'-'.$room['MaxPeople'].' </td>

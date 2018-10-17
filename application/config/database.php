@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lugar=0;
+$lugar=LUGAR;
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -57,7 +57,12 @@ switch ($lugar) {
 		$db['default']['password'] = '';
 		$db['default']['database'] = 'dev20_eagle2';
 		break;
-	
+	case 1:
+		$db['default']['hostname'] = 'localhost';
+		$db['default']['username'] = 'root';
+		$db['default']['password'] = '';
+		$db['default']['database'] = 'dev20_eagle';
+		break;
 	default:
 		$db['default']['hostname'] = 'hoteratus.com';
 		$db['default']['username'] = 'dev20_eagle';

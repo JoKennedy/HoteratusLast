@@ -668,7 +668,7 @@ class channel_model extends CI_Model
 
 
 		$html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB" > ';
-		 $header1='<thead> <tr> <th style="text-align:center; "> Room Name </th>';
+		 $header1='<thead> <tr> <th style="text-align:center; width: auto; "> Room Name </th>';
 		 $header2=' <thead> <tr> <th bgcolor="#E5E7E9"> </th> <th bgcolor="#E5E7E9"></th>';
 
 		 $mes= '';
@@ -712,7 +712,7 @@ class channel_model extends CI_Model
 			$ctas = '<tr class="cta" style="display:'.($cta==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTA</td>';
 			$ctds = '<tr class="ctd" style="display:'.($ctd==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">CTD</td>';
 			$sss = '<tr class="ss" style="display:'.($ss==1?'':'none').'; "><td></td><td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> SS</td>';
-			$body .='<tr>  <td ROWSPAN="4" style="margin: 5px; padding:5px;">'.$value['property_name'].(count($ratetype)>0?'<i onclick="showrate(this,'.$value['property_id'].')" class="fa show_plus_221 fa-plus"></i>':'').'</td> </tr> ';
+			$body .='<tr>  <td ROWSPAN="4" style=" margin: 5px; padding:5px;">'.$value['property_name'].(count($ratetype)>0?'<i onclick="showrate(this,'.$value['property_id'].')" class="fa show_plus_221 fa-plus"></i>':'').'</td> </tr> ';
 			$room2='';
 			//fa show_plus_221 fa-minus
 			$roomnumber=explode(",", $value['existing_room_number']);

@@ -2,6 +2,7 @@
     .inline_username{
         color: black;
 
+
     }
 
 </style>

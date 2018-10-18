@@ -41,19 +41,14 @@ class scraping extends Front_Controller {
       foreach ($mapping as  $value) {
         $vMapping[$value['HotelOutId']][trim($value['RoomNameLocal'])][]=trim($value['RoomOutName']);
       }
-var_dump($vMapping);
 
       $Info=array();
       $i=1;
       $date2=date('Y-m-d',strtotime($date2));
       $date1=date('Y-m-d',strtotime($date1));
-
       while ($date2 >= $date1) {
-
-
         foreach ($Hotels as $hotel)
         {
-
             if($hotel['Main']==1)
             {
                 $price=$this->db->query("select `price_room_channel`(trim('$roomname'),'$date1',".$hotel['HotelsOutId'].") price")->row_array();
@@ -68,23 +63,13 @@ var_dump($vMapping);
                     $Info[$date1][$hotel['HotelsOutId']][$value]=$price['price'];
                 }
               }
-
-
             }
-
         }
-
         $date1=date('Y-m-d',strtotime($date1.'+1 days'));
         $i++;
 
       }
-      echo '<br>';
-      echo '<br>';
-      echo '<br>';
-      var_dump($Info);
-      return;
-
-      /*select `price_room_channel`('Deluxe Double Room','2019-03-02',2)*/
+      return $Info;
     }
     public function DisplayHTML()
     {
@@ -95,11 +80,9 @@ var_dump($vMapping);
         $ultimodia = new DateTime($date1);
         $ultimodia->modify('last day of this month');
         $date2=$_POST['yearid'].'-'.$_POST['monthid'].'-'.$ultimodia->format('d');
-        $this->InfoPrices($date1,$date2,$_POST['channelid'],$_POST['roomname']);
-        return;
+        $roominfo=$this->InfoPrices($date1,$date2,$_POST['channelid'],$_POST['roomname']);
+
         $month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
-        var_dump($primerdia->format('d'));
-        var_dump($ultimodia->format('d'));
 
         $html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB" > ';
         $header1='<thead> <tr> <th style="text-align:center; "> Property Name </th>';
@@ -109,7 +92,7 @@ var_dump($vMapping);
           {
             $header1 .='<th  COLSPAN="'.$ultimodia->format('d').'" style="text-align:center; margin: 15px; padding: 15px;"><strong>'.$month[$_POST['monthid']].'</strong> </th>';
           }
-          $header2.= '<th bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'" style=" font-size:15px; text-align:center;  margin: 10px; padding: 5px;">'.$i.'</th>';
+          $header2.= '<th bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'" style=" font-size:18px; text-align:center;  margin: 10px; padding: 5px;">'.$i.'</th>';
         }
         $header1 .=' </tr> </thead> ';
         $header2 .='	</tr> </thead>';
@@ -119,21 +102,39 @@ var_dump($vMapping);
         $mainhotel=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and active=1 and main=1")->result_array();
         foreach ($mainhotel as $main) {
             $precio='<tr>';
-            $body .='<tr>  <td ROWSPAN="2" style="margin: 5px; padding:5px;">'.$main['HotelName'].'</td> </tr> ';
+            $body .='<tr>  <td ROWSPAN="2" style="width:200px; margin: 5px; padding:5px;">'.$main['HotelName'].'</td> </tr> ';
             $room2='';
+            $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
             for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
-              $precio.='<td  style="font-size: 12px; text-align:center;" >'.$i.'</td>';
+
+              foreach ($roominfo[$datecurrent][$main['HotelsOutId']] as  $priceinfo) {
+                $precio.='<td  style="font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+              }
+
               }
             $precio.='</tr>';
               $body .=$precio;
         }
         foreach ($hotels as $hotel) {
             $precio='<tr>';
-            $body .='<tr>  <td ROWSPAN="2" style="margin: 5px; padding:5px;">'.$hotel['HotelName'].'</td> </tr> ';
+            $body .='<tr>  <td ROWSPAN="2" style=""width:200px; margin: 5px; padding:5px;">'.$hotel['HotelName'].'</td> </tr> ';
             $room2='';
+            $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
             for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
-              $precio.='<td  style="font-size: 12px; text-align:center;" >'.$i.'</td>';
+              if(isset($roominfo[$datecurrent][$hotel['HotelsOutId']]))
+              {
+                foreach ($roominfo[$datecurrent][$hotel['HotelsOutId']] as  $priceinfo) {
+                  $precio.='<td  style=" font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                  $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+                }
               }
+              else {
+                $precio.='<td  style=" font-size: 10px; text-align:center;" >N/A</td>';
+
+              }
+
+            }
             $precio.='</tr>';
               $body .=$precio;
         }

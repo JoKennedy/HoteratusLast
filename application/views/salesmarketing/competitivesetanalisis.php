@@ -66,19 +66,10 @@
 			<div  class="clearfix"></div>
 			<a href="#" id="username" data-type="text" data-pk="1" data-name="username" data-url="post.php" data-original-title="Enter username">superuser</a>
 				<a href="#" id="group" data-type="select" data-name="group" data-pk="1" data-value="5" data-source="groups.php" data-original-title="Select group">Admin</a>
-			<div class="graph-visual tables-main">
 
-
-				<div class="graph">
 
 				<div id="calendarid"></div>
-
-
-			<?php// select `price_room_channel`('Deluxe Double Room','2019-03-02',2) ?>
-
-				</div>
-
-			</div>
+				
 		</div>
 
 	</div>

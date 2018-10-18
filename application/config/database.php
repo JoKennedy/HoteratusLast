@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$lugar=LUGAR;
+$lugar=1;
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS

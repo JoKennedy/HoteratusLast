@@ -35,7 +35,7 @@ class scraping extends Front_Controller {
     {
 
       $Hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and active=1 ")->result_array();
-      $mapping=$this->db->query("SELECT * FROM HotelOutRoomMapping where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and  trim(RoomNameLocal)=trim('$roomname')")->result_array();
+      $mapping=$this->db->query("SELECT * FROM HotelOutRoomMapping where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and  trim(RoomNameLocal)=trim('$roomname[0]')")->result_array();
 
       $vMapping='';
       foreach ($mapping as  $value) {
@@ -46,25 +46,40 @@ class scraping extends Front_Controller {
       $i=1;
       $date2=date('Y-m-d',strtotime($date2));
       $date1=date('Y-m-d',strtotime($date1));
+      $minimum=0;
+      $mainprice=0;
       while ($date2 >= $date1) {
         foreach ($Hotels as $hotel)
         {
+
             if($hotel['Main']==1)
             {
-                $price=$this->db->query("select `price_room_channel`(trim('$roomname'),'$date1',".$hotel['HotelsOutId'].") price")->row_array();
-                $Info[$date1][$hotel['HotelsOutId']][$roomname]=$price['price'];
+                $price=$this->db->query("select `price_room_channel`(trim('$roomname[0]'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price")->row_array();
+                $Info[$date1][$hotel['HotelsOutId']][$roomname[0]]=$price['price'];
+                $Info[$date1]['minimum']=doubleval(trim(str_replace('$', '',$price['price'])));
+                $Info[$date1]['mainprice']=doubleval(trim(str_replace('$', '',$price['price'])));
+                $mainprice=doubleval(trim(str_replace('$', '',$price['price'])));
             }
             else
             {
-              if(isset($vMapping[$hotel['HotelsOutId']][trim($roomname)]))
+              if(isset($vMapping[$hotel['HotelsOutId']][trim($roomname[0])]))
               {
-                foreach ($vMapping[$hotel['HotelsOutId']][trim($roomname)] as  $value) {
-                    $price=$this->db->query("select `price_room_channel`(trim('$value'),'$date1',".$hotel['HotelsOutId'].") price")->row_array();
+                foreach ($vMapping[$hotel['HotelsOutId']][trim($roomname[0])] as  $value) {
+                    $price=$this->db->query("select `price_room_channel`(trim('$value'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price")->row_array();
                     $Info[$date1][$hotel['HotelsOutId']][$value]=$price['price'];
+                    if($Info[$date1]['minimum']==0)
+                    {
+                        $Info[$date1]['minimum']=doubleval(trim(str_replace('$', '',$price['price'])));
+                    }
+                    else if(doubleval(trim(str_replace('$', '',$price['price'])))>0)
+                    {
+                      $Info[$date1]['minimum']=($Info[$date1]['minimum']<doubleval(trim(str_replace('$', '',$price['price'])))  ?$Info[$date1]['minimum']:doubleval(trim(str_replace('$', '',$price['price'])))) ;
+                    }
                 }
               }
             }
         }
+
         $date1=date('Y-m-d',strtotime($date1.'+1 days'));
         $i++;
 
@@ -73,19 +88,45 @@ class scraping extends Front_Controller {
     }
     public function DisplayHTML()
     {
-        var_dump($_POST);
+
         $date1=$_POST['yearid'].'-'.$_POST['monthid'].'-01';
         $primerdia = new DateTime($date1);
         $primerdia->modify('first day of this month');
         $ultimodia = new DateTime($date1);
         $ultimodia->modify('last day of this month');
         $date2=$_POST['yearid'].'-'.$_POST['monthid'].'-'.$ultimodia->format('d');
-        $roominfo=$this->InfoPrices($date1,$date2,$_POST['channelid'],$_POST['roomname']);
+
+            $fecha1 = new DateTime();
+            $fecha2 = new DateTime($date1);
+            $resultado = $fecha1->diff($fecha2);
+        $canal=$this->db->query("select * from HotelOutRoomMapping where HotelId=".hotel_id()." and ChannelId=".$_POST['channelid'])->result_array();
+
+        if(count($canal)==0)
+        {
+          echo '<center><h1><span class="label label-danger">No Room Mapping</span></h1></center>';
+          return;
+        }
+
+        if($resultado->format('%R%a')<-31)
+        {
+          echo '<center><h1><span class="label label-danger">you can'."'".'t search past dates</span></h1></center>';
+          return;
+        }
+        if($resultado->format('%R%a')>181)
+        {
+          echo '<center><h1><span class="label label-danger">You can only search up to 6 months</span></h1></center>';
+          return;
+        }
+        $roomnameinfo=explode(',',$_POST['roomname']);
+
+        $roominfo=$this->InfoPrices($date1,$date2,$_POST['channelid'],$roomnameinfo);
+
+
 
         $month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
 
         $html='<table    class="tablanew" border=1 cellspacing=0 cellpadding=2 bordercolor="#B2BABB" > ';
-        $header1='<thead> <tr> <th style="text-align:center; "> Property Name </th>';
+        $header1='<thead> <tr> <th style="text-align:center; ">Room Type Name </th>';
         $header2=' <thead> <tr>  <th bgcolor="#E5E7E9"></th>';
         for ($i=1; $i <= $ultimodia->format('d')  ; $i++) {
           if ($i==1)
@@ -102,44 +143,95 @@ class scraping extends Front_Controller {
         $mainhotel=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and active=1 and main=1")->result_array();
         foreach ($mainhotel as $main) {
             $precio='<tr>';
-            $body .='<tr>  <td ROWSPAN="2" style="width:200px; margin: 5px; padding:5px;">'.$main['HotelName'].'</td> </tr> ';
+            $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style="width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-primary">'.$main['HotelName'].'</span></h4></center></td> </tr> ';
             $room2='';
             $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
+            $r='';
             for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
 
-              foreach ($roominfo[$datecurrent][$main['HotelsOutId']] as  $priceinfo) {
-                $precio.='<td  style="font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
-                $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
-              }
+                foreach ($roominfo[$datecurrent][$main['HotelsOutId']] as $key => $priceinfo) {
+                  if($i==1  )
+                  { $r=$key;
+                    $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$key.'</span></h5></td>';
+                  }
+                  $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                  $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+                }
 
               }
             $precio.='</tr>';
               $body .=$precio;
         }
         foreach ($hotels as $hotel) {
-            $precio='<tr>';
-            $body .='<tr>  <td ROWSPAN="2" style=""width:200px; margin: 5px; padding:5px;">'.$hotel['HotelName'].'</td> </tr> ';
-            $room2='';
-            $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
-            for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
-              if(isset($roominfo[$datecurrent][$hotel['HotelsOutId']]))
-              {
-                foreach ($roominfo[$datecurrent][$hotel['HotelsOutId']] as  $priceinfo) {
-                  $precio.='<td  style=" font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
-                  $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+          $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
+          if(isset($roominfo[$datecurrent][$hotel['HotelsOutId']]))
+          {
+                $precio='<tr>';
+                $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style=""width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-primary">'.$hotel['HotelName'].'</span></h4></center></td> </tr> ';
+
+                $roomcount=count($roominfo[$datecurrent][$hotel['HotelsOutId']]);
+                $precio2=($roomcount==2?'<tr>':'');
+                $r1='';
+                $r2='';
+                for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
+                    foreach ($roominfo[$datecurrent][$hotel['HotelsOutId']] as $key =>  $priceinfo) {
+                      if($r1=='' && $i==1  )
+                      { $r1=$key;
+                        $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" ><h5><span class="label label-info">'.$key.'</span></h5></td>';
+                      }
+
+                      if($roomcount==2 && $r1!=$key && $i==1 && $r2=='' )
+                      {$r2=$key;
+                        $precio2.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" ><h5><span class="label label-info">'.$key.'</span></h5></td>';
+                      }
+
+                      if($key==$r1)
+                      {
+                        $precio.='<td bgcolor="'.(($i)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                      }
+                      if($key==$r2)
+                      {
+                        $precio2.='<td bgcolor="'.(($i)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                      }
+
+                      $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+                    }
                 }
-              }
-              else {
-                $precio.='<td  style=" font-size: 10px; text-align:center;" >N/A</td>';
 
-              }
+                $precio.='</tr>';
+                $precio2.=($roomcount==2?'</tr>':'');
 
+                $body .=$precio.$precio2;
             }
-            $precio.='</tr>';
-              $body .=$precio;
         }
 
+        $precio='<tr>';
+        $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style="width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-warning">Suggested Rate</span></h4></center></td> </tr> ';
+        $precio.='</tr>';
 
+        $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
+        for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
+
+              if($i==1  )
+              {
+                $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$roomnameinfo[0].'</span></h5></td>';
+              }
+              if($roominfo[$datecurrent]['mainprice']==0)
+              {
+                $p='<h5><span class="label label-default">SOLD</span></h5>';
+              }
+              else if($roominfo[$datecurrent]['mainprice']<=$roominfo[$datecurrent]['minimum'])
+              {
+                $p='<h5><span class="label label-success">BEST</span></h5>';
+              }
+              else {
+                $p=$roominfo[$datecurrent]['minimum']-($roominfo[$datecurrent]['minimum']*0.03);
+                $p='<h5><span class="label label-warning">'.round($p, 2).'</span></h5>';
+              }
+              $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$p.'</td>';
+              $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+          }
+          $body .=$precio;
         $body .='</tbody> </table>';
         echo  $html.$header1.$header2.$body;
 
@@ -160,25 +252,30 @@ class scraping extends Front_Controller {
     public function savemaping()
     {
     	$map=explode(',', $_POST['pk']);
-    	$value=$_POST['value'];
+    	$value=explode(',',$_POST['value']);
     	$RoomOutName=$map[0];
     	$HotelOutId=$map[1];
     	$ChannelId=$map[2];
+      $maxout=$map[3];
+
     	$hotelid=hotel_id();
 
-    	$info=$this->db->query("select * from HotelOutRoomMapping where ChannelId =$ChannelId  and RoomOutName ='$RoomOutName'  and HotelId=$hotelid")->row_array();
+    	$info=$this->db->query("select * from HotelOutRoomMapping where ChannelId =$ChannelId  and trim(RoomOutName) =trim('$RoomOutName')  and HotelId=$hotelid and MaxPleopleOut=trim('$maxout')")->row_array();
 
     	if(count($info)>0)
     	{
 
-    		$data['RoomNameLocal']=$value;
-    		update_data('HotelOutRoomMapping',$data,array('ChannelId'=>$ChannelId,'RoomOutName' =>$RoomOutName,'HotelId'=>$hotelid));
+    		$data['RoomNameLocal']=trim($value[0]);
+        $data['MaxPleopleLocal']=trim($value[1]);
+    		update_data('HotelOutRoomMapping',$data,array('ChannelId'=>$ChannelId,'RoomOutName' =>trim($RoomOutName),'HotelId'=>$hotelid, 'MaxPleopleOut'=>trim($maxout)));
     	}
     	else
     	{
     		$data['RoomOutName']=$RoomOutName;
+        $data['MaxPleopleOut']=$maxout;
     		$data['HotelId']=$hotelid;
-    		$data['RoomNameLocal']=$value;
+    		$data['RoomNameLocal']=trim($value[0]);
+        $data['MaxPleopleLocal']=trim($value[1]);
     		$data['HotelOutId']=$HotelOutId;
     		$data['ChannelId']=$ChannelId;
     		insert_data('HotelOutRoomMapping',$data);
@@ -262,7 +359,7 @@ class scraping extends Front_Controller {
     }
     public function allmainroom($ChannelId,$opt=0)
     {
-      $allroom= $this->db->query("select b.RoomName value,  concat(b.RoomName,'-',b.MaxPeople) text
+      $allroom= $this->db->query("select concat(trim(b.RoomName),',',trim(b.MaxPeople)) value,  concat(b.RoomName,'-',b.MaxPeople) text
       from HotelsOut a
       left join HotelScrapingInfo b on a.HotelsOutId=b.HotelOutId
       where
@@ -271,11 +368,14 @@ class scraping extends Front_Controller {
       and a.ChannelId=$ChannelId
       group by b.RoomName,b.MaxPeople,b.ChannelId ")->result_array();
 
+
       if($opt==1)
       {
+
         echo json_encode($allroom);
       }
       else {
+
         return $allroom;
       }
     }
@@ -295,7 +395,7 @@ class scraping extends Front_Controller {
                 $start=137;
                 foreach ($ConfigHoteles as  $HotelInfo) {
 
-                   for ($i=$start; $i <($start+30) ; $i++) {
+                   for ($i=$start; $i <($start+10) ; $i++) {
 
                     $this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;
                   }

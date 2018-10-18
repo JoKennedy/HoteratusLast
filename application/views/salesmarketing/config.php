@@ -127,9 +127,9 @@
 								foreach ($hotels as  $hotel) {
 									echo '<center><h1><span class="label label-primary">'.$hotel['HotelName'].'</span></h1></center>';
 
-									$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId
+									$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId,b.MaxPleopleLocal
 											FROM HotelScrapingInfo a
-											left join HotelOutRoomMapping b on a.RoomName=b.RoomOutName and a.HotelOutId=b.HotelOutId
+											left join HotelOutRoomMapping b on trim(a.RoomName)=trim(b.RoomOutName) and a.HotelOutId=b.HotelOutId and trim(a.MaxPeople) =trim(b.MaxPleopleLocal)
 											where a.HotelOutId=".$hotel['HotelsOutId']."
 											group by a.HotelOutId,a.RoomName order by a.RoomName")->result_array();
 									if(count($Rooms)>0)
@@ -145,7 +145,7 @@
 												</thead>';
 										foreach ($Rooms as $room) {
 
-											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].'" data-value="'.$room['RoomNameLocal'].'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'/1" title="Select Room Type"></a>';
+											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].','.$room['MaxPeople'].'" data-value="'.trim($room['RoomNameLocal']).','.trim($room['MaxPleopleLocal']).'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'/1" title="Select Room Type"></a>';
 
 											echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
 											<td> '.$room['RoomName'].'-'.$room['MaxPeople'].' </td>
@@ -293,11 +293,13 @@ function saveChange(params)
 
     $.ajax({
         type: "POST",
-        dataType: "json",
+        //dataType: "json",
         url: '<?=lang_url()?>scraping/savemaping',
         data:data,
         success:function(m)
         {
+					alert(m);
+					return;
         	if(m['success'])
         	{
         		 swal({

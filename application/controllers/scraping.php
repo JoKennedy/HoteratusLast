@@ -357,6 +357,8 @@ class scraping extends Front_Controller {
       echo json_encode($result);
 
     }
+
+
     public function allmainroom($ChannelId,$opt=0)
     {
       $allroom= $this->db->query("select concat(trim(b.RoomName),',',trim(b.MaxPeople)) value,  concat(b.RoomName,'-',b.MaxPeople) text
@@ -381,6 +383,8 @@ class scraping extends Front_Controller {
     }
     public function findroomtype($ChannelId='')
     {
+      ignore_user_abort(true);
+      set_time_limit(0);
         $ChannelId=($ChannelId==''?$_POST['channelid']:$ChannelId);
 
         switch ($ChannelId) {
@@ -389,10 +393,10 @@ class scraping extends Front_Controller {
             $result['message']='Channel Expedia not working by the moment';
             break;
           case '2':
-                set_time_limit(0);
+
                 $ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2 and HotelID=".hotel_id())->result_array();
                 $date=date('Y-m-d');
-                $start=137;
+                $start=9;
                 foreach ($ConfigHoteles as  $HotelInfo) {
 
                    for ($i=$start; $i <($start+10) ; $i++) {
@@ -446,24 +450,18 @@ class scraping extends Front_Controller {
   			 		$roomname=$value->find('.hprt-roomtype-name .hprt-roomtype-icon-link',0)->text();
 
   			 	}
-  			 	if (strlen($roomname)>0 && strlen($value->find('.invisible_spoken',0))>0 && count($value->find('.hprt-price-price'))>0) {
+    			 	if (strlen($roomname)>0 && strlen($value->find('.invisible_spoken',0))>0 && count($value->find('.hprt-price-price'))>0) {
 
-
-  			 		$person=$value->find('.invisible_spoken',0)->text();
-  			 		$prices=$value->find('.hprt-price-price',0)->text();
-  			 		$info['ChannelId']=$ChannelId;
-  			 		$info['RoomName']=$roomname;
-  			 		$info['HotelOutId']=$HotelOutId;
-  			 		$info['MaxPeople']=(string)$person;
-  			 		$info['DateCurrent']=$date1;
-  			 		$info['Prices']=(string)$prices;
-
-
-  			 		insert_data('HotelScrapingInfo',$info);
-  			 		//print_r($info);
-  			 	}
-
-
+    			 		$person=$value->find('.invisible_spoken',0)->text();
+    			 		$prices=$value->find('.hprt-price-price',0)->text();
+    			 		$info['ChannelId']=$ChannelId;
+    			 		$info['RoomName']=$roomname;
+    			 		$info['HotelOutId']=$HotelOutId;
+    			 		$info['MaxPeople']=(string)$person;
+    			 		$info['DateCurrent']=$date1;
+    			 		$info['Prices']=(string)$prices;
+    			 		insert_data('HotelScrapingInfo',$info);
+    			 	}
 
   			 }
 
@@ -472,44 +470,46 @@ class scraping extends Front_Controller {
 
 		    return;
 	  }
-	public function scrapear2($date)
-	{
-		$date1=$date;
-		$date2=date('Y-m-d',strtotime($date."+1 days"));
+  	public function scrapear2($date)
+  	{
+  		$date1=$date;
+  		$date2=date('Y-m-d',strtotime($date."+1 days"));
 
 
-		$referer = 'http://www.hotelhunter.com';
-		$cookies = 'cookies2.txt';
-		$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3');
+  		$referer = 'http://www.hotelhunter.com';
+  		$cookies = 'cookies2.txt';
+  		$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3');
 
-		while ($content=='Forbidden') {
-			$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3');
-		}
-		$html= html_to_dom(str_replace('data-providername', 'name', $content));
+  		while ($content=='Forbidden') {
+  			$content= $this->cURL("https://www.hotelhunter.com/Hotel/Search?checkin=2018-10-01&checkout=2018-10-02&Rooms=1&adults_1=2&fileName=Lifestyle_Tropical_Beach_Resort_Spa&currencyCode=USD&languageCode=EN", '', $cookies, $referer, '','Mozilla/5.0 (Windows; U; Windows NT 5.1; es-MX; rv:1.8.1.13) Gecko/20080311 Firefox/3.6.3');
+  		}
+  		$html= html_to_dom(str_replace('data-providername', 'name', $content));
 
-		$result='';
-		foreach ($html->find('#hc_htl_pm_rates_content') as $tarifainfo) {
-		     	$result.= $date1.'combied';
-			foreach ($tarifainfo->find('.hc-ratesmatrix__dealsrow') as  $value) {
+  		$result='';
+  		foreach ($html->find('#hc_htl_pm_rates_content') as $tarifainfo) {
+  		     	$result.= $date1.'combied';
+  			foreach ($tarifainfo->find('.hc-ratesmatrix__dealsrow') as  $value) {
 
-				if ($value->name=='Booking.com' || $value->name=='Agoda.com') {
+  				if ($value->name=='Booking.com' || $value->name=='Agoda.com') {
 
-					$result.=  $value->name;
-					$result.=  $value->find('.hc-ratesmatrix__roomrate',0);
-					$result.=  $value->find('.hc-ratesmatrix__roomname',0).'<br>';
-				}
-
-
-			}
-
-		}
+  					$result.=  $value->name;
+  					$result.=  $value->find('.hc-ratesmatrix__roomrate',0);
+  					$result.=  $value->find('.hc-ratesmatrix__roomname',0).'<br>';
+  				}
 
 
-		return ($result==''?$html:$result);
-	}
+  			}
+
+  		}
+
+
+  		return ($result==''?$html:$result);
+  	}
 	public function ScrapingBooking($start)
 	{
-    
+    ignore_user_abort(true);
+    set_time_limit(0);
+    $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >90 and HotelScrapingInfoId <>0");
 		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
@@ -533,7 +533,7 @@ class scraping extends Front_Controller {
 		for ($i=0; $i <1 ; $i++) {
 
 
-			$result.=$this->scrapear(date('Y-m-d',strtotime($date."+$i days"))) ;
+			echo $i;
 
 		}
 		echo $result;

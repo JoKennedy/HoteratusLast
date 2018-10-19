@@ -129,7 +129,7 @@
 
 									$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId,b.MaxPleopleLocal
 											FROM HotelScrapingInfo a
-											left join HotelOutRoomMapping b on trim(a.RoomName)=trim(b.RoomOutName) and a.HotelOutId=b.HotelOutId and trim(a.MaxPeople) =trim(b.MaxPleopleLocal)
+											left join HotelOutRoomMapping b on trim(a.RoomName)=trim(b.RoomOutName) and a.HotelOutId=b.HotelOutId and trim(a.MaxPeople) =trim(b.MaxPleopleOut)
 											where a.HotelOutId=".$hotel['HotelsOutId']."
 											group by a.HotelOutId,a.RoomName order by a.RoomName")->result_array();
 									if(count($Rooms)>0)
@@ -293,13 +293,11 @@ function saveChange(params)
 
     $.ajax({
         type: "POST",
-        //dataType: "json",
+        dataType: "json",
         url: '<?=lang_url()?>scraping/savemaping',
         data:data,
         success:function(m)
         {
-					alert(m);
-					return;
         	if(m['success'])
         	{
         		 swal({

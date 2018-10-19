@@ -260,7 +260,7 @@ class scraping extends Front_Controller {
 
     	$hotelid=hotel_id();
 
-    	$info=$this->db->query("select * from HotelOutRoomMapping where ChannelId =$ChannelId  and trim(RoomOutName) =trim('$RoomOutName')  and HotelId=$hotelid and MaxPleopleOut=trim('$maxout')")->row_array();
+    	$info=$this->db->query("select * from HotelOutRoomMapping where ChannelId =$ChannelId  and trim(RoomOutName) =trim('$RoomOutName')  and HotelId=$hotelid and trim(MaxPleopleOut)=trim('$maxout')")->row_array();
 
     	if(count($info)>0)
     	{
@@ -509,7 +509,7 @@ class scraping extends Front_Controller {
 	}
 	public function ScrapingBooking($start)
 	{
-    set_time_limit(0);
+    
 		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {

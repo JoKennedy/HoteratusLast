@@ -234,7 +234,7 @@ class scraping extends Front_Controller {
               $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
           }
           $body .=$precio;
-        $body .='</tbody> </table>';
+        $body .='</tbody> </table> <center><a onclick="BulkUpdate()" class="btn green"><i class="fas fa-calendar-check"></i> Bulk Update</a></center>';
         echo  $html.$header1.$header2.$body;
 
 
@@ -519,7 +519,7 @@ class scraping extends Front_Controller {
   	}
     public function clearscraping()
     {
-       $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >90 and HotelScrapingInfoId <>0");
+       $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >1440 and HotelScrapingInfoId <>0");
     }
 	public function ScrapingBooking($start)
 	{
@@ -533,7 +533,8 @@ class scraping extends Front_Controller {
     and a.ChannelId=2 
     group by HotelOutId
     order by max(b.CreateDate) asc 
-    limit 4")->result_array();
+    limit 3")->result_array();
+
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
 

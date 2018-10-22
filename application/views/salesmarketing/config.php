@@ -162,7 +162,7 @@
 										echo '</table>';
 									}
 									else{
-										echo '<center><a onclick="FindRoomtype('.$ota['HotelOtaId'].')" class="btn blue">Find Rooms Types</button></a>';
+										echo '<center><a onclick="FindRoomtype('.$ota['HotelOtaId'].')" class="btn blue">Find Room Types</button></a>';
 									}
 								}
 								echo '</div>';

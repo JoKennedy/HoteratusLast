@@ -76,7 +76,16 @@
 </div>
 <div  class="clearfix"></div>
 
+<div id="bulkupdate" style="display: none;">
+       <?=include('bulkupdate.php')?>
+</div>
+
 <script type="text/javascript">
+
+function BulkUpdate()
+{
+	$("#bulkupdate").css('display','');
+}
 function CompetiveDisplay() {
 
 	 var data = {  'yearid': $("#yearid").val(), 'monthid': $("#monthid").val(),'roomname':$("#roomtype").val(),'channelid':$("#channelid").val()};

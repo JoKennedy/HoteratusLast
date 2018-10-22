@@ -48,7 +48,9 @@
 
 													echo '<input  style="background:white; color:black; width:100%" type="input"  name="main_'.$ota['HotelOtaId'].'_'.(isset($mainhotels['HotelsOutId'])?$mainhotels['HotelsOutId']:$i).'_1" value="'.@$mainhotels['HotelName'].'" placeholder="Main Property Name">
 													 <input style="background:white; color:black; width:100%" type="input"  name="main_'.$ota['HotelOtaId'].'_'.(isset($mainhotels['HotelsOutId'])?$mainhotels['HotelsOutId']:$i).'_2"
-													value="'.@$mainhotels['HotelNameChannel'].'" placeholder="'.$ota['Name'].' Main Property Name" > ';
+													value="'.@$mainhotels['HotelNameChannel'].'" placeholder="'.$ota['Name'].' Main Property Name" > 
+													<input style="background:white; color:black; width:100%" type="text"  name="main_'.$ota['HotelOtaId'].'_'.(isset($mainhotels['HotelsOutId'])?$mainhotels['HotelsOutId']:$i).'_3"
+													value="'.@$mainhotels['MinimumStay'].'" placeholder="'.$ota['Name'].' Main Minimum Stay" onkeypress="return justNumbers(event);" > ';
 													$i++;
 
 													echo '<table class="table table-bordered">
@@ -57,7 +59,8 @@
 													<th width="5%">#</th>
 													<th>Hotel Name</th>
 													<th>'.$ota['Name'].' Name</th>
-													<th>Active</th>
+													<th width="5%">Minimum Stay</th>
+													<th width="5%">Active</th>
 													</tr>
 													</thead>';
 													$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=0")->result_array();
@@ -66,6 +69,7 @@
 														echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
 														<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$ota['HotelOtaId'].'_'.$hotel['HotelsOutId'].'_1" value="'.$hotel['HotelName'].'" > </td>
 														<td> <input style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$ota['HotelOtaId'].'_'.$hotel['HotelsOutId'].'_2" value="'.$hotel['HotelNameChannel'].'" > </td>
+														<td> <input style="background:white; color:black; width:100%" type="input" id="'.$hotel['HotelsOutId'].'" name="update_'.$ota['HotelOtaId'].'_'.$hotel['HotelsOutId'].'_3" value="'.@$hotel['MinimumStay'].'" onkeypress="return justNumbers(event);"> </td>
 														<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
 														$i++;
 												}
@@ -75,6 +79,7 @@
 													echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
 													<td> <input  style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$ota['HotelOtaId'].'_'.$i.'_1" placeholder="Property Name"> </td>
 													<td> <input style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$ota['HotelOtaId'].'_'.$i.'_2" placeholder="'.$ota['Name'].' Property Name" > </td>
+													<td> <input style="background:white; color:black; width:100%" type="input" id="'.$i.'" name="new_'.$ota['HotelOtaId'].'_'.$i.'_3" placeholder="Stay" onkeypress="return justNumbers(event);"> </td>
 													<td><center>No Created</center></td></tr>	 ';
 													$i++;
 												}
@@ -236,14 +241,14 @@ function saveProps()
 			{
 				if(m['success'])
 				{
-					 swal({
-									title: "Save",
-									text: 'Done',
-									icon: "success",
-									button: "Ok!",
-							}).then((m)=>{
-								window.location.reload();
-							});;
+					swal({
+                    title: "Success",
+                    text: "Done!",
+                    icon: "success",
+                    button: "Ok!",
+                }).then((n) => {
+                    location.reload();
+                });
 				}else{
 					swal({
 									title: "Upps ",

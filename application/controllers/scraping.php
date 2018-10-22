@@ -16,7 +16,7 @@ class scraping extends Front_Controller {
 
         //load base libraries, helpers and models
 
-
+    
     }
     public function competitiveset()
     {
@@ -34,12 +34,13 @@ class scraping extends Front_Controller {
     public function InfoPrices($date1,$date2,$channelid,$roomname)
     {
 
+
       $Hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and active=1 ")->result_array();
-      $mapping=$this->db->query("SELECT * FROM HotelOutRoomMapping where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and  trim(RoomNameLocal)=trim('$roomname[0]')")->result_array();
+      $mapping=$this->db->query("SELECT * FROM HotelOutRoomMapping where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and  trim(RoomNameLocal)=trim('$roomname[0]') and trim(MaxPleopleLocal)=trim('$roomname[1]')")->result_array();
 
       $vMapping='';
       foreach ($mapping as  $value) {
-        $vMapping[$value['HotelOutId']][trim($value['RoomNameLocal'])][]=trim($value['RoomOutName']);
+        $vMapping[$value['HotelOutId']][trim($value['RoomNameLocal'])][$value['MaxPleopleLocal']][]=array(trim($value['RoomOutName']),trim($value['MaxPleopleOut']));
       }
 
       $Info=array();
@@ -55,6 +56,7 @@ class scraping extends Front_Controller {
             if($hotel['Main']==1)
             {
                 $price=$this->db->query("select `price_room_channel`(trim('$roomname[0]'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price")->row_array();
+               // echo $this->db->last_query();
                 $Info[$date1][$hotel['HotelsOutId']][$roomname[0]]=$price['price'];
                 $Info[$date1]['minimum']=doubleval(trim(str_replace('$', '',$price['price'])));
                 $Info[$date1]['mainprice']=doubleval(trim(str_replace('$', '',$price['price'])));
@@ -62,11 +64,11 @@ class scraping extends Front_Controller {
             }
             else
             {
-              if(isset($vMapping[$hotel['HotelsOutId']][trim($roomname[0])]))
+              if(isset($vMapping[$hotel['HotelsOutId']][trim($roomname[0])][trim($roomname[1])]))
               {
-                foreach ($vMapping[$hotel['HotelsOutId']][trim($roomname[0])] as  $value) {
-                    $price=$this->db->query("select `price_room_channel`(trim('$value'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price")->row_array();
-                    $Info[$date1][$hotel['HotelsOutId']][$value]=$price['price'];
+                foreach ($vMapping[$hotel['HotelsOutId']][trim($roomname[0])][trim($roomname[1])] as  $value) {
+                    $price=$this->db->query("select `price_room_channel`(trim('$value[0]'),'$date1',".$hotel['HotelsOutId'].",trim('$value[1]')) price")->row_array();
+                    $Info[$date1][$hotel['HotelsOutId']][$value[0]]=$price['price'];
                     if($Info[$date1]['minimum']==0)
                     {
                         $Info[$date1]['minimum']=doubleval(trim(str_replace('$', '',$price['price'])));
@@ -154,7 +156,7 @@ class scraping extends Front_Controller {
                   { $r=$key;
                     $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$key.'</span></h5></td>';
                   }
-                  $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                  $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.(is_numeric($priceinfo)?round($priceinfo,2):$priceinfo).'</td>';
                   $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
                 }
 
@@ -187,11 +189,11 @@ class scraping extends Front_Controller {
 
                       if($key==$r1)
                       {
-                        $precio.='<td bgcolor="'.(($i)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                        $precio.='<td bgcolor="'.(($i)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" >'.(is_numeric($priceinfo)?round($priceinfo,2):$priceinfo).'</td>';
                       }
                       if($key==$r2)
                       {
-                        $precio2.='<td bgcolor="'.(($i)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" >'.$priceinfo.'</td>';
+                        $precio2.='<td bgcolor="'.(($i)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" >'.(is_numeric($priceinfo)?round($priceinfo,2):$priceinfo).'</td>';
                       }
 
                       $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
@@ -306,6 +308,7 @@ class scraping extends Front_Controller {
               $savedata=array();
               $savedata['HotelName']=$infoto[1];
               $savedata['HotelNameChannel']=$infoto[2];
+              $savedata['MinimumStay']=$infoto[3];
               $savedata['ChannelId']=$canalid;
               $savedata['HotelID']=hotel_id();
               $savedata['Active']=1;
@@ -323,6 +326,7 @@ class scraping extends Front_Controller {
               $savedata=array();
               $savedata['HotelName']=$infoto[1];
               $savedata['HotelNameChannel']=$infoto[2];
+              $savedata['MinimumStay']=$infoto[3];
               $exist=$this->db->query("select * from HotelsOut where HotelsOutId=$updateid and HotelID=".hotel_id()." and Main=1 and ChannelId=$canalid")->row_array();
               if(!isset($exist['HotelsOutId']))
               {
@@ -347,6 +351,7 @@ class scraping extends Front_Controller {
               $savedata=array();
               $savedata['HotelName']=$infoto[1];
               $savedata['HotelNameChannel']=$infoto[2];
+              $savedata['MinimumStay']=$infoto[3];
               update_data('HotelsOut',$savedata,array('HotelsOutId'=>$updateid,'HotelID'=>hotel_id()));
             }
           }
@@ -401,7 +406,7 @@ class scraping extends Front_Controller {
 
                    for ($i=$start; $i <($start+10) ; $i++) {
 
-                    $this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;
+                    $this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId'],$HotelInfo['MinimumStay']) ;
                   }
                   echo "Propiedad ".$HotelInfo['HotelID'].'<br>';
                 }
@@ -424,10 +429,10 @@ class scraping extends Front_Controller {
 
         echo json_encode($result);
     }
-    public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId)
+    public function ScrapearBooking($date,$HotelNameOut,$HotelOutId,$HotelId,$ChannelId,$MinimumStay)
   	{
   		$date1=$date;
-  		$date2=date('Y-m-d',strtotime($date."+1 days"));
+  		$date2=date('Y-m-d',strtotime($date."+$MinimumStay days"));
 
 
   		$agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
@@ -454,13 +459,20 @@ class scraping extends Front_Controller {
 
     			 		$person=$value->find('.invisible_spoken',0)->text();
     			 		$prices=$value->find('.hprt-price-price',0)->text();
-    			 		$info['ChannelId']=$ChannelId;
-    			 		$info['RoomName']=$roomname;
-    			 		$info['HotelOutId']=$HotelOutId;
-    			 		$info['MaxPeople']=(string)$person;
-    			 		$info['DateCurrent']=$date1;
-    			 		$info['Prices']=(string)$prices;
-    			 		insert_data('HotelScrapingInfo',$info);
+             $prices=doubleval(substr(trim($prices), strpos(trim($prices), '$')+1));
+
+
+              for ($i=0; $i <$MinimumStay ; $i++) { 
+                $date3=date('Y-m-d',strtotime($date."+$i days"));
+                $info['ChannelId']=$ChannelId;
+                $info['RoomName']=trim($roomname);
+                $info['HotelOutId']=$HotelOutId;
+                $info['MaxPeople']=(string)trim($person);
+                $info['DateCurrent']=$date3;
+                $info['Prices']=($prices/$MinimumStay);
+                insert_data('HotelScrapingInfo',$info);
+              }
+    			 		
     			 	}
 
   			 }
@@ -505,18 +517,29 @@ class scraping extends Front_Controller {
 
   		return ($result==''?$html:$result);
   	}
+    public function clearscraping()
+    {
+       $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >90 and HotelScrapingInfoId <>0");
+    }
 	public function ScrapingBooking($start)
 	{
     ignore_user_abort(true);
     set_time_limit(0);
-    $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >90 and HotelScrapingInfoId <>0");
-		$ConfigHoteles=$this->db->query("SELECT * FROM HotelsOut where active=1 and ChannelId=2")->result_array();
+   
+    $ConfigHoteles=$this->db->query("SELECT a.*,CreateDate
+    FROM HotelsOut a
+    left join HotelScrapingInfo b on a.HotelsOutId =b.HotelOutId
+    where a.active=1 
+    and a.ChannelId=2 
+    group by HotelOutId
+    order by max(b.CreateDate) asc 
+    limit 4")->result_array();
 		$date=date('Y-m-d');
 		foreach ($ConfigHoteles as  $HotelInfo) {
 
 			 for ($i=$start; $i <($start+30) ; $i++) {
 
-				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId']) ;
+				$this->ScrapearBooking(date('Y-m-d',strtotime($date."+$i days")),$HotelInfo['HotelNameChannel'],$HotelInfo['HotelsOutId'],$HotelInfo['HotelID'],$HotelInfo['ChannelId'],$HotelInfo['MinimumStay']) ;
 			}
 			echo "Propiedad ".$HotelInfo['HotelID'].'<br>';
 		}

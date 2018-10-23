@@ -55,11 +55,23 @@ class scraping extends Front_Controller {
 
             if($hotel['Main']==1)
             {
-                $price=$this->db->query("select `price_room_channel`(trim('$roomname[0]'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price")->row_array();
-               // echo $this->db->last_query();
+                $price=$this->db->query("select `price_room_channel`(trim('$roomname[0]'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price,
+                   `room_available` (b.property_id,'".date('d/m/Y',strtotime($date1))."',a.hotel_id) roomavailable, b.property_id roomid
+                   from import_mapping_BOOKING a
+                  left join roommapping b on a.import_mapping_id=b.import_mapping_id
+                  where 
+                  a.hotel_id=".hotel_id()." 
+                  and a.max_persons>0 
+                  and a.room_name =trim('$roomname[0]')
+                  and b.channel_id=2
+                  limit 1")->row_array();
+                $roomava=explode(',',$price['roomavailable']);
                 $Info[$date1][$hotel['HotelsOutId']][$roomname[0]]=$price['price'];
                 $Info[$date1]['minimum']=doubleval(trim(str_replace('$', '',$price['price'])));
                 $Info[$date1]['mainprice']=doubleval(trim(str_replace('$', '',$price['price'])));
+                $Info[$date1]['roomavailable']=$roomava[0];
+                $Info[$date1]['occupation']=(($roomava[1]-$roomava[0])/$roomava[1])*100 ;
+                $Info[$date1]['roomid']=$price['roomid'];
                 $mainprice=doubleval(trim(str_replace('$', '',$price['price'])));
             }
             else
@@ -91,6 +103,9 @@ class scraping extends Front_Controller {
     public function DisplayHTML()
     {
 
+        $joninfo['html']='';
+        $joninfo['json']='';
+
         $date1=$_POST['yearid'].'-'.$_POST['monthid'].'-01';
         $primerdia = new DateTime($date1);
         $primerdia->modify('first day of this month');
@@ -105,25 +120,28 @@ class scraping extends Front_Controller {
 
         if(count($canal)==0)
         {
-          echo '<center><h1><span class="label label-danger">No Room Mapping</span></h1></center>';
+          $joninfo['html']= '<center ><h1><span class="label label-danger">No Room Mapping</span></h1></center>';
+           echo json_encode($joninfo);
           return;
         }
 
         if($resultado->format('%R%a')<-31)
         {
-          echo '<center><h1><span class="label label-danger">you can'."'".'t search past dates</span></h1></center>';
+          $joninfo['html']= '<center><h1><span class="label label-danger">you can'."'".'t search past dates</span></h1></center>';
+          echo json_encode($joninfo);
           return;
         }
         if($resultado->format('%R%a')>181)
         {
-          echo '<center><h1><span class="label label-danger">You can only search up to 6 months</span></h1></center>';
+          $joninfo['html']=  '<center><h1><span class="label label-danger">You can only search up to 6 months</span></h1></center>';
+           echo json_encode($joninfo);
           return;
         }
         $roomnameinfo=explode(',',$_POST['roomname']);
 
         $roominfo=$this->InfoPrices($date1,$date2,$_POST['channelid'],$roomnameinfo);
 
-
+        $joninfo['json']=json_encode($roominfo);
 
         $month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
 
@@ -145,24 +163,37 @@ class scraping extends Front_Controller {
         $mainhotel=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$_POST['channelid']." and active=1 and main=1")->result_array();
         foreach ($mainhotel as $main) {
             $precio='<tr>';
+            $ava='<tr>';
+            $ocupan='<tr >';
             $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style="width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-primary">'.$main['HotelName'].'</span></h4></center></td> </tr> ';
             $room2='';
             $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
             $r='';
+
             for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
 
                 foreach ($roominfo[$datecurrent][$main['HotelsOutId']] as $key => $priceinfo) {
                   if($i==1  )
                   { $r=$key;
                     $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$key.'</span></h5></td>';
+                    $ava.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-success"> Availability</span></h5></td>';
+                    $ocupan.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-warning">Occupancy</span></h5></td>';
                   }
+
                   $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.(is_numeric($priceinfo)?round($priceinfo,2):$priceinfo).'</td>';
+              
+                    $ava.='<td bgcolor="'.($i%2?'#b3f5a4':'#4aaa34').'"  style="font-size: 10px; text-align:center;" >'.$roominfo[$datecurrent]['roomavailable'].'</td>';
+                  $ocupan.='<td bgcolor="'.($i%2?'#f2f58d':'#bec246').'"  style="font-size: 10px; text-align:center;" >'.$roominfo[$datecurrent]['occupation'].'%</td>';
+                  
+                  
                   $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
                 }
 
               }
             $precio.='</tr>';
-              $body .=$precio;
+            $ava.='</tr>';
+            $ocupan.='</tr>';
+            $body .=$precio.$ava.$ocupan;
         }
         foreach ($hotels as $hotel) {
           $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
@@ -170,7 +201,6 @@ class scraping extends Front_Controller {
           {
                 $precio='<tr>';
                 $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style=""width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-primary">'.$hotel['HotelName'].'</span></h4></center></td> </tr> ';
-
                 $roomcount=count($roominfo[$datecurrent][$hotel['HotelsOutId']]);
                 $precio2=($roomcount==2?'<tr>':'');
                 $r1='';
@@ -234,9 +264,10 @@ class scraping extends Front_Controller {
               $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
           }
           $body .=$precio;
-        $body .='</tbody> </table> <center><a onclick="BulkUpdate()" class="btn green"><i class="fas fa-calendar-check"></i> Bulk Update</a></center>';
-        echo  $html.$header1.$header2.$body;
+        $body .='</tbody> </table> <center><a onclick="BulkUpdate()" class="btn green"><i class="fas fa-calendar-check"></i><span>Update The Channels with These rates?</span></a></center>';
+        $joninfo['html']=  $html.$header1.$header2.$body;
 
+        echo json_encode($joninfo);
 
     }
     public function config()

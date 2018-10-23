@@ -24,106 +24,108 @@
     </div>
     <!--//down-->
 
-    <div class="menu" >
-    	  
-        <ul id="menu">
-			
-			<?php 
+    <div class="menu">
+    	<div  id="boxscroll5" >
+                 <div class="wrapper">  
+		        <ul id="menu" >
+					                                                    
+					<?php 
 
-			$channelConnected=$this->db->query("SELECT a.*,b.channel_name 
-					FROM user_connect_channel a
-					left join manage_channel b on a.channel_id=b.channel_id
-					where hotel_id=".hotel_id()." and a.channel_id<>39;")->result_array();
-
-
-				$sub=0;
-				$item1=0;
-				$item2=0;
-				$order4=0;
-				if(!isset($menudata))
-				{
-					if($User_Type==1)
-					{
-						$menudata= $this->db->query("select * from menuitem order by order1,order2,order3")->result_array();
-					}
-					else if($User_Type==2)
-					{
-						$r=$this->db->query("select * from assignedhotels where userid =".$user_id)->row_array();
-						$menudata=$this->db->query("select * from menuitem where menuitemid in (".$r['menuitemids'].") order by order1,order2,order3")->result_array();
-					}
-				}
-				foreach ($menudata as  $value) {
-					
-					if($sub==1 && $item1 !=$value['order1'])
-					{
-						echo '</ul>';
-					}
-
-					if($item1 !=$value['order1']){echo '</li>';}
+					$channelConnected=$this->db->query("SELECT a.*,b.channel_name 
+							FROM user_connect_channel a
+							left join manage_channel b on a.channel_id=b.channel_id
+							where hotel_id=".hotel_id()." and a.channel_id<>39;")->result_array();
 
 
-					if ($value['order2']==0 && $value['order3']==0) {
-						
-						echo '<li><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'"><i class="'.$value['iconclass'].'"></i> <span>'.$value['description'].'</span>
-						'.($value['flecha']==1?'<span class="fa fa-angle-right" style="text-align: right; "></span>':'').'</a>';
 						$sub=0;
-						$item1=$value['order1'];
-					}
-					else if($value['order2']>0 && $value['order3']==0)
-					{	$item2=$value['order2'];
-						if($sub==0){$sub=1;echo '<ul id="menu-academico-sub">';}
-
-						if($value['flecha']==2)
+						$item1=0;
+						$item2=0;
+						$order4=0;
+						if(!isset($menudata))
 						{
-							if (count($channelConnected)==0) {
-								echo '<li id="menu-academico-avaliacoes"><a href="#">No Channel Conected</a></li>';
-							}
-							else
+							if($User_Type==1)
 							{
-								echo '<div style="width:200px; height:150px; overflow:auto; "  >';
-								foreach ($channelConnected as  $channel) {
-								echo '<li id="menu-academico-avaliacoes"><a href="'.base_url().'mapping/mappingRooms/'.insep_encode($channel['channel_id']).'">'.$channel['channel_name'].'</a></li>';
-								}
-								echo '</div>';
+								$menudata= $this->db->query("select * from menuitem order by order1,order2,order3")->result_array();
 							}
-							
-
-                    		
-
+							else if($User_Type==2)
+							{
+								$r=$this->db->query("select * from assignedhotels where userid =".$user_id)->row_array();
+								$menudata=$this->db->query("select * from menuitem where menuitemid in (".$r['menuitemids'].") order by order1,order2,order3")->result_array();
+							}
 						}
-						else if ($value['order1']==4) {
+						foreach ($menudata as  $value) {
+							
+							if($sub==1 && $item1 !=$value['order1'])
+							{
+								echo '</ul>';
+							}
 
+							if($item1 !=$value['order1']){echo '</li>';}
+
+
+							if ($value['order2']==0 && $value['order3']==0) {
 								
-								if ($order4==0) {
-									echo '<div style="width:200px; height:250px; overflow:auto; "  >';
-									$order4=1;
+								echo '<li><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'"><i class="'.$value['iconclass'].'"></i> <span>'.$value['description'].'</span>
+								'.($value['flecha']==1?'<span class="fa fa-angle-right" style="text-align: right; "></span>':'').'</a>';
+								$sub=0;
+								$item1=$value['order1'];
+							}
+							else if($value['order2']>0 && $value['order3']==0)
+							{	$item2=$value['order2'];
+								if($sub==0){$sub=1;echo '<ul id="menu-academico-sub">';}
+
+								if($value['flecha']==2)
+								{
+									if (count($channelConnected)==0) {
+										echo '<li id="menu-academico-avaliacoes"><a href="#">No Channel Conected</a></li>';
+									}
+									else
+									{
+										echo '<div style="width:200px; height:150px; overflow:auto; "  >';
+										foreach ($channelConnected as  $channel) {
+										echo '<li id="menu-academico-avaliacoes"><a href="'.base_url().'mapping/mappingRooms/'.insep_encode($channel['channel_id']).'">'.$channel['channel_name'].'</a></li>';
+										}
+										echo '</div>';
+									}
+									
+
+		                    		
+
+								}
+								else if ($value['order1']==4) {
+
+										
+										if ($order4==0) {
+											echo '<div style="width:200px; height:250px; overflow:auto; "  >';
+											$order4=1;
+										}
+										
+										
+										echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
+										
+										
+								}
+								else
+								{	
+
+									echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
+									
 								}
 								
+
+
+							}
 								
-								echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
-								
-								
+
 						}
-						else
-						{	
+						if($sub==1){echo '</ul>';}
+						echo '</li>';
 
-							echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
-							
-						}
-						
+					?>
+			        </ul>
+			</div>
+	</div>
 
-
-					}
-						
-
-				}
-				if($sub==1){echo '</ul>';}
-				echo '</li>';
-
-			?>
-
-        </ul>
-   
     </div>
 </div>
 <div class="clearfix"></div>
@@ -131,8 +133,9 @@
 <script>
 	 $(document).ready(function() {
 
-        $("#boxscroll2").niceScroll("#boxscroll2 .wrapper", { boxzoom: true }); // hw acceleration enabled when using wrapper
-
+	 	$("#boxscroll5").css('height',screen.height-400);
+        $("#boxscroll5").niceScroll("#boxscroll5 .wrapper", { boxzoom: true }); // hw acceleration enabled when using wrapper
+        $("#boxscroll5").css('overflow','');
     });
 var toggle = true;
 

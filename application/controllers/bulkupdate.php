@@ -209,6 +209,78 @@ class bulkupdate extends Front_Controller
 		$this->session->set_flashdata('bulk_success', $result );
 	
 	}
+	function bulkUpdateAnalisis()
+	{	
+
+//var_dump($jsoninfo['2018-10-01']['minimum']);
+
+
+		/*minimum,occupation,roomavailable,roomid*/
+
+		$this->is_login();
+		ini_set('max_execution_time', 60000);
+
+		$Hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$_POST['channel_id']." and active=1 and main=1")->row_array();
+		$jsoninfo=json_decode($_POST['jsoninfo'],true);
+		
+		$countdate=count($_POST['date1Edit']);
+		$DatesRange=array();
+		$result='';
+		
+		for ($i=0; $i < $countdate ; $i++) { 
+			$DatesRange[$i]['startdate']=$_POST['date1Edit'][$i];
+			$DatesRange[$i]['enddate']=$_POST['date2Edit'][$i];
+		}
+		
+
+        foreach ($DatesRange as  $fechas) {
+
+
+    			$periodo=getDatespecificas($fechas['startdate'],$fechas['enddate'],array(1,2,3,4,5,6,7));
+    		
+
+    			foreach ($periodo['rangos'] as $date) {
+    							                		
+
+    				foreach ($date['separate'] as $value) {
+    					
+    					  	if($jsoninfo[$value]['mainprice']==0)
+				              {
+				                $money=0;
+				              }
+				              else if($jsoninfo[$value]['mainprice']<=$jsoninfo[$value]['minimum'])
+				              {
+				                $money=0;
+				              }
+				              else {
+				                $money=round($jsoninfo[$value]['minimum']-($jsoninfo[$value]['minimum']*0.03), 2);
+				                
+				              }
+
+				              if($money>0)
+				              {
+				              		 $this->db->query("Update  room_update                                  
+			                            set PriceRevenue=$money ,
+			                            price =$money
+			                            where hotel_id=".hotel_id()."
+			                            and room_id=".$jsoninfo[$value]['roomid']."
+			                            and individual_channel_id=0
+			                            and STR_TO_DATE(separate_date ,'%d/%m/%Y')= '$value' " );
+				              }
+
+    					
+    				}
+
+                }        
+        }
+                    
+		
+
+		echo('Main Channel Updated');
+		
+	
+	}
+	
 
     function cleanArray($array)
     {
@@ -319,8 +391,6 @@ class bulkupdate extends Front_Controller
 		
         }
         
-        
-
 	}
 	
 }

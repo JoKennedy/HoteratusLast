@@ -7,6 +7,8 @@
             <div>
                 <div class="graph-form">
                     <form id="BulkUpdateF">
+                        <input type="hidden" name="jsoninfo" id="jsoninfo">
+                        <input type="hidden" name="channel_id" id="channel_id">
                           <div class="col-md-12">
                                 <?php
                                     echo '<div class="panel-default"> <div class="panel-heading"> <h3 class="panel-title">Channels</h3> </div>';
@@ -25,7 +27,7 @@
                                     $AllChannelConected=$this->db->query("SELECT a.*,b.channel_name 
                                     FROM user_connect_channel a
                                     left join manage_channel b on a.channel_id=b.channel_id
-                                    where hotel_id=".hotel_id()." order by b.channel_name")->result_array();
+                                    where hotel_id=".hotel_id()." and a.channel_id <>39 order by b.channel_name")->result_array();
                                     foreach ($AllChannelConected as $channel) {
 
                                         echo '<div class="col-md-4 ">

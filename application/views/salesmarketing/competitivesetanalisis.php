@@ -1,5 +1,5 @@
 
-<div class="outter-wp">
+<div class="outter-wp" style="height:5000px;">
 		<!--sub-heard-part-->
 		  <div class="sub-heard-part">
 		   <ol class="breadcrumb m-b-0">
@@ -69,47 +69,129 @@
 
 
 				<div class="table-responsive" id="calendarid"></div>
-
+				<div id="bulkupdate" style="display: none;">
+      				 <?php include('bulkupdate.php'); ?>
+				</div>
 		</div>
 
 	</div>
 </div>
 <div  class="clearfix"></div>
 
-<div id="bulkupdate" style="display: none;">
-       <?=include('bulkupdate.php')?>
-</div>
+
 
 <script type="text/javascript">
 
-function BulkUpdate()
-{
-	$("#bulkupdate").css('display','');
-}
-function CompetiveDisplay() {
+	var jsoninfo;
+	function BulkUpdate()
+	{
+		$("#bulkupdate").css('display','');
+	}
+	function CompetiveDisplay() {
 
-	 var data = {  'yearid': $("#yearid").val(), 'monthid': $("#monthid").val(),'roomname':$("#roomtype").val(),'channelid':$("#channelid").val()};
+		 var data = {  'yearid': $("#yearid").val(), 'monthid': $("#monthid").val(),'roomname':$("#roomtype").val(),'channelid':$("#channelid").val()};
+		 $("#bulkupdate").css('display','none');
+		 a =new Date($("#yearid").val()+'-'+$("#monthid").val()+'-01') ;
+		 a.setDate(a.getDate()+1);
+		 
+		 $.ajax({
+				 type: "POST",
+				 url: '<?=lang_url()?>scraping/DisplayHTML',
+				 data: data,
+				 dataType:'json',
+				 beforeSend: function() {
+						 showWait('Please Wait');
+						 setTimeout(function() { unShowWait(); }, 1000000);
+				 },
+				 success: function(html) {
+				 		$("#calendarid").html('');
+				 		$("#jsoninfo").val('');
+						 $("#calendarid").html(html['html']);
+						$("#jsoninfo").val(html['json']);
+						$("#channel_id").val($("#channelid").val());
+						 $('.inline_username').editable({
+								 url: function (params) {
+										return saveChange(params);
+								 }
+						 });
+						 $('.datepickers').datepicker({minDate:a,dateFormat: 'yy-mm-dd',});
+						 unShowWait();
 
-	 $.ajax({
+				 }
+		 });
+	}
+	function SaveBulkUpdate()
+	{
+		validar=1;
+		var channelid='';
+			$(".channelid").each(function(index, el) {
+		         if( $(el).prop("checked") )
+		         {
+		         	channelid+=$(el).val();
+		         }
+	         
+	    	});
+
+	    	if(channelid.length==0)
+	    	{	validar=0;
+	    		swal({
+	                title: "upps, Sorry",
+	                text: "Select a Channel To Continue!",
+	                icon: "warning",
+	                button: "Ok!",
+	            })
+	    		return ;
+	    	}
+	    	$(".date2").each(function(index, el) {
+	        if ($(el).val() == '') {
+	        	validar=0;
+	            swal({
+	                title: "upps, Sorry",
+	                text: "Complete a Date Range To Continue!",
+	                icon: "warning",
+	                button: "Ok!",
+	            }).then((n)=>{
+	            	$(el).focus();
+	            });
+	            return false;
+	        }
+
+
+	    });
+
+	    $(".date1").each(function(index, el) {
+	        if ($(el).val() == '') {
+	        	validar=0;
+	            swal({
+	                title: "upps, Sorry",
+	                text: "Complete a Date Range To Continue!",
+	                icon: "warning",
+	                button: "Ok!",
+	            }).then((n)=>{
+	            	$(el).focus();
+	            });
+
+	            return false;
+	        }
+
+
+	    });
+
+	    if(validar==0)return;
+		$.ajax({
 			 type: "POST",
-			 url: '<?=lang_url()?>scraping/DisplayHTML',
-			 data: data,
+			 url: '<?=lang_url()?>bulkupdate/bulkUpdateAnalisis',
+			 data: $("#BulkUpdateF").serialize(),
+			 //dataType:'json',
 			 beforeSend: function() {
-					 showWait('Please Wait');
-					 setTimeout(function() { unShowWait(); }, 100000);
+					 //showWait('Please Wait');
+					 //setTimeout(function() { unShowWait(); }, 1000000);
 			 },
 			 success: function(html) {
-					 $("#calendarid").html(html);
-					 $('.inline_username').editable({
-							 url: function (params) {
-									return saveChange(params);
-							 }
-					 });
-					 unShowWait();
-
+			 		alert(html);
 			 }
 	 });
-}
+	}
 </script>
 
 

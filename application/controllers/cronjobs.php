@@ -56,15 +56,10 @@ class cronjobs extends Front_Controller
 	    				if($Mappingvalue["rate_id"]==0)#esto es para serrar Local
 	    				{
 	    					update_data('room_update',$data,array('individual_channel_id'=>0,'room_id'=>$Mappingvalue["property_id"],'hotel_id'=>$hotel_id,'owner_id'=>$user_id, 'separate_date' =>$CloseDate));
-
-	    					
-
 	    				}
 	    				else
 	    				{
 	    					update_data('room_update',$data,array('individual_channel_id'=>0,'room_id'=>$Mappingvalue["property_id"],'hotel_id'=>$hotel_id,'owner_id'=>$user_id, 'separate_date' =>$CloseDate,'rate_types_id'=>$Mappingvalue["rate_id"]));
-
-	    					
 	    				}
 
 	    				$mp_details = get_data('import_mapping_BOOKING',array('owner_id'=>$user_id,'hotel_id'=>$hotel_id,'channel_id'=> "2",'import_mapping_id'=>$Mappingvalue["import_mapping_id"]))->row();
@@ -73,10 +68,7 @@ class cronjobs extends Front_Controller
 	    				$previosroom=(isset($Allinfo[$user_id][$hotel_id]['Booking']['RoomName'])?$Allinfo[$user_id][$hotel_id]['Booking']['RoomName'].',':'');
 	    				$Allinfo[$user_id][$hotel_id]['Booking']['RoomName']=$previosroom.$mp_details->room_name.'-'.$mp_details->rate_name;
 	    				$Allinfo[$user_id][$hotel_id]['Email']=$email;
-	    				
-	    				
-						
-						
+
 						$xml_data='<?xml version="1.0" encoding="UTF-8"?>
 						<request>
 						<username>'.$user_name.'</username>

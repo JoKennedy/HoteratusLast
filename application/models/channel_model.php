@@ -222,9 +222,6 @@ class channel_model extends CI_Model
 			return 0;  // no account..
 		}
 	}
-
-
-
 	function changestatus($id)
 	{
 		$this->db->query("update user_connect_channel set status = case when status='enabled' then 'disabled' else 'enabled' end where user_connect_id=$id ");
@@ -290,7 +287,6 @@ class channel_model extends CI_Model
 			{
 				return '2';
 			}
-
 	}
 	function savenewuserassg($infouser)
 	{
@@ -326,9 +322,6 @@ class channel_model extends CI_Model
 		return false;
 
 		# User_Type, owner_id, access, multiproperty, user_name, fname, lname, password, spass, mobile, town, address, zip_code, property_name, connected_channel, web_site, email_address, country, currency, tax_office, tax_id, transaction_id, plan_id, plan_price, plan_from, plan_to, user_password, payment_method, subscribe_status, status, acc_active, created_date, channel_subscribe_txnid, channel_subscribe_planid, channel_subscribe_price, channel_subscribe_from, channel_subscribe_to, channel_subscribe_method, channel_subscribe_status, ipaddress, user_agent, attempt_cnt, pw_ck
-
-
-
 	}
 	function updatenewuserassg($infouser)
 	{
@@ -365,7 +358,6 @@ class channel_model extends CI_Model
 
 		}
 		return false;
-
 	}
 	function saveBillingDetails($billd)
 	{
@@ -457,7 +449,6 @@ class channel_model extends CI_Model
 		{
 			return false;
 		}
-
 	}
 	function updatePaymentMethod()
 	{
@@ -475,7 +466,6 @@ class channel_model extends CI_Model
 		{
 			return false;
 		}
-
 	}
 	function saveTax()
 	{

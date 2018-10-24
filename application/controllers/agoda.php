@@ -12,7 +12,7 @@ class agoda extends Front_Controller {
         return;
     }
    
-   function is_admin()
+   	function is_admin()
     {   
         if(!admin_id())
         redirect(base_url());
@@ -21,12 +21,10 @@ class agoda extends Front_Controller {
 	
 	function get_mapping_rooms($connect)
 	{
-		
-		
-		
-	$this->load->model('agoda_model');
-	$data=$this->agoda_model->get_mapping_rooms($connect);
-	return $data;
+
+		$this->load->model('agoda_model');
+		$data=$this->agoda_model->get_mapping_rooms($connect);
+		return $data;
 		
 	}
 	
@@ -44,11 +42,6 @@ class agoda extends Front_Controller {
 				  echo "<h3 style=color:green>update successfully completed.</h3>";
 				
 			}
-		
-
-		   
-		   
-		
 	}
 	
 	
@@ -65,9 +58,6 @@ class agoda extends Front_Controller {
 		   echo "<h3 style=color:green>Delete successfully completed.</h3>";  
 		   
 	   }
-
-	
-		
 	}
 	
 	
@@ -77,15 +67,13 @@ class agoda extends Front_Controller {
 		$this->load->model('agoda_model');
 		$result=$this->agoda_model->save_mapping($data);
 		return $result;
-		
-		
 	}
 	
 	
-	  function maptochannel($channel_id,$property_id)
+	function maptochannel($channel_id,$property_id)
     {
-         require_once(APPPATH.'models/agoda_model.php'); 
-         $agoda_model         =   new agoda_model();
+        require_once(APPPATH.'models/agoda_model.php'); 
+        $agoda_model         =   new agoda_model();
         $data['available']      =   get_data('import_mapping_AGODA',array('hotel_id'=>hotel_id(),'channel'=>insep_decode($channel_id)))->row_array();
         $data['mapping_values'] =   get_data("mapping_values",array('mapping_id'=>insep_decode($property_id)))->row_array();
         $data['agoda']   =    $agoda_model->get_mapping_rooms(insep_decode($channel_id),'update');

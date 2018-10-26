@@ -18,6 +18,7 @@
 								<ul>
 									<li><a onclick="showtab(1);" href="#section-1" class="icon-shop"><i class="fa fa-info-circle"></i> <span>Properties and Ota's</span></a></li>
 									<li><a onclick="showtab(2);" href="#section-2" class="icon-cup"><i class="fa fa-cogs"></i> <span>Rooms Mapping</span></a></li>
+									<li><a onclick="showtab(3);" href="#section-2" class="icon-cup"><i class="fa fa-cogs"></i> <span>Local Rooms Mapping</span></a></li>
 								</ul>
 							</nav>
 						<div class="content tab">
@@ -101,83 +102,162 @@
 									<div class="clearfix"></div>
 								</div>
 							</section>
-							<div class="clearfix"></div>
+								<div class="clearfix"></div>
 							<section id="section-2" class="sec">
-							<div class="forms-main">
-							<div  class="forms-main">
-							<div class="graph-form">
+								<div class="forms-main">
+								<div  class="forms-main">
+								<div class="graph-form">
 
-							<form class=""  method="post">
+								<form class=""  method="post">
 
-							<div class="vali-form">
+								<div class="vali-form">
 
-							<div class="graph">
+								<div class="graph">
 
-							<nav class="second" >
-							<?php
-							foreach ($AllOtas as  $ota) {
-							echo '<a style="height:150px;" id="ota'.$ota['HotelOtaId'].'">';
-							echo $ota['Name'];
-							echo '</a>';
-							}
-							?>
-							</nav>
-
-							<?php
-							foreach ($AllOtas as  $ota) {
-								echo '<div class="context col-md-12">  ';
-								$i=1;
-								$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=0")->result_array();
-
-								foreach ($hotels as  $hotel) {
-									echo '<center><h1><span class="label label-primary">'.$hotel['HotelName'].'</span></h1></center>';
-
-									$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId,b.MaxPleopleLocal
-											FROM HotelScrapingInfo a
-											left join HotelOutRoomMapping b on trim(a.RoomName)=trim(b.RoomOutName) and a.HotelOutId=b.HotelOutId and trim(a.MaxPeople) =trim(b.MaxPleopleOut)
-											where a.HotelOutId=".$hotel['HotelsOutId']."
-											group by a.HotelOutId,a.RoomName order by a.RoomName")->result_array();
-									if(count($Rooms)>0)
-									{	$i=1;
-										echo '<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th  width="5%">#</th>
-												<th>Room Name '.$hotel['HotelName'].'('.$ota['Name'].')</th>
-												<th>Room Name Hoteratus</th>
-												<th>Active</th>
-												</tr>
-												</thead>';
-										foreach ($Rooms as $room) {
-
-											$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].','.$room['MaxPeople'].'" data-value="'.trim($room['RoomNameLocal']).','.trim($room['MaxPleopleLocal']).'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'/1" title="Select Room Type"></a>';
-
-											echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
-											<td> '.$room['RoomName'].'-'.$room['MaxPeople'].' </td>
-											<td>'.$roomNameC.'</td>
-											<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
-											$i++;
-
-										}
-										echo '</table>';
-									}
-									else{
-										echo '<center><a onclick="FindRoomtype('.$ota['HotelOtaId'].')" class="btn blue">Find Room Types</button></a>';
-									}
+								<nav class="second" >
+								<?php
+								foreach ($AllOtas as  $ota) {
+								echo '<a style="height:150px;" id="ota'.$ota['HotelOtaId'].'">';
+								echo $ota['Name'];
+								echo '</a>';
 								}
-								echo '</div>';
-							}
-							?>
+								?>
+								</nav>
 
-							</div>
-							</div>
+								<?php
+								foreach ($AllOtas as  $ota) {
+									echo '<div class="context col-md-12">  ';
+									$i=1;
+									$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=0")->result_array();
 
-							</form>
-							</div>
-							<div class="clearfix"></div>
-							</div>
-							</div>
-							<div class="clearfix"></div>
+									foreach ($hotels as  $hotel) {
+										echo '<center><h1><span class="label label-primary">'.$hotel['HotelName'].'</span></h1></center>';
+
+										$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId,b.MaxPleopleLocal
+												FROM HotelScrapingInfo a
+												left join HotelOutRoomMapping b on trim(a.RoomName)=trim(b.RoomOutName) and a.HotelOutId=b.HotelOutId and trim(a.MaxPeople) =trim(b.MaxPleopleOut)
+												where a.HotelOutId=".$hotel['HotelsOutId']."
+												group by a.HotelOutId,a.RoomName order by a.RoomName")->result_array();
+										if(count($Rooms)>0)
+										{	$i=1;
+											echo '<table class="table table-bordered">
+													<thead>
+													<tr>
+													<th  width="5%">#</th>
+													<th>Room Name '.$hotel['HotelName'].'('.$ota['Name'].')</th>
+													<th>Room Name Hoteratus</th>
+													<th>Active</th>
+													</tr>
+													</thead>';
+											foreach ($Rooms as $room) {
+
+												$roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].','.$room['MaxPeople'].'" data-value="'.trim($room['RoomNameLocal']).','.trim($room['MaxPleopleLocal']).'" data-source="'.lang_url().'scraping/allmainroom/'.$room['ChannelId'].'/1" title="Select Room Type"></a>';
+
+												echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
+												<td> '.$room['RoomName'].'-'.$room['MaxPeople'].' </td>
+												<td>'.$roomNameC.'</td>
+												<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
+												$i++;
+
+											}
+											echo '</table>';
+										}
+										else{
+											echo '<center><a onclick="FindRoomtype('.$ota['HotelOtaId'].')" class="btn blue">Find Room Types</button></a>';
+										}
+									}
+									echo '</div>';
+								}
+								?>
+
+								</div>
+								</div>
+
+								</form>
+								</div>
+								<div class="clearfix"></div>
+								</div>
+								</div>
+								<div class="clearfix"></div>
+							</section>
+							<section id="section-3" class="sec">
+								<div class="forms-main">
+								<div  class="forms-main">
+								<div class="graph-form">
+
+								<form class=""  method="post">
+
+								<div class="vali-form">
+
+								<div class="graph">
+
+								<nav class="second" >
+								<?php
+								foreach ($AllOtas as  $ota) {
+								echo '<a style="height:150px;" id="ota'.$ota['HotelOtaId'].'">';
+								echo $ota['Name'];
+								echo '</a>';
+								}
+								?>
+								</nav>
+
+								<?php
+								foreach ($AllOtas as  $ota) {
+									echo '<div class="context col-md-12">  ';
+									$i=1;
+									$hotels=$this->db->query("select * from HotelsOut where HotelID =".hotel_id()." and ChannelId = ".$ota['HotelOtaId']." and active=1 and main=1")->result_array();
+
+									foreach ($hotels as  $hotel) {
+										echo '<center><h1><span class="label label-primary">'.$hotel['HotelName'].'</span></h1></center>';
+
+										$Rooms=$this->db->query("SELECT a.RoomName,a.MaxPeople,a.HotelOutId,b.RoomNameLocal,a.ChannelId,b.MaxPleopleLocal,RoomID
+												FROM HotelScrapingInfo a
+												left join HotelOutRoomMappingLocal b on trim(a.RoomName)=trim(b.RoomNameLocal)  and trim(a.MaxPeople) =trim(b.MaxPleopleLocal)
+												where a.HotelOutId=".$hotel['HotelsOutId']."
+												group by a.HotelOutId,a.RoomName order by a.RoomName")->result_array();
+
+
+										if(count($Rooms)>0)
+										{	$i=1;
+											echo '<table class="table table-bordered">
+													<thead>
+													<tr>
+													<th  width="5%">#</th>
+													<th>Room Name '.$hotel['HotelName'].'('.$ota['Name'].')</th>
+													<th>Room Name Hoteratus</th>
+													<th>Active</th>
+													</tr>
+													</thead>';
+											foreach ($Rooms as $room) {
+
+												$roomNameC='<a style="padding: 0px;" href="#" class="inline_username2" data-type="select" data-pk="'.$room['RoomName'].','.$room['HotelOutId'].','.$room['ChannelId'].','.$room['MaxPeople'].'" data-value="'.$room['RoomID'].'" data-source="'.lang_url().'channel/allroomtest" title="Select Room Type"></a>';
+
+												echo '<tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th>
+												<td> '.$room['RoomName'].'-'.$room['MaxPeople'].' </td>
+												<td>'.$roomNameC.'</td>
+												<td><center><a href="javascript:;">'.($hotel['Active']==1?'Active':'Deactive').' <i class="fa fa-exchange-alt"></i></a></center></td></tr>	 ';
+												$i++;
+
+											}
+											echo '</table>';
+										}
+										else{
+											echo '<center><a onclick="FindRoomtype('.$ota['HotelOtaId'].')" class="btn blue">Find Room Types</button></a>';
+										}
+									}
+									echo '</div>';
+								}
+								?>
+
+								</div>
+								</div>
+
+								</form>
+								</div>
+								<div class="clearfix"></div>
+								</div>
+								</div>
+								<div class="clearfix"></div>
 							</section>
 						</div>
 					<!-- /content -->
@@ -290,6 +370,11 @@ jQuery(document).ready(function($) {
                    return saveChange(params);
                 }
           });
+	  $('.inline_username2').editable({
+             url: function (params) {
+                   return saveChange2(params);
+                }
+          });
 });
 
 function saveChange(params)
@@ -303,6 +388,38 @@ function saveChange(params)
         data:data,
         success:function(m)
         {
+        	if(m['success'])
+        	{
+        		 swal({
+                    title: "Save",
+                    text: 'Done',
+                    icon: "success",
+                    button: "Ok!",
+                });
+        	}else{
+        		swal({
+                    title: "Upps ",
+                    text: 'Something Went Wrong',
+                    icon: "warning",
+                    button: "Ok!",
+                });
+        	}
+        }
+    });
+   return;
+}
+function saveChange2(params)
+{
+	var data={'name':params['name'],'pk':params['pk'],'value':params['value']};
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: '<?=lang_url()?>scraping/savemapinglocal',
+        data:data,
+        success:function(m)
+        {
+        	
         	if(m['success'])
         	{
         		 swal({

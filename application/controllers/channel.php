@@ -481,6 +481,11 @@ class Channel extends Front_Controller {
 
 		echo $this->channel_model->propertyinfoupdate($_POST);
 	}
+	function savepropertyinfo()
+	{
+
+		 $this->channel_model->savepropertyinfo($_POST);
+	}
 	function register_username_exists($user_id='')
 	{
 	if (array_key_exists('user_name',$_POST))
@@ -2140,6 +2145,18 @@ function settingsProperty()
 		$data['countries']=$this->db->query("SELECT * FROM country where country_status= 'active'")->result_array();
 		$data['currency']=$this->db->query("SELECT * FROM currency ")->result_array();
     	$this->views('channel/settingsproperty',$data);
+}
+function newProperty()
+{
+		 $this->is_login();
+    	$data['page_heading'] = 'New Property';
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['AllHotelInfo']=$this->reservation_model->reservationQtyAllHotel();
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['countries']=$this->db->query("SELECT * FROM country where country_status= 'active'")->result_array();
+		$data['currency']=$this->db->query("SELECT * FROM currency ")->result_array();
+    	$this->views('channel/newproperty',$data);
 }
 
 function filenotfound(){

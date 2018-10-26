@@ -56,21 +56,21 @@ class scraping extends Front_Controller {
             if($hotel['Main']==1)
             {
                 $price=$this->db->query("select `price_room_channel`(trim('$roomname[0]'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price,
-                   `room_available` (b.property_id,'".date('d/m/Y',strtotime($date1))."',a.hotel_id) roomavailable, b.property_id roomid
-                   from import_mapping_BOOKING a
-                  left join roommapping b on a.import_mapping_id=b.import_mapping_id
+                   `room_available` (RoomID,'".date('d/m/Y',strtotime($date1))."',a.HotelId) roomavailable, RoomID roomid
+                   from HotelOutRoomMappingLocal a
                   where 
-                  a.hotel_id=".hotel_id()." 
-                  and a.max_persons>0 
-                  and a.room_name =trim('$roomname[0]')
-                  and b.channel_id=2
+                  a.HotelId=".hotel_id()." 
+                  and trim(a.RoomNameLocal) =trim('$roomname[0]')
+                  and trim(a.MaxPleopleLocal) =trim('$roomname[1]')
+                  and a.ChannelId=2
                   limit 1")->row_array();
+
                 $roomava=explode(',',$price['roomavailable']);
                 $Info[$date1][$hotel['HotelsOutId']][$roomname[0]]=$price['price'];
                 $Info[$date1]['minimum']=doubleval(trim(str_replace('$', '',$price['price'])));
                 $Info[$date1]['mainprice']=doubleval(trim(str_replace('$', '',$price['price'])));
                 $Info[$date1]['roomavailable']=$roomava[0];
-                $Info[$date1]['occupation']=(($roomava[1]-$roomava[0])/$roomava[1])*100 ;
+                $Info[$date1]['occupation']=(($roomava[1]-$roomava[0])/($roomava[1]==0?1:$roomava[1]))*100 ;
                 $Info[$date1]['roomid']=$price['roomid'];
                 $mainprice=doubleval(trim(str_replace('$', '',$price['price'])));
             }
@@ -317,6 +317,40 @@ class scraping extends Front_Controller {
     	echo json_encode($result);
 
     }
+     public function savemapinglocal()
+    {
+      
+      $map=explode(',', $_POST['pk']);
+      $value=$_POST['value'];
+      $RoomLocalName=$map[0];
+      $HotelOutId=$map[1];
+      $ChannelId=$map[2];
+      $maxout=$map[3];
+
+      $hotelid=hotel_id();
+
+      $info=$this->db->query("select * from HotelOutRoomMappingLocal where ChannelId =$ChannelId  and trim(RoomNameLocal) =trim('$RoomLocalName')  and HotelId=$hotelid and trim(MaxPleopleLocal)=trim('$maxout')")->row_array();
+
+      if(count($info)>0)
+      {
+
+        $data['RoomID']=$value;
+        update_data('HotelOutRoomMappingLocal',$data,array('ChannelId'=>$ChannelId,'RoomNameLocal' =>trim($RoomLocalName),'HotelId'=>$hotelid, 'MaxPleopleLocal'=>trim($maxout)));
+      }
+      else
+      {
+        $data['RoomID']=$value;
+        $data['HotelId']=$hotelid;
+        $data['RoomNameLocal']=$RoomLocalName;
+        $data['ChannelId']=$ChannelId;
+        $data['MaxPleopleLocal']=trim( $maxout);
+        $data['Active']=1;
+        insert_data('HotelOutRoomMappingLocal',$data);
+      }
+      $result['success']=true;
+      echo json_encode($result);
+
+    }
     public function saveproperty()
     {
     	$dato=array();
@@ -393,7 +427,21 @@ class scraping extends Front_Controller {
       echo json_encode($result);
 
     }
+    function test2()
+    {
 
+      $date= new Datetime();
+
+      $agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36";
+
+      $referer = '';
+      $cookies = 'cookies.txt';
+      $content= $this->cURL("https://www.expedia.com/infosite-api/1369424/getOffers?clientid=KLOUD-HIWPROXY&token=94ddf5664063164cac75a053876961d479aab676&brandId=4671&countryId=50&isVip=false&chid=&partnerName=HSR&partnerCurrency=USD&partnerTimestamp=".$date->getTimestamp()."&adults=2&children=0&chkin=1%2F26%2F2019&chkout=1%2F27%2F2019&hwrqCacheKey=06b9d0da-7fef-40fc-9003-419316a65be5HWRQ1540560018350&cancellable=false&regionId=6048790&vip=false&=undefined&exp_dp=173.33&exp_ts=".$date->getTimestamp()."&exp_curr=USD&swpToggleOn=false&exp_pg=HSR&daysInFuture=&stayLength=&ts=".$date->getTimestamp()."&evalMODExp=true&tla=DCF", '', $cookies, $referer, '',$agent);
+
+      $html= $content;
+
+
+    }
 
     public function allmainroom($ChannelId,$opt=0)
     {
@@ -464,7 +512,6 @@ class scraping extends Front_Controller {
   	{
   		$date1=$date;
   		$date2=date('Y-m-d',strtotime($date."+$MinimumStay days"));
-
 
   		$agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
 

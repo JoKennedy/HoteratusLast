@@ -523,6 +523,23 @@ class channel_model extends CI_Model
 			echo "1";
 		}
 	}
+	function savepropertyinfo($propertyinfo)
+	{
+		$localidad=str_replace(array('(',')'), '', $propertyinfo['localidad']);
+
+		$data =array("map_location"=>$localidad,"property_name"=>$propertyinfo['propertyname'],"address"=>$propertyinfo['address'],"email_address"=>$propertyinfo['email'],"web_site"=>$propertyinfo['website'],"currency"=>$propertyinfo['currencyid'],"country"=>$propertyinfo['countryid'],"mobile"=>$propertyinfo['Phone'],"zip_code"=>$propertyinfo['zipcode'],"town"=>$propertyinfo['town'],"owner_id"=>(user_type()=='1'?user_id():owner_id()));
+
+		# hotel_id, owner_id, assigned_user, hotel_type, fname, lname, mobile, town, address, zip_code, property_name, connected_channel, web_site, email_address, country, currency, tax_office, map_location, tax_id, transaction_id, plan_id, plan_price, plan_from, plan_to, payment_method, subscribe_status, status, created_date, channel_subscribe_txnid, channel_subscribe_planid, channel_subscribe_price, channel_subscribe_from, channel_subscribe_to, channel_subscribe_method, channel_subscribe_status, Logo
+
+		$result['success']=false;
+		if( insert_data(HOTEL,$data))
+		{
+			$result['success']=true;
+			$result['id']=getinsert_id();
+		}
+
+		echo json_encode($result);
+	}
 	function user_channel()
 	{
 		if(user_type()=='1')

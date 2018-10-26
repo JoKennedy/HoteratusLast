@@ -312,6 +312,16 @@ function showdetails(id) {
     }
 
 }
+function formatMoney(n, c, d, t) {
+  var c = isNaN(c = Math.abs(c)) ? 2 : c,
+    d = d == undefined ? "." : d,
+    t = t == undefined ? "," : t,
+    s = n < 0 ? "-" : "",
+    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+    j = (j = i.length) > 3 ? j % 3 : 0;
+
+  return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
 
 function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay,idreplace) {
 
@@ -322,8 +332,8 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
     $("#checkinr").html(date1.substring(8,10)+'/'+date1.substring(5,7)+'/'+date1.substring(0,4));
     $("#checkoutr").html(date2.substring(8,10)+'/'+date2.substring(5,7)+'/'+date2.substring(0,4));
     $("#chargeinfo").html(numnight + (numnight>1?' Nights':' Night') + ' x ' + numroom + (numroom>1?' Rooms':' Room'));
-    $("#totalstay").html(totalstay);
-    $("#totaldue").html(totalstay);
+    $("#totalstay").html(formatMoney(totalstay*numroom));
+    $("#totaldue").html(formatMoney(totalstay*numroom));
     $("#roomid").val(roomid);
     $("#rateid").val(rateid);
     $("#checkin").val(date1);

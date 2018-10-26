@@ -104,6 +104,7 @@
 						 setTimeout(function() { unShowWait(); }, 1000000);
 				 },
 				 success: function(html) {
+				 
 				 		$("#calendarid").html('');
 				 		$("#jsoninfo").val('');
 						 $("#calendarid").html(html['html']);

@@ -985,8 +985,12 @@ class reservation extends Front_Controller {
 	function saveReservation()
 	{
 
+		$allroom=$_POST['numroom'];
+		for ($i=0; $i < $allroom; $i++) { 
+			$_POST['numroom']=1;
+			$result=$this->reservation_model->saveReservation();
+		}
 
-		$result=$this->reservation_model->saveReservation();
 
 		if(!$result['success'])
 		{

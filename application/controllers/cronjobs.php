@@ -53,14 +53,7 @@ class cronjobs extends Front_Controller
 	    				$data['stop_sell']='1';
 	    				$data['availability']='0';
 	    				$data['open_room']='0';
-	    				if($Mappingvalue["rate_id"]==0)#esto es para serrar Local
-	    				{
-	    					update_data('room_update',$data,array('individual_channel_id'=>0,'room_id'=>$Mappingvalue["property_id"],'hotel_id'=>$hotel_id,'owner_id'=>$user_id, 'separate_date' =>$CloseDate));
-	    				}
-	    				else
-	    				{
-	    					update_data('room_update',$data,array('individual_channel_id'=>0,'room_id'=>$Mappingvalue["property_id"],'hotel_id'=>$hotel_id,'owner_id'=>$user_id, 'separate_date' =>$CloseDate,'rate_types_id'=>$Mappingvalue["rate_id"]));
-	    				}
+	    			
 
 	    				$mp_details = get_data('import_mapping_BOOKING',array('owner_id'=>$user_id,'hotel_id'=>$hotel_id,'channel_id'=> "2",'import_mapping_id'=>$Mappingvalue["import_mapping_id"]))->row();
 
@@ -135,19 +128,6 @@ class cronjobs extends Front_Controller
 	    				$data['stop_sell']='1';
 	    				$data['availability']='0';
 	    				$data['open_room']='0';
-	    				if($Mappingvalue["rate_id"]==0)#esto es para serrar Local
-	    				{
-	    					update_data('room_update',$data,array('individual_channel_id'=>0,'room_id'=>$Mappingvalue["property_id"],'hotel_id'=>$hotel_id,'owner_id'=>$user_id, 'separate_date' =>$CloseDate));
-
-	    					
-
-	    				}
-	    				else
-	    				{
-	    					update_data('room_update',$data,array('individual_channel_id'=>0,'room_id'=>$Mappingvalue["property_id"],'hotel_id'=>$hotel_id,'owner_id'=>$user_id, 'separate_date' =>$CloseDate,'rate_types_id'=>$Mappingvalue["rate_id"]));
-
-	    					
-	    				}
 
 	    				$mp_details = get_data('import_mapping',array('user_id'=>$user_id,'hotel_id'=>$hotel_id,'channel'=> "1",'map_id'=>$Mappingvalue["import_mapping_id"]))->row();
 

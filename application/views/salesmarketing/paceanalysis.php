@@ -11,67 +11,28 @@
 	  <!--//sub-heard-part-->
 
 			<div style="float: left;" >
-					<div class="col-md-12 form-group1">
-							<select onchange="CompetiveDisplay()" style="width: 100%; padding: 9px;" name="monthid" id="monthid">
-									<?php
-
-							$month=array("1"=>"January","2"=>"February","3"=>"March","4"=>"April","5"=>"May","6"=>"June","7"=>"July","8"=>"August","9"=>"September","10"=>"October","11"=>"November","12"=>"December");
-							$hoy=array('dia' =>date('d') , 'mes' =>date('m'),'year' =>date('Y'));
-								foreach ($month as $key=> $value) {
-										$i++;
-										echo '<option   value="'.$key.'"'.($key==$hoy['mes']?'selected':'').' >'.$value.'</option>';
-								}
-						?>
-							</select>
-					</div>
-
-			</div>
-			<div style="float: left;" >
-						<div class="col-md-12 form-group1">
-							<select onchange="CompetiveDisplay()" style="width: 100%; padding: 9px;" name="yearid" id="yearid">
-									<?php
-
-								$hoy=date('Y');
-
-								for ($i=$hoy; $i <=$hoy+1  ; $i++) {
-									 echo '<option  value="'.$i.'"'.($i==$hoy?'selected':'').' >'.$i.'</option>';
-								 }
-						?>
-							</select>
-					</div>
-
-			</div>
-			<div style="float: left;" >
-				<div class="col-md-12 form-group1">
-						<select onchange="CompetiveDisplay()" style="width: 100%; padding: 9px;" name="roomtype" id="roomtype">
-								<?php
-										foreach ($allRooms as  $value) {
-											 echo '<option  value="'.$value['value'].'" >'.$value['text'].'</option>';
-										}
-								?>
-						</select>
-				</div>
-			</div>
-			<div style="float: left;" >
 				<div class="col-md-12 form-group1">
 						<select onchange="CompetiveDisplay()" style="width: 100%; padding: 9px;" name="channelid" id="channelid">
+
 								<?php
+										echo '<option  value="0" >Hoteratus</option>';
 										foreach ($allChannel as  $value) {
-											 echo '<option  value="'.$value['HotelOtaId'].'" >'.$value['Name'].'</option>';
+											 echo '<option  value="'.$value['channel_id'].'" >'.$value['channel_name'].'</option>';
 										}
 								?>
 						</select>
 				</div>
 			</div>
 			<div  class="clearfix"></div>
-		<!--	<a href="#" id="username" data-type="text" data-pk="1" data-name="username" data-url="post.php" data-original-title="Enter username">superuser</a>
-				<a href="#" id="group" data-type="select" data-name="group" data-pk="1" data-value="5" data-source="groups.php" data-original-title="Select group">Admin</a>-->
+				<div class="table-responsive" id="closeyearid"></div>
+				<?php
+
+					$alllist=$this->reservation_model->AllReservationList('2017-01-01','2017-12-31',0,('1,2,4,5,6,7'));
 
 
-				<div class="table-responsive" id="calendarid"></div>
-				<div id="bulkupdate" style="display: none;">
-      				 <?php include('bulkupdate.php'); ?>
-				</div>
+					print_r($alllist);
+
+				?>
 		</div>
 
 	</div>
@@ -199,7 +160,7 @@
 
  <script type="text/javascript">
 	$(document).ready(function () {
-		CompetiveDisplay();
+		//CompetiveDisplay();
   $('#username').editable({
                 step: 'any',
             });

@@ -2517,7 +2517,7 @@ class booking_model extends CI_Model
 
     function ReservationList($hotelid,$date1,$date2,$status)
     {
-         $sta="and case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+         $sta="and case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in($status)";
 
         $booking=$this->db->query("SELECT b.room_res_id reservation_id, concat(a.id,'-',roomreservation_id) reservation_code, case a.status when 'cancelled' then 0 when 'new' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,
               guest_name  Full_Name , d.property_id room_id , 2 channel_id, arrival_date start_date,b.RoomNumber RoomNumber, departure_date end_date,

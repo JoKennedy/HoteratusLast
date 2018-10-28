@@ -4,7 +4,7 @@
 		<ol class="breadcrumb m-b-0">
 			<li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
 			<li>Sales And Marketing</li>
-			<li class="active">Config Competive Set Analisis</li>
+			<li class="active">Config Competive Set Analysis</li>
 		</ol>
 	</div>
 <div  class="clearfix"></div>

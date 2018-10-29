@@ -148,6 +148,11 @@
                             <label class="control-label">E-mail</label>
                             <input style="background:white; color:black;"  name="email" id="email" type="text" placeholder="E-Mail" required="" >
                         </div>
+                        <div style="float:right;" class="col-md-6 form-group1">
+                            
+                            <input style="background:white; color:black;" type="checkbox" name="sendemail" id="sendemail" value="1" type="text" > Send Confirmation Email?
+                        </div>
+                        <div class="clearfix"></div>
                         <hr size="40">
                         <h4>Address Information</h4>
                         <div class="col-md-6 form-group1">
@@ -409,7 +414,7 @@ function saveReservation()
             setTimeout(function() { unShowWait(); }, 100000);
         },
         success: function(msg) {
-
+        
             unShowWait();
            if (msg['success']) {
              swal({

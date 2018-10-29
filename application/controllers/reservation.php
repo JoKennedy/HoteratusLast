@@ -213,13 +213,15 @@ class reservation extends Front_Controller {
 			
 			$html='';
 
+			$inidate=date('Y-m-d', strtotime( $_POST['date1Edit'])); 
+			$enddate=date('Y-m-d', strtotime( $_POST['date2Edit'])); 
 			if($available)
 			{ 
 				foreach ($available as $key => $value) {
 				$roomimage=$this->db->query("select photo_names from room_photos where room_id=".$value['room_id'])->result_array();
 
 
-				$bookininfo="'".$value['room_id']."','0','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
+				$bookininfo="'".$value['room_id']."','0','".$inidate."','".$enddate."','".$_POST['numadult']."','".$_POST['numrooms'].
 				"','".$_POST['numchild']."','".$nights."','".number_format ( $value['totalprice'] , 2 ,  "." , "," )."'";
 				$html .= '<div>
 				<div class="row">
@@ -257,7 +259,7 @@ class reservation extends Front_Controller {
                          if (isset($value['rate'])) {
 
 	                         foreach ($value['rate'] as  $rate) {
-	                         	$bookininfo="'".$value['room_id']."','".$rate['rate_types_id']."','".$_POST['date1Edit']."','".$_POST['date2Edit']."','".$_POST['numadult']."','".$_POST['numrooms'].
+	                         	$bookininfo="'".$value['room_id']."','".$rate['rate_types_id']."','".$inidate."','".$enddate."','".$_POST['numadult']."','".$_POST['numrooms'].
 								"','".$_POST['numchild']."','".$nights."','".number_format ( $rate['totalprice'] , 2 ,  "." , "," )."'";
 	                         	$html .='<div class="col-md-12">
 	                         			<h3>'.$rate['name'].'</h3>
@@ -982,20 +984,48 @@ class reservation extends Front_Controller {
 		echo json_encode($data);
 		return;
 	}
+	function tst()
+	{
+		require_once(APPPATH.'controllers/sendemail.php');
+            $sendemail = new sendemail();        
+       		$sendemail->sendmailreservation('2908,2909,2910');
+
+		return;
+	}
 	function saveReservation()
 	{
-
+		var_dump($_POST);
+		return;
+		
 		$allroom=$_POST['numroom'];
+		$allReservationId='';
 		for ($i=0; $i < $allroom; $i++) { 
 			$_POST['numroom']=1;
 			$result=$this->reservation_model->saveReservation();
+
+			$allReservationId .=(strlen($allReservationId)>2?',':'').$result['reservationid'];
 		}
 
-
+		
 		if(!$result['success'])
 		{
 			echo json_encode($result);
 		}
+		else
+		{
+			$checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
+			require_once(APPPATH.'controllers/arrivalreservations.php');
+            $callAvailabilities = new arrivalreservations();        
+       		$callAvailabilities->updateavailability(0,$_POST['roomid'], $_POST['rateid'],hotel_id(),$_POST['checkin'], $checkout_date ,'new',$allroom); 
+		}
+
+		if(isset($_POST['sendemail']))
+		{
+			require_once(APPPATH.'controllers/sendemail.php');
+            $sendemail = new sendemail();        
+       		$sendemail->sendmailreservation($allReservationId);
+		}
+
 		$channelID=0;
 		$ReservationID=$result['reservationid'];
 		$userName=$_POST['username'];

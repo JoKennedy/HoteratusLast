@@ -3342,10 +3342,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     }
                     
 
-                        require_once(APPPATH.'controllers/arrivalreservations.php');
-                        $callAvailabilities = new arrivalreservations();
-                        
-                        $callAvailabilities->updateavailability(0,$data['room_id'], $data['rate_types_id'],hotel_id(),$_POST['checkin'], $checkout_date ,'new');              
+                                     
 
                     $response['success']=true;
                     $response['reservationid']=$id;

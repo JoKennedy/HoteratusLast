@@ -1699,6 +1699,16 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$this->channel_model->saveAttribute($data);
 
 	}
+	function savenewextra()
+	{
+		$data['room_id']=insep_decode($_POST['roomid']);
+		$data['name']=$_POST['ExtraName'];
+		$data['price']=$_POST['ExtraPrice'];
+		$data['structure']=$_POST['structureid'];
+		$data['taxes']=$_POST['ExtraTax'];
+		
+		$this->channel_model->savenewextra($data);
+	}
 	function loadAttributes()
 	{	
 		

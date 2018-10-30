@@ -887,7 +887,7 @@ class channel_model extends CI_Model
 	{
 
 	}
-	function saveRateType(int $data)
+	function saveRateType($data)
 	{
 		$data['hotelid']=hotel_id();
 		$data['created']=date('Y-m-d h:m:s');
@@ -977,6 +977,20 @@ class channel_model extends CI_Model
 		$result['message']='Something went wrong';
 
 		if(insert_data('room_attributes',$data))
+		{	$result['success']=true;
+			echo json_encode($result);
+		}
+		else
+		{	$result['success']=false;
+			echo json_encode($result);
+		}
+	}
+	function savenewextra($data)
+	{
+		$result['success']=false;
+		$result['message']='Something went wrong';
+
+		if(insert_data('room_extras',$data))
 		{	$result['success']=true;
 			echo json_encode($result);
 		}

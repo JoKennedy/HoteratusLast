@@ -1914,7 +1914,7 @@ class airbnb_model extends CI_Model
     }
     function ReservationList($hotelid,$date1,$date2,$status)
     {
-        $sta="and case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+        $sta="and case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in ($status) ";
 
         $airbnb=$this->db->query("SELECT a.Import_reservation_ID reservation_id, ResID_Value reservation_code, case a.ResStatus when 'Cancelled' then 0 when 'new' then 1  when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,
               a.name  Full_Name , d.property_id room_id , 9 channel_id, arrival start_date,a.RoomNumber, departure end_date,

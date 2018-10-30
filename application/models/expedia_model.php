@@ -693,7 +693,7 @@ class expedia_model extends CI_Model
     {       
         
 
-        $sta="and case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+        $sta="and case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in( $status) ";
 
         $expedia=$this->db->query("SELECT a.import_reserv_id reservation_id, booking_id reservation_code, case a.type when 'Cancel' then 0 when 'book' then 1 when 'Modify' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,
              a.name Full_Name , d.property_id room_id , 1 channel_id, arrival start_date,a.RoomNumber RoomNumber, departure end_date,

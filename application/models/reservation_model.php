@@ -762,7 +762,7 @@ class Reservation_model extends CI_Model
 
         if (strlen($channels)==0 || $channels==0 ) {
             
-            $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end = $status ";
+            $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in ($status) ";
 
             $hoteratus=$this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
                 b.property_name roomName
@@ -3342,10 +3342,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     }
                     
 
-                        require_once(APPPATH.'controllers/arrivalreservations.php');
-                        $callAvailabilities = new arrivalreservations();
-                        
-                        $callAvailabilities->updateavailability(0,$data['room_id'], $data['rate_types_id'],hotel_id(),$_POST['checkin'], $checkout_date ,'new');              
+                                     
 
                     $response['success']=true;
                     $response['reservationid']=$id;

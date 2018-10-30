@@ -1,7 +1,7 @@
  <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <center><h3 class="modal-title"><span class="label label-primary">Bulk Update Competitive Set Analisys</span></h3></center>
+                <center><h3 class="modal-title"><span class="label label-primary">Bulk Update Competitive Set Analysis</span></h3></center>
                <a class="close" onclick="closebulk()"><i class="fas fa-times-circle" ></i></a>
             </div>
             <div>

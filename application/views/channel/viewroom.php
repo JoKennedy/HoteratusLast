@@ -349,6 +349,7 @@
                                         url: "<?php echo lang_url(); ?>channel/saveRoomNumber",
                                         data: $('#RoomNumber').serialize(),
                                         success: function(msg) {
+
                                             if (msg == 0) {
                                                 swal({
                                                     title: "Done!",
@@ -703,7 +704,7 @@
                         <section id="section-4">
                             <div class="graph-form">
                                 <div style="float: right;" class="buttons-ui">
-                                    <a class="btn blue">Create New Extra</a>
+                                    <a href="#newextra" data-toggle="modal" class="btn blue" class="btn blue">Create New Extra</a>
                                 </div>
                                 <div class="clearfix"></div>
                                 <h3>Extras</h3>
@@ -718,8 +719,8 @@
                                                         <th>Price</th>
                                                         <th>Tax</th>
                                                         <th>Total Including Tax</th>
-                                                        <th> Edit</th>
-                                                        <th> Delete</th>
+                                                        <th style="text-align: center;"> Edit</th>
+                                                        <th style="text-align: center;"> Delete</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -737,10 +738,10 @@
                                                                     <td >'.number_format($extra['taxes'], 2, '.', ',').'</td>
                                                                     <td >'.number_format($extra['price']*(1+($extra['taxes']/100)), 2, '.', ',').'</td>
                                                                     <td align="center"> <a onclick="return delete_extras();"><i class="fa fa-edit"></i> </a></td>
-                                                                    <td align="center"> <a onclick="return delete_extras();"><i class="fa fa-trash-o"></i> </a></td>
+                                                                    <td align="center"> <a onclick="return delete_extras();"><i class="fas fa-trash-alt"></i> </a></td>
                                                                 </tr>';
                                                     }
-                                                }                               
+                                                }                                
                                                 
                                             ?>
                                                 </tbody>
@@ -801,8 +802,130 @@
                                
                                 <div class="clearfix"></div>
                             </div>
+                            <div id="newextra" class="modal fade" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                               <center>
+                                                <h4 class="modal-title">Create a New Extra</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span> </center>
+                                            </div>
+                                            <div>
+                                                <div class="graph-form" >
+                                                    <form id="ExtraC" >
+                                                        <input type="hidden" name="roomid" value="<?=insep_encode($Roominfo['property_id'])?>">
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Extra Name</label>
+                                                            <input style="background:white; color:black;"  name="ExtraName" id="ExtraName" type="text" placeholder="Type a Extra Name" required="">
+                                                        </div>
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Price</label>
+                                                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="ExtraPrice" id="ExtraPrice" type="text" placeholder="Type a Price" required="" >
+                                                        </div>
+                                                        <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Tax</label>
+                                                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="ExtraTax" id="ExtraTax" type="text" placeholder="Type a Tax" required="" value="0" >
+                                                        </div>
+                                                         <div class="col-md-12 form-group1">
+                                                            <label class="control-label">Application</label>
+                                                             <select style="width: 100%; padding: 9px; " id="structureid" name="structureid">
+                                                                <option value="0">Select a Application</option>
+                                                                <option value="1">Per Person</option>
+                                                                <option value="2">Per Night</option>
+                                                                <option value="3">Per Stay</option>
+                                                             </select>
+                                                        </div>
+
+                                                        
+                             
+                           
+                                                        <div class="clearfix"> </div>
+                                                        <div class="buttons-ui">
+                                                            <a onclick="addExtra()" class="btn green"><i class="far fa-save"></i> Save</a>
+                                                        </div>
+                                                        <div class="clearfix"> </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
                             <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/galeriaimg.js"></script>
                             <script type="text/javascript">
+
+
+                            function addExtra()
+                            {
+                                if ($("#ExtraName").val().length==0  ) 
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Type a Extra Name to Continue",
+                                                icon: "warning",
+                                                button: "Ok!",
+                                            }).then((n) => {
+                                               $("#ExtraName").focus();
+                                            });
+                                        
+                                        return;
+                                    }
+                                    else if($("#ExtraPrice").val().length==0 ||$("#ExtraPrice").val()==0 )
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Type a Price to Continue",
+                                                icon: "warning",
+                                                button: "Ok!",
+                                            }).then((n) => {
+                                               $("#ExtraPrice").focus();
+                                            });
+                                        return;
+                                    }
+                                    else if($("#structureid").val().length==0 ||$("#structureid").val()==0 )
+                                    {
+                                        swal({
+                                                title: "upps, Sorry",
+                                                text:  "Type a Application to Continue",
+                                                icon: "warning",
+                                                button: "Ok!",
+                                            }).then((n) => {
+                                               $("#structureid").focus();
+                                            });
+                                        return;
+                                    }
+
+                                    $.ajax({
+                                        type: "POST",
+                                        dataType: "json",
+                                        url: "<?php echo lang_url(); ?>channel/savenewextra",
+                                        data: $("#ExtraC").serialize(),
+                                        beforeSend: function() {
+                                            showWait();
+                                            setTimeout(function() { unShowWait(); }, 10000);
+                                        },
+                                        success: function(msg) {
+                                            unShowWait();
+                                            if (msg["success"]) {
+                                                swal({
+                                                    title: "Success",
+                                                    text: "New Extra was Add!",
+                                                    icon: "success",
+                                                    button: "Ok!",
+                                                });
+
+                                                location.reload();
+                                            } else {
+                                                swal({
+                                                    title: "upps, Sorry",
+                                                    text:  msg["message"],
+                                                    icon: "warning",
+                                                    button: "Ok!",
+                                                });
+                                            }
+                                        }
+                                    });
+                            }
                                jQuery(function() {
 
                                     // llamada al plugin

@@ -841,7 +841,7 @@
             <div id="msguser" class="alert alert-danger" style="display: none; text-align: center;">
                 <strong>Danger!</strong> Invalid Username or Password.
             </div>
-            <div id="cd-login">
+            <div id="cd-login" >
                 <!-- log in form -->
                 <form class="cd-form" id="log_form">
                     <p class="fieldset">
@@ -863,7 +863,7 @@
                         <button class="full-width" onclick="" id="logg">Login</button>
                     </p>
                 </form>
-                <p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
+                <center><p style="color:black;"><a href="javascript:;">Forgot your password?</a></p></center>
                 <!-- <a href="#0" class="cd-close-form">Close</a> -->
             </div>
             <!-- cd-login -->

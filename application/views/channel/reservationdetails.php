@@ -173,7 +173,7 @@
                                 <div class="main-grid3">
                                     <div class="p-20">
                                         <div class="about-info-p">
-                                            <strong>Guest Name</strong>
+                                            <strong>Main Guest Name</strong>
                                             <p class="text-muted">
                                                 <?=$guestFullName?>
                                             </p>

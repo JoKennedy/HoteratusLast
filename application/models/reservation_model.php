@@ -3301,6 +3301,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $data['PaymentMethodId']=$_POST['paymentTypeId'];
                 $data['ProviderId']=$_POST['providerid'];
                 $data['CurrencyCode']=$_POST['currency'];
+                $data['guestname']=(isset($_POST['guestname'])?implode(',', $_POST['guestname']):'');
 
                 if ($data['PaymentMethodId']>1) {
 

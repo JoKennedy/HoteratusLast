@@ -994,8 +994,6 @@ class reservation extends Front_Controller {
 	}
 	function saveReservation()
 	{
-		var_dump($_POST);
-		return;
 		
 		$allroom=$_POST['numroom'];
 		$allReservationId='';

@@ -115,7 +115,7 @@
         $("#ShowCC").modal();
     }
     function Method(methodid) {
-
+alert(methodid);
         if (methodid > 1) {
             $(".metocc").show();
         } else {

@@ -108,14 +108,14 @@
 </div>
 <div class="clearfix"></div>
 <div id="infoReservation" class="modal fade" role="dialog" style="z-index: 1800;">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog " id="reserid">
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
             </div>
             <div class="label-primary">
-                <h2><span  class="label">Make a Reservation</span></h2>
+                <center><h2><span  class="label">Make a Reservation</span></h2></center>
             </div>
             <div class="graph-form">
                 <form id="ReserveC">
@@ -131,7 +131,7 @@
                     
 
                     <div style="float: left; width: 65%;">
-                        <h4><span >Guest Information</span></h4>
+                        <h4><span >Main Guest Information</span></h4>
                         <div class="col-md-6 form-group1">
                             <label class="control-label">First Name</label>
                             <input style="background:white; color:black;" name="firstname" id="firstname" type="text" placeholder="First Name" required="">
@@ -150,10 +150,18 @@
                         </div>
                         <div style="float:right;" class="col-md-6 form-group1">
                             
-                            <input style="background:white; color:black;" type="checkbox" name="sendemail" id="sendemail" value="1" type="text" > Send Confirmation Email?
+                            <input style="background:white; color:black;" type="checkbox" name="sendemail" id="sendemail" value="1" type="text" > <label for="sendemail">Send Confirmation Email?</label> 
                         </div>
                         <div class="clearfix"></div>
                         <hr size="40">
+                        <div id="guestnames">
+                        <h4>Names Guests </h4>
+
+                        <div id="allguest"></div>
+
+                        <div class="clearfix"></div>
+                        <hr size="40">
+                        </div>
                         <h4>Address Information</h4>
                         <div class="col-md-6 form-group1">
                             <label class="control-label">Street Address</label>
@@ -195,9 +203,7 @@
                             <label class="control-label">Notes</label>
                             <textarea id="note" name="note" placeholder="Type Your Notes"></textarea>
                         </div>
-                        <div class="col-md-12 form-group1">
-                            <?php include("paymentreservations.php"); ?>
-                         </div>
+                        
                     </div>
                     <div style="float: right; width: 35%; text-align: left;" class="graph">
                         <h3><span >Stay Information</span></h3>
@@ -235,6 +241,9 @@
                             <h3 id="totaldue"></h3>
                          
                         </div>
+                        <div class="col-md-12 form-group1">
+                            <?php include("paymentreservations.php"); ?>
+                         </div>
                         <div class="buttons-ui">
                             <a onclick="saveReservation();" class="btn green">Book</a>
                         </div>
@@ -266,6 +275,10 @@
 
 <script type="text/javascript">
 
+$("#reserid").css({
+    width:screen.width-200,
+    height:screen.height
+});
 $('.datepickers').datepicker();
 function setcalendar() {
     var fecha = new Date($.now());
@@ -346,6 +359,13 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
     $("#child").val(numchild);
     $("#numroom").val(numroom);
     $("#adult").val(adult);
+    $("#allguest").html('');
+    
+    $("#guestnames").css('display',(adult<=1?'none':''));
+    for (var i = 1; i < adult; i++) {
+        
+        $("#allguest").append( '<div class="col-md-6 form-group1"><label class="control-label">Guest #'+i+'</label><input style="background:white; color:black;" name="guestname[]" id="guestname" type="text" placeholder="Type a Guest Name #'+i+'" required=""></div>');
+    }
     $("#infoReservation").modal();
 
 }
@@ -406,7 +426,7 @@ function saveReservation()
     var data = $("#ReserveC").serialize();
     $.ajax({
         type: "POST",
-       dataType: "json",
+      dataType: "json",
         url: "<?php echo lang_url(); ?>reservation/saveReservation",
         data: data,
         beforeSend: function() {

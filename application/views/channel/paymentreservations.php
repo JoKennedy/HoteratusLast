@@ -1,5 +1,5 @@
 <div class="modal-dialog">
-    <div class="modal-content ">
+    <div class="modal-content " style="width: 350px;">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
             <h4 class="modal-title">Payment Details</h4>
@@ -15,14 +15,14 @@
                         <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
                         <div class="col-md-12 form-group1">
                             <label class="control-label"><strong>Payment Method</strong></label>
-                            <select name="paymentTypeId" id="paymentTypeId" class="form-control1">
+                            <select onchange="Method(this.value)" name="paymentTypeId" id="paymentTypeId" class="form-control1">
                                 <?php
 
                                         if (count($payment['type'])>0) {
-                                            echo '<option value="0" onclick="Method(0)"  >Select a payment Type</option>';
+                                            echo '<option value="0"   >Select a payment Type</option>';
                                             foreach ($payment['type'] as $value) {
                                                 
-                                                echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['paymenttypeid'].'">'.$value['description'].'</option>';
+                                                echo '<option id = "'.$value['method'].'"   value="'.$value['paymenttypeid'].'">'.$value['description'].'</option>';
                                             }
                                         }
                                         else

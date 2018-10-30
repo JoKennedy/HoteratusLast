@@ -95,10 +95,8 @@ class sendemail extends Front_Controller
 
             $this->email->message($guestmessage);
 
-            if($this->email->send())
-            {
-            	echo "Email Sent";
-            }
+            $this->email->send();
+           
 
 			
 

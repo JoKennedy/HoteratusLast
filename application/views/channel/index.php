@@ -1079,21 +1079,9 @@
 
             }
 
-            var data = { "email": emailval };
-            $.ajax({
-                type: "POST",
-                url: base_url + 'channel/emailused',
-                data: data,
-                success: function(html) {
-
-                    if (html.trim() != '0') {
-                        email.setCustomValidity("This Email already exists");
-                    } else {
-                        email.setCustomValidity("");
-                        return true;
-                    }
-                }
-            });
+            return true;
+           
+            
         }
 
         function validarusername() {

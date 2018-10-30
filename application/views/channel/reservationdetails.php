@@ -178,6 +178,23 @@
                                                 <?=$guestFullName?>
                                             </p>
                                         </div>
+                                        <?php
+                                      
+                                            if(isset($allguest))
+                                            { 
+                                                $guest1=explode(',', $allguest);
+                                                echo '<div class="about-info-p">
+                                            <strong>All Guest Name</strong>';
+                                                foreach ($guest1 as  $value) {
+                                                   echo ' <p class="text-muted">
+                                                           '.$value.'
+                                                            </p>';
+                                                }
+                                                echo ' </div>';
+                                            }
+
+
+                                         ?>
                                         <div class="about-info-p">
                                             <strong>Email</strong>
                                             <p class="text-muted">

@@ -206,7 +206,32 @@
                         
                     </div>
                     <div style="float: right; width: 35%; text-align: left;" class="graph">
-                        <h3><span >Stay Information</span></h3>
+
+                        <center>
+
+                             <div class="col-md-12 form-group1">
+                                <label style="padding:4px;" class="control-label controls"><h1><span class="label label-danger">SOURCE</span></h1></label>
+                                <select style="width: 80%; padding: 9px;" name="sourceid" id="sourceid">
+                                    <?php
+
+                                        $Channelss=$this->db->query("select channel_name, channel_id from manage_channel order by channel_name")->result_array();
+
+                                        echo '<option  value="-1" >Select a Reservation Source</option>';
+                                        echo '<option style="background:#71FF33;" value="0" selected >Direct Reservation</option>';
+                                        foreach ($Channelss as $value) {
+                                            $i++;
+                                            echo '<option  value="'.$value['channel_id'].'" >'.$value['channel_name'].'</option>';
+                                        }
+                                  ?>
+                                </select>
+                                 <br>
+                                <hr>
+                            </div>
+
+                        </center>
+
+
+                       <h3><span >Stay Information</span></h3>
                         <hr>
                         <table>
                             <tbody>
@@ -341,9 +366,22 @@ function formatMoney(n, c, d, t) {
   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
 
-function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay,idreplace) {
+function format(val)
+{
+    var num = val;
+    if(!isNaN(num)){
+    num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+    num = num.split('').reverse().join('').replace(/^[\.]/,'');
+    
+    }
+     
+   return num;
+}
 
-    var newmonto= parseFloat($("#price_"+idreplace).html())*numnight;
+function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay,idreplace) {
+    var pricenew=$("#price_"+idreplace).html().replace(',','');
+    var newmonto= pricenew*numnight;
+
     $("#newprice").val((totalstay!=newmonto?newmonto:-1));
     totalstay=(totalstay!=newmonto?newmonto:totalstay);
 
@@ -360,7 +398,8 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
     $("#numroom").val(numroom);
     $("#adult").val(adult);
     $("#allguest").html('');
-    
+
+
     $("#guestnames").css('display',(adult<=1?'none':''));
     for (var i = 1; i < adult; i++) {
         
@@ -423,6 +462,123 @@ function saveReservation()
                 });
         return;
     }
+
+    if($("#paymentTypeId").val()>1)
+    {
+        if($("#providerid").val()==0)
+        {
+            swal({
+                    title: "Missing Field",
+                    text: "Select a Collection Type To Continue!",
+                    icon: "warning",
+                    button: "Ok!",
+                    });
+            return;
+        }
+
+
+        if($("#providerid").val()>0)
+        {
+            
+            if($("#cctype").val().length==0)
+                {
+                    swal({
+                            title: "Missing Field",
+                            text: "Type a CC Type To Continue!",
+                            icon: "warning",
+                            button: "Ok!",
+                            });
+                    return;
+                }
+                else if($("#ccholder").val().length==0)
+                {
+                    swal({
+                            title: "Missing Field",
+                            text: "Type a CC Holder To Continue!",
+                            icon: "warning",
+                            button: "Ok!",
+                            });
+                    return;
+                }
+                else if($("#ccnumber").val().length==0)
+                {
+                    swal({
+                            title: "Missing Field",
+                            text: "Type a CC Number To Continue!",
+                            icon: "warning",
+                            button: "Ok!",
+                            });
+                    return;
+                }
+
+                else if($("#ccmonth").val().length==0)
+                {
+                    swal({
+                            title: "Missing Field",
+                            text: "Type a CC Month To Continue!",
+                            icon: "warning",
+                            button: "Ok!",
+                            });
+                    return;
+                }
+                else if($("#ccyear").val().length==0)
+                {
+                    swal({
+                            title: "Missing Field",
+                            text: "Type a CC Year To Continue!",
+                            icon: "warning",
+                            button: "Ok!",
+                            });
+                    return;
+                }
+        
+             
+        }
+
+
+
+    }
+
+
+    if($("#providerid").val()>0)
+    {
+
+            $.ajax({
+                type: "POST",
+              dataType: "json",
+                url: "<?php echo lang_url(); ?>reservation/ValidateCreditCard",
+                data: {'cccard':$("#ccnumber").val()},
+                success: function(msg) {
+                   if (!msg['success']) {
+                     swal({
+                            title: "Warning",
+                            text: "Credic Card Invalid!",
+                            icon: "warning",
+                            button: "Ok!",
+                        });
+
+                     return;
+                   }
+                   else
+                   {
+                        reservationDone();
+                   }
+                  
+                }
+            });
+    } 
+    else{
+        reservationDone();
+    }
+
+
+
+
+    
+}
+
+function reservationDone()
+{
     var data = $("#ReserveC").serialize();
     $.ajax({
         type: "POST",
@@ -458,8 +614,6 @@ function saveReservation()
         }
     });
 }
-
-
 
 
 </script>

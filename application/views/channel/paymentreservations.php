@@ -76,27 +76,27 @@
                                     <form id="ccinfo" accept-charset="utf-8">
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
                                             <label class="control-label"><strong>Credit Card Type</strong></label>
-                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($cctype)?$cctype:'')?>" Name="cctype" >
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($cctype)?$cctype:'')?>" Name="cctype" id="cctype" >
                                         </div>
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
                                             <label class="control-label"><strong>Cardholder Name</strong></label>
-                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccname)?$ccname:'')?>" Name="ccholder" >
+                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccname)?$ccname:'')?>" Name="ccholder" id="ccholder">
                                         </div>
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
                                             <label class="control-label"><strong>Card Number</strong></label>
-                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccnumber)?$ccnumber:'')?>" id="ccnumber" Name="ccnumber" >
+                                            <input onkeypress="return justNumbers(event);" style="background:white; color:black; width: 100%;" value="<?=(isset($ccnumber)?$ccnumber:'')?>" id="ccnumber" Name="ccnumber"  >
                                         </div>
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
                                             <label class="control-label"><strong>CVV</strong></label>
-                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($cccvv)?$cccvv:'')?>" Name="cccvv" >
+                                            <input onkeypress="return justNumbers(event);"  style="background:white; color:black; width: 100%;" value="<?=(isset($cccvv)?$cccvv:'')?>" Name="cccvv" id="cccvv">
                                         </div>
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
-                                            <label class="control-label"><strong>Expiration month</strong></label>
-                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccmonth)?$ccmonth:'')?>" Name="ccmonth" >
+                                            <label  class="control-label"><strong>Expiration month</strong></label>
+                                            <input onkeypress="return justNumbers(event);"  style="background:white; color:black; width: 100%;" value="<?=(isset($ccmonth)?$ccmonth:'')?>" Name="ccmonth" id="ccmonth" >
                                         </div>
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
-                                            <label class="control-label"><strong>Expiration Year</strong></label>
-                                            <input style="background:white; color:black; width: 100%;" value="<?=(isset($ccyear)?$ccyear:'')?>" Name="ccyear" >
+                                            <label   class="control-label"><strong>Expiration Year</strong></label>
+                                            <input onkeypress="return justNumbers(event);" style="background:white; color:black; width: 100%;" value="<?=(isset($ccyear)?$ccyear:'')?>" Name="ccyear" id="ccyear" >
                                         </div>
                                         <div class="col-md-12 form-group1" style="display: none;">
                                             <label class="control-label"><strong>Expiration Year</strong></label>
@@ -110,11 +110,11 @@
                                     </form>
                                 </div>
                         </div>
-                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                        <div class="col-md-12 form-group1 " style="display: none;">
                             <label class="control-label"><strong>Description</strong></label>
                             <input style="background:white; color:black; width: 100%;" Name="Description" placeholder="Type a Description">
                         </div>
-                        <div class="col-md-6 form-group1 metocc" style="display: none;">
+                        <div class="col-md-6 form-group1 metoccc" style="display: none;">
                             <label for="sendcvv" class="control-label"><strong>Send CVV  </strong></label>
                             <input id="sendcvv" value="1" class="input-small" type="checkbox" name="sendcvv">
                         </div>

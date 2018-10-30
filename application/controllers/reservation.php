@@ -992,6 +992,36 @@ class reservation extends Front_Controller {
 
 		return;
 	}
+	function ValidateCreditCard()
+	{
+		require_once(APPPATH.'controllers/ValidateCreditCard.php');
+
+		
+		$credit_card_user    = $_POST['cccard']; // VISA
+
+		// $credit_card_user = "5370517873215895"; // MASTER CARD
+
+		// $credit_card_user = "372249624477942";  // American Express
+
+		// $credit_card_user = "6011103438289080"; // Discover Card
+
+		// $credit_card_user = "30350727682943";   // Diners Club Carte Blanche
+
+		// $credit_card_user = "36612758986350";   // Diners Club International
+
+		// $credit_card_user = "3370728773640984"; // JCB
+
+		 if (ValidateCreditCard::validateFormatCreditCard($credit_card_user) && ValidateCreditCard::calculateLuhn($credit_card_user))
+		 {
+		 	$result['success']=true;
+		 	echo json_encode($result);
+		 }
+		 else
+		 {$result['success']=false;
+		 	echo json_encode($result);
+		 }
+
+	}
 	function saveReservation()
 	{
 		
@@ -1017,7 +1047,7 @@ class reservation extends Front_Controller {
        		$callAvailabilities->updateavailability(0,$_POST['roomid'], $_POST['rateid'],hotel_id(),$_POST['checkin'], $checkout_date ,'new',$allroom); 
 		}
 
-		if(isset($_POST['sendemail']))
+		if(isset($_POST['sendemail']) && ENVIRONMENT=='production')
 		{
 			require_once(APPPATH.'controllers/sendemail.php');
             $sendemail = new sendemail();        
@@ -1295,7 +1325,8 @@ class reservation extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['payment']=$this->reservation_model->payment();
 		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
-		$data['currency']='USD';
+		$id=array_search($data['HotelInfo']['currency'], array_column($data['Currencies'],'currency_id'));
+		$data['currency']=(isset($data['Currencies'][$id]['currency_code'])?$data['Currencies'][$id]['currency_code']:'USD');
 		$data['AllChannel']=$this->channel_model->allChannelsConnect();
 		$this->views('channel/reservationlist',$data);
 

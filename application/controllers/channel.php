@@ -1993,7 +1993,9 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['YearM']=$this->db->query("select max(STR_TO_DATE(separate_date ,'%d/%m/%Y')) mayor from room_update where hotel_id=".hotel_id())->row()->mayor;
 		$data['payment']=$this->reservation_model->payment();
 		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
-		$data['currency']='USD';
+
+		$id=array_search($data['HotelInfo']['currency'], array_column($data['Currencies'],'currency_id'));
+		$data['currency']=(isset($data['Currencies'][$id]['currency_code'])?$data['Currencies'][$id]['currency_code']:'USD');
 		$data['userConfig']=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array(); 
 		$this->views('channel/calendarfull',$data);
 	}

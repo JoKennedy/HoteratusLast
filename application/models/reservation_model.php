@@ -362,7 +362,7 @@ class Reservation_model extends CI_Model
             $data['numberNight']=$result['num_nights'];
             $data['numberAdults']=$result['members_count'];
             $data['numberChilds']=$result['children'];
-            $data['guestFullName']=$result['guest_name'];
+            $data['guestFullName']=$result['guest_name'].' '.$result['last_name'];
             $data['email']=$result['email'];
             $data['mobiler']=$result['mobile'];
             $data['address']=$result['street_name'];
@@ -383,6 +383,7 @@ class Reservation_model extends CI_Model
             $data['totalStay']=($result['price']>0?number_format((float)$result['price'], 2, '.', ''):$this->totalRate(explode(',', $result['price_details'])))  ; 
             $data['grandtotal']=number_format(($data['totalStay']+$data['extrasInfo']['total']), 2, '.', '');
             $data['extrastoroom']=get_data("room_extras", array("room_id"=>$result['room_id']))->result_array();
+            $data['allguest']=$result['guestname'];
 
         }
         else if($channelId==1)
@@ -399,7 +400,12 @@ class Reservation_model extends CI_Model
             $this->load->model('airbnb_model');
             $data=$this->airbnb_model->reservationdetails($channelId,$reservationId,$hotelid);
         }
+
+
         return $data;
+
+
+
     }
     function totalRate($rate)
     {   
@@ -3293,7 +3299,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $data['start_date']=date('d/m/Y',strtotime($_POST['checkin']));
                 $data['end_date']=date('d/m/Y',strtotime($_POST['checkout']));
                 $data['booking_date']=date('Y-m-d');
-                $data['channel_id']=0;
+                $data['channel_id']=$_POST['sourceid'];
                 $data['arrivaltime']=$_POST['arrival'];
                 $data['price']=$prices;
                 $data['price_details']=$pricesdetails;

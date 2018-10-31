@@ -973,6 +973,22 @@ class reservation extends Front_Controller {
 	    return;
 
 	}
+	function printreservation()
+	{
+			$billing=$this->db->query("select * from bill_info where hotel_id=".hotel_id())->row_array();
+			$logo=base_url().(isset($Logo)?$billing['Logo']:"uploads/room_photos/noimage.jpg");
+			require_once('/../libraries/pdf/PDFHeader.php');
+
+			$pdf = new PDFHeader($logo);
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			$pdf->SetFont('Times','',12);
+			for($i=1;$i<=40;$i++)
+			    $pdf->Cell(0,10,'Imprimiendo línea número '.$i,0,1);
+			$pdf->Output();
+			
+			
+	}
 	function saveExtras()
 	{
 		$channelID=$_POST['channelId'];

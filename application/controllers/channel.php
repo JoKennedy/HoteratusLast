@@ -1852,6 +1852,13 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		echo json_encode($data);
 		return;
 	}
+	function savePolicy()
+	{ 
+		$this->is_login();
+		$data['success']=$this->channel_model->savePolicy();
+		echo json_encode($data);
+		return;
+	}
 	function managemembership()
 	{
 		$this->is_login();

@@ -36,7 +36,7 @@
                             foreach ($AllPolicies as  $value) {
                                 $i++;
                                 /*$update="'".$value['paymentmethodid']."','".$value['name']."','".$value['email']."','".$value['apikey']."','".$value['merchantid']."','".$value['publickey']."','".$value['active']."','".$value['providerid']."'";*/
-                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['policytypename'].'  </td> <td> '.$value['name'].'  </td> <td>'.($value['feetype']==1?'Amount':($value['feetype']==2?'Percentage':'Per Night')).'</td>
+                                echo' <tr  class="'.($i%2?'active':'success').'"> <th scope="row">'.$i.' </th> <td> '.$value['policytypename'].'  </td> <td> '.$value['Name'].'  </td> <td>'.($value['feetype']==1?'Amount':($value['feetype']==2?'Percentage':'Per Night')).'</td>
                                  <td>'.($value['active']==1?'Active':'Deactive').'</td> <td> <a href="#addPaymentUP" onclick ="updatePayment()" data-toggle="modal"> <i class="fa fa-pencil-square-o"></i></a></td>  </tr>   ';
                             }
                            
@@ -98,21 +98,21 @@
                 </div>
                 <div>
                     <div class="graph-form">
-                  <form id ="createprovider" >
+                  <form id ="createplicy" >
 
                   
                     <div class="col-md-12 form-group1">
-                            <label class="control-label">Name Policy</label>
-                            <input style="background:white; color:black;" name="nametype" id="nametype" type="text" placeholder="Policy Type" required="">
+                            <label class="control-label">Policy Name</label>
+                            <input style="background:white; color:black;" name="policyname" id="policyname" type="text" placeholder="Policy Type" required="">
                     </div>
                     <div class="col-md-12 form-group1">
                             <label class="control-label">Description</label>
-                            <textarea></textarea>
+                            <textarea id="policydescription" name="policydescription"></textarea>
                             
                     </div>  
                     <div class="col-md-6 form-group1 form-last">
                         <label style="padding:4px;" class="control-label controls">Policy Type</label>
-                        <select onchange="viewnote(this)" style="width: 100%; padding: 9px;" name="policytypeid" id="policytypeid" >
+                        <select  style="width: 100%; padding: 9px;" name="policytypeid" id="policytypeid" >
                             <?php
 
                                     echo '<option value="0" >Select a Policy Type</option>';
@@ -125,11 +125,11 @@
                     </div>
                     <div class="col-md-6 form-group1">
                             <label class="control-label">Days Before</label>
-                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="stock" id="stock" type="text" placeholder="Stock" required="">
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="daysbefore" id="daysbefore" type="text" placeholder="Stock" required="">
                     </div>
                     <div class="col-md-6 form-group1">
                             <label class="control-label">Fee</label>
-                            <select onchange="viewnote(this)" style="width: 100%; padding: 9px;" name="feetype" id="feetype" >
+                            <select style="width: 100%; padding: 9px;" name="feetype" id="feetype" >
                             <option value="0" >Select a Fee Type</option>
                             <option value="1" >Fixed</option>
                             <option value="2" >Percentage</option>
@@ -138,13 +138,13 @@
                     </div>
                     <div class="col-md-6 form-group1">
                             <label class="control-label">Value</label>
-                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="stock" id="stock" type="text" placeholder="Stock" required="">
+                            <input style="background:white; color:black;" onkeypress="return justNumbers(event);" name="amount" id="amount" type="text" placeholder="Value" required="">
                     </div>
                         
                     <div class="clearfix"> </div>
                     <br><br>
                         <div class="buttons-ui">
-                        <a onclick="savePaymentM()" class="btn green">Save</a>
+                        <a onclick="savePolicy()" class="btn green">Save</a>
                         </div>
 
                     <div class="clearfix"> </div>
@@ -155,144 +155,60 @@
             </div>
         </div>
 </div>
-<div id="addPaymentUP" class="modal fade" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    
-                    <h4 class="modal-title">Update  a  Payment Method</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span> 
-                </div>
-                <div>
-                    <div class="graph-form">
-                  <form id ="updateprovider" >
-                    <input type="hidden" name="paymentmethodidup" id="paymentmethodidup">
-                    <div class="col-md-12 form-group1 form-group1">
-                        <label  class="control-label ">Provider Name</label>
-                         <input style="background:white; color:black; " readonly="" id="providernameup" type="text" >
-                    </div>
-                    <div class="col-md-12 form-group1">
-                            <label class="control-label">Email</label>
-                            <input style="background:white; color:black;" name="emailup" id="emailup" type="text" placeholder="E-Mail" required="">
-                    </div>
-                    <div class="col-md-12 form-group1" style="display:none;" id="apikeysup">
-                            <label class="control-label">Api Key</label>
-                            <input style="background:white; color:black; " name="apikeyup" id="apikeyup" type="text" placeholder="ApiKey" required="">
-                    </div>
-                    <div class="col-md-12 form-group1" style="display:none;" id="merchantidsup">
-                            <label class="control-label">Merchantid</label>
-                            <input style="background:white; color:black; " name="merchantidup" id="merchantidup" type="text" placeholder="Merchantid" required="">
-                    </div>
-                    <div class="col-md-12 form-group1" style="display:none;" id="publickeysup">
-                            <label class="control-label">Publickey</label>
-                            <input style="background:white; color:black; " name="publickeyup" id="publickeyup" type="text" placeholder="Publickey" required="">
-                    </div>
-                    <div class="col-md-12 form-group1" >
-                        <label class="control-label">Status</label>
-                        <div class="onoffswitch">
-                            <input onchange="changestatus(this.checked)" type="checkbox" name="activeup" class="onoffswitch-checkbox" id="myonoffswitch" >
-                        <label class="onoffswitch-label" for="myonoffswitch">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                        </label>
-                        </div>
-                    </div>
-                    <div class="clearfix"> </div>
-                    <br><br>
-                        <div class="buttons-ui">
-                        <a onclick="updatePaymentM()" class="btn green">Update</a>
-                        </div>
 
-                    <div class="clearfix"> </div>
-
-                  </form>
-                </div>
-                </div>
-            </div>
-        </div>
-</div>
 <script type="text/javascript">
     
-    function viewnote(options)
+   
+    function savePolicy()
     {
-        valor=$(options).val();
-        $("#apikeys").css('display',(valor==1 || valor==2 || valor==3?'':'none'));
-        $("#merchantids").css('display',( valor==2 ?'':'none'));
-        $("#publickeys").css('display',(valor==2 ?'':'none'));
-    }
-    function viewnoteup(valor)
-    {
-        $("#apikeysup").css('display',(valor==1 || valor==2 || valor==3?'':'none'));
-        $("#merchantidsup").css('display',( valor==2 ?'':'none'));
-        $("#publickeysup").css('display',(valor==2 ?'':'none'));
-    }
+        if ($("#policyname").val()=='' || $("#policyname").val().length==0 ) {
+             swal({
+                title: "upps, Sorry",
+                text: "Type a Policy Name To Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+        }
+        if ( $("#policydescription").val().length==0 ) {
+             swal({
+                title: "upps, Sorry",
+                text: "Type a Policy description To Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+        }
+        if ( $("#policytypeid").val().length==0 ) {
+             swal({
+                title: "upps, Sorry",
+                text: "Select a Policy Type To Continue !",
+                icon: "warning",
+                button: "Ok!",
+            });
+            return false;
+        }
+        
 
-    function savePaymentM()
-    {
-        if ($("#providerid").val()==0 || $("#providerid").val().length==0 ) {
-             swal({
-                title: "upps, Sorry",
-                text: "Select a Provider To Continue !",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return false;
-        }
-        if ( $("#email").val().length==0 ) {
-             swal({
-                title: "upps, Sorry",
-                text: "Type a Email To Continue !",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return false;
-        }
-        if ( $("#apikey").val().length==0 && $("#apikeys").css("display")!='none') {
-             swal({
-                title: "upps, Sorry",
-                text: "Type a Api Key To Continue !",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return false;
-        }
-         if ( $("#merchantid").val().length==0 && $("#merchantids").css("display")!='none') {
-             swal({
-                title: "upps, Sorry",
-                text: "Type a Merchantid To Continue !",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return false;
-        }
-         if ( $("#publickey").val().length==0 && $("#publickeys").css("display")!='none') {
-             swal({
-                title: "upps, Sorry",
-                text: "Type a Publickey To Continue !",
-                icon: "warning",
-                button: "Ok!",
-            });
-            return false;
-        }
-
-         var data = $("#createprovider").serialize();
+         var data = $("#createplicy").serialize();
         $.ajax({
             type: "POST",
-            dataType: "json",
-            url: "<?php echo lang_url(); ?>channel/savePaymentMethod",
+            //dataType: "json",
+            url: "<?php echo lang_url(); ?>channel/savePolicy",
             data: data,
             beforeSend: function() {
-                showWait('Saving Payment Method');
+                showWait('Saving a new Policy');
                 setTimeout(function() { unShowWait(); }, 10000);
             },
             success: function(msg) {
+
+                alert(msg);
 
                 unShowWait();
                if (msg['success']) {
                  swal({
                         title: "Success",
-                        text: "Payment Method successfully created!",
+                        text: "Policy successfully created!",
                         icon: "success",
                         button: "Ok!",
                     }).then((n) => {
@@ -303,7 +219,7 @@
                {
                     swal({
                         title: "Error",
-                        text: "Payment Method was not created!",
+                        text: "Policy was not created!",
                         icon: "error",
                         button: "Ok!",
                     });

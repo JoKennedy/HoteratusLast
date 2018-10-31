@@ -48,7 +48,6 @@
 </div>
 <div class="modal-body">
     <div class="col-md-12 label-info" align="center">
-
         <img style="width: 200px; height: 90px;" src="<?php echo base_url();?>user_asset/back/images/reception.png" >
         <p style="font-size: 16px; font-style: bold;" align="center">Please select your check-in and check-out dates as well as the total number of rooms and guests.</p>
     </div>
@@ -462,6 +461,18 @@ function saveReservation()
                 });
         return;
     }
+
+    if($("#paymentTypeId").val()==0)
+    {
+        swal({
+                title: "Missing Field",
+                text: "Select a Method Type To Continue!",
+                icon: "warning",
+                button: "Ok!",
+                });
+        return;
+    }
+
 
     if($("#paymentTypeId").val()>1)
     {

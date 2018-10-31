@@ -412,7 +412,7 @@ class channel_model extends CI_Model
 		       	$src = $carpeta.hotel_id().$nombre;
 			    move_uploaded_file($ruta_provisional, $src);
 
-			    $data['Logo']="/".$src;
+			    $data['Logo']=$src;
 		    }
 
 		}
@@ -507,6 +507,28 @@ class channel_model extends CI_Model
 		{
 			return false;
 		}
+	}
+	function savePolicy()
+	{
+		
+		$data['hotelid']=hotel_id();
+		$data['description']=$_POST['policydescription'];
+		$data['Name']=$_POST['policyname'];
+		$data['daysbefore']=$_POST['daysbefore'];
+		$data['feetype']=$_POST['feetype'];
+		$data['amount']=$_POST['amount'];
+		$data['policytype']=$_POST['policytypeid'];
+		$data['active']=1;
+		if (insert_data('policies',$data)) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+		# policyid, hotelid, description, Name, daysbefore, feetype, amount, policytype, active
+
 	}
 	function propertyinfoupdate($propertyinfo)
 	{

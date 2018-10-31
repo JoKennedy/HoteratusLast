@@ -973,20 +973,22 @@ class reservation extends Front_Controller {
 	    return;
 
 	}
-	function printreservation()
-	{
-			$billing=$this->db->query("select * from bill_info where hotel_id=".hotel_id())->row_array();
-			$logo=base_url().(isset($Logo)?$billing['Logo']:"uploads/room_photos/noimage.jpg");
-			require_once('/../libraries/pdf/PDFHeader.php');
-
-			$pdf = new PDFHeader($logo);
-			$pdf->AliasNbPages();
-			$pdf->AddPage();
-			$pdf->SetFont('Times','',12);
-			for($i=1;$i<=40;$i++)
-			    $pdf->Cell(0,10,'Imprimiendo línea número '.$i,0,1);
-			$pdf->Output();
+	function printreservation($chanel,$resid,$idioma)
+	{	
+			$channelID=unsecure($chanel);
+			$ReservationID=insep_decode($resid);
 			
+			$billing=$this->db->query("select * from bill_info where hotel_id=".hotel_id())->row_array();
+			$data['Logo']=base_url()."uploads/room_photos/noimage.jpg";
+			$data['Reservation']=$this->reservation_model->reservationdetails($channelID,$ReservationID);
+			$data['roominfo']=$this->db->query("select a.*, b.meal_name
+				from manage_property a 
+				left join meal_plan b on a.meal_plan=b.meal_id
+				where property_id=".$data['Reservation']['roomTypeID'])->row_array();
+
+			$data['policies']=$this->db->query("select * from policies where hotelid=".hotel_id())->result_array();
+			$data['language']=insep_decode($idioma);
+			$this->view('channel/sheetcheckin',$data);
 			
 	}
 	function saveExtras()

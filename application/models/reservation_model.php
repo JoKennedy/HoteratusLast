@@ -384,6 +384,8 @@ class Reservation_model extends CI_Model
             $data['grandtotal']=number_format(($data['totalStay']+$data['extrasInfo']['total']), 2, '.', '');
             $data['extrastoroom']=get_data("room_extras", array("room_id"=>$result['room_id']))->result_array();
             $data['allguest']=$result['guestname'];
+            $data['bookeddate']=$result['created_date'];
+
 
         }
         else if($channelId==1)

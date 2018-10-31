@@ -83,11 +83,13 @@
                     </nav>
                     <div class="content tab">
                         <section id="section-1" class="content-current sec">
-                            <div style="text-align: center;">
+                            <center>
                                 <a href="#EditReservation" data-toggle="modal" class="btn green two">Edit Reservation</a>
+                                <a href="#Printreservation" data-toggle="modal" target="_blank" class="btn red three">Print Checkin Form</a>
 
+                               
 
-                            </div>
+                            </center>
                             <div class="col-md-6 profile-info">
                                 <h3>Reservation Details </h3>
                                 <div class="main-grid3">
@@ -183,15 +185,19 @@
                                             if(isset($allguest))
                                             { 
                                                 $guest1=explode(',', $allguest);
-                                                echo '<div class="about-info-p">
-                                            <strong>All Guest Name</strong>';
-                                                foreach ($guest1 as  $value) {
-                                                   echo ' <p class="text-muted">
-                                                           '.$value.'
-                                                            </p>';
+                                                if(strlen($allguest)>2)
+                                                {
+                                                     echo '<div class="about-info-p">
+                                                    <strong>All Guest Name</strong>';
+                                                        foreach ($guest1 as  $value) {
+                                                           echo ' <p class="text-muted">
+                                                                   '.$value.'
+                                                                    </p>';
+                                                        }
+                                                        echo ' </div>';
+                                                    }
                                                 }
-                                                echo ' </div>';
-                                            }
+                                               
 
 
                                          ?>
@@ -764,7 +770,31 @@ Agregar Extras
                     </p>
                 </div>
             </div>
-            <div id="EditingInfo">
+
+            <?php
+
+                echo '<div class="col-md-6 form-group1"><label class="control-label">Main Guest </label><input style="background:white; color:black;" name="mainguest" id="mainguest" type="text" placeholder="Type a Main Guest" required="" value="'.$guestFullName.'"></div>';
+
+                if(isset($allguest))
+                {
+                    $guest1=explode(',', $allguest);
+
+                    
+
+                    for ($i=0; $i < count($guest1) ; $i++) { 
+                        
+                        echo '<div class="col-md-6 form-group1"><label class="control-label">Guest '.($i+1).' </label><input style="background:white; color:black;" name="guest[]" id="guest" type="text" placeholder="Type a Guest Name" required="" value="'.$guest1[$i].'"></div>';
+                    }
+
+                    echo $i;
+
+                }
+                
+
+               
+            ?>
+            
+            <!--<div id="EditingInfo">
                 <div class="graph-form">
                     <form id="SupplierC">
                         <div class="col-md-6 form-group1">
@@ -825,11 +855,33 @@ Agregar Extras
                         <div class="clearfix"> </div>
                     </form>
                 </div>
+            </div>-->
+            <div class="clearfix"></div>
+            <br>
+        </div>
+    </div>
+</div>
+
+<div id="Printreservation" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <center><h4 class="modal-title">Check-in Form</h4></center>
             </div>
+            <center>
+                <a href="<?php echo lang_url(); ?>reservation/printreservation/<?php echo secure($channelId)?>/<?php echo insep_encode($reservatioID)?>/<?php echo insep_encode('spanish')?>" target="_blank" class="btn green fifth">Spanish</a>
+                 <a href="<?php echo lang_url(); ?>reservation/printreservation/<?php echo secure($channelId)?>/<?php echo insep_encode($reservatioID)?>/<?php echo insep_encode('english')?>" target="_blank" class="btn red six">English</a>
+            </center>
+             
+
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
+
+
+
 <div id="EditStatus" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="myModalLabel">
     <div class="modal-dialog ">
         <div class="modal-content">

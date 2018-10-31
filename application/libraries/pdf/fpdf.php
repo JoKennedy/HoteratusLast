@@ -66,6 +66,7 @@ protected $ZoomMode;           // zoom display mode
 protected $LayoutMode;         // layout display mode
 protected $metadata;           // document properties
 protected $PDFVersion;         // PDF version number
+       // PDF version number
 
 /*******************************************************************************
 *                               Public methods                                 *
@@ -101,6 +102,7 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->ColorFlag = false;
 	$this->WithAlpha = false;
 	$this->ws = 0;
+
 	// Font path
 	if(defined('FPDF_FONTPATH'))
 	{

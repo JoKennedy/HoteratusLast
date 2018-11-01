@@ -1,16 +1,4 @@
-<div class="modal-dialog">
-    <div class="modal-content " style="width: 350px;">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-            <h4 class="modal-title">Payment Details</h4>
-        </div>
-        <div id="msgpayment" class="alert alert-warning" style="display: none; text-align: center;">
-            <strong>Warning!</strong>
-        </div>
-        <div class="modal-body form">
-            <div class="portlet-body form">
-                <!-- BEGIN FORM-->
-                <form id="paymentapplication" accept-charset="utf-8">
+ <form id="paymentapplication" accept-charset="utf-8">
                     <div class="form-body">
                         <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
                         <div class="col-md-12 form-group1">
@@ -33,7 +21,7 @@
                                       ?>
                             </select>
                         </div>
-                        <div class="col-md-6 form-group1 metocc" style="display: none;">
+                        <div class="col-md-12 form-group1 metocc" style="display: none;">
                             <label class="control-label"><strong>Collection Type</strong></label>
                             <select name="providerid" id="providerid" class="form-control1">
                                 <?php
@@ -55,7 +43,7 @@
                                       ?>
                             </select>
                         </div>
-                        <div class="col-md-6 form-group1" >
+                        <div class="col-md-12 form-group1" >
                             <label class="control-label"><strong>Currency</strong></label>
                             <select name="currency" id="currency" class="form-control1">
                                 <?php
@@ -71,7 +59,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-12 form-group1 metocc" style="display: none;">
+                        <div class="form-group1 metocc" style="display: none;">
                             <div class="form-body">
                                     <form id="ccinfo" accept-charset="utf-8">
                                         <div class="col-md-12 form-group1 metocc" style="display: none;">
@@ -127,10 +115,6 @@
                     <div class="clearfix"></div>
                     <div class="clearfix"></div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     function showccinfo() {

@@ -90,7 +90,7 @@
     </div>
 </div>
 <div id="CreateReservation" class="modal fade" role="dialog" style="z-index: 1400;">
-    <div class="modal-dialog" id="idre">
+    <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <?php include("creationreservation.php")?>
         </div>
@@ -162,12 +162,10 @@
 </div>
 </div>
 </div>
-
+<?php include("inforeservationcreate.php");?>
+<?php include("findroomcreate.php");?>
 <script type="text/javascript">
-$("#idre").css({
-    width:screen.width-100,
-    height:screen.height
-});
+
  var base_url = '<?php echo lang_url();?>';
 
  var showr='<?=$showreservation?>';

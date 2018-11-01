@@ -63,6 +63,32 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
                             <?=$town.', '.$pais['country_name']?>
                         </p>
                     </div>
+                    
+                    <div class="about-info-p m-b-0">
+                        <strong><?=$this->lang->line('profile_language')?></strong>
+                        <br>
+                        <p class="text-muted">
+
+                        <select onchange="changeLanguage(this.value)" style="width: 50%; padding: 9px; " id="languageid" name="languageid">
+                            <?php
+                                $language=$this->session->userdata('site_lang');    
+                                echo '<option value="english" '.($language=='english'?'selected':'').'>English</option>'; 
+                                echo '<option value="spanish" '.($language=='spanish'?'selected':'').'>Spanish</option>';
+                                echo '<option value="french" '.($language=='french'?'selected':'').'>French</option>';
+                                echo '<option value="german" '.($language=='german'?'selected':'').'>German</option>';                   
+                            ?>
+                            </select> 
+
+                        </p>
+                    </div>
+
+
+                        <script type="text/javascript">
+                            function changeLanguage (language) {
+                                window.location.href='<?php echo base_url(); ?>LanguageSwitcher/switchLang/'+language;
+                            }
+
+                        </script>
                 </div>
             </div>
             <center>

@@ -773,34 +773,8 @@ Agregar Extras
             <form id="updateR">
                 <input type="hidden" name="canalid" value="<?=$channelId?>">
                  <input type="hidden" name="reservaid" value="<?=$reservatioID?>">
-            <?php
-            
-                echo '<div class="col-md-6 form-group1"><label class="control-label">Main Guest </label><input style="background:white; color:black;" name="mainguest" id="mainguest" type="text" placeholder="Type a Main Guest" required="" value="'.$guestFullName.'"></div>';
-
-                if(isset($allguest))
-                {
-                    $guest1=explode(',', $allguest);
-
-                    
-
-                    for ($i=0; $i < count($guest1) ; $i++) { 
-                        
-                        echo '<div class="col-md-6 form-group1"><label class="control-label">Guest '.($i+1).' </label><input style="background:white; color:black;" name="guest[]" id="guest" type="text" placeholder="Type a Guest Name" required="" value="'.$guest1[$i].'"></div>';
-                    }
-
-                }
-                
-
-               
-            ?>
-            <div class="col-md-12 buttons-ui">
-                <a onclick="UpdateReservation()" class="btn green">Update</a>
-            </div>
-           
-            <!--<div id="EditingInfo">
-                <div class="graph-form">
-                    <form id="SupplierC">
-                        <div class="col-md-6 form-group1">
+          
+            <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Check-In</strong></label>
                             <input style="background:white; color:black; text-align: center;" type="date" class="btn blue" value="<?=date('Y-m-d',strtotime($checkin))?>" required="" id="date1Edit" name="date1Edit">
                         </div>
@@ -816,10 +790,26 @@ Agregar Extras
                             <label class="control-label"><strong>Room Number</strong></label>
                             <input style="background:white; color:black;" name="roomnumber" id="roomnumber" value="<?=$roomNumber?>" type="text" placeholder="Room Number" required="">
                         </div>
-                        <div class="col-md-12 form-group1">
-                            <label class="control-label"><strong>Guest Name</strong></label>
-                            <input style="background:white; color:black;" name="guestname" id="guestname" type="text" placeholder="Guest Name" required="" value="<?=$guestFullName?>">
-                        </div>
+
+                          <?php
+            
+                            echo '<div class="col-md-6 form-group1"><label class="control-label">Main Guest </label><input style="background:white; color:black;" name="mainguest" id="mainguest" type="text" placeholder="Type a Main Guest" required="" value="'.$guestFullName.'"></div>';
+
+                            if(isset($allguest))
+                            {
+                                $guest1=explode(',', $allguest);
+
+                                
+
+                                for ($i=0; $i < count($guest1) ; $i++) { 
+                                    
+                                    echo '<div class="col-md-6 form-group1"><label class="control-label">Guest '.($i+1).' </label><input style="background:white; color:black;" name="guest[]" id="guest" type="text" placeholder="Type a Guest Name" required="" value="'.$guest1[$i].'"></div>';
+                                }
+
+                            }
+
+                           
+                        ?>
                         <div class="col-md-6 form-group1">
                             <label class="control-label"><strong>Email</strong></label>
                             <input style="background:white; color:black;" name="Email" id="Email" type="text" placeholder="Email" required="" value="<?=$email?>">
@@ -852,13 +842,14 @@ Agregar Extras
                         <div class="clearfix"> </div>
                         <br>
                         <br>
-                        <div class="buttons-ui">
-                            <a onclick="UpdateReservation()" class="btn green">Update</a>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </form>
-                </div>
-            </div>-->
+            <div class="col-md-12 buttons-ui">
+                <a onclick="UpdateReservation()" class="btn green">Update</a>
+            </div>
+           
+            
+                        
+                     
+                  
             <div class="clearfix"></div>
             <br>
         </div>

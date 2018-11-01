@@ -26,7 +26,7 @@
     </div>
     <!--//sub-heard-part-->
     <div style="float: right;" class="buttons-ui">
-        <a class="btn orange">Import Resevations Now</a>
+        <a class="btn orange">Import Reservations Now</a>
         <a onclick="Export()" class="btn green">Export</a>
         <a onclick="setcalendar()" class="btn blue">Add Reservation</a>
     </div>
@@ -35,7 +35,7 @@
 
         <select onchange="list()" id="channels" class="green">
             <option value="">All Reservations</option>
-            <option value="0">Manual Booking</option>
+            <option value="0">Direct Booking</option>
             <?php if (count($AllChannel)>0) {
 
                             foreach ($AllChannel as  $value) {
@@ -66,7 +66,7 @@
     <!--footer section start-->
     <!--footer section end-->
     <div id="CreateReservation" class="modal fade" role="dialog" style="z-index: 1400;">
-        <div class="modal-dialog" id="idre">
+        <div class="modal-dialog modal-lg" >
             <div class="modal-content">
                 <?php include("creationreservation.php")?>
             </div>
@@ -95,12 +95,11 @@
     </div>
 </div>
 </div>
+<?php include("inforeservationcreate.php");?>
+<?php include("findroomcreate.php");?>
 <script>
     
-$("#idre").css({
-    width:screen.width-100,
-    height:screen.height
-});
+
 
 $('.datepickers').datepicker();
 $(".datepickers").change(function(event) {

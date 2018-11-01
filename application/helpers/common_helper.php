@@ -1083,8 +1083,8 @@ function user_data($user_id="")
 {
 	$ci =& get_instance();
 	if($user_id)
-	$ci->db->where(array('id'=>$user_id));
-	$user=$ci->db->get('Users')->row();
+	$ci->db->where(array('user_id'=>$user_id));
+	$user=$ci->db->get('manage_users')->row();
 	return $user;
 }
 function get_mail_template($id)

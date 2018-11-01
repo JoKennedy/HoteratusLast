@@ -1080,6 +1080,21 @@ class reservation extends Front_Controller {
 		
 		echo json_encode($result);
 	}
+	function updatereservation()
+	{	
+		$strim=$_POST['mainguest'];
+		$pos= strpos($strim, ' ');
+		$name=trim(substr($strim,0, $pos));
+		$lastname=trim(substr($strim, $pos));
+		$guest=null;
+		if(isset($_POST['guest']))
+		{
+			$guest=implode(',', $_POST['guest']);
+		}
+		
+		$this->reservation_model->updatereservation($_POST['canalid'],$_POST['reservaid'],$name,$lastname,$guest);
+
+	}
 	function invoiceheader()
 	{	
 		$this->is_login();
@@ -1225,6 +1240,7 @@ class reservation extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['reservationdetails']=$this->reservation_model->reservationdetails(unsecure($channelID),insep_decode($ReservationID));
 		$data['historyInfo']=$this->reservation_model->historyInfo(unsecure($channelID),insep_decode($ReservationID));
+	
 		$data['Invoice']=$this->reservation_model->reservationInvoice(unsecure($channelID),insep_decode($ReservationID));
 		$data['payment']=$this->reservation_model->payment();
 		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();

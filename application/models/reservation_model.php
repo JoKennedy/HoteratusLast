@@ -3374,6 +3374,39 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
             return false;
         }
     }
+
+    function updatereservation($channelid,$resid,$name,$lastname,$guest)
+    {   
+
+     
+        $result['success']=false;
+        if($channelid==0)
+        {
+            $data['guest_name']=$name;
+            $data['last_name']=$lastname;
+            $data['guestname']=$guest;
+
+
+            if(update_data('manage_reservation',$data,array('reservation_id'=>$resid,'hotel_id'=>hotel_id())))
+            {
+                $result['success']=true;
+            }
+
+        }
+
+        if($result['success']==4)
+        {
+             $usuario=user_data(user_id());
+
+             $history = array('channel_id'=>$channelid,'Userid'=> $usuario->user_id,'reservation_id'=>$resid,'description'=>'Guest Name Modified '.$name.' '.$lastname.','.$guest.' by '.$usuario->fname.' '.$usuario->lname,'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
+            insert_data('new_history',$history);
+        }
+
+        echo json_encode($result);
+    }
+
+
+
 	function save_reservation($transaction_id)
     {
          /*echo '<pre>';

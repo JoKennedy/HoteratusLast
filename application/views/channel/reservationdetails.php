@@ -770,9 +770,11 @@ Agregar Extras
                     </p>
                 </div>
             </div>
-
+            <form id="updateR">
+                <input type="hidden" name="canalid" value="<?=$channelId?>">
+                 <input type="hidden" name="reservaid" value="<?=$reservatioID?>">
             <?php
-
+            
                 echo '<div class="col-md-6 form-group1"><label class="control-label">Main Guest </label><input style="background:white; color:black;" name="mainguest" id="mainguest" type="text" placeholder="Type a Main Guest" required="" value="'.$guestFullName.'"></div>';
 
                 if(isset($allguest))
@@ -786,14 +788,15 @@ Agregar Extras
                         echo '<div class="col-md-6 form-group1"><label class="control-label">Guest '.($i+1).' </label><input style="background:white; color:black;" name="guest[]" id="guest" type="text" placeholder="Type a Guest Name" required="" value="'.$guest1[$i].'"></div>';
                     }
 
-                    echo $i;
-
                 }
                 
 
                
             ?>
-            
+            <div class="col-md-12 buttons-ui">
+                <a onclick="UpdateReservation()" class="btn green">Update</a>
+            </div>
+           
             <!--<div id="EditingInfo">
                 <div class="graph-form">
                     <form id="SupplierC">
@@ -1331,6 +1334,41 @@ function assingNumber(number) {
 }
 
 function UpdateReservation() {
+
+    $.ajax({
+        type: "POST",
+        url: "<?php echo lang_url(); ?>reservation/updatereservation",
+        data: $("#updateR").serialize(),
+        dataType:'json',
+        beforeSend: function() {
+            showWait();
+            setTimeout(function() { unShowWait(); }, 10000);
+        },
+        success: function(msg) {
+
+            unShowWait();
+            if (msg['success']) {
+                swal({
+                title: "Done!",
+                text: "Reservation was Updated Successfully!",
+                icon: "success",
+                button: "Ok!",
+                }).then(ms => {
+                    location.reload();
+                });
+
+            }else{
+
+                swal({
+                title: "Warning!",
+                text: "Something went Wromg!",
+                icon: "danger",
+                button: "Ok!",
+                })
+            }
+            
+        }
+    });
 
 }
 

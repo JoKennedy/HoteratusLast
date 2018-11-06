@@ -58,7 +58,7 @@
                             <input style="background:white; color:black;" name="zipcode" id="zipcode" type="text" placeholder="Zip Code" required="" value="<?=$zip_code?>">
                         </div>
                         <div class="col-md-6 form-group1">
-                            <label class="control-label">Phone</label>
+                            <label class="control-label">Phone Number</label>
                             <input style="background:white; color:black;" name="phone" id="phone" type="text" placeholder="Phone Number" required="" value="<?=$mobile?>">
                         </div>
                          <div class="col-md-6 form-group1">
@@ -111,8 +111,8 @@ function saveBilling()
 
     if ($("#cname").val().length < 1) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Company Name!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Company Name!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -122,8 +122,8 @@ function saveBilling()
         return;
     } else if ($("#city").val().length < 1) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field City!",
+            title: "Oops, Sorry",
+            text: "Missing Field: City!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -132,7 +132,7 @@ function saveBilling()
         return;
     }else if ($("#country").val() == 0) {
         swal({
-            title: "upps, Sorry",
+            title: "Oops, Sorry",
             text: "Select a country to continue!",
             icon: "warning",
             button: "Ok!",
@@ -142,8 +142,8 @@ function saveBilling()
         return;
     }else if ($("#address").val().length < 1) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Address!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Address!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -152,8 +152,8 @@ function saveBilling()
         return;
     }else if ($("#phone").val().length < 1) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Phone Number!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Phone Number!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -162,8 +162,8 @@ function saveBilling()
         return;
     }else if ($("#vat").val().length < 1) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field VAT!",
+            title: "Oops, Sorry",
+            text: "Missing Field: VAT!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -172,8 +172,8 @@ function saveBilling()
         return;
     }else if ($("#rnumber").val().length < 1) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Registration Number!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Registration Number!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -183,8 +183,8 @@ function saveBilling()
     }
     else if ($("#bemail").val().length < 1 || !validaemail('bemail')) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Email!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Email!",
             icon: "warning",
             button: "Ok!",
         }).then((n) => {
@@ -220,7 +220,7 @@ function saveBilling()
                 } else {
 
                     swal({
-                        title: "upps, Sorry",
+                        title: "Oops, Sorry",
                         text: "Billing Details Did not Update! Error:"+msg["message"],
                         icon: "warning",
                         button: "Ok!",

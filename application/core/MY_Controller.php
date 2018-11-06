@@ -39,6 +39,12 @@ class Front_Controller extends Base_Controller
 			}
 		}*/
 		//	echo 'url'.$this->uri->uri_string();
+
+		if($this->session->userdata('site_lang')=='')
+		{
+        	$this->session->set_userdata('site_lang', "english");
+		}
+		
 		
 		$this->lang->load('tf');
 		

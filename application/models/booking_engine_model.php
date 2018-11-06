@@ -17,114 +17,402 @@
         $config['charset'] = 'utf-8'; // Character set (utf-8, iso-8859-1, etc.).
         $this->email->initialize($config);
     }
-    
-	function get_reserve()
+     function findRoomsAvailable()
     {
 
 
-		$hotel_id	=	insep_decode($_POST["hotel_id"]);
+      
+    
+        $start_date     =  date('Y-m-d',strtotime($_POST['dp1']));
 
-		$start_date		=	$_POST["dp1"]; 
-		
-		$end_date	 	=	$_POST["dp2"];
-		
-		$rooms 			=	$_POST["num_rooms"]; 
-		
-		$adult 			=	$_POST["num_person"]; 
-		
-		$child 			=	$_POST["num_child"];
-		
-		$checkin_date	=	date('Y-m-d',strtotime($start_date));
-		
-        $checkout_date	=	date('Y-m-d',strtotime($end_date));
-		
-		//$start			=	strtotime($checkin_date);
-		
-        //$end 			=	strtotime($checkout_date);
+        $end_date       =  date('Y-m-d',strtotime($_POST['dp2']."-1 days")); 
 
-        		
-        $nights	 		=    date_diff(date_create($checkin_date), date_create($checkout_date))->format('%d');
+        $rooms          =  $_POST['num_rooms'];
 
-        $startDate      =   DateTime::createFromFormat("d/m/Y",$start_date);
+        $adult          =   $_POST['num_person'];
 
-        $endDate        =   DateTime::createFromFormat("d/m/Y",$end_date);
+        $child          =   $_POST['num_child'];
 
-        $periodInterval =   new DateInterval( "P1D" );
+        $start          =   strtotime($start_date);
 
-        //$period         =   new DatePeriod( $startDate, $periodInterval, $endDate );
+        $end            =   strtotime($_POST['dp2']);
 
+        $nights         =   ceil(abs($end - $start) / 86400);
 
-        $period = $this->getDates(date('Y-m-d',strtotime($_POST['dp1'])),date('Y-m-d',strtotime($_POST['dp2']."-1 days")),'1,2,3,4,5,6,7');
+        $hotel_id=insep_decode($_POST['hotel_id']);
+
+   
+        $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
+                U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
+               sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
+                count(*) available, min(U.availability) roomAvailability
+                FROM room_update U 
+                LEFT JOIN manage_property P ON U.room_id = P.property_id 
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
+                AND U.availability >=$rooms  
+                AND U.minimum_stay <= $nights AND P.member_count >=$adult 
+                AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
+                AND stop_sell='0' AND P.hotel_id=".$hotel_id."
+                GROUP BY U.room_id ORDER BY U.room_id DESC")->result_array();
+       
+      
+
+        $available= '';
+
+        if (count($result)>=0 ) {
+            $i=0;
+            foreach ($result as $value) {
+                
+                if ( $value['available']>=$nights && $value['totalprice']>0) {
+                    $available[$i]=$value ;
+
+                     $rate=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
+                    U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
+                   sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
+                    count(*) available, min(U.availability) roomAvailability, r.name,U.rate_types_id
+                    FROM room_rate_types_base U 
+                    LEFT JOIN manage_property P ON U.room_id = P.property_id
+                    LEFT JOIN ratetype r ON U.rate_types_id = r.ratetypeid
+                    WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
+                    AND U.availability >=$rooms  
+                    and U.room_id = ".$value['room_id']."
+                    AND U.minimum_stay <= $nights AND P.member_count >=$adult 
+                    AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
+                    AND stop_sell='0' AND P.hotel_id=".$hotel_id."
+                    GROUP BY U.rate_types_id ORDER BY U.rate_types_id DESC")->result_array();
+
+                     if (count($rate)>=0 ) {
+                        $y=0;
+                        foreach ($rate as $valu) {
+                            
+                            if ( $valu['available']>=$nights && $valu['totalprice']>0) {
+                                $available[$i]['rate'][$y]=$valu ;
+                                $y++;
+                            }
+                        }
+                    }
+                    $i++;
+                }
+            }
+        }
+
+        return $available;
+
+    }
+    function saveReservation()
+    {
+
+        $nights  =  ceil(abs(strtotime($_POST['checkout'] )- strtotime($_POST['checkin'] )) / 86400);
+
+        $checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
+
+       $hotelid=$_POST['hotelid'];
+
+        if($_POST['rateid']==0)
+        {
+             $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
+                FROM room_update U 
+                LEFT JOIN manage_property P ON U.room_id = P.property_id 
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
+                AND U.availability >=".$_POST['numroom']." 
+                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
+                AND P.children >=".$_POST['child']." AND individual_channel_id =0 
+                AND stop_sell=0 AND P.hotel_id=".$hotelid." and U.room_id=".$_POST['roomid']."
+                ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array(); 
+        }
+        else
+        {
+              $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
+                FROM room_rate_types_base U 
+                LEFT JOIN manage_property P ON U.room_id = P.property_id 
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
+                AND U.availability >=".$_POST['numroom']." 
+                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
+                AND P.children >=".$_POST['child']." AND individual_channel_id =0 
+                AND stop_sell=0 AND P.hotel_id=".$hotelid." and U.room_id=".$_POST['roomid']." 
+                and U.rate_types_id =".$_POST['rateid']."
+                ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
+        }
+    
+        if(count($result)>0)
+        {
+            if (count($result)>=$_POST['numroom']) {
+
+                $currencycodes=0;
+               $currencycodes = get_data(HOTEL,array('hotel_id'=>$hotelid))->row()->currency;
+               $prices=0;
+               $pricesdetails='';
+
+               foreach ($result as $value) {
+                   
+                   $prices += $value['price'];
+
+                   $pricesdetails .= (strlen($pricesdetails)>0?',':'').$value['price'];
+               }
+
+                if  ($currencycodes==0)   {
+                   $currencycodes   = 1;
+                }
+
+               $code = $this->db->query("SELECT max(reservation_code) code FROM manage_reservation where hotel_id=".$hotelid."")->row_array();
+
+                if(isset($code['code'])){$reservation_code   =   sprintf('%08d',$code['code']+1);}else{$reservation_code = sprintf('%08d',1);}
+                
+
+                $data['hotel_id']=$hotelid;
+                $data['user_id']=0;
+                $data['reservation_code']=$reservation_code;
+                $data['guest_name']=$_POST['firstname'];
+                $data['last_name']=$_POST['lastname'];
+                $data['mobile']=$_POST['phone'];
+                $data['country']=$_POST['countryid'];
+                $data['province']=$_POST['state'];
+                $data['street_name']=$_POST['address'];
+                $data['city_name']=$_POST['city'];
+                $data['zipcode']=$_POST['zipcode'];
+                $data['email']=$_POST['email'];
+                $data['description']=$_POST['note'];
+                $data['room_id']=$_POST['roomid'];
+                $data['rate_types_id']=$_POST['rateid'];
+                $data['num_rooms']=1;
+                $data['num_nights']=$nights;
+                $data['members_count']=$_POST['adult'];
+                $data['children']=$_POST['child'];
+                $data['start_date']=date('d/m/Y',strtotime($_POST['checkin']));
+                $data['end_date']=date('d/m/Y',strtotime($_POST['checkout']));
+                $data['booking_date']=date('Y-m-d');
+                $data['channel_id']=0;
+                $data['arrivaltime']=$_POST['arrival'];
+                $data['price']=$prices;
+                $data['price_details']=$pricesdetails;
+                $data['currency_id']=$currencycodes;
+                $data['PaymentMethodId']=$_POST['paymentTypeId'];
+                $data['ProviderId']=$_POST['providerid'];
+                $data['CurrencyCode']=$_POST['currency'];
+                $data['guestname']=(isset($_POST['guestname'])?implode(',', $_POST['guestname']):'');
+                $data['sourceid']=$_POST['sourceid'];
+
+                if ($data['PaymentMethodId']>1) {
+
+                    require_once(APPPATH.'controllers/tokenex.php');
+                    $tokenex = new tokenex();
+                    $data['ccholder']=safe_b64encode($_POST['ccholder']);
+                    $data['ccnumber']=safe_b64encode($tokenex->Tokenizar($_POST['ccnumber']));
+                    $data['cccvv']=safe_b64encode($_POST['cccvv']);
+                    $data['ccmonth']=safe_b64encode($_POST['ccmonth']);
+                    $data['ccyear']=safe_b64encode($_POST['ccyear']);
+                  
+                }
+
+                $taxes=$this->db->query("select * from taxcategories where hotelid=".$data['hotel_id'])->result_array();
+                $taxinfo="";
+                foreach ($taxes as $tax) {
+                    $taxinfo.=(strlen($taxinfo)>0?',':'').$tax['taxid']."*".$tax['taxrate']."*".$tax['includedprice'];
+                }
+                $data['taxes']=$taxinfo;
+
+                if(insert_data('manage_reservation',$data))
+                {
+                    $id =  getinsert_id();
+
+                    $history = array('channel_id'=>0,'Userid'=> $data['user_id'],'reservation_id'=>$id,'description'=>'Reservation Created by guest '.$data['guest_name'].' '.$data['last_name'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>$prices,'extra_id'=>0);
+                    insert_data('new_history',$history);
+
+                    $this->load->model("room_auto_model");
+                   
+                    $indata['RoomNumber'] =  $this->room_auto_model->Assign_room($data['hotel_id'],$data['room_id'],$_POST['checkin'],$_POST['checkout'] );
+
+                   if (strlen($indata['RoomNumber'])>0) {
+                        $roomnumberdata['hotelid']=$data['hotel_id'];
+                        $roomnumberdata['roomid']=$data['room_id'];
+                        $roomnumberdata['checkin']=$_POST['checkin'];
+                        $roomnumberdata['checkout']=$_POST['checkout'];
+                        $roomnumberdata['roomnumber']=$indata['RoomNumber'];
+                        $roomnumberdata['reservationid']=$id;
+                        $roomnumberdata['channelid']=0;
+                        $roomnumberdata['active']=1;
+                        insert_data('roomnumberused',$roomnumberdata);
+                        update_data('manage_reservation',$indata,array('hotel_id'=> $data['hotel_id'],'reservation_id' => $id));
+                    }
+                    $response['success']=true;
+                    $response['reservationid']=$id;
+                    $response['url']=site_url('reservation/reservationdetails/'.secure(0).'/'.insep_encode($id));
+                    return $response;
+
+                }
+                
+            }
+            else
+            {            
+                $response['success']=false;
+                $response['availability']=0;
+                return false;
+            }
+        }
+        else
+        {   $response['success']=false;
+            $response['availability']=0;
+            return false;
+        }
+    }
+	function get_reserve()
+    {
         
 
-        if($period)
-        {
-            $base_room_result = array();
-            $j=0;
-            foreach ($period as $key => $value) {
+		   $rooms          =  $_POST['num_rooms'];
+            $adult          =   $_POST['num_person'];
+            $start_date     = date('d-m-Y', strtotime( $_POST['dp1'])); ;
 
-                $baseRoom = $this->db->query('
-                                                SELECT P.description , U.room_update_id, U.room_id , U.separate_date , U.minimum_stay , U.price, P.price as base_price , P.image , P.property_name , P.member_count , P.children , P.number_of_bedrooms FROM '.TBL_UPDATE.' U JOIN '.TBL_PROPERTY.' P ON U.room_id = P.property_id WHERE U.separate_date="'.$value.'" AND U.availability >="'.$rooms.'" AND U.minimum_stay <= "'.$nights.'" AND P.member_count >="'.$adult.'" AND P.children >="'.$child.'" AND individual_channel_id =0 AND stop_sell=0 AND P.hotel_id="'.$hotel_id.'" GROUP BY U.room_id ORDER BY U.room_id DESC'
-                                             );
-               					if($baseRoom->num_rows != 0) {
+            $end_date       =   date('d-m-Y', strtotime( $_POST['dp2'])); ;
+            $nights         =   ceil(abs(strtotime( $_POST['dp2']) - strtotime( $_POST['dp1'])) / 86400);
 
-                    $base_room_value =  $baseRoom->result_array();
+            $available      =   $this->findRoomsAvailable();
+            
+            $html='';
+            $hotel_id=insep_decode($_POST['hotel_id']);
 
-                    $total_base_room_result[$j++]= array_merge($base_room_result,$base_room_value);
-                }
-                else {
+            $inidate=date('Y-m-d', strtotime( $_POST['dp1'])); 
+            $enddate=date('Y-m-d', strtotime( $_POST['dp2'])); 
 
-                    $total_base_room_result = array();
+            $currency=$this->db->query("SELECT ifnull(b.symbol,'$') symbol FROM manage_hotel a
+                left join currency b on a.currency =b.currency_id
+                where a.hotel_id=".$hotel_id)->row()->symbol;
 
-                    break;
+            if($available)
+            { 
+                foreach ($available as $key => $value) {
+                $roomimage=$this->db->query("select photo_names from room_photos where room_id=".$value['room_id'])->result_array();
+
+
+                $bookininfo="'".$value['room_id']."','0','".$inidate."','".$enddate."','".$adult ."','".$rooms.
+                "','".$_POST['num_child']."','".$nights."','".number_format ( $value['totalprice'] , 2 ,  "." , "" )."'";
+                $html .= '<div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div> 
+                             <div class="fotorama">';
+
+                             if(count($roomimage)>0)
+                             {
+                                 foreach ($roomimage as $key => $image) {
+                                    $html .= ' <a href="javascript:;"><img src="'.base_url().$image['photo_names'].'" class="img-responsive" alt=""></a>';
+                                }
+                             }
+                            else
+                            {
+                              $html .= ' <a href="javascript:;"><img src="'.base_url().('uploads/room_photos/noimage.jpg').'" class="img-responsive" alt=""></a>';
+                               $html .= ' <a href="javascript:;"><img src="'.base_url().('uploads/room_photos/noimage.jpg').'" class="img-responsive" alt=""></a>';
+                            }
+                            
+                              $html .='</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3 style="text-align: center;"><span class="label label-primary">'.$value['property_name'].'</span></h3>
+                        <p>'.$this->lang->line('maximumadults').':'.$value['member_count'].'</p>
+                         <p>'.$this->lang->line('maximumchildren').':'.$value['children'].'</p>
+                        <p>'.$this->lang->line('available').':'.$value['roomAvailability'].'</p>
+                        <button type="button" onclick="showdetails('."'room".$value['room_id']."'".')" class="btn btn-xs btn-info">'.$this->lang->line('roomdetails').'</button>
+                    </div>
+
+                    <div class="col-md-5" style="text-align: right;">
+                        <div class="col-md-12" >
+                            <label>'.$this->lang->line('avgpernight').'</label>
+                          
+                            <h3 id="price_'.$value['room_id'].'r0">'.$currency.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
+                             <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r0'".')" type="button"  class="btn btn-xs btn-info">'.$this->lang->line('bookthisroom').'</button>
+                         </div>';
+                         if (isset($value['rate'])) {
+
+                             foreach ($value['rate'] as  $rate) {
+                                $bookininfo="'".$value['room_id']."','".$rate['rate_types_id']."','".$inidate."','".$enddate."','".$_POST['num_person']."','".$_POST['num_rooms'].
+                                "','".$_POST['num_child']."','".$nights."','".number_format ( $rate['totalprice'] , 2 ,  "." , "" )."'";
+                                $html .='<div class="col-md-12">
+                                        <h3>'.$rate['name'].'</h3>
+                                        <label>'.$this->lang->line('avgpernight').'</label>
+                                     
+                                        <h3  id="price_'.$value['room_id'].'r'.$rate['rate_types_id'].'">'.$currency.number_format ( $rate['avgprice'] , 2 ,  "." , "," ).'</h3>
+                                         <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r".$rate['rate_types_id']."'".')" type="button"  class="btn btn-xs btn-warning">'.$this->lang->line('bookthisroom').'</button>
+                                     </div>';   
+                             }
+
+                        }
+
+
+               $html .= '</div>
+                    <div class="clearfix"></div>
+                </div>
+
+                 
+                  <div class="clearfix"></div>
+                 <div id="room'.$value['room_id'].'" class="row" style="display: none;">
+                    <hr style="color: #148dec;" align="center" noshade="noshade" size="14" width="80%" />
+                    <div class="col-md-6" style="margin-left:5px; float: left;">
+                        <h4 style="color:#148dec;">'.$this->lang->line('description').'</h4>
+                        <p style="text-align:justify">'.$value['description'].'</p>
+                    </div>
+                    <div class="col-md-4" style="text-align: left; float: right;">
+                        <div>
+                            <label ><strong>'.$this->lang->line('checkin').':</strong>'.$start_date.'&nbsp;</label> 
+                        </div>
+                        <div>
+                            <label><strong>'.$this->lang->line('checkout').':</strong>:'.$end_date.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>'.$this->lang->line('rooms').':</strong>'.$rooms .'</label> 
+                        </div>
+                        <div>
+                            <label><strong>'.$this->lang->line('guest').':</strong>'.$adult.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>'.$this->lang->line('nights').':</strong>'.$nights.'</label> 
+                        </div>
+                        <div>
+                            <label><strong>'.$this->lang->line('total').':</strong>'.number_format ( $value['totalprice'] , 2 ,  "." , "," ).'</label> 
+                        </div>
+                      
+                    </div>
+                    
+                </div>
+                <div class="bor-dash mar-bot20"></div>
+                </div>
+                 <div class="clearfix"></div>
+                 ';
+
+               
                 }
             }
-
-            $sub_room_result = array();
-            $i=0;
-            foreach ($period as $key => $value) {
-
-                $subRoom = $this->db->query('
-                                                SELECT P.description , R.rate_name , U.separate_date , R.uniq_id , U.room_id , U.rate_types_id , U.price , U.minimum_stay , R.price as base_price , P.image , P.property_name , P.member_count , P.children , P.number_of_bedrooms FROM '.RATE_BASE.' U JOIN '.TBL_PROPERTY.' P ON U.room_id = P.property_id JOIN '.RATE_TYPES.' R ON U.room_id = R.room_id WHERE U.separate_date="'.$value.'" AND U.availability >="'.$rooms.'" AND U.minimum_stay <= "'.$nights.'" AND P.member_count >="'.$adult.'" AND P.children >="'.$child.'" AND individual_channel_id =0 AND stop_sell=0 AND P.hotel_id="'.$hotel_id.'" GROUP BY U.room_id ORDER BY U.room_id DESC'
-                                             );
-                if($subRoom->num_rows != 0) {
-
-                    $sub_room_value =  $subRoom->result_array();
-
-                    $total_sub_room_result[$i++]= array_merge($sub_room_result,$sub_room_value);
-                }
-                else {
-
-                    $total_sub_room_result = array();
-
-                    break;
-                } 
-            }
-            if(count(@$total_base_room_result)!=0 || count(@$total_sub_room_result)!=0)
+            else
             {
-				$final_room_result = array_merge($total_base_room_result,$total_sub_room_result);
-
-				if(count($final_room_result)!=0)
-				{
-					return $final_room_result;
-				}
-				else
-				{
-					return false;
-				}
+                $html .= '<div class="room_info">
+                        <div class="row" style="padding:30px; text-align:center;"><h1><span class="label label-danger">'.$this->lang->line('noroom').'..</span></h1></div></div>';
+                
             }
-			else
-			{
-				return false;
-			}
-        }
-		else
-		{
-			return false;
-		}
-		}
 
+        $data['detail']=$html."<script>
+                    $('.change_price span').on('click', function(e) {  
+                        $(this).next('.inr_cont').slideToggle();
+                    });
+                    $('.change_amount').click(function(e){
+                        var id=this.id;
+                        var replace=id.replace('b_','');
+                        $('#price_'+replace).html('".$currency."'+parseFloat($('#new_'+replace).val()));
 
+                        $('.inr_cont').hide();
+                    });
+
+                    $('.close_amount').click(function(){
+                        
+                        $('.inr_cont').hide();
+                    });
+                </script>
+                 " ;
+        $data['header']="Date Range: $start_date To $end_date";
+
+        return ($data);
+
+    }
 
 	function getDates($start, $end, $weekday)
     {
@@ -1211,4 +1499,3 @@ echo $tbl_data1;
 
     }
 }
-?>

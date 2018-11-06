@@ -11,7 +11,7 @@
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
             <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
-            <li class="active">Calendar</li>
+            <li class="active">Front Desk Calendar</li>
         </ol>
     </div>
     <!--//sub-heard-part-->
@@ -138,7 +138,7 @@
 	                    	else
 	                    	{
 	                    		echo ' <div align="center">
-				                    <h3><span class="label label-danger">No Channel Connected</span></h3>
+				                    <h3><span class="label label-danger">No Channels Connected</span></h3>
 				                </div>';
 	                    	}
 

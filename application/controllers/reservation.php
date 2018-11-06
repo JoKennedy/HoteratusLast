@@ -243,14 +243,14 @@ class reservation extends Front_Controller {
                     	<div class="col-md-12">
                     		<label>Avg. per night</label>
                     		<h2 class="change_price">
-											<span>change price ?</span>
-											<div class="inr_cont" style="display: none;">
-											<center><p style="font-size:14px;">Change Price</p></center>
-											<input id="new_'.$value['room_id'].'r0" class="form-control" style="height:50px; color:black; font-size:16px;" step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
-											<a id="b_'.$value['room_id'].'r0" class="change_amount"><i class="fa fa-check"></i></a> 
-											<a class="close_amount"><i class="fa fa-remove"></i></i></a>
-											</div>
-							</h2>
+                                            <span>'.$this->lang->line('changeprice').'?</span>
+                                            <div class="inr_cont" style="display: none; '.(isset($value['rate'])?'position:relative;':'').'">
+                                            <center><p style="font-size:14px; ">'.$this->lang->line('changeprice').'</p></center>
+                                            <input id="new_'.$value['room_id'].'r0" class="form-control" style="height:50px; color:black; font-size:16px;" step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
+                                            <a id="b_'.$value['room_id'].'r0" class="change_amount"><i class="fa fa-check"></i></a> 
+                                            <a class="close_amount"><i class="fa fa-remove"></i></i></a>
+                                            </div>
+                            </h2>
                     		
 	                        
 	                        <h3 id="price_'.$value['room_id'].'r0">'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
@@ -264,15 +264,15 @@ class reservation extends Front_Controller {
 	                         	$html .='<div class="col-md-12">
 	                         			<h3>'.$rate['name'].'</h3>
 				                        <label>Avg. per night</label>
-				                        <h2 class="change_price">
-											<span>change price ?</span>
-											<div class="inr_cont" style="display: none;">
-											<center><p style="font-size:14px;">Change Price</p></center>
-											<input id="new_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="form-control" style="height:50px; color:black; font-size:16px;"  step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
-											<a  id="b_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="change_amount"><i class="fa fa-check"></i></a> 
-											<a class="close_amount"><i class="fa fa-remove"></i></i></a>
-											</div>
-										</h2>
+				                      <h2 class="change_price">
+                                            <span>'.$this->lang->line('changeprice').'?</span>
+                                            <div class="inr_cont" style="display: none;">
+                                            <center><p style="font-size:14px;">'.$this->lang->line('changeprice').'</p></center>
+                                            <input id="new_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="form-control" style="height:50px; color:black; font-size:16px;"  step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
+                                            <a  id="b_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="change_amount"><i class="fa fa-check"></i></a> 
+                                            <a class="close_amount"><i class="fa fa-remove"></i></i></a>
+                                            </div>
+                                        </h2>
 				                        <h3  id="price_'.$value['room_id'].'r'.$rate['rate_types_id'].'">'.number_format ( $rate['avgprice'] , 2 ,  "." , "," ).'</h3>
 				                         <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r".$rate['rate_types_id']."'".')" type="button"  class="btn btn-xs btn-warning">Book This Rate</button>
 			                         </div>';	
@@ -1050,6 +1050,12 @@ class reservation extends Front_Controller {
 			$result=$this->reservation_model->saveReservation();
 
 			$allReservationId .=(strlen($allReservationId)>2?',':'').$result['reservationid'];
+
+			$channelID=0;
+			$ReservationID=$result['reservationid'];
+			$userName=$_POST['username'];
+			$reservationdetails=$this->reservation_model->reservationdetails($channelID,$ReservationID);
+			$this->reservation_model->reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails);
 		}
 
 		
@@ -1072,11 +1078,6 @@ class reservation extends Front_Controller {
        		$sendemail->sendmailreservation($allReservationId);
 		}
 
-		$channelID=0;
-		$ReservationID=$result['reservationid'];
-		$userName=$_POST['username'];
-		$reservationdetails=$this->reservation_model->reservationdetails($channelID,$ReservationID);
-		$this->reservation_model->reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails);
 		
 		echo json_encode($result);
 	}
@@ -1439,6 +1440,135 @@ class reservation extends Front_Controller {
 			}
 			// /var_dump( $this->db->table_exists('import_reservation_'.$channel_name) );
 		}
+	}
+	function adminagencies()
+	{
+		is_login();
+    	$data['page_heading'] =$this->lang->line('agenciesmanager');
+    	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+		$data= array_merge($user_details,$data);
+		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
+		$data['Allagencycategories']=get_data('agencycategories',array('hotelid'=>hotel_id()))->result_array();
+		$this->views('channel/agenciesmanager',$data);
+	}
+	function saveagencycategory()
+	{
+		$data['name']=$_POST['name'];
+		$data['active']=1;
+		$data['hotelid']=hotel_id();
+		$result['success']=true;
+		if(insert_data('agencycategories',$data))
+		{
+			$result['success']=true;
+		}
+		echo json_encode($result);
+		# agencycategoryid, name, active, hotelid
+
+	}
+	function updateagency()
+	{
+	
+		$data['CategoryId']=$_POST['categoryid'];
+		$data['Name']=$_POST['agencyname'];
+		$data['groupid']=$_POST['agroupid'];
+		$data['CommissionValue']=$_POST['amount'];
+		$data['CommissionType']=$_POST['CommissionType'];
+		$data['Active']=isset($_POST['active'])?1:0;
+		$result['success']=false;
+		if(update_data('agencies',$data,array('hotelid'=>hotel_id(),'AgencyId'=>$_POST['id'])))
+		{
+			$result['success']=true;
+		}
+
+		echo json_encode($result);
+	}
+	function saveagency()
+	{
+		$data['HotelId']=hotel_id();
+		$data['CategoryId']=$_POST['acategoryid'];
+		$data['Name']=$_POST['agencyname'];
+		$data['groupid']=$_POST['agroupid'];
+		$data['CommissionValue']=$_POST['amount'];
+		$data['CommissionType']=$_POST['CommissionType'];
+		$data['Active']=1;
+		$result['success']=false;
+		if(insert_data('agencies',$data))
+		{
+			$result['success']=true;
+		}
+
+		echo json_encode($result);
+	}
+	function agenciesHTML()
+	{	
+		$categoryid=$_POST['categoryid'];
+		$groupid=$_POST['groupid'];
+
+		$AllAgencies=$this->db->query("select a.*, b.name categoryname 
+			from agencies a 
+			left join agencycategories b on a.CategoryId=b.agencycategoryid
+			where a.hotelid=".hotel_id()." 
+			and (CategoryId=$categoryid or $categoryid=0)
+			and (groupid =$groupid or $groupid=0) ")->result_array();
+
+		$html='';
+			$html.= '<div class="graph-visual tables-main">
+        <div class="graph">
+            <div class="table-responsive">
+              
+                    <table id="myTable" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr style="height:2px;">
+                                <th>'.$this->lang->line('agencyname').'</th>
+                                <th>'.$this->lang->line('categoriesagency').'</th>
+                                <th>'.$this->lang->line('group').'</th>
+                                <th>'.$this->lang->line('commissiontype').'</th>
+                                <th>'.$this->lang->line('status').'</th>
+                                <th>'.$this->lang->line('edit').'</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+			
+							
+					
+                            if (count($AllAgencies)>0) {
+
+                                foreach ($AllAgencies as  $value) {
+                                    
+                                	$update="'".$value['AgencyId']."','".$value['CategoryId']."','".$value['groupid']."','".$value['Name']."','".$value['CommissionValue']."','".$value['CommissionType']."','".$value['Active']."'";
+
+                                    $html.=' <tr scope="row" class="default">  <td>'.$value['Name'].' </td> 
+									<td>'.$value['categoryname'].'</td> 
+									<td>'.($value['groupid']==1?$this->lang->line('retailers'):$this->lang->line('wholesalers')).'</td> 
+									<td>'.($value['CommissionType']==0?$this->lang->line('netrate'):($value['CommissionType']==1?$this->lang->line('money'):$this->lang->line('percentage'))).'</td> 
+									<td>'.($value['Active']==1?$this->lang->line('active'):$this->lang->line('disabled')).'</td>
+									<td> <a href="javascript:;" onclick="updateagency('.$update.')" > <i class="fa fa-edit"></i></a></td> 
+                                   	 </tr>  ';
+
+                                }
+                                 $html.='</tbody> </table> </div></div></div>';
+                                 echo $html;
+                            }
+                            else
+                            {
+                            	$html='<center><h1><span class="label label-danger">'.$this->lang->line('norecordfound').'</span></h1></center>';
+                            	echo $html;
+                            }
+                      
+
+	}
+	function updateagencycategory()
+	{
+		$data['name']=$_POST['name'];
+		$data['active']=$_POST['active'];
+		$result['success']=true;
+		if(update_data('agencycategories',$data,array('agencycategoryid'=>$_POST['id'])))
+		{
+			$result['success']=true;
+		}
+		echo json_encode($result);
+		# agencycategoryid, name, active, hotelid
+
 	}
 	// reservation order ...
 	function reservation_order($id='')

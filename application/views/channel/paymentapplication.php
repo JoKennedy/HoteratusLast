@@ -16,14 +16,14 @@
                         <input type="hidden" id="invoiceid" name="" value="0" readonly="true">
                         <div class="col-md-12 form-group1">
                             <label class="control-label"><strong>Payment Type</strong></label>
-                            <select name="paymentTypeId" id="paymentTypeId" class="form-control1">
+                            <select onchange="Method(this.value)" name="paymentTypeId" id="paymentTypeId" class="form-control1">
                                 <?php
 
                                         if (count($payment['type'])>0) {
-                                            echo '<option value="0" onclick="Method(0)"  >Select a payment Type</option>';
+                                            echo '<option value="0">Select a payment Type</option>';
                                             foreach ($payment['type'] as $value) {
 
-                                                echo '<option id = "'.$value['method'].'" onclick="Method(this.id)"  value="'.$value['paymenttypeid'].'">'.$value['description'].'</option>';
+                                                echo '<option id = "'.$value['method'].'"  value="'.$value['paymenttypeid'].'">'.$value['description'].'</option>';
                                             }
                                         }
                                         else
@@ -40,7 +40,7 @@
                                 <?php
 
                                         if (count($payment['method'])>0) {
-                                            echo '<option value="0" onclick="Method(0)"  >Select a Collection Type</option>';
+                                            echo '<option value="0" >Select a Collection Type</option>';
                                             foreach ($payment['method'] as $value) {
 
                                                 echo '<option  value="'.$value['providerid'].'">'.$value['name'].'</option>';
@@ -115,7 +115,7 @@
         $("#ShowCC").modal();
     }
     function Method(methodid) {
-alert(methodid);
+
         if (methodid > 1) {
             $(".metocc").show();
         } else {

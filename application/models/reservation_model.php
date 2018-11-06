@@ -318,7 +318,7 @@ class Reservation_model extends CI_Model
             $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
             $data['LogoReservation']=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
             
-            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname
+            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname, taxes
                 from manage_reservation a
                 left join country b on a.country=b.id
                 where reservation_id = $reservationId and hotel_id=$hotelid ")->row_array();
@@ -385,6 +385,28 @@ class Reservation_model extends CI_Model
             $data['extrastoroom']=get_data("room_extras", array("room_id"=>$result['room_id']))->result_array();
             $data['allguest']=$result['guestname'];
             $data['bookeddate']=$result['created_date'];
+            $data['taxes']=$result['taxes'];
+            $taxtotal=0;
+            $taxP=0;
+            if (isset($result['taxes']) && strlen($result['taxes'])>2) {
+                                                            
+                $taxinfo=explode(',', $result['taxes']);
+                $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
+                foreach ($taxinfo as  $tax) { 
+                    $tax=explode('*', $tax);
+                    $taxid= array_search($tax[0], array_column($taxdata, 'taxid'));
+                    $TOTALTAX=$data['totalStay']*($tax[1]/100);
+                    $taxP+=($tax[1]/100);                                                   
+                    if($tax[2]==0)
+                    {
+                        $taxtotal+=$TOTALTAX;
+                    }
+                    
+                }
+            }
+             $data['totalTax']=$taxtotal;
+            $data['grandtotal']+=$taxtotal;
+            $data['totaltaxP']=$taxP;
 
 
         }
@@ -3301,7 +3323,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $data['start_date']=date('d/m/Y',strtotime($_POST['checkin']));
                 $data['end_date']=date('d/m/Y',strtotime($_POST['checkout']));
                 $data['booking_date']=date('Y-m-d');
-                $data['channel_id']=$_POST['sourceid'];
+                $data['channel_id']=0;
                 $data['arrivaltime']=$_POST['arrival'];
                 $data['price']=$prices;
                 $data['price_details']=$pricesdetails;
@@ -3310,6 +3332,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $data['ProviderId']=$_POST['providerid'];
                 $data['CurrencyCode']=$_POST['currency'];
                 $data['guestname']=(isset($_POST['guestname'])?implode(',', $_POST['guestname']):'');
+                $data['sourceid']=$_POST['sourceid'];
 
                 if ($data['PaymentMethodId']>1) {
 
@@ -3325,6 +3348,12 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
 
                 }
+                $taxes=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
+                $taxinfo="";
+                foreach ($taxes as $tax) {
+                    $taxinfo.=(strlen($taxinfo)>0?',':'').$tax['taxid']."*".$tax['taxrate']."*".$tax['includedprice'];
+                }
+                $data['taxes']=$taxinfo;
 
                 if(insert_data('manage_reservation',$data))
                 {

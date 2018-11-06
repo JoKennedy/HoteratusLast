@@ -95,6 +95,9 @@
 	.bottom{
 		margin-top: 75vh;
 	}
+	.datepicker{
+		z-index: 2000;
+	}
 	<?= (isset($widget['custom_css'])) ? $widget['custom_css'] : '' ; ?>
 </style>
 <div class="<?= $floating; ?>"> 
@@ -102,30 +105,54 @@
 		<?php  
 			$widget['show_header'] = (isset($widget['show_header'])) ? $widget['show_header'] : '1';
 			if($widget['show_header'] !== '0'){
-				echo '<div class="panel-heading">Booking Online</div>';
+				echo '<div class="panel-heading"><center>'.$this->lang->line('bookingonline').'</center></div>';
 			}
 
 		?>
 		<div class="panel-body">
-			<form action="<?= lang_url().'booking/get_reservation'  ?>" target="<?= $target ?>" method="post">
+			<form action="<?= lang_url().'booking/roomsinformation'?>" target="<?= $target ?>" method="post">
 				<div class="<?= $layout ?>">
 					<div class="form-group">
-						<label for="dp1">Checkin</label>
-						<input type="text" required name="dp1" id="dp1" class="form-control" onchange="return datechange();">
+						<label for="dp1"><?=$this->lang->line('checkin')?></label>
+						<input type="text" required name="dp1" id="dp1" autocomplete="false" class="form-control" onchange="return datechange();">
 					</div>
 				</div>
 				<div class="<?= $layout ?>">
 					<div class="form-group">
-						<label for="dp1">Checkout</label>
-						<input type="text" required name="dp2" id="dp2" class="form-control">
-					</div>
+						<label for="dp1"><?=$this->lang->line('checkout')?></label>
+						<input type="text" required autocomplete="false"  name="dp2" id="dp2" class="form-control">
+					</div> 
 				</div>
+				<?php
+					echo '<div class="'.$layout.'">';
+							echo '<div class="form-group">';
+								echo '<label for="num_rooms">'.$this->lang->line('numberroom').'</label>';
+								
+								echo '<select name="num_rooms" class="form-control">';
+									
+									   $qry = $this->db->query("SELECT max(existing_room_count) as roommax , max(member_count) as membermax, max(children) as childrenmax
+                            FROM `manage_property` WHERE  `hotel_id`='".$widget['hotel_id']."'")->result_array();
+                        $roommax=$qry[0]['roommax'];
+                        $membermax=$qry[0]['membermax'];
+                        $childrenmax=$qry[0]['childrenmax'];
+                        for ($i=1; $i<=$roommax; $i++) { 
+                              echo '<option value="'.$i.'">'.$i.' '.($i==1?$this->lang->line('room'):$this->lang->line('rooms')). '</option>';
+                            }
+
+
+								echo '</select>';
+
+							echo '</div>';
+						echo '</div>';
+
+				?>
+
 				<?php  
 					$widget['guest_number'] = (isset($widget['guest_number'])) ? $widget['guest_number'] : '0';
 					if($widget['guest_number'] !== '0'){
 						echo '<div class="'.$layout.'">';
 							echo '<div class="form-group">';
-								echo '<label for="num_person">Adult</label>';
+								echo '<label for="num_person">'.$this->lang->line('numberadult').'</label>';
 								
 								echo '<select name="num_person" class="form-control">';
 									
@@ -133,7 +160,7 @@
 									      $res1 = $qry1->result_array();
 									      $numAdult = $res1[0]['maxNumber'];
 									      for ($i=1; $i<=$numAdult; $i++) { 
-									        echo '<option value="'.$i.'">'.$i. ' Adult</option>';
+									        echo '<option value="'.$i.'">'.$i.' '.($i==1?$this->lang->line('adult'):$this->lang->line('adults')). '</option>';
 									        
 									      }
 
@@ -154,14 +181,14 @@
 					if($widget['ask_children'] !== '0'){
 						echo '<div class="'.$layout.'">';
 							echo '<div class="form-group">';
-								echo '<label for="num_child">Children</label>';
+								echo '<label for="num_child">'.$this->lang->line('numberchildren').'</label>';
 								echo '<select name="num_child" class="form-control">';
-								echo '<option value="0">0 Child</option>';
+								echo '<option value="0">'.$this->lang->line('nochildren').'</option>';
 									 $qry1 = $this->db->query("SELECT max(children) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$widget['hotel_id']."'");
 								      $res1 = $qry1->result_array();
 								      $numChild = $res1[0]['maxNumber'];
 								      for ($i=1; $i<=$numChild; $i++) { 
-								        echo '<option value="'.$i.'">'.$i. ' Child</option>';
+								        echo '<option value="'.$i.'">'.($i==1?$this->lang->line('child'):$this->lang->line('children')).'</option>';
 								      }
 								echo '</select>';
 							echo '</div>';
@@ -169,11 +196,34 @@
 					}else{
 						echo '<input type="hidden" name="num_child" value="0">';
 					}
+
+
+						echo '<div class="'.$layout.'">';
+							echo '<div class="form-group">';
+								echo '<label for="languageid">'.$this->lang->line('language').'</label>';
+								
+								echo '<select onchange="changeLanguage(this.value)" name="languageid" class="form-control">';
+								
+								 $language=$this->session->userdata('site_lang');   	
+										
+								echo '<option value="english" '.($language=='english'?'selected':'').'>English</option>'; 
+                                echo '<option value="spanish" '.($language=='spanish'?'selected':'').'>Spanish</option>';
+                                echo '<option value="french" '.($language=='french'?'selected':'').'>French</option>';
+                                echo '<option value="german" '.($language=='german'?'selected':'').'>German</option>';  
+
+
+								echo '</select>';
+
+							echo '</div>';
+						echo '</div>';
 				?>
+
+				  
+                               
 				<div class="<?= $layout ?>">
-					<input type="hidden" name="num_rooms" value="1">
+					
 					<input type="hidden" name="hotel_id" value="<?= $hotel_id; ?>">
-					<input type="submit" value="Book" class="btn btn-<?= $theme; ?>">	
+					<input type="submit" value="<?=$this->lang->line('search')?>" class="btn btn-<?= $theme; ?>">	
 				</div>
 			</form>				
 		</div>	
@@ -199,3 +249,9 @@ function datechange()
 
 </script>
 
+<script type="text/javascript">
+                            function changeLanguage (language) {
+                                window.location.href='<?php echo base_url(); ?>LanguageSwitcher/switchLang/'+language;
+                            }
+
+</script>

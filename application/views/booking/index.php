@@ -1,3 +1,13 @@
+	
+<script type="text/javascript"> 
+	showWait('<?=$this->lang->line('lookingfor')?>');
+    setTimeout(function() { unShowWait(); }, 10000);
+    jQuery(document).ready(function($) {
+       unShowWait();
+	});
+</script>
+
+	
 	<?php
 
 			$hotel_detail			=	get_data(HOTEL,array('hotel_id'=>$hotel_id))->row()->currency;
@@ -37,8 +47,8 @@
 			
 			$child 			=	$_POST['num_child'];
 			
-
-			$resrve			=	$this->booking->get_reserve();
+			$resrve = $this->booking->get_reserve();
+	
 
 			$booking['background_type'] = (isset($booking['background_type'])) ? $booking['background_type'] : '0';
 			$booking['background'] = (isset($booking['background'])) ? $booking['background'] : 'ffffff';
@@ -80,12 +90,12 @@
 		padding-left: 5px;
 	}
 </style>
-<div class="container" style="height: 30px;	background-color: #E5E3E2">
-	
-</div>
-<div class="container" style="padding: 40px">
+
+<div class="container graph" style="padding: 40px; ">
 	<div class="logo col-sm-12 col-md-2">
-		<img <?= (isset($booking['logo'])) ? 'src="'.base_url('uploads/'.$booking['logo']).'"' : '' ?> width="120" height="100">
+		<?php
+			 echo '<img  width="120" height="100" src="'.base_url().(strlen($hotel['Logo'])<5?"uploads/room_photos/noimage.jpg":$hotel['Logo']).'"" class="img-responsive" alt="">'
+		?>
 	</div>
 	<div class="logo col-sm-12 col-md-2">
 		<h5><?= (isset($hotel['property_name'])) ? $hotel['property_name'] : '--' ?></h5>
@@ -94,14 +104,21 @@
 		<h5><span class="fa fa-envelope-o"></span> <?= (isset($hotel['email_address'])) ? $hotel['email_address'] : '--' ?></h5>
 		<h5><span class="fa fa-globe"></span> <?= (isset($hotel['web_site'])) ? $hotel['web_site'] : '--' ?></h5>
 	</div>
-	<div class="col-sm-6 pull-right hidden-xs hidden-sm" style="margin-top: 15px;">
-		<button id="btn-description" class="btn btn-primary btn-lg"><span class="fa fa-align-left"></span> Description</button>
-		<button id="btn-photos" class="btn btn-primary btn-lg"><span class="fa fa-camera"></span> Photos</button>
-		<button id="btn-maps" class="btn btn-primary btn-lg"><span class="fa fa-map-marker"></span> Maps</button>
+
+	<div class="col-sm-12 hidden-xs hidden-sm" style="margin-top: 15px; ">
+		<center>
+			<button id="btn-reservation" class="btn btn-primary btn-lg"><span class="fa fa-hotel"> </span> <?=$this->lang->line('available')?></button>
+			<button id="btn-description" class="btn btn-primary btn-lg"><span class="fa fa-align-left"></span> <?=$this->lang->line('description')?></button>
+			<button id="btn-photos" class="btn btn-primary btn-lg"><span class="fa fa-camera"></span> <?=$this->lang->line('photos')?></button>
+			<button id="btn-maps" class="btn btn-primary btn-lg"><span class="fa fa-map-marker"></span> <?=$this->lang->line('maps')?></button>
+		</center>
 	</div>
 </div>
+<div class="bor-dash mar-bot20"></div>
+<div class="clearfix"></div>
 <div class="head container">
 	<form method="post" class="form-inline form-search">
+
 		<div class="col-xs-2" style="width: auto">
 			<input type="text" name="dp1" id="dp1" class="form-control" value="<?= $_POST['dp1']; ?>" onchange="return datechange();">
 		</div>
@@ -110,264 +127,116 @@
 		</div>
 		<div class="col-sm-2 hidden-xs" style="width: auto">
 			<select name="num_rooms" id="" class="form-control ">
-				<option value="1">1 Rooms</option>
+				<?php
+				$qry = $this->db->query("SELECT max(existing_room_count) as roommax , max(member_count) as membermax, max(children) as childrenmax
+                            FROM `manage_property` WHERE  `hotel_id`='".$hotel_id."'")->result_array();
+                        $roommax=$qry[0]['roommax'];
+                        $membermax=$qry[0]['membermax'];
+                        $childrenmax=$qry[0]['childrenmax'];
+                        for ($i=1; $i<=$roommax; $i++) { 
+                              echo '<option value="'.$i.'" '.($rooms==$i?'selected':'').'>'.$i.' '.($i==1?$this->lang->line('room'):$this->lang->line('rooms')). '</option>';
+                            }
+                   ?>
 				
 			</select>
 		</div>
 		<div class="col-sm-2  hidden-xs hidden-sm" style="width: auto">
 			<select name="num_person" id="" class="form-control ">
-			<option value="<?= $adult?>"> <?= $adult?> Adult</option>
-			<?php $qry1 = $this->db->query("SELECT max(member_count) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$hotel_id."'");
-			$res1 = $qry1->result_array();
-			$numAdult = $res1[0]['maxNumber'];
+			
+			<?php
+			$numAdult = $membermax;
 			for ($i=1; $i<=$numAdult; $i++) { 
-			echo '<option value="'.$i.'">'.$i. ' Adult</option>';
+			echo '<option value="'.$i.'" '.($adult==$i?'selected':'').'>'.$i.' '.($i==1?$this->lang->line('adult'):$this->lang->line('adults')). '</option>';
 
 			} ?>
 			</select>
 		</div>
 		<div class="col-sm-2  hidden-xs hidden-sm" style="width: auto">
 			<select name="num_child" id="" class="form-control ">
-				<option value="<?= $child?>" id=""><?= $child?> Child</option>
-				<?php $qry1 = $this->db->query("SELECT max(children) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$hotel_id."'");
-								      $res1 = $qry1->result_array();
-								      $numChild = $res1[0]['maxNumber'];
-								      for ($i=1; $i<=$numChild; $i++) { 
-								        echo '<option value="'.$i.'">'.$i. ' Child</option>';
-								      } ?>
+				<option value="0" id="" <?=($child==0?'selected':'')?> > <?=$this->lang->line('nochildren')?></option>
+				<?php 
+					      $numChild = $childrenmax;
+					      for ($i=1; $i<=$numChild; $i++) { 
+					        echo '<option value="'.$i.'" '.($child==$i?'selected':'').'>'.($i==1?$this->lang->line('child'):$this->lang->line('children')).'</option>';
+					      } ?>
 			</select> 
 		</div>
 		<div class="col-xs-2">
 			<input type="hidden" name="hotel_id" value="<?= $_POST["hotel_id"]; ?>">
-			<input type="submit" value="Search" class="btn btn-success">
+			<input type="hidden" name="currencyid" value="<?=$hotel['currency']?>">
+			<input type="submit" value="<?=$this->lang->line('search')?>" class="btn btn-success">
 		</div>
 	</form>
 </div>
+<div class="bor-dash"></div>
 <div class="container" id="reservation">
 	<?php 
-			if($resrve)
-			{
-				/* echo '<pre>'; */
-				$a1=array("a"=>"red","b"=>"green");
-				$a2=array("c"=>"blue","b"=>"yellow");
-				$oneDimensionalArray = call_user_func_array('array_merge', $resrve);
-				//echo array_sum(array_column($oneDimensionalArray, 'price'));
-				/* print_r($oneDimensionalArray); */
-				$newArray = array();
-				$newArray1 = array();
-				$i=0;
-				foreach($oneDimensionalArray as $room_value) {
-					if(@$room_value['rate_types_id']=='')
-					{
-						if(empty($room_value['price']) || $room_value['price']=='0.00')
-						{	
-							$newArray[$room_value['room_id'].'_'.$i]	=	$room_value['base_price'];
-						}
-						else
-						{
-							$newArray[$room_value['room_id'].'_'.$i]	=	$room_value['price'];
-						}
-					}
-					else
-					{
-						if(empty($room_value['price']) || $room_value['price']=='0.00')
-						{	
-							$newArray1[$room_value['room_id'].'_'.$room_value['rate_types_id'].'_'.$i]	=	$room_value['base_price'];
-						}
-						else
-						{
-							$newArray1[$room_value['room_id'].'_'.$room_value['rate_types_id'].'_'.$i]	=	$room_value['price'];
-						}
-					}
-					$i++;
-				}
-				/*echo $room_day_price;
-				echo $rate_day_price;*/
-				/*print_r($newArray);
-				print_r($newArray1);*/
-				$price = 0;	
-				foreach($newArray as $key => $value){
-				    $exp_key = explode('_', $key);
-				    if($exp_key[0] == '3'){
-				    	$price = $value;	
-				         $arr_result[$exp_key[0]] = $price;
-				    }
-				}
-
-				/*print_r($arr_result);
-				echo '</pre>';	*/
-				$i	=	0;
-				$dis_room_id=array();
-				$dis_rate_id=array();
-				$room_price=0;
-				foreach($oneDimensionalArray as $room_value) {
+			echo $resrve['detail'];
+			
 				
-					$i++;
-				
-					if(@$room_value['rate_types_id']=='')
-					{
-						$room_name	=	$room_value['property_name'];
-	
-					}
-					else
-					{
-						if($room_value['rate_name']=='')
-						{
-							$rate_name	=	'#'.$room_value['uniq_id'];
-						}
-						else
-						{
-							$rate_name	=	$room_value['rate_name'];
-						}
-						
-						$room_name	=	$room_value['property_name'].' ( '.$rate_name.' ) ';
- 					}
-
-					if($room_value['image']=='')
-					{
-						$room_photo	=	$this->reservation_model->get_photo($room_value['room_id']);
-						
-						if($room_photo=="no") {
-						
-							if($room_value['image']=="") {
-							
-								$photo	=	'uploads/room_photos/noimage.jpg';
-								
-							}else {
-							
-								$photo	=	'uploads/room_type/'.$room_value['image'];
-							}
-						}else {
-						
-							$photo	=	'uploads/room_photos/'.$room_photo;
-						}
-					}
-					else
-					{
-						$photo	=	'uploads/room_type/'.$room_value['image'];
-					}
-						if(!in_array($room_value['room_id'],$dis_room_id) || !in_array(@$room_value['rate_types_id'],$dis_rate_id))
-						{
-
-						if(@$room_value['rate_types_id']=='')
-						{	
-							$price		=	0;	
-							$price_d	=	'';
-							foreach($newArray as $key => $value){
-							    $exp_key = explode('_', $key);
-							    if($exp_key[0] == $room_value['room_id']){
-									$price_d	.=	$value.',';
-							    	$arr_result_day[$exp_key[0]] = $price_d;
-							    	$price 		=	$value;	
-							        $arr_result[$exp_key[0]] = $price;
-							    }
-							}
-						}
-						else
-						{
-							$price 		=	0;	
-							$price_d	=	'';
-							foreach($newArray1 as $key => $value){
-							    $exp_key = explode('_', $key);
-							    if($exp_key[0] == $room_value['room_id']){
-									$price_d	.=	$value.',';
-							    	$arr_result_day[$exp_key[0]] = $price_d;	
-							    	$price 		= 	$value;
-							        $arr_result[$exp_key[0]] = $price;
-							    }
-							}
-						}
-
-						echo	'<div class="room_info">
-											<div class="row">
-											<div class="col-md-3 col-sm-3">
-											<div><a href="javascript:;"><img src="'.base_url().$photo.'" class="img-responsive" alt=""></a></div>
-											</div>
-											<div class="col-md-6 col-sm-6">
-											<h4>'.$room_name.'</h4>
-											<p> '.$room_value['member_count'].' Member Count </p>
-											<p>Number of bedroom : '.$room_value['number_of_bedrooms']	.'</p>
-											<button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseExampled_'.$room_value['room_id'].$i.'" aria-expanded="false" aria-controls="collapseExample"> Room Info </button>
-											</div>
-											<div class="col-md-3 col-sm-3">
-											<h6>Avg. per night</h6>
-											<h2 id="changed_price_'.$room_value['room_id'].$i.'" class="'.$currency.'">'.$currency.''.$arr_result[$room_value['room_id']].'</h2>
-											<form method ="post" action="'.lang_url().'booking/set_reservation'.'">
-												<input type="hidden" name="rate" value="'.@$room_value['rate_types_id'].'">
-												<input type="hidden" name="room" value="'.$room_value['room_id'].'">
-												<input type="hidden" name="grand" value="'.$arr_result[$room_value['room_id']].'">
-												<input type="hidden" name="rooms" value="'.$rooms.'" >
-												<input type="hidden" name="night" value="'.$nights.'" >
-												<input type="hidden" name="guests" value="'.$adult.'" >
-												<input type="hidden" name="children" value="'.$child.'" >
-												<input type="hidden" name="dp1" value="'.$checkin_date.'" >
-												<input type="hidden" name="dp2" value="'.$checkout_date.'" >
-												<input type="hidden" name="amount" value="'.$arr_result[$room_value['room_id']].'">
-												<input type="hidden" name="price" value="'.insep_encode($arr_result_day[$room_value['room_id']]).'">
-												<button type="submit" id="res_'.$room_value['room_id'].$i.'" class="btn btn-info "> Book This Room</button>
-											</form>
-											</div>
-											</div>
-											<div class="row"> 
-											<div class="col-md-12 col-sm-12">
-											<div class="collapse" id="collapseExampled_'.$room_value['room_id'].$i.'">
-											<div class="more-info" style="display: block;">
-											<div class="miProperties">    <div class="miProperties">
-											<span class="detailtitle"><b>Description</b></span><br><span class="descDetail">
-											'.$room_value['description'].'</span>
-											</div>
-											<div class="clear20"></div>
-											</div>
-											<div class="miSummary">
-											<ul>
-											<li>Check-in date<span>'.$checkin_date.'</span></li>
-											<li>Check-out date<span> '.$checkout_date.'</span></li>
-											<div class="clear10"></div>
-											<li>Rooms<span>'.$rooms.'</span></li>
-											<li>Guests<span>'.$adult.'</span></li>
-											<li>Nights<span>'.$nights.'</span></li>
-											<div class="clear10"></div>
-											<li><b>Total</b><span><b> '.$currency.''.$arr_result[$room_value['room_id']]*$nights.'</b></span></li>
-											</ul>
-											</div>
-											<div class="clear"></div>
-											<div class="clear15"></div>
-											</div>
-											</div>
-											</div>
-											</div>
-											<div class="bor-dash mar-bot20"></div>
-								</div>';
-								
-					}
-					array_push($dis_room_id,$room_value['room_id']);
-					array_push($dis_rate_id,@$room_value['rate_types_id']);
-				}		
-			}
-			else
-			{
-				echo '<div class="room_info">
-						<div class="row" style="padding:30px;"> No Rooms are available..</div></div>';
-				
-			}
 	?>
 </div>
 <div class="container" id="description" style="display: none">
 	<div class="container jumbotron">
-		<h3>Description</h3>
+		<h3><?=$this->lang->line('description')?></h3>
 		<?= (isset($booking['description'])) ? $booking['description'] : '' ?>
 	</div>
 </div>
 <div class="container" id="photos" style="display: none">
-	<h3>Photos</h3>
+	 <center><h1><span class="label label-warning"><?=$this->lang->line('photos')?></span></h1></center>
+
+	<?php 
+
+	$allroom=$this->db->query("select * from manage_property where hotel_id=".$hotel['hotel_id'].' ')->result_array();
+		//
+		
+			foreach ($allroom as  $room) {
+				
+			$roomphotos=$this->db->query("SELECT * FROM room_photos where room_id =".$room['property_id'])->result_array();
+			if(count($roomphotos)>0)
+			{
+			echo '<center><h3><span class="label label-primary">'.$room['property_name'].'</span></h3></center>';
+		?>
+
+
+		<CENTER>
+                                         
+          <div class="fotorama">
+         <?php 
+
+            $i=0;
+            foreach ($roomphotos as $value) {
+                $i++;
+               
+                echo ' <img src="'.base_url().$value['photo_names'].'" />';
+            }
+
+            echo '</div> </CENTER>';
+        }//final if
+        }//finale foer
+         ?>                          
+	
 </div>
 <div class="container" id="maps" style="display: none">
-	<div class="container jumbotron">
-		<h3>Maps</h3>
-		<div id="map" style="width:100%;height:400px"></div>
-	</div>
+	  <div class="map-bottm">
+        <h3 class="inner-tittle two">Map</h3>
+        <div class="graph gllpMap">
+            <iframe width="900" height="600" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDYtqUCg0ts6msMJ-WY59w4BnUy5CS5O0Y&center=<?=$hotel['map_location']?>&zoom=20" allowfullscreen id="mapa">
+            </iframe>
+        </div>
+    </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv3fAYIfLl5H6SmuZKJtUIx6MyNn9xDbs" type="text/javascript"></script>
+
+
+<form id="setreservation" style="display: none;" action="<?= lang_url().'booking/set_reservation'?>"  method="post">
+
+	<input type="text" name="hotel_id" value="<?= $_POST["hotel_id"]; ?>">
+	<input type="text" name="data" id="data">
+	<input type="submit" value="<?=$this->lang->line('search')?>" class="btn btn-success">
+
+</form>
+
+<script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/galeriaimg.js"></script>
 <script>
 	$("#dp1").datepicker({
 		minDate:new Date()
@@ -399,32 +268,23 @@ $("#btn-maps").on("click", function(){
 	$("#description").hide();
 	$("#maps").show();
 });
+$("#btn-reservation").on("click", function(){
+	$("#reservation").show();
+	$("#photos").hide();
+	$("#description").hide();
+	$("#maps").hide();
+});
 
-<?php 
-	$location = explode(",",$hotel['map_location']);
-	$lat = array_shift($location);
-	$lng = array_shift($location);
-?>
 
-function myMap() {
-  var mapCanvas = document.getElementById("map");
- /* var mapOptions = {
-    center: new google.maps.LatLng(<?= $lat; ?>, <?= $lng; ?>),
-    zoom: 7,
-    panControl: false,
-    zoomControl: true,
-    mapTypeControl: false,
-    scaleControl: false,
-    streetViewControl: false,
-    overviewMapControl: false,
-    rotateControl: false   
-  };
-  var map = new google.maps.Map(mapCanvas, mapOptions);
-  
-  var marker = new google.maps.Marker({
-    position: mapOptions.center,
-    map: map
-  });*/
+
+function showdetails(id) {
+
+    if ($("#" + id).css('display') == 'none') {
+        $("#" + id).css('display', '');
+    } else {
+        $("#" + id).css('display', 'none');
+    }
+
 }
 
 
@@ -434,5 +294,63 @@ function datechange()
     fecha.setDate(fecha.getDate() + 1); 
     $("#dp2").datepicker( "option", "minDate", fecha);
 }
-myMap();
+jQuery(function() {
+
+    // llamada al plugin
+    jQuery('.gridder').gridderExpander({
+        scroll: true,  // activar/desactivar auto-scroll
+        scrollOffset: 30,  // distancia en píxeles de margen al hacer scroll
+        scrollTo: "panel", // hacia donde se hace el auto-scroll
+        animationSpeed: 400, // duración de la animación al hacer clic en elemento
+        animationEasing: "easeInOutExpo", // tipo de animación
+        showNav: true,  // activar/desactivar navegación
+        nextText: "<i class='fa fa-arrow-right'></i>", // texto para pasar a la siguiente imagen
+        prevText: "<i class='fa fa-arrow-left'></i>", // texto para pasar a la imagen anterior
+        closeText: "<i class='fa fa-times'></i>", // texto del botón para cerrar imagen expandida
+        onStart: function(){
+            //código que se ejecuta cuando Gridder se inicializa
+        },
+        onContent: function(){
+            //código que se ejecuta cuando Gridder ha cargado el contenido
+        },
+        onClosed: function(){
+            //código que se ejecuta al cerrar Gridder
+        }
+    });
+
+});
+
+function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay,idreplace) {
+
+	var data =roomid+"*"+rateid+"*"+date1+"*"+date2+"*"+adult+"*"+numroom+"*"+numchild+"*"+numnight+"*"+totalstay+"*"+idreplace;
+     $("#data").val(data);
+     $("#setreservation").submit();
+
+   /* $("#checkinr").html(date1.substring(8,10)+'/'+date1.substring(5,7)+'/'+date1.substring(0,4));
+    $("#checkoutr").html(date2.substring(8,10)+'/'+date2.substring(5,7)+'/'+date2.substring(0,4));
+    $("#chargeinfo").html(numnight + (numnight>1?' Nights':' Night') + ' x ' + numroom + (numroom>1?' Rooms':' Room'));
+    $("#totalstay").html(formatMoney(totalstay*numroom));
+    $("#totaldue").html(formatMoney(totalstay*numroom));
+    $("#roomid").val(roomid);
+    $("#rateid").val(rateid);
+    $("#checkin").val(date1);
+    $("#checkout").val(date2);
+    $("#child").val(numchild);
+    $("#numroom").val(numroom);
+    $("#adult").val(adult);
+    $("#allguest").html('');
+
+
+    $("#guestnames").css('display',(adult<=1?'none':''));
+    for (var i = 1; i < adult; i++) {
+        
+        $("#allguest").append( '');
+    }
+    $("#roomsavailable").modal().fadeOut();
+    $("#infoReservation").modal();*/
+
+}
+
+
+
 </script>

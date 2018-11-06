@@ -37,10 +37,28 @@
 <?php echo theme_css('dataTables.bootstrap.css', true);?>
 
 <?php echo theme_css('jquery-ui.min.css', true);?>
-
+ <script src="<?php echo base_url();?>user_asset/back/js/helpers.js"></script>
 <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
 <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-<?php echo theme_js('jquery.min.js', true);?>
+<script src="<?php echo base_url();?>user_asset/back/js/jquery-1.10.2.min.js"></script>
 <?php echo theme_js('jquery-ui.min.js', true);?>
+<link  href="<?php echo base_url();?>user_asset/back/css/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+<script src="<?php echo base_url();?>user_asset/back/js/fotorama.js"></script> <!-- 16 KB -->
+
+<script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>
+
 </head>
 <body>
+<style>
+#WindowLoad
+{
+    position:fixed;
+    top:0px;
+    left:0px;
+    z-index:3200;
+    filter:alpha(opacity=65);
+   -moz-opacity:65;
+    opacity:0.65;
+    background:#999;
+}
+</style>

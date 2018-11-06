@@ -28,15 +28,29 @@ class Booking extends Front_Controller {
 
 
     }
+    function findroomavailable()
+    {
+        $resrve = $this->booking->get_reserve();
+        echo json_encode($resrve);
+    }
 
-	function get_reservation(){
+	function roomsinformation(){
 
         if($_POST['hotel_id'] == ""){
             $this->load->view('admin/404');
+            return;
         }
+
+
 
         $hotel_id = insep_decode($_POST["hotel_id"]);
         $data['booking'] = get_data('booking_engine',array('hotel_id'=>$hotel_id))->row_array();
+        if(count($data['booking'] )==0)
+        {
+              $this->load->view('admin/404');
+              return;
+        }
+
         $data['hotel'] = get_data(HOTEL,array('hotel_id'=>$hotel_id))->row_array();
         $data['hotel_id']=$hotel_id;
         $data['num_person']=$_POST["num_person"];
@@ -44,26 +58,40 @@ class Booking extends Front_Controller {
 
 		$this->load->view('booking/header', $data);
         $this->load->view('booking/index', $data);
-
         $this->load->view('booking/footer', $data);
 	}
 
     function set_reservation(){
 
+  
 
-        if($_POST['room'] == ""){
+        if($_POST['data'] == ""){
             $this->load->view('admin/404');
         }
 
+        $info=explode('*', $_POST['data']);
 
-        $room_id = $_POST['room'];
+
+        $room_id = $info[0];
         $data['property'] = get_data(TBL_PROPERTY, array("property_id"=>$room_id))->row_array();
         $data['hotel'] =   $data['hotel'] = get_data(HOTEL,array('hotel_id'=>$data['property']['hotel_id']))->row_array();
         $data['booking'] = get_data('booking_engine',array('hotel_id'=>$data['property']['hotel_id']))->row_array();
-        $data['rateid'] = $_POST['rate']; 
-        $data['guests']=$_POST['guests']; 
-        $data['children']=$_POST['children']; 
-      
+        $data['taxes']= get_data('taxcategories',array('hotelid'=>$data['property']['hotel_id']))->result_array();
+        $data['paymentprocess']=$this->db->query("SELECT a.*,b.name
+        FROM paymentmethod a
+        left join providers b on a.providerid=b.providerid
+        where a.hotelid=".$data['property']['hotel_id'])->result_array();
+        $data['roomid'] = $info[0];
+        $data['rateid'] = $info[1];
+        $data['date1'] = $info[2]; 
+        $data['date2'] = $info[3]; 
+        $data['guests']=$info[4]; 
+        $data['children']=$info[6];
+        $data['numroom']=$info[5];
+        $data['numnight']=$info[7]; 
+        $data['totalstay']=$info[8]; 
+        $data['hotel_id']=$data['property']['hotel_id']; 
+
         $this->load->view('booking/header', $data);
         $this->load->view('booking/reservation', $data);
         $this->load->view('booking/footer', $data);  
@@ -89,6 +117,47 @@ class Booking extends Front_Controller {
         $this->views('booking/engine',$data);   
     }
 
+   function saveReservation()
+    {
+       
+        $allroom=$_POST['numroom'];
+        $allReservationId='';
+        $result='';
+        for ($i=0; $i < $allroom; $i++) { 
+            $_POST['numroom']=1;
+            $result=$this->booking->saveReservation();
+            $allReservationId .=(strlen($allReservationId)>2?',':'').$result['reservationid'];
+            $channelID=0;
+            $ReservationID=$result['reservationid'];
+            $userName='Guest';
+            $reservationdetails=$this->reservation_model->reservationdetails($channelID,$ReservationID);
+            $this->reservation_model->reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails);
+        }
+
+        
+        if(!$result['success'])
+        {
+            echo json_encode($result);
+        }
+        else
+        {
+            $checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
+            require_once(APPPATH.'controllers/arrivalreservations.php');
+            $callAvailabilities = new arrivalreservations();        
+            $callAvailabilities->updateavailability(0,$_POST['roomid'], $_POST['rateid'],$_POST['hotelid'],$_POST['checkin'], $checkout_date ,'new',$allroom); 
+        }
+
+        if(ENVIRONMENT=='production')
+        {
+            require_once(APPPATH.'controllers/sendemail.php');
+            $sendemail = new sendemail();        
+            $sendemail->sendmailreservation($allReservationId);
+        }
+
+        
+        
+        echo json_encode($result);
+    }
     function update_engine(){
         if(admin_id()=='')
         {
@@ -228,9 +297,11 @@ class Booking extends Front_Controller {
         $id = insep_decode($id);
 
 
+
         $data['widget'] = get_data('booking_widget', array('hotel_id'=>$id))->row_array();
         $data['booking'] = get_data('booking_engine',array('hotel_id'=>$id))->row_array();
         $data['page_heading'] = 'Booking Widget';
+        $data['hotel']=get_data('manage_hotel', array('hotel_id'=>$id))->row_array();
 
         $this->load->view('booking/header', $data);
         $this->load->view('booking/widget', $data);

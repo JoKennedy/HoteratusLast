@@ -85,7 +85,7 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
 
                         <script type="text/javascript">
                             function changeLanguage (language) {
-                                window.location.href='<?php echo base_url(); ?>LanguageSwitcher/switchLang/'+language;
+                                window.location.href='<?php echo base_url(); ?>LanguageSwitcher/switchLangUser/'+language;
                             }
 
                         </script>
@@ -196,7 +196,7 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
 	            button: "Ok!",
 	        });
 	        return;
-    	}
+    	} 
     
         var data = new FormData($("#imagensend")[0]);
         $.ajax({

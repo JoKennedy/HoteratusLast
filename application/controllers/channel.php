@@ -450,6 +450,14 @@ class Channel extends Front_Controller {
 		}
 
 	}
+	function deleteimage()
+	{
+		$imageid=$_POST['id'];
+
+		$this->db->query("delete from room_photos where photo_id=$imageid");
+
+		return;
+	}
 	function updatenewuserassg()
 	{
 		

@@ -49,6 +49,10 @@ class channel_model extends CI_Model
 							$this->session->set_userdata('ch_user_type',$result->User_Type);
 							$hotel_id = get_data(HOTEL,array('owner_id'=>$result->user_id))->row()->hotel_id;
 							$this->session->set_userdata('ch_hotel_id',$hotel_id);
+
+							$language = ($result->language != "") ? $result->language : "english";
+        					$this->session->set_userdata('site_lang', $language);
+
 							if($result->pw_ck=='2')
 							{
 							   return 1;
@@ -63,7 +67,8 @@ class channel_model extends CI_Model
 							$assingn_hotel = $this->db->query("select * from assignedhotels where userid=".$result->user_id)->row_array();
 							// print_r($assingn_hotel);die;
 							$hotel_id = $this->db->query("select * from manage_hotel where hotel_id in (".$assingn_hotel['hotelids'].") limit 1")->row()->hotel_id;
-
+							$language = ($result->language != "") ? $result->language : "english";
+        					$this->session->set_userdata('site_lang', $language);
 							$this->session->set_userdata('ch_user_id',$result->user_id);
 							$this->session->set_userdata('owner_id',$result->owner_id);
 							$this->session->set_userdata('ch_user_type',$result->User_Type);
@@ -535,6 +540,44 @@ class channel_model extends CI_Model
 		$localidad=str_replace(array('(',')'), '', $propertyinfo['localidad']);
 
 		$data =array("map_location"=>$localidad,"property_name"=>$propertyinfo['propertyname'],"address"=>$propertyinfo['address'],"email_address"=>$propertyinfo['email'],"web_site"=>$propertyinfo['website'],"currency"=>$propertyinfo['currencyid'],"country"=>$propertyinfo['countryid'],"mobile"=>$propertyinfo['Phone'],"zip_code"=>$propertyinfo['zipcode'],"town"=>$propertyinfo['town']);
+		if (isset($_FILES["Image"]["name"]) && strlen($_FILES["Image"]["name"])>5)
+		{
+
+		    $file = $_FILES["Image"];
+
+
+		   	
+		    $nombre = $file["name"] ;
+		    $tipo = $file["type"];
+		    $ruta_provisional = $file["tmp_name"];
+		    $size = $file["size"];
+		    $dimensiones = getimagesize($ruta_provisional);
+		    $width = $dimensiones[0];
+		    $height = $dimensiones[1];
+		    $carpeta = "user_assets/images/Users/";
+
+		    
+		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
+		    {
+
+		      $result["message"]= "Error, el archivo no es una imagen"; 
+		      $result['success']=false;
+		    }
+		    else
+
+		    {	
+		    	
+		        $src = $carpeta.'user'.hotel_id().user_id().$nombre;
+		        move_uploaded_file($ruta_provisional, $src);
+
+
+			    $data['Logo']="/".$src;
+				
+			
+
+		    }
+
+		}
 
 		if( update_data('manage_hotel',$data,array('hotel_id' =>hotel_id())))
 		{

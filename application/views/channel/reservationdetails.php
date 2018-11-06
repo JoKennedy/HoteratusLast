@@ -276,6 +276,7 @@
                                                 $ends = new DateTime($checkout);
                                                 $daterange = new DatePeriod($begin, new DateInterval('P1D'), $ends);
                                                 $i=0;
+
                                                 foreach($daterange as $ran)
                                                 {
                                                     $pricede = $rateDetailsPrice[$i];
@@ -284,7 +285,10 @@
                                                     $string = date('d-m-Y',strtotime(str_replace('/','-',$ran->format('M d, Y'))));
                                                     $weekday = date('l', strtotime($string));
 
-                                                
+                                                    if(isset($totaltaxP))
+                                                    {
+                                                        $pricede+=$pricede*$totaltaxP;
+                                                    }
 
                                                     echo '  <tr class="'.($i%2?'active':'success').'">
                                                                 <td>'.$weekday.'</td>
@@ -313,6 +317,27 @@
                                                             <?=number_format($totalStay, 2, '.', ',')?>
                                                         </td>
                                                     </tr>
+                                                    <?php
+                                                        if (isset($taxes) && strlen($taxes)>2) {
+                                                            
+                                                            $taxinfo=explode(',', $taxes);
+                                                            $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
+
+                                                            foreach ($taxinfo as  $tax) {
+                                                                
+                                                                $tax=explode('*', $tax);
+                                                                $taxid= array_search($tax[0], array_column($taxdata, 'taxid'));
+                                                                $TOTALTAX=$totalStay*($tax[1]/100);
+                                                                echo '<tr>
+                                                                        <td> <strong>'.$taxdata[$taxid]['name'].':&nbsp</strong></td>
+                                                                        <td style="text-align: right;">
+                                                                            '.number_format($TOTALTAX, 2, '.', ',').'
+                                                                        </td>
+                                                                    </tr>';                                                                                                       
+                                                            }
+
+                                                        }
+                                                    ?>
                                                     <tr>
                                                         <td> <strong>Total Extras:&nbsp</strong></td>
                                                         <td style="text-align: right;">

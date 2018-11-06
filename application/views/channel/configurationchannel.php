@@ -3,8 +3,8 @@
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
             <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
-            <li><a href="<?php echo base_url();?>channel/allChannelList">Channel List</a></li>
-            <li class="active">Set Up Channel</li>
+            <li><a href="<?php echo base_url();?>channel/allChannelList">Channels List</a></li>
+            <li class="active">Channels Set up</li>
         </ol>
     </div>
     <div class="col-md-4 graph-form ">
@@ -93,7 +93,7 @@
                         </div>
                 </div>
                 <div class="form-group">
-                    <label style="text-align: right;" class="col-md-3 control-label">Reservation Email Address</label>
+                    <label style="text-align: right;" class="col-md-3 control-label">Email Address for Reservations</label>
                         <div class="col-md-8">
                             <div class="input-group input-icon right">
                                 <span class="input-group-addon">

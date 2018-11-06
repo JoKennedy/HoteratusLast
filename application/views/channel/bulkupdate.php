@@ -295,7 +295,7 @@ function verificarupdate()
     {      
             falta=1;
             swal({
-                title: "upps, Sorry",
+                title: "Oops, Sorry",
                 text: "Type the availability to continue !",
                 icon: "warning",
                 button: "Ok!",
@@ -320,7 +320,7 @@ function verificarupdate()
     {      
            falta=1;
             swal({
-                title: "upps, Sorry",
+                title: "Oops, Sorry",
                 text: "Type the Price to continue !",
                 icon: "warning",
                 button: "Ok!",
@@ -345,7 +345,7 @@ function verificarupdate()
     {      
            falta=1;
             swal({
-                title: "upps, Sorry",
+                title: "Oops, Sorry",
                 text: "Type the Minimum to continue !",
                 icon: "warning",
                 button: "Ok!",
@@ -358,8 +358,8 @@ function verificarupdate()
     {      
             falta=1;
             swal({
-                title: "upps, Sorry",
-                text: "Select a CTA Continue !",
+                title: "Oops, Sorry",
+                text: "Select a CTA  to continue !",
                 icon: "warning",
                 button: "Ok!",
             });
@@ -369,8 +369,8 @@ function verificarupdate()
     {      
             falta=1;
             swal({
-                title: "upps, Sorry",
-                text: "Select a CTD Continue !",
+                title: "Oops, Sorry",
+                text: "Select a CTD to continue !",
                 icon: "warning",
                 button: "Ok!",
             });
@@ -381,7 +381,7 @@ function verificarupdate()
             falta=1;
             swal({
                 title: "upps, Sorry",
-                text: "Select a Stop Sales Continue !",
+                text: "Select a Stop Sales  to continue !",
                 icon: "warning",
                 button: "Ok!",
             });
@@ -399,7 +399,7 @@ function sendbulk() {
     {
             falta=1;
             swal({
-                title: "upps, Sorry",
+                title: "Oops, Sorry",
                 text: "Select what you want to update!",
                 icon: "warning",
                 button: "Ok!",
@@ -411,8 +411,8 @@ function sendbulk() {
     {
             falta=1;
             swal({
-                title: "upps, Sorry",
-                text: "Select a Day To Continue!",
+                title: "Oops, Sorry",
+                text: "Select a Day to continue!",
                 icon: "warning",
                 button: "Ok!",
             });
@@ -423,8 +423,8 @@ function sendbulk() {
             $(el).focus();
 
             swal({
-                title: "upps, Sorry",
-                text: "Complete a Date Range To Continue!",
+                title: "Oops, Sorry",
+                text: "Complete a Date Range to continue!",
                 icon: "warning",
                 button: "Ok!",
             })
@@ -440,8 +440,8 @@ function sendbulk() {
             $(el).focus();
             falta=1;
             swal({
-                title: "upps, Sorry",
-                text: "Complete a Date Range To Continue!",
+                title: "Oops, Sorry",
+                text: "Complete a Date Range to continue!",
                 icon: "warning",
                 button: "Ok!",
             });
@@ -456,8 +456,8 @@ function sendbulk() {
     {
             falta=1;
             swal({
-                title: "upps, Sorry",
-                text: "Select a Channel To Continue!",
+                title: "Oops, Sorry",
+                text: "Select a Channel to continue!",
                 icon: "warning",
                 button: "Ok!",
             });
@@ -478,7 +478,7 @@ if(falta==1)return;
             $("#mensagesincro").css("display","");
             swal({
                 title: "Proccess",
-                text: "Update sent, when it is completed a message will be displayed on top!",
+                text: "Update sent, when the update is completed a message will be displayed at the top of the page!",
                 icon: "info",
                 button: "Ok!",
             });

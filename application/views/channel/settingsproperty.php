@@ -93,9 +93,32 @@
                             <label class="control-label">Town</label>
                             <input name ="town" type="text" value="<?= $HotelInfo['town'] ?>" placeholder="Town" required="">
                         </div>
+                        <br>
+                         <br>
+                          <br>
+                            <center>
+                            <div class="col-md-12">
+                                <center>
+                                    
+                                        <div  width="120" height="100">
+                                            <?php
+                                                echo '<img  width="120" height="100" src="'.base_url().(strlen($HotelInfo['Logo'])<5?"uploads/room_photos/noimage.jpg":$HotelInfo['Logo']).'"" class="img-responsive" alt="">'
+                                              ?>
+                                            
+                                        </div>
+
+                                </center>
+                                        
+                            </div>
+                            
+                            <div class="col-md-12 form-group1">
+                                     <label class="control-label">Imagen</label>
+                                    <input style="background:white; color:black;" type="file" id="Image" name="Image">
+                            </div>
+                        </center>
                         <div class="clearfix"> </div>
                         <div class="col-md-12 form-group button-2">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                           <center> <button type="submit" class="btn btn-primary">Save</button> </center>
                             <!--<button type="reset" class="btn btn-default">Reset</button>-->
                         </div>
                         <div class="clearfix"> </div>
@@ -118,11 +141,13 @@
                 function savepropertyinfo() {
 
 
-                	
+                	var data = new FormData($("#propertyinfo")[0]);
                     $.ajax({
                         type: "POST",
                         url: base_url + 'channel/propertyinfoupdate',
-                        data: $("#propertyinfo").serialize(),
+                        contentType: false,
+                        processData: false,
+                        data: data,
                         success: function(html) {
                             
 	                		  if (html == 0) {
@@ -131,7 +156,9 @@
 		                            text: "Property Information Update Successfully!",
 		                            icon: "success",
 		                            button: "Ok!",
-		                        });
+		                        }).then((n)=>{
+                                    location.reload();
+                                });
 		                    }
 		                    else
 		                    {

@@ -59,13 +59,13 @@
                                 <select style="width: 100%; padding: 9px;" name="sourceid" id="sourceid">
                                     <?php
 
-                                        $Channelss=$this->db->query("select channel_name, channel_id from manage_channel order by channel_name")->result_array();
+                                        $Channelss=$this->db->query("select * from agencies where active=1 and hotelid=".hotel_id()." order by Name")->result_array();
 
                                         echo '<option  value="-1" >Select a Reservation Source</option>';
                                         echo '<option style="background:#71FF33;" value="0" selected >Direct Reservation</option>';
                                         foreach ($Channelss as $value) {
                                             $i++;
-                                            echo '<option  value="'.$value['channel_id'].'" >'.$value['channel_name'].'</option>';
+                                            echo '<option  value="'.$value['AgencyId'].'" >'.$value['Name'].'</option>';
                                         }
                                   ?>
                                 </select>

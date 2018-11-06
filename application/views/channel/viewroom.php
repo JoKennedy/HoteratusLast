@@ -778,7 +778,7 @@
                                                 foreach ($roomphotos as $value) {
                                                     $i++;
                                                     echo '<li class=" gridder-list" data-griddercontent="#content'.$i.'">';
-                                                    echo ' <img src="'.base_url().$value['photo_names'].'" />';
+                                                    echo ' <img id="super'.$value['photo_id'].'" src="'.base_url().$value['photo_names'].'" />';
                                                 }
                                              ?>
                                             </ul>
@@ -789,7 +789,7 @@
                                                 foreach ($roomphotos as $value) {
                                                     $i++;
                                                    
-                                                    echo '<div id="content'.$i.'" class="gridder-content"><center> <img src="'.base_url().$value['photo_names'].'" /> </center></div>';
+                                                    echo '<div id="content'.$i.'" class="gridder-content"><center> <img id="'.$value['photo_id'].'" src="'.base_url().$value['photo_names'].'" /> </center></div>';
                                                 }
                                              ?>
                                                                            
@@ -853,7 +853,24 @@
                             </div>
                             <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/galeriaimg.js"></script>
                             <script type="text/javascript">
+                            function deleteimage(obj)
+                            {
+                                var id =$(obj).parent().parent().find( "img" ).attr('id');
+                                $(obj).parent().parent().find( ".next" ).trigger('click');
+                                $("#super"+id).css('display','none');
+                                $("#"+id).remove();
+                                $("#"+id).remove();
 
+                                $.ajax({
+                                    url: '<?php echo lang_url(); ?>channel/deleteimage',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {id:id},
+                                });
+                                
+                                
+                                
+                            }
 
                             function addExtra()
                             {
@@ -939,6 +956,7 @@
                                         nextText: "<i class='fa fa-arrow-right'></i>", // texto para pasar a la siguiente imagen
                                         prevText: "<i class='fa fa-arrow-left'></i>", // texto para pasar a la imagen anterior
                                         closeText: "<i class='fa fa-times'></i>", // texto del botón para cerrar imagen expandida
+                                        deleteItem:'<i class="fa fa-trash" aria-hidden="true"></i>',
                                         onStart: function(){
                                             //código que se ejecuta cuando Gridder se inicializa
                                         },

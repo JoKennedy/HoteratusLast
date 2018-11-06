@@ -1,6 +1,7 @@
 <?php
 
 //general
+
 $lang['general_fullname'] = 'Full Name';
 $lang['general_email'] = 'Email';
 $lang['general_password'] = 'Password';

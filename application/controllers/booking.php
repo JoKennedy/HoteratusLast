@@ -317,7 +317,7 @@ class Booking extends Front_Controller {
         $id = insep_decode($userid);
 
         $data['allhotel']= $this->db->query("select * from manage_hotel where owner_id = $id order by trim(property_name)") ;
-;
+
         if($data['allhotel']->num_rows==0)
         {   echo '<h1 align="center"> This Hotel Not Exists </h1>';
             die;

@@ -10,7 +10,7 @@
     <div class="row-fluid clearfix">
       <?php     
       if(isset($error)) { ?> 
-        <div class="alert alert-error">
+        <div class="alert alert-error">  
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Oh! </strong><?php echo $error;?>.
         </div>

@@ -1471,7 +1471,6 @@ class reservation extends Front_Controller {
 	
 		$data['CategoryId']=$_POST['categoryid'];
 		$data['Name']=$_POST['agencyname'];
-		$data['groupid']=$_POST['agroupid'];
 		$data['CommissionValue']=$_POST['amount'];
 		$data['CommissionType']=$_POST['CommissionType'];
 		$data['Active']=isset($_POST['active'])?1:0;
@@ -1488,7 +1487,6 @@ class reservation extends Front_Controller {
 		$data['HotelId']=hotel_id();
 		$data['CategoryId']=$_POST['acategoryid'];
 		$data['Name']=$_POST['agencyname'];
-		$data['groupid']=$_POST['agroupid'];
 		$data['CommissionValue']=$_POST['amount'];
 		$data['CommissionType']=$_POST['CommissionType'];
 		$data['Active']=1;
@@ -1503,14 +1501,13 @@ class reservation extends Front_Controller {
 	function agenciesHTML()
 	{	
 		$categoryid=$_POST['categoryid'];
-		$groupid=$_POST['groupid'];
+		
 
 		$AllAgencies=$this->db->query("select a.*, b.name categoryname 
 			from agencies a 
 			left join agencycategories b on a.CategoryId=b.agencycategoryid
 			where a.hotelid=".hotel_id()." 
-			and (CategoryId=$categoryid or $categoryid=0)
-			and (groupid =$groupid or $groupid=0) ")->result_array();
+			and (CategoryId=$categoryid or $categoryid=0) ")->result_array();
 
 		$html='';
 			$html.= '<div class="graph-visual tables-main">

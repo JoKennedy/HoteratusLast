@@ -195,16 +195,7 @@
                                 ?>
                             </select>
                         </div>
-					<div class="col-md-12 form-group1">
-                            <label class="control-label">
-                                <?=$this->lang->line('group')?>
-                            </label>
-                            <select style="width: 100%; padding: 9px; " id="agroupid" name="agroupid">
-                            	 <option value="0"><?=$this->lang->line('selectcagroup')?></option>
-					            <option value="1"><?=$this->lang->line('retailers')?></option>
-					            <option value="2"><?=$this->lang->line('wholesalers')?></option>
-                            </select>
-                    </div>
+					
                    	<div class="col-md-12 form-group1">
                    		<center><label class="control-label"><?=$this->lang->line('commissiontype')?> </label></center>
                    		<div class="clearfix"></div>
@@ -303,16 +294,7 @@
                                 ?>
                             </select>
                         </div>
-					<div class="col-md-12 form-group1">
-                            <label class="control-label">
-                                <?=$this->lang->line('group')?>
-                            </label>
-                            <select style="width: 100%; padding: 9px; " id="agroupidup" name="agroupid">
-                            	 <option value="0"><?=$this->lang->line('selectcagroup')?></option>
-					            <option value="1"><?=$this->lang->line('retailers')?></option>
-					            <option value="2"><?=$this->lang->line('wholesalers')?></option>
-                            </select>
-                    </div>
+					
                    	<div class="col-md-12 form-group1">
                    		<center><label class="control-label"><?=$this->lang->line('commissiontype')?> </label></center>
                    		<div class="clearfix"></div>
@@ -411,17 +393,7 @@
                 });
                 return;
             }
-             else if ($("#agroupidup").val()==0) {
-                swal({
-                    title: "Upps",
-                    text: '<?=sprintf($this->lang->line('selectsomethingtocontinue'),$this->lang->line('group'))?>',
-                    icon: "warning",
-                    button: "Ok!",
-                }).then((n) => {
-                    $("#agroupidup").focus();
-                });
-                return;
-            }
+           
             else if (!$("#percentageup").prop('checked') && !$("#moneyup").prop('checked') && !$("#netrateup").prop('checked')) {
                 swal({
                     title: "Upps",
@@ -510,17 +482,7 @@
                 });
                 return;
             }
-             else if ($("#agroupid").val()==0) {
-                swal({
-                    title: "Upps",
-                    text: '<?=sprintf($this->lang->line('selectsomethingtocontinue'),$this->lang->line('group'))?>',
-                    icon: "warning",
-                    button: "Ok!",
-                }).then((n) => {
-                    $("#agroupid").focus();
-                });
-                return;
-            }
+          
             else if (!$("#percentage").prop('checked') && !$("#money").prop('checked') && !$("#netrate").prop('checked')) {
                 swal({
                     title: "Upps",
@@ -682,7 +644,7 @@
         type: "POST",
         //dataType: "json",
         url: "<?php echo lang_url(); ?>reservation/agenciesHTML",
-        data: {'categoryid':$("#categoryid").val(),'groupid':$("#groupid").val()},
+        data: {'categoryid':$("#categoryid").val()},
         beforeSend: function() {
             showWait();
             setTimeout(function() { unShowWait(); }, 10000);

@@ -193,7 +193,7 @@
          var data = $("#createplicy").serialize();
         $.ajax({
             type: "POST",
-            //dataType: "json",
+            dataType: "json",
             url: "<?php echo lang_url(); ?>channel/savePolicy",
             data: data,
             beforeSend: function() {
@@ -201,8 +201,6 @@
                 setTimeout(function() { unShowWait(); }, 10000);
             },
             success: function(msg) {
-
-                alert(msg);
 
                 unShowWait();
                if (msg['success']) {

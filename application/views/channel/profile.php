@@ -190,8 +190,8 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
 	{
 		if ($("#Image").val().length < 1) {
 	        swal({
-	            title: "upps, Sorry",
-	            text: "Missing Field Imagen!",
+	            title: "Oops, Sorry",
+	            text: "Missing Field: Image!",
 	            icon: "warning",
 	            button: "Ok!",
 	        });
@@ -224,7 +224,7 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
                 } else {
 
                     swal({
-                        title: "upps, Sorry",
+                        title: "Oops, Sorry",
                         text: msg["message"],
                         icon: "warning",
                         button: "Ok!",

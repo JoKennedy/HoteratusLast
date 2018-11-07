@@ -24,7 +24,7 @@ class sendemail extends Front_Controller
 	public function sendmailreservation($ReservationsID=0)
 	{
 
-			$reservationsinfo=$this->db->query("select * from manage_reservation where reservation_id in ($ReservationsID) ")->result_array();
+			$reservationsinfo=$this->reservation_model->addtaxesprice($this->db->query("select * from manage_reservation where reservation_id in ($ReservationsID) ")->result_array());
 			$hotelinformation=$this->db->query("select * from manage_hotel where hotel_id =".hotel_id())->row_array();
 			$roomnumber=count($reservationsinfo);
 			$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();

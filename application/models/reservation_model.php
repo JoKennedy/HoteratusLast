@@ -781,6 +781,34 @@ class Reservation_model extends CI_Model
             return false;
     }
 
+    function addtaxesprice($info)
+    {     
+
+        $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
+        foreach ($info as $key =>   $result) {
+                    $taxtotal=0;
+                    $TOTALTAX=0;
+                    if (isset($result['taxes']) && strlen($result['taxes'])>2) {
+                                                                
+                        $taxinfo=explode(',', $result['taxes']);
+                        
+                        foreach ($taxinfo as  $tax) { 
+                            $tax=explode('*', $tax);
+                            $taxid= array_search($tax[0], array_column($taxdata, 'taxid'));
+                            $TOTALTAX=$result['price']*($tax[1]/100);                                                 
+                            if($tax[2]==0)
+                            {
+                                $taxtotal+=$TOTALTAX;
+                            }
+                            
+                        }
+
+                        $info[$key]['price']+=$taxtotal;
+                    }
+                }
+        return $info;
+    }
+
     function AllReservationList($date1,$date2,$channels,$status)
     {
         $result=array();
@@ -789,16 +817,21 @@ class Reservation_model extends CI_Model
         $LogoReservation=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
         $alllogo=array();
         $hoteratus=array();
+   
+
+       
 
         if (strlen($channels)==0 || $channels==0 ) {
             
             $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in ($status) ";
 
-            $hoteratus=$this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
-                b.property_name roomName
+            $hoteratus=$this->addtaxesprice($this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
+                b.property_name roomName, taxes
             FROM manage_reservation a        
             left join manage_property b on a.room_id = b.property_id     
-            where a.hotel_id=$hotelid and a.channel_id=0 and (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') ".(strlen($status)==0?'':$sta)." order by current_date_time desc")->result_array();
+            where a.hotel_id=$hotelid and a.channel_id=0 and (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') ".(strlen($status)==0?'':$sta)." order by a.created_date desc")->result_array());
+          
+            
          }
 
         $allchannel=$this->db->query("select  a.channel_id,channel_name from user_connect_channel a

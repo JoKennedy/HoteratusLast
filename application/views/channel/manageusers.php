@@ -22,7 +22,7 @@
                         <tr>
                             <th>#</th>
                             <th>Full Name</th>
-                            <th>User Name</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Status</th>
                             <th style="text-align:center;">Edit</th>
@@ -84,7 +84,7 @@
                                                         <div style="text-align: center">
                                                             <h3>User Details</h43></div>
                                                         <div class="col-md-12 form-group1">
-                                                            <label class="control-label">Firts Name</label>
+                                                            <label class="control-label">First Name</label>
                                                             <input style="background:white; color:black;" name="fname" id="fname" type="text" placeholder="Firts Name" required="">
                                                         </div>
                                                         <div class="col-md-12 form-group1">
@@ -102,7 +102,7 @@
                                                          <div style="text-align: center">
                                                             <h3>Access Information</h3></div>
                                                         <div class="col-md-12 form-group1">
-                                                            <label class="control-label">User Name</label>
+                                                            <label class="control-label">Username</label>
                                                             <input style="background:white; color:black;" name="username" id="username" type="text" placeholder="User Name" onblur="return validarusername('username')" required="">
                                                         </div>
                                                         <div class="col-md-12 form-group1">
@@ -240,7 +240,7 @@
                                                          <div style="text-align: center">
                                                             <h3>Access Information</h3></div>
                                                         <div class="col-md-12 form-group1">
-                                                            <label class="control-label">User Name</label>
+                                                            <label class="control-label">Username</label>
                                                             <input style="background:white; color:black;" name="usernameup" id="usernameup" type="text" placeholder="User Name" onblur="return validarusername('usernameup')" required="" readonly="">
                                                         </div>
                                                         <div class="col-md-12 form-group1">
@@ -356,8 +356,8 @@ function saveUser() {
         return;
     }else if ($("#email").val().length < 3 || !email.checkValidity() ) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Email!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Email!",
             icon: "warning",
             button: "Ok!",
         });
@@ -365,8 +365,8 @@ function saveUser() {
     }
     else if ($("#username").val().length < 1 || !usern.checkValidity()) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field User Name!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Username!",
             icon: "warning",
             button: "Ok!",
         });
@@ -374,7 +374,7 @@ function saveUser() {
     }
      else if ($("#password").val().length < 3 || !cad.checkValidity()) {
         swal({
-            title: "upps, Sorry",
+            title: "Oops, Sorry",
             text: "Wrong Password!",
             icon: "warning",
             button: "Ok!",
@@ -383,8 +383,8 @@ function saveUser() {
     }
      else if ($("#repassword").val().length < 3 || !cad2.checkValidity()) {
         swal({
-            title: "upps, Sorry",
-            text: "Wrong Confirnm Password!",
+            title: "Oops, Sorry",
+            text: "Wrong Passport, please confirnm Password!",
             icon: "warning",
             button: "Ok!",
         });
@@ -392,7 +392,7 @@ function saveUser() {
     }
      else if (!$("input[id=hotelid]").is(":checked")) {
         swal({
-            title: "upps, Sorry",
+            title: "Oops, Sorry",
             text: "Select a Hotel Access to continue!",
             icon: "warning",
             button: "Ok!",
@@ -401,7 +401,7 @@ function saveUser() {
     }
      else if (!$("input[id=menuitemid]").is(":checked")) {
         swal({
-            title: "upps, Sorry",
+            title: "Oops, Sorry",
             text: "Select a Menu Item Access to continue!",
             icon: "warning",
             button: "Ok!",
@@ -434,7 +434,7 @@ function saveUser() {
             } else {
 
                 swal({
-                    title: "upps, Sorry",
+                    title: "Oops, Sorry",
                     text: msg["msg"],
                     icon: "warning",
                     button: "Ok!",
@@ -499,24 +499,24 @@ function updateUser() {
 
       if ($("#fnameup").val().length < 2) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Firts Name!",
+            title: "Oops, Sorry",
+            text: "Missing Field: First Name!",
             icon: "warning",
             button: "Ok!",
         });
         return;
     } else if ($("#lnameup").val().length < 2) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Last Name!",
+            title: "Oops, Sorry",
+            text: "Missing field: Last Name!",
             icon: "warning",
             button: "Ok!",
         });
         return;
     }else if ($("#emailup").val().length < 3 || !email.checkValidity() ) {
         swal({
-            title: "upps, Sorry",
-            text: "Missing Field Email!",
+            title: "Oops, Sorry",
+            text: "Missing Field: Email!",
             icon: "warning",
             button: "Ok!",
         });
@@ -525,7 +525,7 @@ function updateUser() {
 
      else if (!$("input[id=hotelidup]").is(":checked")) {
         swal({
-            title: "upps, Sorry",
+            title: "Oops, Sorry",
             text: "Select a Hotel Access to continue!",
             icon: "warning",
             button: "Ok!",
@@ -534,7 +534,7 @@ function updateUser() {
     }
      else if (!$("input[id=menuitemidup]").is(":checked")) {
         swal({
-            title: "upps, Sorry",
+            title: "Oops, Sorry",
             text: "Select a Menu Item Access to continue!",
             icon: "warning",
             button: "Ok!",

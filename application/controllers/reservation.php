@@ -350,6 +350,7 @@ class reservation extends Front_Controller {
 				</script>
                  " ;
 		$data['header']="Date Range: $start_date To $end_date";
+		$data['taxes']=json_encode( $taxes=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array());
 
 		echo json_encode($data);
 	}

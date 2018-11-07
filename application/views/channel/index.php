@@ -603,7 +603,7 @@
                         <h5>Address</h5>
                         <p>Hoteratus - Hospitality Software Solutions
                             <br>
-                            <span>2170 Gaborone Place, Dulles, Virginia,</span> United States.
+                            <span>2440 Ouagadougou, Dulles, Virginia,</span> United States.
                         </p>
                     </div>
                     <div class="clearfix"> </div>
@@ -724,7 +724,7 @@
                     <div class="w3layouts_mail_grid_left2">
                         <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                         <h3>Address</h3>
-                        <p>2170 Gaborone Place, Dulles, Virginia, United States.</p>
+                        <p>2440 Ouagadougou Place, Dulles, Virginia, United States.</p>
                     </div>
                 </div>
                <!-- <div class="col-md-3 w3layouts_mail_grid_left">
@@ -749,7 +749,7 @@
                     </ul>
                 </div>
                 <div class="copyrightbottom">
-                    <p>Hoteratus - Hospitality Software Solutions . © 2017 All rights reserved
+                    <p>Hoteratus - Hospitality Software Solutions . © 2018 All rights reserved
                         <p>
                 </div>
                 <div class="clearfix"></div>

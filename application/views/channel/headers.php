@@ -252,7 +252,7 @@
                                             <a href="#">
                                                 <div class="user_img"><img src="<?php echo base_url();?>user_asset/back/images/1.jpg" alt=""></div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor sit amet</p>
+                                                    <p>You received one reservation</p>
                                                     <p><span>1 hour ago</span></p>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -262,7 +262,7 @@
                                             <a href="#">
                                                 <div class="user_img"><img src="<?php echo base_url();?>user_asset/back/images/in.jpg" alt=""></div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor sit amet </p>
+                                                    <p>System was updated successfully </p>
                                                     <p><span>1 hour ago</span></p>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -272,7 +272,7 @@
                                             <a href="#">
                                                 <div class="user_img"><img src="<?php echo base_url();?>user_asset/back/images/in1.jpg" alt=""></div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor sit amet </p>
+                                                    <p>Please heck the arrivals report </p>
                                                     <p><span>1 hour ago</span></p>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -297,7 +297,7 @@
                                             <a href="#">
                                                 <div class="user_img"><img src="<?php echo base_url();?>user_asset/back/images/in.jpg" alt=""></div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor sit amet</p>
+                                                    <p>Channel Manager was updated</p>
                                                     <p><span>1 hour ago</span></p>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -307,7 +307,7 @@
                                             <a href="#">
                                                 <div class="user_img"><img src="<?php echo base_url();?>user_asset/back/images/in5.jpg" alt=""></div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor sit amet </p>
+                                                    <p>You have a new reservation </p>
                                                     <p><span>1 hour ago</span></p>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -317,7 +317,7 @@
                                             <a href="#">
                                                 <div class="user_img"><img src="<?php echo base_url();?>user_asset/back/images/in8.jpg" alt=""></div>
                                                 <div class="notification_desc">
-                                                    <p>Lorem ipsum dolor sit amet </p>
+                                                    <p>Client has updated information </p>
                                                     <p><span>1 hour ago</span></p>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -421,5 +421,4 @@
                     <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">&times; </i></span></button>
                     Correctly updated calendar
                 </div>
-
 

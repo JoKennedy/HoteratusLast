@@ -278,7 +278,7 @@
                             <tbody>
                                 <tr style="padding-bottom: 5px;">
                                     <td><strong><?=$numroom.' '.($numroom==1?$this->lang->line('room'):$this->lang->line('rooms')).' x '.$numnight.' '.($numnight==1?$this->lang->line('night'):$this->lang->line('nights'))?> </td>
-                                    <td style="text-align: right;"> &nbsp;<?=$currency.number_format(($totalstay),2,'.',',')?></td>
+                                    <td style="text-align: right;"> &nbsp;<?=$currency.number_format(($totalstay*$numroom),2,'.',',')?></td>
                                 </tr>
 							
 							<?php
@@ -286,7 +286,7 @@
 								{	$totaltaxes=0;
 									
 									foreach ($taxes as $tax) {
-										$taxamount=($totalstay)*($tax['taxrate']/100);
+										$taxamount=($totalstay*$numroom)*($tax['taxrate']/100);
 										echo ' <tr style="padding-bottom: 5px;">
 			                                    <td><strong>'.$tax['name'].' </td>
 			                                    <td style="text-align: right;"> &nbsp;'.$currency.number_format($taxamount,2,'.',',').'</td>
@@ -303,7 +303,7 @@
                         <div style="text-align: center;">
 
                             <h2><?=$this->lang->line('duenow')?></h2>
-                            <center><h4><span class="label label-default"> <?=$currency.number_format(($totalstay)+ $totaltaxes,2,'.',',')?></span></h4></center>
+                            <center><h4><span class="label label-default"> <?=$currency.number_format(($totalstay*$numroom)+ $totaltaxes,2,'.',',')?></span></h4></center>
                          
                          
                         </div>

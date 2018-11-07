@@ -110,6 +110,7 @@
 
 <script type="text/javascript">
 
+var taxes='';
 
 $('.datepickers').datepicker();
 function setcalendar() {
@@ -147,6 +148,7 @@ function findroomavailable() {
         success: function(msg) {
             $("#fechas").html(msg['header']);
             $("#availabledetails").html(msg['detail']);
+            taxes= JSON.parse(msg['taxes']);
             $("#CreateReservation").modal().fadeOut();
             $("#roomsavailable").modal()
             unShowWait();
@@ -191,13 +193,31 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
     var newmonto= pricenew*numnight;
 
     $("#newprice").val((totalstay!=newmonto?newmonto:-1));
-    totalstay=(totalstay!=newmonto?newmonto:totalstay);
+    totalstay=(totalstay!=newmonto?newmonto:totalstay)*numroom;
 
+
+    if(taxes.length>0)
+    { var taxhtml ='';
+        var totaltax=0;
+        var taxvalue =0;
+        var stay=totalstay;
+        jQuery.each( taxes, function( i, val ) {
+            taxvalue=stay*(val.taxrate/100);
+             taxhtml +='<tr style="padding-bottom: 5px;"><td><strong>'+val.name+' </td><td style="text-align: right;"> &nbsp;'+formatMoney(taxvalue)+'</td></tr>';
+            if(val.includedprice==0)
+            {
+                totaltax+=taxvalue;
+            }
+        });
+
+        $("#totales tbody").append(taxhtml);
+    }
+    
     $("#checkinr").html(date1.substring(8,10)+'/'+date1.substring(5,7)+'/'+date1.substring(0,4));
     $("#checkoutr").html(date2.substring(8,10)+'/'+date2.substring(5,7)+'/'+date2.substring(0,4));
     $("#chargeinfo").html(numnight + (numnight>1?' Nights':' Night') + ' x ' + numroom + (numroom>1?' Rooms':' Room'));
-    $("#totalstay").html(formatMoney(totalstay*numroom));
-    $("#totaldue").html(formatMoney(totalstay*numroom));
+    $("#totalstay").html(formatMoney(totalstay));
+    $("#totaldue").html(formatMoney(totalstay+totaltax));
     $("#roomid").val(roomid);
     $("#rateid").val(rateid);
     $("#checkin").val(date1);
@@ -213,6 +233,7 @@ function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, num
         
         $("#allguest").append( '<div class="col-md-6 form-group1"><label class="control-label">Guest #'+i+'</label><input style="background:white; color:black;" name="guestname[]" id="guestname" type="text" placeholder="Type a Guest Name #'+i+'" required=""></div>');
     }
+
     $("#roomsavailable").modal().fadeOut();
     $("#infoReservation").modal();
 

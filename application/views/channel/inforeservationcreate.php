@@ -135,16 +135,13 @@
                         </table>
                         <hr size="20">
                         <h5><strong >Charges</strong></h5>
-                        <table>
+                        <table id="totales">
                             <tbody>
                                 <tr style="padding-bottom: 5px;">
-                                    <td width="70%"><strong><span id="chargeinfo"></span></td>
+                                    <td width="80%"><strong><span id="chargeinfo"></span></td>
                                     <td style="text-align: right;"><span id="totalstay" ></span></td>
                                 </tr>
-                                <tr>
-                                    <td width="70%" ><strong><span>Extras</span></td>
-                                    <td style="text-align: right;"><span id="extrastotal" >0.00</span></td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                         

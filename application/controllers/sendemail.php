@@ -21,81 +21,65 @@ class sendemail extends Front_Controller
 		$this->email->initialize($config);
 	}
 
-	public function sendmailreservation($ReservationsID=0)
+	public function sendmailreservation($ReservationsID=0,$sendguest=1)
 	{
 
-			$reservationsinfo=$this->reservation_model->addtaxesprice($this->db->query("select * from manage_reservation where reservation_id in ($ReservationsID) ")->result_array());
-			$hotelinformation=$this->db->query("select * from manage_hotel where hotel_id =".hotel_id())->row_array();
-			$roomnumber=count($reservationsinfo);
+			$resinfo=$this->reservation_model->addtaxesprice($this->db->query("select *,STR_TO_DATE(start_date ,'%d/%m/%Y') CHECKIN,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  CHECKOUT from manage_reservation where reservation_id in ($ReservationsID) ")->result_array());
+			$hotelinfo=$this->db->query("select * from manage_hotel where hotel_id =".$resinfo[0]['hotel_id'])->row_array();
 			$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
-			$hotelinfo    =   get_mail_template('12');
-            $guestinfo    =   get_mail_template('11');
-            $forgest='';
+			$variable['###TOTAL###']=0;
+			$variable['###ROOMNUMBER###']='';
+			$variable['###RESERVATIONNUMBER###']='';
 
-			$html='<center><span style="font-size:28px;">Room Qty: '.$roomnumber.'</span></center>
-			<div class="graph">
-			<div class="table-responsive">
-			<div class="clearfix"></div>
-			<table class="table table-bordered">
-			<tbody>
-			';
-			
-			$i=0;
-			$pricing=0;
-			$number="";
-			foreach ($reservationsinfo as  $reserva) {
-				$i++;
-				$html.='<tr><td style="font-size:20px;">Info Room #'.$i.' </td></tr>';
-				$html.="<tr><td>Confirmation number:".$reserva['reservation_code']." </td></tr>";
-				$html.="<tr><td>Guest Name:".$reserva['guest_name']." ".$reserva['last_name']." </td></tr>";
-				$html.="<tr><td>Check-In Date:".$reserva['start_date']." </td></tr>";
-				$html.="<tr><td>Check-Out Date:".$reserva['end_date']." </td></tr>";
-				$html.="<tr><td>No.of Nights:".$reserva['num_nights']." </td></tr>";
-				$html.="<tr><td>Arrival Time:".$reserva['arrivaltime']." </td></tr>";
-				$html.="<tr><td>Adult Count:".$reserva['members_count']." </td></tr>";
-				$html.="<tr><td>Child Count:".$reserva['children']." </td></tr>";
-				$html.="<tr><td> Order Total:".$reserva['price']." </td></tr>";
-				$html.="<tr><td> </td></tr>";
-				$pricing+=$reserva['price'];
-				$number.=(strlen($number)>1?',':'').$reserva['reservation_code'];
-
+			foreach ($resinfo as  $value) {
+				$variable['###ROOMNUMBER###'].=(strlen($variable['###ROOMNUMBER###'])>1?',':'').$value['RoomNumber'];
+				$variable['###RESERVATIONNUMBER###']=(strlen($variable['###RESERVATIONNUMBER###'])>1?',':'').$value['reservation_code'];
+				$variable['###TOTAL###']+=$value['price'];
 			}
-			$html.='
-			<tbody>
-			</table>
-			<center><h1><span class="label label-primary">Total:'.$pricing.'</span></h1></center>
-			';
-			$forgest['###USERNAME###']=$reservationsinfo[0]['guest_name'].' '.$reservationsinfo[0]['last_name'];
-			$forgest['###COMPANYLOGO###']=base_url().'uploads/logo/'.$admin_detail->site_logo;
-			$forgest['###SITENAME###']=$admin_detail->company_name;
-			$forgest['###STATUS###']='Reserved';
-			$forgest['###PROPERTYUSER###']=$hotelinformation['property_name'];
-			$forgest['###CONFIRMRESERVATION###']=$html;
-			$forgest['###SITELINK###']=base_url();
-			$forgest['###RESERLINK###']='#';
-			$email=$reservationsinfo[0]['email'];
+			
+			$TEMPLATEH    =  $this->db->query("select * from TemplateHotel where TemplateTypeId=2 and HotelId=".$resinfo[0]['hotel_id'])->row_array();
 
-			$guestmessage=strtr($guestinfo['message'],$forgest);
+            $TEMPLATEG    =  $this->db->query("select * from TemplateHotel where TemplateTypeId=1 and HotelId=".$resinfo[0]['hotel_id'])->row_array();
 
+            $variable['###CHECKIN###']=$resinfo[0]['CHECKIN'];
+            $variable['###CHECKOUT###']=$resinfo[0]['CHECKOUT'];;
+            $variable['###FIRSTNAME###']=$resinfo[0]['guest_name'];;
+            $variable['###LASTNAME###']=$resinfo[0]['last_name'];;
+            $variable['###ALLGUESTNAME###']=$resinfo[0]['guestname'];;
+            $variable['###HOTELNAME###']=$hotelinfo['property_name'];
+            $variable['###NUMBERROOM###']=count($resinfo);
+            $variable['###HOTELLOGO###']=base_url().(strlen($hotelinfo['Logo'])<5?"uploads/room_photos/noimage.jpg":$hotelinfo['Logo']);
+            $variable['###LINKRESERVATION###']='';//numeros id y hotel encriptado
+            
+			$GuestEmail=$resinfo[0]['email'];
+			$HotelEmail=$hotelinfo['email_address'];
+
+			if($sendguest==1 && count($TEMPLATEG)>0 && strlen($GuestEmail)>5 )
+			{
+				$GuestMessage=strtr($TEMPLATEG['Message'],$variable);
+				$GuestSubject=strtr($TEMPLATEG['Subject'],$variable);
+				$this->mailsettings();
+				$this->email->from($admin_detail->email_id);
+	            $this->email->to($GuestEmail);
+	            $this->email->subject($GuestSubject);
+	            $this->email->message($GuestMessage);
+	            $this->email->send();
+			}
+			
+			if(count($TEMPLATEH)>0 && strlen($HotelEmail)>5 )
+			{
+				$HotelMessage=strtr($TEMPLATEH['Message'],$variable);
+				$HotelSubject=strtr($TEMPLATEH['Subject'],$variable);
+				$this->mailsettings();
+				$this->email->from($admin_detail->email_id);
+	            $this->email->to($HotelEmail);
+	            $this->email->subject($HotelSubject);
+	            $this->email->message($HotelMessage);
+	            $this->email->send();
+			}
 			
 
-			$subject1 = array(
-                    '###SITENAME###'=>$admin_detail->company_name,
-                    '{RESERVATIONCODE}'=>$number,
-                );
-
-			$guestsubject = strtr($guestinfo['subject'],$subject1);
-
-			$this->mailsettings();
-			$this->email->from($admin_detail->email_id);
-
-            $this->email->to($email);
-
-            $this->email->subject($guestsubject);
-
-            $this->email->message($guestmessage);
-
-            $this->email->send();
+			
            
 
 			

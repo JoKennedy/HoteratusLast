@@ -359,7 +359,7 @@ class scraping extends Front_Controller {
   	}
     public function clearscraping()
     {
-       $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >1440 and HotelScrapingInfoId <>0");
+       $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >240 and HotelScrapingInfoId <>0");
     }
 	public function ScrapingBooking($start)
 	{

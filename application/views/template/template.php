@@ -81,7 +81,7 @@
 
                                 		echo '<option value="0" >Select a Template Type</option>';
                                 		foreach ($TemplatesType as  $value) {
-                                			echo '<option value="'.$value['TemplateTypeId'].'" >'.$value['Name'].'</option>';
+                                			echo '<option value="'.insep_encode($value['TemplateTypeId']).'" >'.$value['Name'].'</option>';
                                 		}
                                 	}
                                     else
@@ -108,5 +108,10 @@ function Showtemplate(templateid)
 {	 
 	showWait('Loading Page');
 	window.location.href ="<?php echo lang_url(); ?>template/edittemplate/"+templateid;
+}
+function CreateTemplate(templateid)
+{	 
+	showWait('Loading Page');
+	window.location.href ="<?php echo lang_url(); ?>template/edittemplate/"+$("#TemplateTypeId").val();
 }
 </script>

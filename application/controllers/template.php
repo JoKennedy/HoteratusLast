@@ -41,11 +41,28 @@ class template extends Front_Controller
 		FROM TemplateType a
 		left join TemplateHotel b on a.TemplateTypeId=b.TemplateTypeId and b.hotelid=".hotel_id()."
 		where a.active=1 and a.TemplateTypeId=".$TemplateTypeId." limit 1")->row_array();
+		$data['Variables']=$this->db->query("select * from Variables where VariableID in (".$data['Templates']['Variable'].")")->result_array();
 		$this->views('template/templateedit',$data);
 	}
 
 	function templatesave()
 	{
+		$exist=$this->db->query("select * from TemplateHotel where TemplateTypeId=".$_POST['TemplateTypeId']." and hotelid=".hotel_id())->result_array();
+
+		
+		$data['Subject']=$_POST['Subject'];
+		$data['Message']=$_POST['Message'];
+		if(count($exist)>0)
+		{
+			update_data('TemplateHotel',$data,array('TemplateTypeId'=>$_POST['TemplateTypeId'],'hotelid'=>hotel_id()));
+		}
+		else
+		{
+			$data['TemplateTypeId']=$_POST['TemplateTypeId'];
+			$data['hotelid']=hotel_id();
+			insert_data('TemplateHotel',$data);
+
+		}
 		
 		redirect('template/admintemplate');
 	}

@@ -214,7 +214,7 @@ class bulkupdate extends Front_Controller
 
 //var_dump($jsoninfo['2018-10-01']['minimum']);
 
-
+		 $rules=$this->db->query("select * from TarifaSugerida")->result_array();
 		/*minimum,occupation,roomavailable,roomid*/
 
 		$this->is_login();
@@ -244,18 +244,48 @@ class bulkupdate extends Front_Controller
 
     				foreach ($date['separate'] as $value) {
     					
-    					  	if($jsoninfo[$value]['mainprice']==0)
+    					  	if($jsoninfo[$value]['mainprice']==0 || $jsoninfo[$value]['roomavailable']==0)
 				              {
 				                $money=0;
 				              }
 				              else if($jsoninfo[$value]['mainprice']<=$jsoninfo[$value]['minimum'])
-				              {
-				                $money=0;
+				              {		
+				              		$per=0;
+					                if($jsoninfo[$value]['avg']==0)
+					                {
+					                  foreach ($rules as  $rule) {
+					                    if(($rule['Min']<=round($jsoninfo[$value]['occupation'],2) && $rule['Max']>=round($jsoninfo[$value]['occupation'],2)) && $rule['Sold']==1)
+					                    {
+					                      $per=$rule['Percentage']/100;
+					                      break;
+					                    }
+					                  }
+
+					                  $money=$jsoninfo[$value]['minimum']+($jsoninfo[$value]['minimum']*$per);
+					    
+					                }
+					                else
+					                {
+					                  $money=0;
+					                }
 				              }
 				              else {
-				                $money=round($jsoninfo[$value]['minimum']-($jsoninfo[$value]['minimum']*0.03), 2);
-				                
-				              }
+
+				                 $per=0;
+					                  foreach ($rules as  $rule) {
+					                    if(($rule['Min']<=round($jsoninfo[$value]['occupation'],2) && $rule['Max']>=round($jsoninfo[$value]['occupation'],2)) && $rule['Sold']==0)
+					                    {
+					                      $per=$rule['Percentage']/100;
+					                      break;
+					                    }
+					                  }
+					                  # TarifaSugeridaId, Min, Max, Percentage, Sold
+					                $money=round($jsoninfo[$value]['minimum']+($jsoninfo[$value]['minimum']*$per),2);
+					                //round($roominfo[$datecurrent]['occupation'],2);
+					                
+					              }
+									                
+				              
 
 				              if($money>0)
 				              {
@@ -274,7 +304,8 @@ class bulkupdate extends Front_Controller
                 }        
         }
                     
-		
+          
+          
 
 		echo('Main Channel Updated');
 		

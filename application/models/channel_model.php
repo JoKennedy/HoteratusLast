@@ -769,7 +769,7 @@ class channel_model extends CI_Model
 
 
 
-		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by property_name ")->result_array();
+		$room=$this->db->query("select * from manage_property where hotel_id = $hotel_id order by `order` ")->result_array();
 
 		$body='<tbody>';
 

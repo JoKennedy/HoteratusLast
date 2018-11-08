@@ -53,7 +53,7 @@
                 AND U.minimum_stay <= $nights AND P.member_count >=$adult 
                 AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
                 AND stop_sell='0' AND P.hotel_id=".$hotel_id."
-                GROUP BY U.room_id ORDER BY U.room_id DESC")->result_array();
+                GROUP BY U.room_id ORDER BY P.`order` ")->result_array();
        
       
 

@@ -87,6 +87,8 @@ class salesmarketing extends Front_Controller {
                 $Info[$date1]['roomavailable']=$roomava[0];
                 $Info[$date1]['occupation']=round((($roomava[1]-$roomava[0])/($roomava[1]==0?1:$roomava[1])),2)*100 ;
                 $Info[$date1]['roomid']=$price['roomid'];
+                $Info[$date1]['avg']=0;
+                $Info[$date1]['counthotel']=0;
                 $mainprice=doubleval(trim(str_replace('$', '',$price['price'])));
             }
             else
@@ -103,6 +105,8 @@ class salesmarketing extends Front_Controller {
                     else if(doubleval(trim(str_replace('$', '',$price['price'])))>0)
                     {
                       $Info[$date1]['minimum']=($Info[$date1]['minimum']<doubleval(trim(str_replace('$', '',$price['price'])))  ?$Info[$date1]['minimum']:doubleval(trim(str_replace('$', '',$price['price'])))) ;
+                      $Info[$date1]['avg']=$Info[$date1]['avg']+doubleval(trim(str_replace('$', '',$price['price'])));
+                      $Info[$date1]['counthotel']= $Info[$date1]['counthotel']+1;
                     }
                 }
               }
@@ -120,7 +124,8 @@ class salesmarketing extends Front_Controller {
 
         $joninfo['html']='';
         $joninfo['json']='';
-
+        $rules=$this->db->query("select * from TarifaSugerida")->result_array();
+      
         $date1=$_POST['yearid'].'-'.$_POST['monthid'].'-01';
         $primerdia = new DateTime($date1);
         $primerdia->modify('first day of this month');
@@ -252,8 +257,12 @@ class salesmarketing extends Front_Controller {
             }
         }
 
+
+
+
+        /////////////Tarifa mas baja
         $precio='<tr>';
-        $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style="width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-warning">Suggested Rate</span></h4></center></td> </tr> ';
+        $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style="width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-warning">Aggressive Approach Suggested Rate</span></h4></center></td> </tr> ';
         $precio.='</tr>';
 
         $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
@@ -263,22 +272,134 @@ class salesmarketing extends Front_Controller {
               {
                 $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$roomnameinfo[0].'</span></h5></td>';
               }
-              if($roominfo[$datecurrent]['mainprice']==0)
-              {
-                $p='<h5><span class="label label-default">SOLD</span></h5>';
+              if($roominfo[$datecurrent]['mainprice']==0 || $roominfo[$datecurrent]['roomavailable']==0)
+              { 
+                if($roominfo[$datecurrent]['roomavailable']==0)
+                {
+                   $p='<h5><span class="label label-default">SOLD</span></h5>';
+                }
+                else
+                {
+                  $p='<h5><span class="label label-danger">CHECK</span></h5>';
+                }
+               
               }
               else if($roominfo[$datecurrent]['mainprice']<=$roominfo[$datecurrent]['minimum'])
               {
-                $p='<h5><span class="label label-success">BEST</span></h5>';
+                $per=0;
+                if($roominfo[$datecurrent]['avg']==0)
+                {
+                  foreach ($rules as  $rule) {
+                    if(($rule['Min']<=round($roominfo[$datecurrent]['occupation'],2) && $rule['Max']>=round($roominfo[$datecurrent]['occupation'],2)) && $rule['Sold']==1)
+                    {
+                      $per=$rule['Percentage']/100;
+                      break;
+                    }
+                  }
+
+                  $p=$roominfo[$datecurrent]['minimum']+($roominfo[$datecurrent]['minimum']*$per);
+                  $p='<h5><span class="label label-success">'.$p.'</span></h5>';
+                }
+                else
+                {
+                  $p='<h5><span class="label label-success">BEST</span></h5>';
+                }
+
               }
               else {
-                $p=$roominfo[$datecurrent]['minimum']-($roominfo[$datecurrent]['minimum']*0.03);
+
+                  $per=0;
+                  foreach ($rules as  $rule) {
+                    if(($rule['Min']<=round($roominfo[$datecurrent]['occupation'],2) && $rule['Max']>=round($roominfo[$datecurrent]['occupation'],2)) && $rule['Sold']==0)
+                    {
+                      $per=$rule['Percentage']/100;
+                      break;
+                    }
+                  }
+                  # TarifaSugeridaId, Min, Max, Percentage, Sold
+                $p=$roominfo[$datecurrent]['minimum']+($roominfo[$datecurrent]['minimum']*$per);
+                //round($roominfo[$datecurrent]['occupation'],2);
                 $p='<h5><span class="label label-warning">'.round($p, 2).'</span></h5>';
               }
+
               $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$p.'</td>';
               $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
           }
+          
           $body .=$precio;
+
+
+          /////////////Trarifa promedio
+
+        $precio='<tr>';
+        $body .='<tr>  <td COLSPAN="'.($ultimodia->format('d')+1).'" style="width:200px; margin: 5px; padding:5px;"><center><h4><span class="label label-warning">Moderate Approach Suggested Rate</span></h4></center></td> </tr> ';
+        $precio.='</tr>';
+
+        $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
+        
+        for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
+              $avg=$roominfo[$datecurrent]['avg']/($roominfo[$date1]['counthotel']==0?1:$roominfo[$date1]['counthotel']);
+              if($i==1  )
+              {
+                $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$roomnameinfo[0].'</span></h5></td>';
+              }
+              if($roominfo[$datecurrent]['mainprice']==0 || $roominfo[$datecurrent]['roomavailable']==0)
+              { 
+                if($roominfo[$datecurrent]['roomavailable']==0)
+                {
+                   $p='<h5><span class="label label-default">SOLD</span></h5>';
+                }
+                else
+                {
+                  $p='<h5><span class="label label-danger">CHECK</span></h5>';
+                }
+               
+              }
+              else if($avg==0 || $roominfo[$datecurrent]['mainprice']<=$avg )
+              {
+                $per=0;
+                if($avg==0)
+                {
+                  foreach ($rules as  $rule) {
+                    if(($rule['Min']<=round($roominfo[$datecurrent]['occupation'],2) && $rule['Max']>=round($roominfo[$datecurrent]['occupation'],2)) && $rule['Sold']==1)
+                    {
+                      $per=$rule['Percentage']/100;
+                      break;
+                    }
+                  }
+
+                  $p=$roominfo[$datecurrent]['mainprice']+($roominfo[$datecurrent]['mainprice']*$per);
+                  $p='<h5><span class="label label-success">'.$p.'</span></h5>';
+                }
+                else
+                {
+                  $p='<h5><span class="label label-success">BEST</span></h5>';
+                }
+
+              }
+              else {
+
+                  $per=0;
+                  foreach ($rules as  $rule) {
+                    if(($rule['Min']<=round($roominfo[$datecurrent]['occupation'],2) && $rule['Max']>=round($roominfo[$datecurrent]['occupation'],2)) && $rule['Sold']==0)
+                    {
+                      $per=$rule['Percentage']/100;
+                      break;
+                    }
+                  }
+                  # TarifaSugeridaId, Min, Max, Percentage, Sold
+                $p=$avg+($avg*($per==0?1:$per));
+                //round($roominfo[$datecurrent]['occupation'],2);
+                $p='<h5><span class="label label-warning">'.round($p, 2).'</span></h5>';
+              }
+
+              $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$p.'</td>';
+              $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
+          }
+          
+          $body .=$precio;
+
+            /////////////////////////
         $body .='</tbody> </table> <center><a onclick="BulkUpdate()" class="btn green"><i class="fas fa-calendar-check"></i><span>Update The Channels with These rates?</span></a></center>';
         $joninfo['html']=  $html.$header1.$header2.$body;
 

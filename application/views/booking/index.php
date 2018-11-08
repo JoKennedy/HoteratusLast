@@ -187,7 +187,7 @@
 
 	<?php 
 
-	$allroom=$this->db->query("select * from manage_property where hotel_id=".$hotel['hotel_id'].' ')->result_array();
+	$allroom=$this->db->query("select * from manage_property where hotel_id=".$hotel['hotel_id'].' order by `order`')->result_array();
 		//
 		
 			foreach ($allroom as  $room) {

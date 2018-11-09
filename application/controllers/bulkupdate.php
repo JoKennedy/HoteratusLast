@@ -197,6 +197,7 @@ class bulkupdate extends Front_Controller
 			                    $rateinfo=array_merge($subroom,$rate);
 
 			                    $result .= $this->bulkupdate_model->savesubRoomInfo($rateinfo);
+			                    return;
 	                		}	
 	                			
 		                }    

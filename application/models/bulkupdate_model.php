@@ -12,22 +12,18 @@ class bulkupdate_model extends CI_Model
 		$hotelid=hotel_id();
 		$ChannelsInfo='';
 		$ChannelsErros='';
+	
 
 		foreach ($room['channelids'] as  $channelid) {
 			if ($channelid==0) {
-
-				foreach ($room['separate'] as  $date) {
-					# code...
-				
-					$info= get_data(TBL_UPDATE,array('individual_channel_id'=>'0','room_id'=>$room['room_id'],'separate_date'=>date('d/m/Y',strtotime($date)),'hotel_id'=>$hotelid))->row_array();
-					//datos de informacion
-					
-				
+					$stringupdate='';
 					if(@$room['availability']!='')
 					{
 						$roominfo['availability'] =$room['availability'];
+						$stringupdate.=(strlen($stringupdate)>0?',':'')."availability=".$room['availability'];
 						if(@$room['availability']=='0')
-						{
+						{	
+							$stringupdate.=(strlen($stringupdate)>0?',':'')."stop_sell=1,open_room=0";
 							$roominfo['stop_sell'] ="1";
 							$roominfo['open_room']='0';
 						}
@@ -35,42 +31,52 @@ class bulkupdate_model extends CI_Model
 					if(@$room['price']!='')
 					{
 						$roominfo['price'] =$room['price'];     
-						$roominfo['PriceRevenue']= $room['price'];                 
+						$roominfo['PriceRevenue']= $room['price'];  
+						$stringupdate.=(strlen($stringupdate)>0?',':'')."price=".$room['price'].",PriceRevenue=".$room['price'];               
 					}
 					if(@$room['minimumstay']!='')
 					{
 						$roominfo['minimum_stay'] =$room['minimumstay'];
+						$stringupdate.=(strlen($stringupdate)>0?',':'')."minimum_stay=".$room['minimumstay'];
 					}
 					if(isset($room['cta'])!='')
 					{
 						$roominfo['cta'] =$room['cta'];
+						$stringupdate.=(strlen($stringupdate)>0?',':'')."cta=".$room['cta'];
 					}
 
 					if(isset($room['ctd'])!='')
 					{
 						$roominfo['ctd'] =$room['ctd'];
+						$stringupdate.=(strlen($stringupdate)>0?',':'')."ctd=".$room['ctd'];
 					}
 
 					if(isset($room['stops'])!='')
 					{
 						$roominfo['stop_sell'] =($room['stops']!=1?'0':'1');
 						$roominfo['open_room'] =($room['stops']==1?'0':'1');
-
+						$stringupdate.=(strlen($stringupdate)>0?',':'')."stop_sell=".($room['stops']!=1?'0':'1').",open_room=".($room['stops']==1?'0':'1');
 						if(@$room['availability']=='0')
 						{
 							$roominfo['stop_sell'] ="1";
 							$roominfo['open_room']='0';
+							$stringupdate.=(strlen($stringupdate)>0?',':'')."stop_sell=1,open_room=0";
 						}
 					}
 
 
+					$this->db->query("update ".TBL_UPDATE." set ".$stringupdate." where room_id=".$room['room_id']." and  (STR_TO_DATE(separate_date ,'%d/%m/%Y') between '".$room['start_date']."' and '".$room['end_date']."')");					
 
-					if(count($info)!=0)
+				$date_exists=$this->db->query("select * from ".TBL_UPDATE." where room_id=".$room['room_id']." and  (STR_TO_DATE(separate_date ,'%d/%m/%Y') between '".$room['start_date']."' and '".$room['end_date']."')")->result_array();
+
+				foreach ($room['separate'] as  $date) {
+
+					
+					$infoid= array_search(date('d/m/Y',strtotime($date)), array_column($date_exists, 'separate_date'));
+
+					if($infoid===false)
 					{ 
-						update_data(TBL_UPDATE,$roominfo,array("hotel_id"=>$hotelid,"individual_channel_id"=>0,"separate_date"=>date('d/m/Y',strtotime($date)),'room_id'=>$room['room_id']));
-					}
-					else
-					{   
+						
 						$roominfo['separate_date'] = date('d/m/Y',strtotime($date));
 						$roominfo['trigger_cal'] = 0;
 						$roominfo['room_id'] =$room['room_id'];
@@ -79,6 +85,7 @@ class bulkupdate_model extends CI_Model
 						$roominfo['individual_channel_id']= '0';
 						insert_data(TBL_UPDATE, $roominfo);
 					}
+				
 
                 }
 

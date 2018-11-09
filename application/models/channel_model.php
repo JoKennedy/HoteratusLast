@@ -806,20 +806,13 @@ class channel_model extends CI_Model
 			 for ($i=0; $i <=30 ; $i++) {
 		 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 
-			 		foreach ($datos as $value) {
 
-
-			 			if(date('Y-m-d',strtotime($value['datereal']))==date('Y-m-d',strtotime($datereal)))
-			 			{
-			 				$dato=$value;
-			 				break;
-			 			}
-			 			else
-			 			{
-			 				$dato=null;
-			 			}
-
-			 		}
+		 			$dato=null;
+		 			$idfound=array_search(date('Y-m-d',strtotime($datereal)), array_column($datos,'datereal'));
+		 			if(!$idfound===false)
+		 			{
+		 				$dato=$datos[$idfound];
+		 			}
 
 
 				$Editprices=(isset($dato['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" " data-title="Change Price">'.floatval($dato['price']).'</a>':'Null');
@@ -868,20 +861,12 @@ class channel_model extends CI_Model
 				 for ($i=0; $i <=30 ; $i++) {
 			 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 
-				 		foreach ($datosr as $valuer) {
-
-
-				 			if(date('Y-m-d',strtotime($valuer['datereal']))==date('Y-m-d',strtotime($datereal)))
-				 			{
-				 				$dator=$valuer;
-				 				break;
-				 			}
-				 			else
-				 			{
-				 				$dator=null;
-				 			}
-
-				 		}
+		 			$dator=null;
+		 			$idfoundr=array_search(date('Y-m-d',strtotime($datereal)), array_column($datosr,'datereal'));
+		 			if(!$idfoundr===false)
+		 			{
+		 				$dator=$datosr[$idfoundr];
+		 			}
 
 				 	$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
 				 	$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');

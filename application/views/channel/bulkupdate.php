@@ -33,8 +33,8 @@
                                      <table>
                                         <tbody>
                                         <tr>
-                                        <td><input class="channelid" type="checkbox" name="channelid[]" id="channelid" value="'.$channel['channel_id'].'" checked ></td>
-                                        <td><label>&nbsp '.$channel['channel_name'].'</label></td>
+                                        <td><input class="channelid" type="checkbox" name="channelid[]" id="channelid'.$channel['channel_id'].'" value="'.$channel['channel_id'].'" checked ></td>
+                                        <td><label for="channelid'.$channel['channel_id'].'">&nbsp '.$channel['channel_name'].'</label></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -474,15 +474,19 @@ if(falta==1)return;
         url: "<?php echo lang_url(); ?>bulkupdate/bulkUpdateProcess",
         data: data,
         beforeSend: function() {
-           
+           showWait("Updating the calendar and Channels <br> Please Wait");
+            setTimeout(function() { unShowWait(); }, 1000000);
+        },
+        success:function(m)
+        {
             $("#mensagesincro").css("display","");
             swal({
                 title: "Proccess",
-                text: "Update sent, when the update is completed a message will be displayed at the top of the page!",
-                icon: "info",
+                text: "All Channels Selected were updated!!",
+                icon: "success",
                 button: "Ok!",
             });
-        },
+        }
         
     });
 

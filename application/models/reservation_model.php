@@ -817,9 +817,19 @@ class Reservation_model extends CI_Model
         $LogoReservation=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
         $alllogo=array();
         $hoteratus=array();
-   
+        $checkinout="";
 
-       
+
+        if($status!=5 && $status!=6) 
+        {
+            $checkinout="and ( (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') or (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
+        }
+        elseif ($status==5) {
+            $checkinout="and ( (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
+        }
+        elseif ($status==6) {
+           $checkinout="and ( (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
+        }
 
         if (strlen($channels)==0 || $channels==0 ) {
             
@@ -829,8 +839,8 @@ class Reservation_model extends CI_Model
                 b.property_name roomName, taxes
             FROM manage_reservation a        
             left join manage_property b on a.room_id = b.property_id     
-            where a.hotel_id=$hotelid and a.channel_id=0 and (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') ".(strlen($status)==0?'':$sta)." order by a.created_date desc")->result_array());
-          
+            where a.hotel_id=$hotelid and a.channel_id=0   $checkinout ".(strlen($status)==0?'':$sta)." order by a.created_date desc")->result_array());
+
             
          }
 
@@ -891,7 +901,100 @@ class Reservation_model extends CI_Model
         return $re;
 
     }
+      function AllReservationListReport($date1,$date2,$channels,$status,$t='')
+    {
+        $result=array();
+        $hotelid=hotel_id();
+        $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
+        $LogoReservation=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
+        $alllogo=array();
+        $hoteratus=array();
+        $checkinout="";
+        
+        
+        if(($status!=5 && $status!=6) && $t=='') 
+        {
+            $checkinout="and ( (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') or (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
+        }
+        elseif ($status==5 || $t=='arrivals') {
+            $checkinout="and ( (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
+        }
+        elseif ($status==6 || $t=='depature') {
+           $checkinout="and ( (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
+        }
 
+        
+
+        if (strlen($channels)==0 || $channels==0 ) {
+            
+            $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in ($status) ";
+
+            $hoteratus=$this->addtaxesprice($this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
+                b.property_name roomName, taxes
+            FROM manage_reservation a        
+            left join manage_property b on a.room_id = b.property_id     
+            where a.hotel_id=$hotelid and a.channel_id=0   $checkinout ".(strlen($status)==0?'':$sta)." order by a.created_date desc")->result_array());
+
+            
+         }
+
+        $allchannel=$this->db->query("select  a.channel_id,channel_name from user_connect_channel a
+                                        left join manage_channel b on a.channel_id=b.channel_id where a.hotel_id =$hotelid ".(strlen($channels)==0?'':' and a.channel_id='.$channels)." order by channel_id ")->result_array();
+
+        if( count($hoteratus)>0)
+        {   
+            $alllogo['LogoReservation0'] = $LogoReservation ;
+            $result= array_merge($result,$hoteratus);
+        }
+
+        if (count($allchannel)>0) {
+          foreach ($allchannel as  $value) {
+              $canalid=$value['channel_id'];
+              if ($canalid==1) {
+                
+                $this->load->model('expedia_model');
+                $expedia=$this->expedia_model->ReservationList($hotelid,$date1,$date2,$status);
+                 if(count($expedia)>0)
+                 {
+                    $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
+                     $result= array_merge($result,$expedia);
+                 }
+              }
+              elseif ($canalid==2) {
+                 $booking=$this->booking_model->ReservationList($hotelid,$date1,$date2,$status);
+                 if(count($booking)>0)
+                 {
+                    $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
+                     $result= array_merge($result,$booking);
+                 }
+              }
+              elseif ($canalid==9) {
+                 $this->load->model('airbnb_model');
+                $airbnb=$this->airbnb_model->ReservationList($hotelid,$date1,$date2,$status);
+                 if(count($airbnb)>0)
+                 {
+                    $alllogo['LogoReservation'.$canalid]=base64_encode(file_get_contents("uploads/channels/".get_data('manage_channel',array('channel_id'=>$canalid))->row()->logo_book));
+                     $result= array_merge($result,$airbnb);
+                 }
+              }
+          }
+        }
+
+
+          if(count($result)>0)
+            {
+
+                uasort($result,function($a,$b)
+                {
+                    return strtotime($a['start_date'])<strtotime($b['start_date'])?1:-1;
+                });
+            }
+
+        $re['info']=$result;
+        $re['logo']=$alllogo;
+        return $re;
+
+    }
     function get_room_list($channel_name='')
     {
 

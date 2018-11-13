@@ -8920,61 +8920,6 @@ function save_reservation()
 
 
 
-	/*  Start testing */
-	function test(){
-
-	$array = str_split("123456", 1);
-	if($array)
-	{
-		$total=0;
-		foreach($array as $value)
-		{
-			$total = $total+$value;
-		}
-		echo $total;
-	}
-	echo '<pre>';
-	print_r($array);
-	die;
-	/* if not exists (select * from information_schema.columns where Id = 'Id' and import_mapping_GTA = 'Id') then alter table import_mapping_GTA add Id int(1) null;
-	end if */
-
-	$this->db->query("if not exists (select * from INFORMATION_SCHEMA.COLUMNS
-      where table_name = 'import_mapping_GTA' and column_name = 'Id') then
-    alter table `import_mapping_GTA` add column `Id` int(1) null end if");
-
-	//$this->db->query("ALTER TABLE `import_mapping_GTA` CHANGE `ID` `Id` int(11)");
-
-	//ALTER TABLE `import_mapping_GTA` CHANGE `ID` `Id` int(11);
-
-			/* // if($this->input->post('continue')){
-				// $this->session->set_userdata('premiumpro_useremail',$this->input->post('email'));
-					$this->load->library('paypal');
-					$invoiceId = mt_rand(11111111,999999999);
-					//$admin = $this->home_model->get_siteconfig();
-					$itemname = "welcome";
-					$admin_paypal  = 'anitha_osiz@osiztechnologies.com';
-					$paypal_mode  = 'sandbox';
-					$paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-					/* if($paypal_mode=='0'){
-						$pay_mode = 'false';
-						$paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-					} else {
-						$pay_mode = 'false';
-						$paypal_url = 'https://www.paypal.com/cgi-bin/webscr';
-					}
-					$unitPrice = '1000';
-					$unitQty = 1; $discount = ''; $shippingPrice ='';
-					$email = $admin_paypal;
-					$notifyurl = $returnpath = base_url().'reservation/payment_list';
-					$currency = 'USD';
-					$aa = $this->paypal->paypal_make_payment($invoiceId,$unitPrice, $itemname, $email, $notifyurl, $currency ,$returnpath, 'false');
-					// print_r($aa);die;
-					$this->session->set_userdata('sessioncomplete','1');
-				    $this->load->view('reservation/payment_list'); */
-					/*$query = $this->db->query("select * from manage_reservation order_by reservation_id desc");*/
-					}
-
 
  function save_carddetails(){
     	$save=$this->reservation_model->save_card();

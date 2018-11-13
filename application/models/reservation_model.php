@@ -318,9 +318,10 @@ class Reservation_model extends CI_Model
             $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
             $data['LogoReservation']=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
             
-            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname, taxes
+            $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname, taxes, c.Name agencyname, case c.CommissionType when 2 then (a.price * (c.CommissionValue/100)) when 1 then c.CommissionValue else 0 end comissionmoney
                 from manage_reservation a
                 left join country b on a.country=b.id
+                left join agencies c on a.sourceid=c.AgencyId
                 where reservation_id = $reservationId and hotel_id=$hotelid ")->row_array();
 
             $currency= $this->db->query("select currency_code from currency where currency_id = ".$result['currency_id'])->row_array();            
@@ -372,7 +373,7 @@ class Reservation_model extends CI_Model
             $data['countryid']=$result['country'];
             $data['zipCode']=$result['zipcode'];
             $data['notes']=$result['description'];
-            $data['commision']=0.00;
+            $data['commision']=$currency['currency_code'].' '.number_format(($result['comissionmoney']), 2, '.', '');
             $data['discount']=0.00;
             $data['channelRoomName']='';
             $data['mealsInclude']='';
@@ -386,6 +387,7 @@ class Reservation_model extends CI_Model
             $data['allguest']=$result['guestname'];
             $data['bookeddate']=$result['created_date'];
             $data['taxes']=$result['taxes'];
+            $data['agencyname']=$result['agencyname'];
             $taxtotal=0;
             $taxP=0;
             if (isset($result['taxes']) && strlen($result['taxes'])>2) {
@@ -6653,8 +6655,8 @@ METHOD:PUBLISH";
         $data = get_data("import_reservation_EXPEDIA", array('user_id' => $user_id,'hotel_id' => $hotel_id,'booking_id' => $id))->row_array();
         if($channel_data){
 
-
-              if($data['type'] == "Book"){
+            $status='';
+            if($data['type'] == "Book"){
                 $status = "New Booking";
             }else if($data['type'] == "Modify"){
                 $status = "Modified";
@@ -6664,7 +6666,7 @@ METHOD:PUBLISH";
 
             $get_email_info     =   get_mail_template('20');
 
-            $email_subject1= $status + ' ' + $get_email_info['subject'];
+            $email_subject1= $status.' '.$get_email_info['subject'];
 
             $email_content1= $get_email_info['message'];
 

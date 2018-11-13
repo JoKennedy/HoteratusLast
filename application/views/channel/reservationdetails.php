@@ -135,10 +135,16 @@
                                     </div>
                                 </div>
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">Additional Channel Details</div>
+                                    <div class="panel-heading">Additional Agency Details</div>
                                     <div class="panel-body">
                                         <div class="about-info-p m-b-0">
-                                            <strong>COMMISSION</strong>
+                                            <strong>Agency Name</strong>
+                                            <p class="text-muted">
+                                                <?=isset($agencyname)?$agencyname:''?>
+                                            </p>
+                                        </div>
+                                        <div class="about-info-p m-b-0">
+                                            <strong>Commission</strong>
                                             <p class="text-muted">
                                                 <?=$commision?>
                                             </p>

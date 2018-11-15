@@ -37,6 +37,7 @@ class Booking extends Front_Controller {
 	function roomsinformation(){
 
         if($_POST['hotel_id'] == ""){
+            var_dump($_POST['hotel_id']);
             $this->load->view('admin/404');
             return;
         }
@@ -45,6 +46,7 @@ class Booking extends Front_Controller {
 
         $hotel_id = insep_decode($_POST["hotel_id"]);
         $data['booking'] = get_data('booking_engine',array('hotel_id'=>$hotel_id))->row_array();
+
         if(count($data['booking'] )==0)
         {
               $this->load->view('admin/404');

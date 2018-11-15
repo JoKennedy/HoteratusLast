@@ -131,7 +131,7 @@
 								echo '<select name="num_rooms" class="form-control">';
 									
 									   $qry = $this->db->query("SELECT max(existing_room_count) as roommax , max(member_count) as membermax, max(children) as childrenmax
-                            FROM `manage_property` WHERE  `hotel_id`='".$widget['hotel_id']."'")->result_array();
+                            FROM `manage_property` WHERE  `hotel_id`='".$hotel['hotel_id']."'")->result_array();
                         $roommax=$qry[0]['roommax'];
                         $membermax=$qry[0]['membermax'];
                         $childrenmax=$qry[0]['childrenmax'];
@@ -156,7 +156,7 @@
 								
 								echo '<select name="num_person" class="form-control">';
 									
-									   $qry1 = $this->db->query("SELECT max(member_count) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$widget['hotel_id']."'");
+									   $qry1 = $this->db->query("SELECT max(member_count) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$hotel['hotel_id']."'");
 									      $res1 = $qry1->result_array();
 									      $numAdult = $res1[0]['maxNumber'];
 									      for ($i=1; $i<=$numAdult; $i++) { 
@@ -184,7 +184,7 @@
 								echo '<label for="num_child">'.$this->lang->line('numberchildren').'</label>';
 								echo '<select name="num_child" class="form-control">';
 								echo '<option value="0">'.$this->lang->line('nochildren').'</option>';
-									 $qry1 = $this->db->query("SELECT max(children) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$widget['hotel_id']."'");
+									 $qry1 = $this->db->query("SELECT max(children) as maxNumber FROM `manage_property` WHERE  `hotel_id`='".$hotel['hotel_id']."'");
 								      $res1 = $qry1->result_array();
 								      $numChild = $res1[0]['maxNumber'];
 								      for ($i=1; $i<=$numChild; $i++) { 
@@ -222,7 +222,7 @@
                                
 				<div class="<?= $layout ?>">
 					
-					<input type="hidden" name="hotel_id" value="<?= $hotel_id; ?>">
+					<input type="hidden" name="hotel_id" value="<?=insep_encode($hotel['hotel_id'])?>">
 					<input type="submit" value="<?=$this->lang->line('search')?>" class="btn btn-<?= $theme; ?>">	
 				</div>
 			</form>				

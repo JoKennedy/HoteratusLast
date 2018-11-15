@@ -16,7 +16,17 @@ class salesmarketing extends Front_Controller {
 
         //load base libraries, helpers and models
 
-    
+
+    }
+    public function deletemapping()
+    {
+      $this->db->query("delete from HotelOutRoomMapping where HotelOutRoomMappingId=".$_POST['id']);
+      echo json_encode( array('success' => true ));
+    }
+    public function deletemappinglocal()
+    {
+      $this->db->query("delete from HotelOutRoomMappingLocal where HotelOutRoomMappingLocalid=".$_POST['id']);
+      echo json_encode( array('success' => true ));
     }
     public function competitiveset()
     {
@@ -73,8 +83,8 @@ class salesmarketing extends Front_Controller {
                 $price=$this->db->query("select `price_room_channel`(trim('$roomname[0]'),'$date1',".$hotel['HotelsOutId'].",'".$roomname[1]."') price,
                    `room_available` (RoomID,'".date('d/m/Y',strtotime($date1))."',a.HotelId) roomavailable, RoomID roomid
                    from HotelOutRoomMappingLocal a
-                  where 
-                  a.HotelId=".hotel_id()." 
+                  where
+                  a.HotelId=".hotel_id()."
                   and trim(a.RoomNameLocal) =trim('$roomname[0]')
                   and trim(a.MaxPleopleLocal) =trim('$roomname[1]')
                   and a.ChannelId=2
@@ -125,7 +135,7 @@ class salesmarketing extends Front_Controller {
         $joninfo['html']='';
         $joninfo['json']='';
         $rules=$this->db->query("select * from TarifaSugerida")->result_array();
-      
+
         $date1=$_POST['yearid'].'-'.$_POST['monthid'].'-01';
         $primerdia = new DateTime($date1);
         $primerdia->modify('first day of this month');
@@ -201,11 +211,11 @@ class salesmarketing extends Front_Controller {
                   }
 
                   $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.(is_numeric($priceinfo)?round($priceinfo,2):$priceinfo).'</td>';
-              
+
                     $ava.='<td bgcolor="'.($i%2?'#b3f5a4':'#4aaa34').'"  style="font-size: 10px; text-align:center;" >'.$roominfo[$datecurrent]['roomavailable'].'</td>';
                   $ocupan.='<td bgcolor="'.($i%2?'#f2f58d':'#bec246').'"  style="font-size: 10px; text-align:center;" >'.round($roominfo[$datecurrent]['occupation'],2).'%</td>';
-                  
-                  
+
+
                   $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
                 }
 
@@ -273,7 +283,7 @@ class salesmarketing extends Front_Controller {
                 $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$roomnameinfo[0].'</span></h5></td>';
               }
               if($roominfo[$datecurrent]['mainprice']==0 || $roominfo[$datecurrent]['roomavailable']==0)
-              { 
+              {
                 if($roominfo[$datecurrent]['roomavailable']==0)
                 {
                    $p='<h5><span class="label label-default">SOLD</span></h5>';
@@ -282,7 +292,7 @@ class salesmarketing extends Front_Controller {
                 {
                   $p='<h5><span class="label label-danger">CHECK</span></h5>';
                 }
-               
+
               }
               else if($roominfo[$datecurrent]['mainprice']<=$roominfo[$datecurrent]['minimum'])
               {
@@ -325,7 +335,7 @@ class salesmarketing extends Front_Controller {
               $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$p.'</td>';
               $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
           }
-          
+
           $body .=$precio;
 
 
@@ -336,7 +346,7 @@ class salesmarketing extends Front_Controller {
         $precio.='</tr>';
 
         $datecurrent=date('Y-m-d',strtotime($date1."+0 days"));
-        
+
         for ($i=1; $i <=$ultimodia->format('d') ; $i++) {
               $avg=$roominfo[$datecurrent]['avg']/($roominfo[$date1]['counthotel']==0?1:$roominfo[$date1]['counthotel']);
               if($i==1  )
@@ -344,7 +354,7 @@ class salesmarketing extends Front_Controller {
                 $precio.='<td bgcolor="'.(($i-1)%2?'#FBFCFC':'#E5E7E9').'"  style=" font-size: 10px; text-align:center;" > <h5><span class="label label-info"> '.$roomnameinfo[0].'</span></h5></td>';
               }
               if($roominfo[$datecurrent]['mainprice']==0 || $roominfo[$datecurrent]['roomavailable']==0)
-              { 
+              {
                 if($roominfo[$datecurrent]['roomavailable']==0)
                 {
                    $p='<h5><span class="label label-default">SOLD</span></h5>';
@@ -353,7 +363,7 @@ class salesmarketing extends Front_Controller {
                 {
                   $p='<h5><span class="label label-danger">CHECK</span></h5>';
                 }
-               
+
               }
               else if($avg==0 || $roominfo[$datecurrent]['mainprice']<=$avg )
               {
@@ -396,7 +406,7 @@ class salesmarketing extends Front_Controller {
               $precio.='<td bgcolor="'.($i%2?'#FBFCFC':'#E5E7E9').'"  style="font-size: 10px; text-align:center;" >'.$p.'</td>';
               $datecurrent=date('Y-m-d',strtotime($date1."+$i days"));
           }
-          
+
           $body .=$precio;
 
             /////////////////////////
@@ -455,7 +465,7 @@ class salesmarketing extends Front_Controller {
     }
      public function savemapinglocal()
     {
-      
+
       $map=explode(',', $_POST['pk']);
       $value=$_POST['value'];
       $RoomLocalName=$map[0];

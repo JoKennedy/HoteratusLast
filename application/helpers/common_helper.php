@@ -1,11 +1,16 @@
-<?php  
+<?php
 /* helper for common functions */
 
 function is_login()
-{ 
+{
     if(!user_id())
     redirect(base_url());
     return;
+}
+function infolang($tag)
+{
+  $ci =& get_instance();
+  return $ci->lang->line($tag);
 }
 function count_post_categories($id)
 {
@@ -53,7 +58,7 @@ function getDatespecificas($start, $end, $weekday)
         {
             $weekday = @$arr_weekdays[$weekdays];
             if(!$weekday){echo 'noin';}
-          
+
 
             $starts= strtotime("+0 day", strtotime($start) );
             $ends= strtotime($end);
@@ -70,7 +75,7 @@ function getDatespecificas($start, $end, $weekday)
             }
             //$dateArr[] = date("Y-m-d", $friday);
         }
-        
+
 
         uasort($dateArr,function($a,$b)
                 {
@@ -82,14 +87,14 @@ function getDatespecificas($start, $end, $weekday)
         $i=0;
         $i2=0;
         $datea='';
-        
+
         foreach ($dateArr as  $value) {
-        	
+
         	if($i2==0)$rangos[$i]['startdate']=$value;
 
         	$i2=1;
         	$dif=date_diff(date_create($value), date_create($start) )->format('%d');
-        
+
         	if($dif-$oldif>1)
         	{
         		$rangos[$i]['enddate']=$datea;
@@ -124,7 +129,7 @@ function getseparate($start, $end, $weekday)
         {
             $weekday = @$arr_weekdays[$weekdays];
             if(!$weekday){echo 'noin';}
-          
+
 
             $starts= strtotime("+0 day", strtotime($start) );
             $ends= strtotime($end);
@@ -141,7 +146,7 @@ function getseparate($start, $end, $weekday)
             }
             //$dateArr[] = date("Y-m-d", $friday);
         }
-        
+
 
         uasort($dateArr,function($a,$b)
                 {
@@ -223,7 +228,7 @@ function mail_attachment($to, $subject, $message){
 
 	$attachment = chunk_split(base64_encode($message));
 
-	$boundary =	md5(date('r', time())); 
+	$boundary =	md5(date('r', time()));
 
 	$headers = "From: noreply@hoteratus.com\r\nReply-To: noreply@hoteratus.com";
 	$headers .= "\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"_1_$boundary\"";
@@ -241,12 +246,12 @@ $subject $message
 
 --_2_$boundary--
 --_1_$boundary
-Content-Type: application/octet-stream; name=\"$filename\" 
-Content-Transfer-Encoding: base64 
-Content-Disposition: attachment 
+Content-Type: application/octet-stream; name=\"$filename\"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment
 
 $attachment
---_1_$boundary--";       
+--_1_$boundary--";
 
 	if(mail($to, $subject, $subject, $headers)) {
 		echo "success";
@@ -282,7 +287,7 @@ function get_location($ip=NULL)
 	}
 	else
 	return false;
-	
+
 }
 function getpost($key="")
 {	$ci =& get_instance();
@@ -504,7 +509,7 @@ function all_reservation_count($type,$bdate,$user_hotel_id)
 	$ci->db->join(CONNECT.' as C','A.channel_id=C.channel_id');
 	$ci->db->where(array('C.user_id'=>user_id(),'C.hotel_id'=>hotel_id()));
 	$query = $ci->db->get(ALL.' as A');
-	
+
 	if($query)
 	{
 		$all_api_new_book = $query->result_array();
@@ -535,13 +540,13 @@ function all_reservation_count($type,$bdate,$user_hotel_id)
 			}
 			elseif($channel_id==11)
 			{
-				$where = $select[12];	
+				$where = $select[12];
 			}
 			elseif($channel_id==2)
 			{
-				$where = 'modified_at';	
+				$where = 'modified_at';
 			}
-			
+
 			$chaReserCheckCount = $ci->db->select($select[0])->from($channel_table_name)->where(array('STR_TO_DATE('.$where.',"%Y-%m-%d")'=>$bdate,$select[2]=>$select[13],$select[17]=>hotel_id()))->count_all_results();
 			$total_reser_count =$total_reser_count+$chaReserCheckCount;
 		}
@@ -637,7 +642,7 @@ function all_reservation_result($type,$bdate,$user_id="",$hotelid="")
 			{
 				$guest	=	$select[3];
 			}
-			
+
 			if($type=='cancel')
 			{
 				if($channel_id!=11 && $channel_id!=2)
@@ -646,23 +651,23 @@ function all_reservation_result($type,$bdate,$user_id="",$hotelid="")
 				}
 				elseif($channel_id==11)
 				{
-					$where_field = $select[12];	
+					$where_field = $select[12];
 				}
 				elseif($channel_id==2)
 				{
-					$where_field = 'modified_at';	
+					$where_field = 'modified_at';
 				}
 				$cahquery = $ci->db->query('SELECT `'.$select[0].'` as reservation_id, DATE_FORMAT('.$select[5].',"%d/%m/%Y") as start_date, DATE_FORMAT('.$select[6].',"%d/%m/%Y") as end_date ,channel_id , '.$select[1].' as booking_date, '.$select[12].' as modified_date, '.$select[10].' , '.$guest.' as guest_name , '.$select[7].' as reservation_code, DATEDIFF('.$select[6].','.$select[5].') AS num_nights , '.$select[9].' as price , '.$select[4].' ,'.$select[2].'  as status , '.$select[8].' as CURRENCY , '.$select[11].' as roomtypeId , '.$select[12].' as rateplanid , '.$select[15].' FROM ('.$channel_table_name.') WHERE `user_id` = "'.$user_id.'" AND '.$select[2].' = "'.$select[13].'" AND '.$hotel_id.' = "'.$hotelid.'" AND STR_TO_DATE('.$where_field.',"%Y-%m-%d")= "'.$bdate.'" '.$bk_details.' ORDER BY '.$select[0].'');
 			}
 			else
 			{
 				$cahquery = $ci->db->query('SELECT `'.$select[0].'` as reservation_id, DATE_FORMAT('.$select[5].',"%d/%m/%Y") as start_date, DATE_FORMAT('.$select[6].',"%d/%m/%Y") as end_date ,channel_id , '.$select[1].' as booking_date, '.$select[10].' , '.$guest.' as guest_name , '.$select[7].' as reservation_code, DATEDIFF('.$select[6].','.$select[5].') AS num_nights , '.$select[9].' as price , '.$select[4].' ,'.$select[2].'  as status , '.$select[8].' as CURRENCY , '.$select[11].' as roomtypeId , '.$select[12].' as rateplanid , '.$select[15].' FROM ('.$channel_table_name.') WHERE `user_id` = "'.$user_id.'" AND '.$select[2].' '.$status_check.'= "'.$status.'" AND '.$hotel_id.' = "'.$hotelid.'" AND STR_TO_DATE('.$where_field.',"%Y-%m-%d")= "'.$bdate.'" '.$bk_details.' ORDER BY '.$select[0].'');
-				
-			}
-			
 
-			
-			
+			}
+
+
+
+
 			if($cahquery)
 			{
 				$chaReserCheckCount = array_merge($chaReserCheckCount,$cahquery->result());
@@ -710,7 +715,7 @@ function all_ical_count($check_date)
 
 	$manual=$ci->db->query('SELECT * FROM '.RESERVATION.' WHERE DATE_FORMAT(`start_date`,"%Y-%m-%d") <= "'.$check_date.'" AND DATE_FORMAT(`end_date`,"%Y-%m-%d") >= "'.$check_date.'" AND DATE_FORMAT(`end_date`,"%Y-%m-%d") !="'.$check_date.'"');
     $manaul_count =  $manual->num_rows();
-	
+
 	$ci->db->select('A.auto_id,A.channel_id,A.channel_table_name,A.import_mapping_table,A.fetch_query_count,A.fetch_query_all,A.ical_query,A.reports_query,C.xml_type,C.hotel_channel_id');
 	$ci->db->join(CONNECT.' as C','A.channel_id=C.channel_id');
 	$ci->db->where(array('C.user_id'=>user_id(),'C.hotel_id'=>hotel_id()));
@@ -744,7 +749,7 @@ function all_room_count()
 	$total_room_count = 0;
 	foreach($all_api_new_book as $table_field)
 	{
-		extract($table_field); 
+		extract($table_field);
 		$select = explode(',',$fetch_query_all);
 		$chaRommCheckCount = $ci->db->select($select[0])->from($import_mapping_table)->where(array('hotel_id'=>hotel_id()))->count_all_results();
 		$total_room_count  = $total_room_count+$chaRommCheckCount;
@@ -789,7 +794,7 @@ function all_api_price($check_date,$section,$type,$channels='')
 	{
 		$total_price_count=array();
 	}
-	
+
 	foreach($all_api_new_book as $table_field)
 	{
 		extract($table_field);
@@ -908,7 +913,7 @@ function all_api_price($check_date,$section,$type,$channels='')
 				$total_price_count = array_merge($total_price_count,$det->result_array());
 			}
 		}
-			
+
 	}
 	return $total_price_count;
 }
@@ -1016,12 +1021,12 @@ function user_membership($status)
 	{
 		$chk_status = $status;
 	}
-	
+
 	if($chk_status != 2){
 		$det=$ci->db->query('SELECT * FROM (`'.MEMBERSHIP.'`) WHERE `plan_status` = "'.$chk_status.'" AND `user_id`='.current_user_type().' AND `hotel_id`='.hotel_id().' AND `plan_to` >=CURDATE() ORDER BY user_buy_id DESC' );
 	}else{
 		$det=$ci->db->query('SELECT * FROM (`'.MEMBERSHIP.'`) WHERE `plan_status` = "'.$chk_status.'" AND `user_id`='.current_user_type().' AND `hotel_id`='.hotel_id().' ORDER BY user_buy_id DESC' );
-	
+
 	}
 	if($status==1 || $status==2 || $status==5)
 	{
@@ -1048,7 +1053,7 @@ function get_all_channels_available()
 
 function check_plan($plan_id='',$type='')
 {
-	if($plan_id!='' && $type!='')   
+	if($plan_id!='' && $type!='')
 	{
 			$plan_details = get_data(TBL_PLAN,array('plan_id'=>$plan_id,'status'=>1))->row_array();
 			if(count($plan_details)!=0)
@@ -1059,7 +1064,7 @@ function check_plan($plan_id='',$type='')
 				}
 				elseif($type=='get')
 				{
-					return $plan_details;					
+					return $plan_details;
 				}
 			}
 			else
@@ -1105,7 +1110,7 @@ function update_data($table,$data,$where)
 function insert_data($table,$data)
 {
 	$ci =& get_instance();
-	if($ci->db->insert($table,$data)) 
+	if($ci->db->insert($table,$data))
 	return true;
 	else
 	return false;
@@ -1130,7 +1135,7 @@ function send_notification($from="",$to,$content='',$subject='')
 	//if(!$from)
 	//$from=$this->config->item('email');
 	$ci =& get_instance();
-	$ci->load->library('email');	
+	$ci->load->library('email');
 	$ci->email->clear();
 	$config['protocol'] = 'sendmail';
 	//$config['mailpath'] = '/usr/sbin/sendmail';
@@ -1147,10 +1152,10 @@ function send_notification($from="",$to,$content='',$subject='')
 	'smtp_port' => 465,
 	'smtp_user' => 'datahernandez@gmail.com',
 	'smtp_pass' => 'thirupass',
-	'mailtype'  => 'html', 
+	'mailtype'  => 'html',
 	'charset'   => 'iso-8859-1'
 	);
-	$ci->email->initialize($config);	
+	$ci->email->initialize($config);
 	$ci->email->set_newline("\r\n");
 	$ci->email->to($to);
 	$ci->email->from($from);
@@ -1169,14 +1174,14 @@ function admin_config($field="")
 {
 	$ci =& get_instance();
 	if($field)
-	$ci->db->select($field); 
+	$ci->db->select($field);
 	return $ci->db->get('Site_Config')->row();
 }
 function site_config_array($field="")
 {
 	$ci =& get_instance();
 	if($field)
-	$ci->db->select($field); 
+	$ci->db->select($field);
 	return $ci->db->get('Site_Config')->row_array();
 }
 function get_status($status)
@@ -1216,7 +1221,7 @@ function time_ago($date_time)
 			if($diff->y != 0)
 			$left = $diff->y.' years ago';
 		}
-		
+
 	return $left;
 }
 function lefttime($date3)
@@ -1259,7 +1264,7 @@ function upoad_file($index,$folder)
 	$ci =& get_instance();
 	$config['upload_path'] = $folder;
 	$config['allowed_types'] = 'gif|jpg|png';
-	$config['encrypt_name'] = true;	
+	$config['encrypt_name'] = true;
 	$config['max_size'] = '100';
 	$config['max_width'] = '1024';
 	$config['max_height'] = '768';
@@ -1358,12 +1363,12 @@ function merchant_data($id=FALSE)
 function uri($no)
 {
   $ci =& get_instance();
-  
+
   return $ci->uri->segment($no);
 }
 function timing_html($timing=FALSE)
 {
- 
+
   $html="";
   $days=array('sunday','monday','tuesday','wednesday','thursday','friday','saturday');
   $html.='
@@ -1378,7 +1383,7 @@ function timing_html($timing=FALSE)
   if(isset($timing->$day->first_opening)) $first_close=$timing->$day->first_close;
   if(isset($timing->$day->first_opening)) $second_opening=$timing->$day->second_opening;
   if(isset($timing->$day->first_opening)) $second_close=$timing->$day->second_close;
-  
+
   			$html.='<div class="form-group">
 				<label class="control-label col-md-3">'.ucfirst($day).'</label>
 				<div class="col-md-9">
@@ -1414,7 +1419,7 @@ function timing_html($timing=FALSE)
 
 function notify_element($class,$message,$link=FALSE)
 {
-	 
+
 	 $notify_element='<div class="alert alert-block alert-'.$class.' fade in">
 	 <button type="button" class="close" data-dismiss="alert">X</button>
 		<h4 class="alert-heading">Success!</h4>
@@ -1429,8 +1434,8 @@ function notify_element($class,$message,$link=FALSE)
 	 }
 	 $notify_element.='</div>';
 	 return $notify_element;
-							
-							
+
+
 }
 
 function insep_encode($value){
@@ -1453,7 +1458,7 @@ function insep_decode($value){
 	return trim($decrypttext);
 }
  function safe_b64encode($string) {
-	
+
         $data = base64_encode($string);
         $data = str_replace(array('+','/','='),array('-','_',''),$data);
         return $data;
@@ -1467,7 +1472,7 @@ function insep_decode($value){
         }
         return base64_decode($data);
     }
-	
+
 	function format_filename($filename){
 		$withoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
 		$newname = str_replace(".","_",$withoutExt);
@@ -1476,19 +1481,19 @@ function insep_decode($value){
 		$filename = preg_replace('/[^A-Za-z0-9\.\']/', '_', $filename);
 		return $filename;
 	}
-	
-	function unsecure( $q ) 
+
+	function unsecure( $q )
 	{
 		$ser=base64_decode(str_replace(array('-', '_'), array('+', '/'), $q));
-		return unserialize($ser); 
+		return unserialize($ser);
 	}
-	
-	function secure( $q ) 
+
+	function secure( $q )
 	{
 		$ser=serialize($q);
     	return str_replace(array('+', '/'), array('-', '_'), base64_encode($ser));
 	}
-	
+
 	function gestatus($status)
 	{
 		$data=new stdClass();
@@ -1528,12 +1533,12 @@ function insep_decode($value){
 		else
 			return $result->result();
 	}
-	
-	function format_date($date){	
+
+	function format_date($date){
 	if ($date != '' && $date != '0000-00-00')
 	{
 		$d	= explode('-', $date);
-	
+
 		$m	= Array(
 		'January'
 		,'February'
@@ -1548,20 +1553,20 @@ function insep_decode($value){
 		,'November'
 		,'December'
 		);
-	
-		return $m[$d[1]-1].' '.$d[0]; 
+
+		return $m[$d[1]-1].' '.$d[0];
 	}
 	else
 	{
 		return false;
 	}
 	}
-	
-	function format_date1($date){	
+
+	function format_date1($date){
 	if ($date != '' && $date != '0000-00-00')
 	{
 		$d	= explode('-', $date);
-	
+
 		$m	= Array(
 		'January'
 		,'February'
@@ -1576,8 +1581,8 @@ function insep_decode($value){
 		,'November'
 		,'December'
 		);
-	
-		return $m[$d[1]-1]; 
+
+		return $m[$d[1]-1];
 	}
 	else
 	{
@@ -1600,10 +1605,10 @@ function insep_decode($value){
 		$timeDiff = abs($endTimeStamp - $startTimeStamp);
 		$numberDays = $timeDiff/86400;
 		return $numberDays = intval($numberDays);
-	}	
-	
+	}
+
 	//07/06/2016 Vijikumar
-	
+
 	function user_buy_channel()
 	{
 		$ci =& get_instance();
@@ -1615,7 +1620,7 @@ function insep_decode($value){
 			return explode(',',$result['connect_channels']);
 		}
 	}
-	
+
 	function cleanArray($array)
     {
 		$ci =& get_instance();
@@ -1678,13 +1683,13 @@ function insep_decode($value){
 			{
 				if(!in_array($channel_id, $connected_channel))
 				{
-					array_unshift($connected_channel, $channel_id);				
+					array_unshift($connected_channel, $channel_id);
 				}
 				if(in_array($channel_id, $disconnected_channel))
 				{
 					if(($key = array_search($channel_id, $disconnected_channel)) !== false)
 					{
-						unset($disconnected_channel[$key]);				
+						unset($disconnected_channel[$key]);
 					}
 				}
 			}else if($status == "disabled")
@@ -1693,15 +1698,15 @@ function insep_decode($value){
 				{
 					if(($key = array_search($channel_id, $connected_channel)) !== false)
 					{
-						unset($connected_channel[$key]);				
-					}			
+						unset($connected_channel[$key]);
+					}
 				}
 				if(!in_array($channel_id, $disconnected_channel))
 				{
-					array_unshift($disconnected_channel, $channel_id);	
+					array_unshift($disconnected_channel, $channel_id);
 				}
 			}
-			
+
 			$data['connect_channels'] = rtrim(implode(',', $connected_channel),',');
 			$data['disconnect_channels'] = rtrim(implode(',', $disconnected_channel),',');
 			update_data(MEMBERSHIP,$data,array('plan_status'=>1,'user_id'=>current_user_type(),'hotel_id'=>hotel_id()));
@@ -1709,7 +1714,7 @@ function insep_decode($value){
 		}
 		return false;
 	}
-	
+
 	function fetchColumn($table,$array_keys)
 	{
 		$ci =& get_instance();
@@ -1731,7 +1736,7 @@ function insep_decode($value){
 			}
 		}
 	}
-	
+
 	function isAssoc(array $arr)
 	{
 		if (array() === $arr) return false;
@@ -1753,7 +1758,7 @@ function insep_decode($value){
             $ci->db->where('roomtype_id',$roomtypeid);
             $ci->db->where('rateplan_id',$rateplan_id);
             $details = $ci->db->get("import_mapping")->row();
-      
+
 		if($details)
 		{
         if($details->rateAcquisitionType != 'Linked' && $details->rateAcquisitionType != 'Derived')
@@ -1776,14 +1781,14 @@ function insep_decode($value){
 
             }
             $data = getExpediaRoom($roomtypeid,$rateplanid,$user_id,$hotel_id);
-            
+
             return $data;
         }
 		}
 		}/*
         return $data;*/
     }
-	
+
 	function lang_url()
 	{
 		$ci =& get_instance();

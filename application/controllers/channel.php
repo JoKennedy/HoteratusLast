@@ -141,7 +141,7 @@ class Channel extends Front_Controller {
 	{
 
 		$rooms = $this->db->query("select property_id value, property_name text from manage_property where hotel_id=".hotel_id())->result_array();
-			echo json_encode($rooms); 
+			echo json_encode($rooms);
 	}
 	function propertynameused()
 	{
@@ -347,7 +347,7 @@ class Channel extends Front_Controller {
 		    $file = $_FILES["Image"];
 
 
-		   	
+
 		    $nombre = $file["name"] ;
 		    $tipo = $file["type"];
 		    $ruta_provisional = $file["tmp_name"];
@@ -357,32 +357,32 @@ class Channel extends Front_Controller {
 		    $height = $dimensiones[1];
 		    $carpeta = "user_assets/images/Users/";
 
-		    
+
 		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
 		    {
 
-		      $result["message"]= "Error, el archivo no es una imagen"; 
+		      $result["message"]= "Error, el archivo no es una imagen";
 		      $result['success']=false;
 		    }
 		    else
 
-		    {	
-		    	
+		    {
+
 		        $src = $carpeta.'user'.hotel_id().user_id().$nombre;
 		        move_uploaded_file($ruta_provisional, $src);
 
 
 			    $data['userimage']="/".$src;
-				
+
 				if(update_data('manage_users',$data,array("user_id"=>user_id())))
 				{
-					
+
 					$result['success']=true;
 				}
-				else 
+				else
 				{
 					$result['success']=false;
-					$result["message"]= "Something went wrong"; 
+					$result["message"]= "Something went wrong";
 				}
 
 		    }
@@ -396,11 +396,11 @@ class Channel extends Front_Controller {
 	{
 		$errores='';
 		if (isset($_FILES["Image"]))
-		{			
+		{
 			if(count($_FILES["Image"])>0)
 			{	$file = $_FILES["Image"];
-				for ($i=0; $i < count($_FILES["Image"]["tmp_name"]); $i++) { 
-					
+				for ($i=0; $i < count($_FILES["Image"]["tmp_name"]); $i++) {
+
 					$nombre = $file["name"][$i] ;
 				    $tipo = $file["type"][$i];
 				    $ruta_provisional = $file["tmp_name"][$i];
@@ -411,11 +411,11 @@ class Channel extends Front_Controller {
 				    $carpeta = "user_assets/images/Rooms/";
 				    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
 				    {
-				      $errores.= "El File[$nombre] isn't a imagen <br>"; 
+				      $errores.= "El File[$nombre] isn't a imagen <br>";
 				    }
 				    else
-				    {	
-				    	
+				    {
+
 				        $src = $carpeta.'Room'.hotel_id().$_POST['roomid'].$nombre;
 				        move_uploaded_file($ruta_provisional, $src);
 					    $data['photo_names']="/".$src;
@@ -424,16 +424,16 @@ class Channel extends Front_Controller {
 
 					    if(insert_data('room_photos',$data,array("user_id"=>user_id())))
 						{
-							
-							
+
+
 						}
-						else 
+						else
 						{
-							$errores.= "El File[$nombre] has problem to Load <br>"; 
+							$errores.= "El File[$nombre] has problem to Load <br>";
 						}
 				    }
 
-				   
+
 				}
 
 				if(strlen($errores)>0)
@@ -444,8 +444,8 @@ class Channel extends Front_Controller {
 				{
 					echo json_encode(array("success"=>true,'message'=>$errores));
 				}
-			}		    
-		    
+			}
+
 
 		}
 
@@ -460,7 +460,7 @@ class Channel extends Front_Controller {
 	}
 	function updatenewuserassg()
 	{
-		
+
 		$result['success']=false;
 		$result['msg']='something went Wrong';
 		if($this->channel_model->updatenewuserassg($_POST))
@@ -471,7 +471,7 @@ class Channel extends Front_Controller {
 
 		echo json_encode($result);
 	}function updatenewuserassgActive()
-	{	
+	{
 		$data['status']=($_POST['status']==0?'1':'0');
 
 		$result['success']=false;
@@ -1652,7 +1652,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	}
 	function viewroom($hotelid,$roomid)
 	{
-		$this->is_login(); 
+		$this->is_login();
 		$hotelid=unsecure($hotelid);
 		$roomid=insep_decode($roomid);
 
@@ -1703,7 +1703,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['AttributeName']=$_POST['AttributeName'];
 		$data['HotelId']=hotel_id();
 		$data['Active']=1;
-		
+
 		$this->channel_model->saveAttribute($data);
 
 	}
@@ -1714,12 +1714,12 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['price']=$_POST['ExtraPrice'];
 		$data['structure']=$_POST['structureid'];
 		$data['taxes']=$_POST['ExtraTax'];
-		
+
 		$this->channel_model->savenewextra($data);
 	}
 	function loadAttributes()
-	{	
-		
+	{
+
 		$data=$_POST;
 		$this->channel_model->loadAttributes($data);
 	}
@@ -1773,7 +1773,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['AllPaymentM']= $this->db->query("select a.*,b.name from paymentmethod a left join providers b on a.providerid = b.providerid where hotelid=".hotel_id())->result_array();
 		$data['AllProviders']= $this->db->query("select * from providers where providerid not in(select ifnull(providerid,0) from paymentmethod where hotelid=".hotel_id().") ")->result_array();
-		$this->views('channel/managepaymentmethods',$data); 
+		$this->views('channel/managepaymentmethods',$data);
 	}
 	function savePaymentMethod()
 	{
@@ -1783,7 +1783,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		return;
 	}
 	function updatePaymentMethod()
-	{	
+	{
 		$this->is_login();
 		$data['success']=$this->channel_model->updatePaymentMethod();
 		echo json_encode($data);
@@ -1861,7 +1861,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		return;
 	}
 	function savePolicy()
-	{ 
+	{
 		$this->is_login();
 		$data['success']=$this->channel_model->savePolicy();
 		echo json_encode($data);
@@ -1879,7 +1879,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		{
 			$ownerid=owner_id();
 		}
-	
+
     	$data['page_heading'] = 'Manage Membership';
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
@@ -1901,7 +1901,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
-		$data['AllChannelConected']=$this->db->query("SELECT a.*,b.channel_name 
+		$data['AllChannelConected']=$this->db->query("SELECT a.*,b.channel_name
 					FROM user_connect_channel a
 					left join manage_channel b on a.channel_id=b.channel_id
 					where hotel_id=".hotel_id().";")->result_array();
@@ -1914,19 +1914,19 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
     	$user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
 		$data= array_merge($user_details,$data);
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
-		$data['ChannelInfo']=$this->db->query("SELECT * 
+		$data['ChannelInfo']=$this->db->query("SELECT *
 					FROM manage_channel  a
 					where  a.channel_id=".insep_decode($channelid))->row_array();
 		$data['Config']=$this->db->query("SELECT * 	FROM user_connect_channel  a
 					where  a.channel_id=".insep_decode($channelid)." and hotel_id=".hotel_id())->row_array();
 
 		$data['AllSupport'] = $this->db->query("select * from ".OPEATIONS." where operations_id in (".$data['ChannelInfo']['supported_operations'].")")->result_array();
-		$data['urls']=$this->db->query("SELECT * 	FROM channel_urls  
+		$data['urls']=$this->db->query("SELECT * 	FROM channel_urls
 					where  channel_id=".insep_decode($channelid))->row_array();
 		$this->views('channel/configurationchannel',$data);
 	}
 	function saveconfigurationChannel()
-	{ 
+	{
 		$data['hotel_channel_id']=$_POST['hotelid'];
 		$data['status']=(isset($_POST['statusid']) && $_POST['statusid']=='on'?'enabled':'disabled');
 		$data['user_name']=$_POST['username'];
@@ -1973,7 +1973,7 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		#   connect_date, web_id, live_url, mode, test_url, xml_type, cmid, other_id
 
 
-		
+
 	}
 	function changestatus()
 	{
@@ -2011,12 +2011,12 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 
 		$id=array_search($data['HotelInfo']['currency'], array_column($data['Currencies'],'currency_id'));
 		$data['currency']=(isset($data['Currencies'][$id]['currency_code'])?$data['Currencies'][$id]['currency_code']:'USD');
-		$data['userConfig']=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array(); 
+		$data['userConfig']=get_data('ConfigUsers',array('UserID'=>user_id()))->row_array();
 		$this->views('channel/calendarfull',$data);
 	}
 
 	public function Calendarview()
-	{	
+	{
 		echo $this->channel_model->calendarFull();
 	}
 	function useraccess($user_details)
@@ -2037,8 +2037,8 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['allConection'] = $this->channel_model->get_connect_channels();
 		$data['TopChannel']=$this->reservation_model->TopChannel();
-		$data['Percentage']=$this->reservation_model->TopChannelPercentage(); 
-		
+		$data['Percentage']=$this->reservation_model->TopChannelPercentage();
+
     	$this->views('channel/dashboard',$data);
 
 

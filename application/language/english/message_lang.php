@@ -113,6 +113,26 @@ $lang['typesomething']='Type %s';
 $lang['commissiontype']='Commission Type';
 $lang['selectsomethingtocontinue']='Select %s To Continue';
 $lang['savingreservation']='Saving Reservation <br> Please Wait';
+
+//TAsk
+$lang['task']='Task';
+$lang['alldeveloper']='All Developers';
+$lang['allstatus']='All Status';
+$lang['subject']='Subject';
+$lang['createby']='Created By';
+$lang['developer']='Developer';
+$lang['created']='Created';
+$lang['percentage']='Percentage';
+$lang['status']='Status';
+$lang['action']='Action';
+$lang['createtask']='Create a Task';
+$lang['addnewtask']='Add a New Task';
+$lang['selectdeveloper']='Select a Developer';
+$lang['files']='Files';
+$lang['tasksaved']='Task Saved';
+$lang['taskdeleted']='Task Deleted';
+$lang['areyousure']='Are you sure?';
+$lang['doyouwantdelete']='Do You Want Delete this Task';
 //Profile
 
 
@@ -170,6 +190,3 @@ $lang['login_usernameP']='Type your username';
 $lang['login_passwordP']='Type your password';
 $lang['login_usernameV']='Username is required';
 $lang['login_passwordV']='Password is required';
-
-
-

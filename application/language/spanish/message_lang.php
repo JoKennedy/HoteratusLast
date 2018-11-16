@@ -113,7 +113,25 @@ $lang['typesomething']='Digita el %s';
 $lang['commissiontype']='Tipo de Comisión';
 $lang['selectsomethingtocontinue']='Selecciona %s Para Continuar';
 
-
+//TAsk
+$lang['task']='Tareas';
+$lang['alldeveloper']='Todos Los Programadores';
+$lang['allstatus']='Todos Los Estados';
+$lang['subject']='Asunto';
+$lang['createby']='Creado Por';
+$lang['developer']='Programador';
+$lang['created']='Creado';
+$lang['percentage']='Porcentage';
+$lang['status']='Estatus';
+$lang['action']='Acción';
+$lang['createtask']='Crear Nueva Tarea';
+$lang['addnewtask']='Agregar Nueva Tarea';
+$lang['selectdeveloper']='Selecciona un Programador';
+$lang['files']='Archivos';
+$lang['tasksaved']='Tarea Guardada';
+$lang['taskdeleted']='Tarea Eliminada';
+$lang['areyousure']='Estas Seguro?';
+$lang['doyouwantdelete']='Deseas Eliminar Esta Tarea';
 //general
 $lang['profile_language'] = 'Idioma';
 $lang['general_email'] = 'Email';
@@ -169,6 +187,3 @@ $lang['login_usernameP']='Type your username';
 $lang['login_passwordP']='Type your password';
 $lang['login_usernameV']='Username is required';
 $lang['login_passwordV']='Password is required';
-
-
-

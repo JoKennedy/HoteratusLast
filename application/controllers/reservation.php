@@ -43,7 +43,7 @@ class reservation extends Front_Controller {
 	}
 
 	function testt()
-	{		
+	{
 
 		$output=' <result timestamp="1513099354273">
       <bookings count="1" iataid="96637800">
@@ -100,7 +100,7 @@ class reservation extends Front_Controller {
 								$data['phone'] = (string)$customer['phone'];
 
 
-								
+
 								$requests=$Hotelbook->requests->request;
 								$request='';
 								if(count($requests)>0)
@@ -135,7 +135,7 @@ class reservation extends Front_Controller {
 									foreach ($price as  $value) {
 										$pricedate .=(string)$value['date'].",";
 										$pricemoney .=(string)$value['net_inclusive_amt'].",";
-										
+
 									}
 								}
 								$data['pricedate']=$pricedate;
@@ -153,10 +153,10 @@ class reservation extends Front_Controller {
 									if(count($benefits)>0)
 									{
 
-										foreach ($benefits as  $value) 
+										foreach ($benefits as  $value)
 										{
 											 $dataextra=array('reservation_id'=> $id,'channel_id'=>19,'description'=>$value['benefit_name'],'amount'=>0,'extra_date'=>date('Y-m-d'),);
-						                        insert_data('extras',$dataextra); 
+						                        insert_data('extras',$dataextra);
 										}
 									}
 
@@ -172,24 +172,24 @@ class reservation extends Front_Controller {
 									$benefits = $Hotelbook->benefits->benefit;
 									if(count($benefits)>0)
 									{
-										
-										foreach ($benefits as  $value) 
+
+										foreach ($benefits as  $value)
 										{	$available = get_data('extras',array('channel_id'=>19,'description'=>(string)$value['benefit_name']))->row_array();
 
 											if(count($available)==0)
 											{
 													 $dataextra=array('reservation_id'=> $id ,'channel_id'=>19,'description'=>(string)$value['benefit_name'],'amount'=>0,'extra_date'=>date('Y-m-d'),);
-						                        	insert_data('extras',$dataextra); 
-						                     
+						                        	insert_data('extras',$dataextra);
+
 											}
-										
+
 										}
 									}
 
 								}
 
 
-					
+
 	}
 	function is_admin()
 	{
@@ -200,7 +200,7 @@ class reservation extends Front_Controller {
 
 	function findRoomsAvailable()
 	{
-			
+
 
 			$rooms          =  $_POST['numrooms'];
 			$adult          =   $_POST['numadult'];
@@ -210,13 +210,13 @@ class reservation extends Front_Controller {
         	$nights         =   ceil(abs(strtotime( $_POST['date2Edit']) - strtotime( $_POST['date1Edit'])) / 86400);
 
 			$available		=	$this->reservation_model->findRoomsAvailable();
-			
+
 			$html='';
 
-			$inidate=date('Y-m-d', strtotime( $_POST['date1Edit'])); 
-			$enddate=date('Y-m-d', strtotime( $_POST['date2Edit'])); 
+			$inidate=date('Y-m-d', strtotime( $_POST['date1Edit']));
+			$enddate=date('Y-m-d', strtotime( $_POST['date2Edit']));
 			if($available)
-			{ 
+			{
 				foreach ($available as $key => $value) {
 				$roomimage=$this->db->query("select photo_names from room_photos where room_id=".$value['room_id'])->result_array();
 
@@ -247,12 +247,12 @@ class reservation extends Front_Controller {
                                             <div class="inr_cont" style="display: none; '.(isset($value['rate'])?'position:relative;':'').'">
                                             <center><p style="font-size:14px; ">'.$this->lang->line('changeprice').'</p></center>
                                             <input id="new_'.$value['room_id'].'r0" class="form-control" style="height:50px; color:black; font-size:16px;" step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
-                                            <a id="b_'.$value['room_id'].'r0" class="change_amount"><i class="fa fa-check"></i></a> 
+                                            <a id="b_'.$value['room_id'].'r0" class="change_amount"><i class="fa fa-check"></i></a>
                                             <a class="close_amount"><i class="fa fa-remove"></i></i></a>
                                             </div>
                             </h2>
-                    		
-	                        
+
+
 	                        <h3 id="price_'.$value['room_id'].'r0">'.number_format ( $value['avgprice'] , 2 ,  "." , "," ).'</h3>
 	                         <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r0'".')" type="button"  class="btn btn-xs btn-info">Book This Room</button>
                          </div>';
@@ -269,13 +269,13 @@ class reservation extends Front_Controller {
                                             <div class="inr_cont" style="display: none;">
                                             <center><p style="font-size:14px;">'.$this->lang->line('changeprice').'</p></center>
                                             <input id="new_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="form-control" style="height:50px; color:black; font-size:16px;"  step="10" min="20" max="'.$value['avgprice'].'" value="'.$value['avgprice'].'" required="" type="number">
-                                            <a  id="b_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="change_amount"><i class="fa fa-check"></i></a> 
+                                            <a  id="b_'.$value['room_id'].'r'.$rate['rate_types_id'].'" class="change_amount"><i class="fa fa-check"></i></a>
                                             <a class="close_amount"><i class="fa fa-remove"></i></i></a>
                                             </div>
                                         </h2>
 				                        <h3  id="price_'.$value['room_id'].'r'.$rate['rate_types_id'].'">'.number_format ( $rate['avgprice'] , 2 ,  "." , "," ).'</h3>
 				                         <button onclick="reservethis('.$bookininfo.",'".$value['room_id']."r".$rate['rate_types_id']."'".')" type="button"  class="btn btn-xs btn-warning">Book This Rate</button>
-			                         </div>';	
+			                         </div>';
 	                         }
 
                      	}
@@ -285,7 +285,7 @@ class reservation extends Front_Controller {
                     <div class="clearfix"></div>
                 </div>
 
-                 
+
                   <div class="clearfix"></div>
                  <div id="room'.$value['room_id'].'" class="row" style="display: none;">
 					<hr style="color: #148dec;" align="center" noshade="noshade" size="14" width="80%" />
@@ -295,44 +295,44 @@ class reservation extends Front_Controller {
                     </div>
                     <div class="col-md-4" style="text-align: left; float: right;">
                         <div>
-                            <label ><strong>Check-in:</strong>'.$start_date.'&nbsp;</label> 
+                            <label ><strong>Check-in:</strong>'.$start_date.'&nbsp;</label>
                         </div>
                         <div>
-                            <label><strong>Check-out:</strong>:'.$end_date.'</label> 
+                            <label><strong>Check-out:</strong>:'.$end_date.'</label>
                         </div>
                         <div>
-                            <label><strong>Rooms:</strong>'.$rooms .'</label> 
+                            <label><strong>Rooms:</strong>'.$rooms .'</label>
                         </div>
                         <div>
-                            <label><strong>Guest:</strong>'.$adult.'</label> 
+                            <label><strong>Guest:</strong>'.$adult.'</label>
                         </div>
                         <div>
-                            <label><strong>Nights:</strong>'.$nights.'</label> 
+                            <label><strong>Nights:</strong>'.$nights.'</label>
                         </div>
                         <div>
-                            <label><strong>Total:</strong>'.number_format ( $value['totalprice'] , 2 ,  "." , "," ).'</label> 
+                            <label><strong>Total:</strong>'.number_format ( $value['totalprice'] , 2 ,  "." , "," ).'</label>
                         </div>
-                      
+
                     </div>
-                    
+
                 </div>
                 <hr size="10">
                 </div>
                  <div class="clearfix"></div>
                  ';
 
-               
+
 				}
 			}
 			else
 			{
 				$html .= '<div class="room_info">
 						<div class="row" style="padding:30px; text-align:center;"> No Rooms are available..</div></div>';
-				
+
 			}
 
 		$data['detail']=$html."<script>
-					$('.change_price span').on('click', function(e) {  
+					$('.change_price span').on('click', function(e) {
 					    $(this).next('.inr_cont').slideToggle();
 					});
 					$('.change_amount').click(function(e){
@@ -344,7 +344,7 @@ class reservation extends Front_Controller {
 					});
 
 					$('.close_amount').click(function(){
-						
+
 						$('.inr_cont').hide();
 					});
 				</script>
@@ -371,8 +371,8 @@ class reservation extends Front_Controller {
         if (count($result)>=0 ) {
             $i=0;
             foreach ($result as $value) {
-                
-                
+
+
             	if($value['room_id']!=$_POST['roomtype'])
             	{
 
@@ -412,7 +412,7 @@ class reservation extends Front_Controller {
 			$i=0;
 			foreach ($available as  $value) {
 				$i++;
-				$html.=' <tr  class="'.($i%2?'active':'success').'"> <td>'.$value['property_name'].'  </td> 
+				$html.=' <tr  class="'.($i%2?'active':'success').'"> <td>'.$value['property_name'].'  </td>
 						<td  align="center">'.($value['upgrade']==1?'Upgrade':($value['upgrade']==0?'Same Level':'Downgrade')).' </td>
 						<td  align="center"><a  onclick="changeroomtype('."'".$value['room_id']."','$nights','".$value['upgrade']."','".number_format($value['chargenight'], 2, '.', '')."'".');">
 						 <i class="fa fa-check-circle fa-2x"></i></a> </td> </tr>';
@@ -426,7 +426,7 @@ class reservation extends Front_Controller {
          }
      echo json_encode(array('success'=>false,'message'=>"There aren't Rooms Available for this date range"));
 
-		
+
 	}
 	function changeroomtype()
 	{
@@ -448,18 +448,18 @@ class reservation extends Front_Controller {
 		$checkout_date=date('Y-m-d',strtotime($_POST['date2Edit']."-1 days"));
 		require_once(APPPATH.'controllers/arrivalreservations.php');
         $callAvailabilities = new arrivalreservations();
-        
-        $callAvailabilities->updateavailability(0,$_POST['roomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'changer'); 
-        
+
+        $callAvailabilities->updateavailability(0,$_POST['roomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'changer');
+
 
 
         require_once(APPPATH.'models/room_auto_model.php');
         $roomassig = new room_auto_model();
-        
-        $this->load->model("room_auto_model");       
+
+        $this->load->model("room_auto_model");
         $RoomNumber =  $roomassig->Assign_room(hotel_id(),$_POST['nroomtype'],$_POST['date1Edit'],$_POST['date2Edit'] );
-        
-         
+
+
 
          $roomused=$this->db->query("select * from roomnumberused where reservationid=$reservationid and channelid=$channelid")->row_array();
 
@@ -508,15 +508,15 @@ class reservation extends Front_Controller {
 	        		$i=1;
 	        		foreach ($allprices as  $value) {
 	        			if ($i<=$total) {
-	        				
+
 	        				$newallprice .=(strlen($newallprice)>0?',':'').$value;
 	        				$nuevototal +=$value;
-	   
+
 	        			}
 	        			$i++;
 	        		}
-	        		
-	        		for ($i=0; $i < $nights; $i++) { 
+
+	        		for ($i=0; $i < $nights; $i++) {
 	        			$newallprice .=(strlen($newallprice)>0?',':'').$_POST['nprice'];
 	        			$nuevototal +=$_POST['nprice'];
 	        		}
@@ -524,7 +524,7 @@ class reservation extends Front_Controller {
 	        		$indata['price_details']=$newallprice;
 	        		$indata['price']=$nuevototal;
 	        		$indata['description']=$nights;
-	        		
+
 	        	}
 
 	        }
@@ -540,14 +540,14 @@ class reservation extends Front_Controller {
 		}
 		 $callAvailabilities->updateavailability(0,$_POST['nroomtype'], 0,hotel_id(),$_POST['date1Edit'], $checkout_date ,'new');
 		echo json_encode(array('success'=>true));
-  	
+
 
 
 
 	}
 	function Reservation_changedate($reservationid)
 	{
-		
+
 
 
 		$ChannelID=unsecure($_POST['ChannelID']);
@@ -571,19 +571,19 @@ class reservation extends Front_Controller {
 		$arrivalnormal=$arrival;
 
 		$detalledays="";
-		
-	
-         
-		
+
+
+
+
 		$baseRoom = $this->db->query("SELECT U.room_id FROM room_update U JOIN ".TBL_PROPERTY." P ON U.room_id = P.property_id WHERE STR_TO_DATE(U.separate_date ,'%d/%m/%Y')  between '$arrival' and '$departure' and   U.availability >=$RoomQTY AND U.minimum_stay <= $nights  AND P.member_count >=$adult AND P.children >=$child AND individual_channel_id =0 AND stop_sell=0 AND P.hotel_id=$hotelid and U.room_id=$room_id  ORDER BY U.room_id DESC")->result_array();
-	
+
 
 
 		if ($nights<1 or $arrival <date('Y-m-d'))
 		{
-			print '<script language="JavaScript">'; 
-			print 'alert("Invalid Date Range");'; 
-			print '</script>'; 
+			print '<script language="JavaScript">';
+			print 'alert("Invalid Date Range");';
+			print '</script>';
 
 			if($ChannelID==0)
 			{
@@ -594,17 +594,17 @@ class reservation extends Front_Controller {
 			{
 				redirect('reservation/reservation_channel/'.$_POST['ChannelID'].'/'.$reservationid,'refresh');
 			}
-		
+
 			return;
 		}
 
 
 
 		if(count($baseRoom) < $nights) {
-			
-			print '<script language="JavaScript">'; 
-			print 'alert("Not Rooms availability in this date range");'; 
-			print '</script>'; 
+
+			print '<script language="JavaScript">';
+			print 'alert("Not Rooms availability in this date range");';
+			print '</script>';
 			if($ChannelID==0)
 			{
 				redirect('reservation/reservation_order/'.$reservationid,'refresh');
@@ -614,7 +614,7 @@ class reservation extends Front_Controller {
 			{
 				redirect('reservation/reservation_channel/'.$_POST['ChannelID'].'/'.$reservationid,'refresh');
 			}
-		
+
 			return;
 		}
 		else
@@ -622,19 +622,19 @@ class reservation extends Front_Controller {
 
 		require_once(APPPATH.'controllers/arrivalreservations.php');
 		$callAvailabilities = new arrivalreservations();
-							
+
 		$callAvailabilities->updateavailability($ChannelID,$room_id ,$RateID,$hotelid,$arrivalold,$departureold  ,'Cancel');
 
 
 		if($ChannelID==0)
 		{
-			 	while ($arrival <= $departure) 
+			 	while ($arrival <= $departure)
 		 		{
 	             	$detalledays .=(strlen($detalledays)>0?",":"")."$pricepordia";
 	           		$arrival=date('Y-m-d',strtotime($arrival."+1 days"));
-	       		} 
+	       		}
 
-	       $data = array('start_date'=>date('d/m/Y',strtotime($arrivalnormal)),'end_date'=>date('d/m/Y',strtotime($departurenormal)),'price_details'=>$detalledays,'price'=>$totalprice,'status'=>'modified','modified_date'=>date('Y-m-d'), 'num_nights'=>$nights);	
+	       $data = array('start_date'=>date('d/m/Y',strtotime($arrivalnormal)),'end_date'=>date('d/m/Y',strtotime($departurenormal)),'price_details'=>$detalledays,'price'=>$totalprice,'status'=>'modified','modified_date'=>date('Y-m-d'), 'num_nights'=>$nights);
 
 	    	  $this->db->where('reservation_id',$reservation_id);
 
@@ -644,28 +644,28 @@ class reservation extends Front_Controller {
             {
                  $history = array('channel_id'=>0,'reservation_id'=>$reservation_id,'description'=>"Change Date: Old date $arrivalold to $departureold New Date: $arrivalnormal to $departurenormal  ",'amount'=>'','extra_date'=>date('Y-m-d'),'extra_id'=>'0','history_date'=>date('Y-m-d H:i:s'),'UserID'=>user_id());
 
-                $res = $this->db->insert('new_history',$history); 
+                $res = $this->db->insert('new_history',$history);
 
 
             }
 
 		}
-		elseif ($ChannelID==1) 
+		elseif ($ChannelID==1)
 		{
 			# code...
 		}
-		elseif ($ChannelID==2) 
+		elseif ($ChannelID==2)
 		{
-			
-	            while ($arrival <= $departure) 
+
+	            while ($arrival <= $departure)
 		 		{
 	             	$detalledays .=(strlen($detalledays)>0?"##":"")."date=$arrival~genius_rate=no~rate_id=$RateIDcanal~rewritten_from_id=0~rewritten_from_name=$ratedescription~$pricepordia";
 	           		$arrival=date('Y-m-d',strtotime($arrival."+1 days"));
-	       		} 
+	       		}
 
 
-	            	
-        	 	
+
+
 
 
 			$data = array('arrival_date'=>$arrivalnormal,'departure_date'=>$departurenormal,'day_price_detailss'=>$detalledays,'totalprice'=>$totalprice,'status'=>'modified');
@@ -686,7 +686,7 @@ class reservation extends Front_Controller {
             {
                  $history = array('channel_id'=>2,'reservation_id'=>$reservation_id,'description'=>"Change Date: Old date $arrivalold to $departureold New Date: $arrivalnormal to $departurenormal  ",'amount'=>'','extra_date'=>date('Y-m-d'),'extra_id'=>'0','history_date'=>date('Y-m-d H:i:s'),'UserID'=>user_id());
 
-                $res = $this->db->insert('new_history',$history); 
+                $res = $this->db->insert('new_history',$history);
 
 
             }
@@ -705,7 +705,7 @@ class reservation extends Front_Controller {
 			{
 				redirect('reservation/reservation_channel/'.$_POST['ChannelID'].'/'.$reservationid,'refresh');
 			}
-		
+
 			return;
 
 
@@ -715,9 +715,9 @@ class reservation extends Front_Controller {
 
 	function change_room_revenue()
 	{
-		
-		
-		
+
+
+
 		if($_POST['opt']==1)
 		{
 			$data = array('revenuertatus'=>$_POST['revenuertatus'],'maximun'=>$_POST['maximun'],'percentage'=>$_POST['percentage'],'minimun'=>$_POST['minimun'] );
@@ -731,14 +731,14 @@ class reservation extends Front_Controller {
 		elseif ($_POST['opt']==4) {
 			$data = array('minimun'=>$_POST['valor']);
 		}
-		
+
 		$this->db->where('property_id',$_POST['id']);
 		$ver = $this->db->update('manage_property',$data);
 	}
 
 	function Reservation_ChangeStatus($ReservationID,$ChannelID,$status)
 	{
-		
+
 
 		$reservation_id=insep_decode($ReservationID);
 		$status=insep_decode($status);
@@ -761,7 +761,7 @@ class reservation extends Front_Controller {
 
 		if($result)
 		{
-			
+
 			$this->session->set_flashdata('success','Status update Successfully');
 		}
 		else
@@ -774,17 +774,17 @@ class reservation extends Front_Controller {
 	}
 
 	function changeStatus()
-	{	
+	{
 		$Mensaje='';
 		$statusid=$_POST['statusid'];
 		$reservationid=$_POST['resid'];
 		$inforest=$this->db->query("SELECT room_id,rate_types_id,str_to_date(start_date,'%d/%m/%Y') checkin, str_to_date(end_date,'%d/%m/%Y') checkout FROM manage_reservation where reservation_id=".$reservationid)->row_array();
 		$checkout_date= date('Y-m-d',strtotime($inforest['checkout']."-1 days"));
-		
+
 		require_once(APPPATH.'controllers/arrivalreservations.php');
         $callAvailabilities = new arrivalreservations();
-        
-         
+
+
 		if($statusid==0)
 		{
 			$data['status']='Canceled';
@@ -792,7 +792,7 @@ class reservation extends Front_Controller {
 			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Reservation Canceled by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
             update_data('roomnumberused',array('active'=>0),array("reservationid"=>$reservationid,'channelid'=>0));
-          $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'cancel');          
+          $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'cancel');
 		}
 		if($statusid==3)
 		{
@@ -801,7 +801,7 @@ class reservation extends Front_Controller {
 			 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To No Show by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
              insert_data('new_history',$history);
              update_data('roomnumberused',array('active'=>0),array("reservationid"=>$reservationid,'channelid'=>0));
-          $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'No Show'); 
+          $callAvailabilities->updateavailability(0,$inforest['room_id'], $inforest['rate_types_id'],hotel_id(),$inforest['checkin'], $checkout_date ,'No Show');
 		}
 		if($statusid==5)
 		{
@@ -812,12 +812,12 @@ class reservation extends Front_Controller {
 		}
 		if($statusid==6)
 		{
-			$total=$this->db->query("SELECT  sum(b.total)+sum(b.tax) deudaTotal FROM 
+			$total=$this->db->query("SELECT  sum(b.total)+sum(b.tax) deudaTotal FROM
 					reservationinvoice a
 					left join reservationinvoicedetails b on a.reservationinvoiceid=b.reservationinvoiceid
 					where reservationid=".$reservationid)->row()->deudaTotal;
-			$pagos=$this->db->query("select ifnull(sum(amount),0) pagototal from reservationpaymenttype 
-			where reservationinvoiceid in (SELECT reservationinvoiceid FROM 
+			$pagos=$this->db->query("select ifnull(sum(amount),0) pagototal from reservationpaymenttype
+			where reservationinvoiceid in (SELECT reservationinvoiceid FROM
 			reservationinvoice where  reservationid=".$reservationid.")")->row()->pagototal;
 
 			if($total>$pagos)
@@ -833,7 +833,7 @@ class reservation extends Front_Controller {
 				 $history = array('channel_id'=>0,'Userid'=> user_id(),'reservation_id'=>$reservationid,'description'=>'Status Change To Check-out by '.$_POST['username'],'history_date'=>date('Y-m-d H:i:s'),'amount'=>0,'extra_id'=>1);
 	             insert_data('new_history',$history);
 			}
-			
+
 
 		}
 
@@ -926,7 +926,7 @@ class reservation extends Front_Controller {
 	{
 		switch ($_POST['paymentTypeId']) {
 			case '1':
-				
+
 				$result= $this->reservation_model->invoicepaymentapply($_POST['invoiceid'],$_POST['paymentTypeId'],$_POST['amountdue'],$_POST['providerid'],$_POST['username'],$_POST['currency']);
 
 				echo json_encode($result);
@@ -948,7 +948,7 @@ class reservation extends Front_Controller {
 				# code...
 				break;
 		}
-		
+
 	}
 	function invoicepaymentapply()
 	{
@@ -975,22 +975,22 @@ class reservation extends Front_Controller {
 
 	}
 	function printreservation($chanel,$resid,$idioma)
-	{	
+	{
 			$channelID=unsecure($chanel);
 			$ReservationID=insep_decode($resid);
-			
+
 			$billing=$this->db->query("select * from bill_info where hotel_id=".hotel_id())->row_array();
 			$data['Logo']=base_url()."uploads/room_photos/noimage.jpg";
 			$data['Reservation']=$this->reservation_model->reservationdetails($channelID,$ReservationID);
 			$data['roominfo']=$this->db->query("select a.*, b.meal_name
-				from manage_property a 
+				from manage_property a
 				left join meal_plan b on a.meal_plan=b.meal_id
 				where property_id=".$data['Reservation']['roomTypeID'])->row_array();
 
 			$data['policies']=$this->db->query("select * from policies where hotelid=".hotel_id())->result_array();
 			$data['language']=insep_decode($idioma);
 			$this->view('channel/sheetcheckin',$data);
-			
+
 	}
 	function saveExtras()
 	{
@@ -1006,7 +1006,7 @@ class reservation extends Front_Controller {
 	function tst()
 	{
 		require_once(APPPATH.'controllers/sendemail.php');
-            $sendemail = new sendemail();        
+            $sendemail = new sendemail();
        		$sendemail->sendmailreservation('2908,2909,2910');
 
 		return;
@@ -1015,7 +1015,7 @@ class reservation extends Front_Controller {
 	{
 		require_once(APPPATH.'controllers/ValidateCreditCard.php');
 
-		
+
 		$credit_card_user    = $_POST['cccard']; // VISA
 
 		// $credit_card_user = "5370517873215895"; // MASTER CARD
@@ -1043,10 +1043,10 @@ class reservation extends Front_Controller {
 	}
 	function saveReservation()
 	{
-		
+
 		$allroom=$_POST['numroom'];
 		$allReservationId='';
-		for ($i=0; $i < $allroom; $i++) { 
+		for ($i=0; $i < $allroom; $i++) {
 			$_POST['numroom']=1;
 			$result=$this->reservation_model->saveReservation();
 
@@ -1059,7 +1059,7 @@ class reservation extends Front_Controller {
 			$this->reservation_model->reservationinvoicecreate($channelID,$ReservationID,$userName,$reservationdetails);
 		}
 
-		
+
 		if(!$result['success'])
 		{
 			echo json_encode($result);
@@ -1068,22 +1068,22 @@ class reservation extends Front_Controller {
 		{
 			$checkout_date= date('Y-m-d',strtotime($_POST['checkout']."-1 days"));
 			require_once(APPPATH.'controllers/arrivalreservations.php');
-            $callAvailabilities = new arrivalreservations();        
-       		$callAvailabilities->updateavailability(0,$_POST['roomid'], $_POST['rateid'],hotel_id(),$_POST['checkin'], $checkout_date ,'new',$allroom); 
+            $callAvailabilities = new arrivalreservations();
+       		$callAvailabilities->updateavailability(0,$_POST['roomid'], $_POST['rateid'],hotel_id(),$_POST['checkin'], $checkout_date ,'new',$allroom);
 		}
 
 		if(isset($_POST['sendemail']) && ENVIRONMENT=='production')
 		{
 			require_once(APPPATH.'controllers/sendemail.php');
-            $sendemail = new sendemail();        
+            $sendemail = new sendemail();
        		$sendemail->sendmailreservation($allReservationId);
 		}
 
-		
+
 		echo json_encode($result);
 	}
 	function updatereservation()
-	{	
+	{
 		$strim=$_POST['mainguest'];
 		$pos= strpos($strim, ' ');
 		$name=trim(substr($strim,0, $pos));
@@ -1093,12 +1093,12 @@ class reservation extends Front_Controller {
 		{
 			$guest=implode(',', $_POST['guest']);
 		}
-		
+
 		$this->reservation_model->updatereservation($_POST['canalid'],$_POST['reservaid'],$name,$lastname,$guest);
 
 	}
 	function invoiceheader()
-	{	
+	{
 		$this->is_login();
 		$invoice=get_data("reservationinvoice",array('reservationinvoiceid'=>$_POST['id']))->row_array();
 		$invoicedetails=get_data("reservationinvoicedetails",array('reservationinvoiceId'=>$_POST['id']))->result_array();
@@ -1118,7 +1118,7 @@ class reservation extends Front_Controller {
 		{
 			$country=get_data("country",array('id'=>$billing['country']))->row_array()['country_name'];
 		}
-    
+
    		$html='<div  class="graph-form">
 					<div class="text-left" style="float: left; width:50%; ">
 						<h4> Invoice</h4>
@@ -1131,16 +1131,16 @@ class reservation extends Front_Controller {
 
 					<div class="graph-form">
 				<div   class="text-left col-md-6 form-group1"> ';
-           
+
          $html .='<h4>'.$billing['company_name'].'</h4>
          		<p>'.$billing['town'].'<br>
          		'.$billing['address'].'<br>
          		'.$country.'<br>
          		<strong>Phone: </strong>'.$billing['mobile'].'<br>
-         		<strong>Email: </strong>'.$billing['email_address'].'</p>';       
-                    
-         $html .='</div> 
-         <div class="text-left col-md-6 form-group1"> 
+         		<strong>Email: </strong>'.$billing['email_address'].'</p>';
+
+         $html .='</div>
+         <div class="text-left col-md-6 form-group1">
          		<h4>Bill To:</h4>
          		<strong>Name: </strong>'.$_POST['name'].'<br>
          		<strong>Address: </strong>'.$_POST['address'].'<br>
@@ -1180,7 +1180,7 @@ class reservation extends Front_Controller {
 								$subtotal +=$value['total'];
 						}
 					}
-					
+
 					$table.='</tbody>
 									</table>
 									</div> </div>';
@@ -1225,7 +1225,7 @@ class reservation extends Front_Controller {
 
          $data['html']=$html.$table.$footer;
         echo json_encode($data);
-		
+
 	}
 
 	function invoicebody()
@@ -1242,7 +1242,7 @@ class reservation extends Front_Controller {
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
 		$data['reservationdetails']=$this->reservation_model->reservationdetails(unsecure($channelID),insep_decode($ReservationID));
 		$data['historyInfo']=$this->reservation_model->historyInfo(unsecure($channelID),insep_decode($ReservationID));
-	
+
 		$data['Invoice']=$this->reservation_model->reservationInvoice(unsecure($channelID),insep_decode($ReservationID));
 		$data['payment']=$this->reservation_model->payment();
 		$data['Currencies']=$this->db->query("SELECT * FROM `currency` ORDER BY `currency`.`currency_code` ASC ")->result_array();
@@ -1253,7 +1253,7 @@ class reservation extends Front_Controller {
 
 	}
 	function addnoteuser()
-	{	
+	{
 		$info['reservationid']=$_POST['resid'];
 		$info['channelid']=$_POST['channelid'];
 		$info['userid']=user_id();
@@ -1270,7 +1270,7 @@ class reservation extends Front_Controller {
 	{
 		 $this->load->model("room_auto_model");
          $available=$this->room_auto_model->allRoomAvailable(hotel_id(),$_POST['room_id'],$_POST['checkin'],$_POST['checkout'] );
-         
+
          if(count($available)>0)
          {
          	$html='';
@@ -1288,7 +1288,7 @@ class reservation extends Front_Controller {
 			$i=0;
 			foreach ($available as  $value) {
 				$i++;
-				$html.=' <tr  class="'.($i%2?'active':'success').'"> <td>'.$value.'  </td> 
+				$html.=' <tr  class="'.($i%2?'active':'success').'"> <td>'.$value.'  </td>
 						<td  align="center"><a  onclick="assingNumber('."'".$value."'".');">
 						 <i class="fa fa-check-circle fa-2x"></i></a> </td> </tr>';
 
@@ -1336,7 +1336,7 @@ class reservation extends Front_Controller {
 		}
 
 		if ($channelid==0) {
-			
+
 			update_data('manage_reservation',array('RoomNumber'=>$RoomNumber),array('reservation_id'=>$reservationid));
 		}
 		else if($channelid==1) {
@@ -1345,7 +1345,7 @@ class reservation extends Front_Controller {
 		else if($channelid==2) {
 			update_data('import_reservation_BOOKING_ROOMS',array('RoomNumber'=>$RoomNumber),array('room_res_id'=>$reservationid));
 		}
-		
+
 		echo json_encode(array('success'=>true));
 	}
 	// reservation list..
@@ -1380,7 +1380,7 @@ class reservation extends Front_Controller {
 			$html.= '<div class="graph-visual tables-main">
         <div class="graph">
             <div class="table-responsive">
-              
+
                     <table id="myTable" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr style="height:2px;">
@@ -1397,9 +1397,9 @@ class reservation extends Front_Controller {
                             </tr>
                         </thead>
                         <tbody>';
-			
-							
-					
+
+
+
                             if (count($alllist['info'])>0) {
                             	$allLogo=$alllist['logo'];
                                 foreach ($alllist['info'] as  $value) {
@@ -1409,7 +1409,7 @@ class reservation extends Front_Controller {
 
                                     $roomNameC='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-pk="'.$value['reservation_id'].'" data-value="'.$value['room_id'].'" data-source="'.lang_url().'channel/allroomtest" title="Select Room Type"></a>';
 
-                                    $html.=' <tr scope="row" class="active"> <th scope="row"><h5><span class="label label-'.$class_status.'">'.$show_status.'</span></h5> </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$roomNameC.'</td> <td>'.$value['RoomNumber'].'</td> 
+                                    $html.=' <tr scope="row" class="active"> <th scope="row"><h5><span class="label label-'.$class_status.'">'.$show_status.'</span></h5> </th> <td> <a href="'.site_url('reservation/reservationdetails/'.secure($value['channel_id']).'/'.insep_encode($value['reservation_id'])).'">'.$value['Full_Name'].' </a> </td> <td>'.$roomNameC.'</td> <td>'.$value['RoomNumber'].'</td>
                                     <td style="text-align:center;"> <img  src="data:image/png;base64,'.$allLogo['LogoReservation'.$value['channel_id']].'">     <p style ="color: rgba(0, 0, 0, 0);">'.$value['channel_id'].'</p> </td>  <td>'.date('m/d/Y',strtotime($value['start_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['end_date'])).'</td> <td>'.date('m/d/Y',strtotime($value['booking_date'])).'</td> <td>'.$value['reservation_code'].'</td> <td>'.number_format ( $value['price'] , 2 ,  "." , "," ).'</td> </tr>  ';
 
                                 }
@@ -1418,14 +1418,14 @@ class reservation extends Front_Controller {
                             }
                             else
                             {
-                            	$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
+                            	$html='<center><h1><span class="label label-danger">'.infolang('norecordfound').'</span></h1></center>';
                             	echo $html;
                             }
-                      
-                 
-              
-	
-		
+
+
+
+
+
 	}
 
 	function table_mapping(){
@@ -1468,7 +1468,7 @@ class reservation extends Front_Controller {
 	}
 	function updateagency()
 	{
-	
+
 		$data['CategoryId']=$_POST['categoryid'];
 		$data['Name']=$_POST['agencyname'];
 		$data['CommissionValue']=$_POST['amount'];
@@ -1499,21 +1499,21 @@ class reservation extends Front_Controller {
 		echo json_encode($result);
 	}
 	function agenciesHTML()
-	{	
+	{
 		$categoryid=$_POST['categoryid'];
-		
 
-		$AllAgencies=$this->db->query("select a.*, b.name categoryname 
-			from agencies a 
+
+		$AllAgencies=$this->db->query("select a.*, b.name categoryname
+			from agencies a
 			left join agencycategories b on a.CategoryId=b.agencycategoryid
-			where a.hotelid=".hotel_id()." 
+			where a.hotelid=".hotel_id()."
 			and (CategoryId=$categoryid or $categoryid=0) ")->result_array();
 
 		$html='';
 			$html.= '<div class="graph-visual tables-main">
         <div class="graph">
             <div class="table-responsive">
-              
+
                     <table id="myTable" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr style="height:2px;">
@@ -1526,21 +1526,21 @@ class reservation extends Front_Controller {
                             </tr>
                         </thead>
                         <tbody>';
-			
-							
-					
+
+
+
                             if (count($AllAgencies)>0) {
 
                                 foreach ($AllAgencies as  $value) {
-                                    
+
                                 	$update="'".$value['AgencyId']."','".$value['CategoryId']."','".$value['groupid']."','".$value['Name']."','".$value['CommissionValue']."','".$value['CommissionType']."','".$value['Active']."'";
 
-                                    $html.=' <tr scope="row" class="default">  <td>'.$value['Name'].' </td> 
-									<td>'.$value['categoryname'].'</td> 
-									<td>'.($value['groupid']==1?$this->lang->line('retailers'):$this->lang->line('wholesalers')).'</td> 
-									<td>'.($value['CommissionType']==0?$this->lang->line('netrate'):($value['CommissionType']==1?$this->lang->line('money'):$this->lang->line('percentage'))).'</td> 
+                                    $html.=' <tr scope="row" class="default">  <td>'.$value['Name'].' </td>
+									<td>'.$value['categoryname'].'</td>
+									<td>'.($value['groupid']==1?$this->lang->line('retailers'):$this->lang->line('wholesalers')).'</td>
+									<td>'.($value['CommissionType']==0?$this->lang->line('netrate'):($value['CommissionType']==1?$this->lang->line('money'):$this->lang->line('percentage'))).'</td>
 									<td>'.($value['Active']==1?$this->lang->line('active'):$this->lang->line('disabled')).'</td>
-									<td> <a href="javascript:;" onclick="updateagency('.$update.')" > <i class="fa fa-edit"></i></a></td> 
+									<td> <a href="javascript:;" onclick="updateagency('.$update.')" > <i class="fa fa-edit"></i></a></td>
                                    	 </tr>  ';
 
                                 }
@@ -1552,7 +1552,7 @@ class reservation extends Front_Controller {
                             	$html='<center><h1><span class="label label-danger">'.$this->lang->line('norecordfound').'</span></h1></center>';
                             	echo $html;
                             }
-                      
+
 
 	}
 	function updateagencycategory()
@@ -1763,7 +1763,7 @@ class reservation extends Front_Controller {
 
 			$this->load->model('agoda_model');
 			$reservation_channeldetails = get_data('import_reservation_AGODA',array('import_reserv_id '=>($id)))->row_array();
-		
+
 
 			$roomdetails = $this->db->query(" SELECT b.* FROM import_mapping_AGODA as a left join roommapping as b on a.map_id = b.import_mapping_id and b.channel_id=19 where a.roomtype_id =".$reservation_channeldetails['room_id']." and rate_type_id=".$reservation_channeldetails['rateplan_id'])->row_array();
 
@@ -1772,7 +1772,7 @@ class reservation extends Front_Controller {
 			$data['CC_DATE']=	substr($reservation_channeldetails['card_exp'], 0,2);
 			$data['CC_YEAR']=	substr($reservation_channeldetails['card_exp'], -2);
 			$data['CC_CVC']=	$reservation_channeldetails['card_cvv'];
-			
+
 
 			$data['RESER_NUMBER']= 	$reservation_channeldetails['booking_id'];
 			$data['RESER_DATE']= 	date('M d,Y',strtotime($reservation_channeldetails['booking_date']));
@@ -1790,7 +1790,7 @@ class reservation extends Front_Controller {
 			$data['ROOMCODE']=	'';
 			$data['promotion_name']=$reservation_channeldetails['promotion_name'];
 			$data['channel_namexml']=$reservation_channeldetails['channel_name'];
-			
+
 			if($reservation_channeldetails['status']=='ConfirmBooking')
 			{
 				$data['status'] = 'New Booking';
@@ -1857,11 +1857,11 @@ class reservation extends Front_Controller {
 		}
 		elseif($channel==40 || $channel==41 || $channel==42)
 		{
-		
+
 			require_once(APPPATH.'models/hotusagroup_model.php');
 					$hotusagroup = new hotusagroup_model();
 
-			$data	=	$hotusagroup->getReservationDetails($source='list',$id,$channel);		
+			$data	=	$hotusagroup->getReservationDetails($source='list',$id,$channel);
 		}
 		elseif($channel==8)
 		{
@@ -3919,12 +3919,12 @@ function resend_confirmation()
 
 		$query = $this->db->query("select e.status,e.guest_name, 'Hoteratus' AS channel, e.start_date,e.end_date,e.created_date as booking_date,e.reservation_code,e.price,e.email as user_email,e.mobile,e.room_id,e.channel_id,e.currency_id ,
 			case when b.property_name is null then 'No Room Set' else b.property_name end  roomname
-			FROM `manage_reservation`   AS e 
+			FROM `manage_reservation`   AS e
 			left join manage_property b on e.room_id = b.property_id
 			where  e.hotel_id = ".hotel_id()." order by DATE_FORMAT(STR_TO_DATE(e.start_date,'%d/%m/%Y'),'%Y-%m-%d') desc");
 
 		$booking=$this->db->query("select a.status,a.guest_name,'Booking.com' AS channel, DATE_FORMAT(a.arrival_date,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure_date,'%d/%m/%Y') as end_date, a.date_time as booking_date, concat(a.reservation_id,'-',a.roomreservation_id) reservation_code,
-			a.totalprice as price, b.email as user_email, telephone as mobile, 
+			a.totalprice as price, b.email as user_email, telephone as mobile,
 			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
 			2 as channel_id , b.currencycode  as currency_id
 			from import_reservation_BOOKING_ROOMS a
@@ -3934,7 +3934,7 @@ function resend_confirmation()
 			left join manage_property e on d.property_id = e.property_id
 		 where a.hotel_hotel_id=".hotel_id()." order by arrival_date desc")->result();
 		$airbnb=$this->db->query("select a.ResStatus as status,a.name as guest_name,'AIRBNB' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.ImportDate as booking_date, a.ResID_Value reservation_code,
-			a.AmountAfterTax as price, '' as user_email, '' as mobile, 
+			a.AmountAfterTax as price, '' as user_email, '' as mobile,
 			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
 			9 as channel_id , a.Currency  as currency_id
 			from import_reservation_AIRBNB a
@@ -3944,7 +3944,7 @@ function resend_confirmation()
 		 where a.hotel_id=".hotel_id()." order by arrival desc")->result();
 
 		$expedia=$this->db->query("select a.type as status,  concat(a.givenName,' ',a.surname) as guest_name,'EXPEDIA' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.created_time as booking_date, a.booking_id reservation_code,
-			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile, 
+			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile,
 			'' roomname,
 			1 as channel_id , a.currency  as currency_id
 			from import_reservation_EXPEDIA a
@@ -3955,7 +3955,7 @@ function resend_confirmation()
 		$chaReserCheckCount = array_merge($chaReserCheckCount,$airbnb);
 		$chaReserCheckCount = array_merge($chaReserCheckCount,$expedia);
 
-		
+
 		$test	=	'<table width="100%" style="width: 100%;">
 
 					<thead>
@@ -3992,9 +3992,9 @@ function resend_confirmation()
 
 					foreach($chaReserCheckCount as $row)
 					{
-						$user_email	=	$row->user_email; 
+						$user_email	=	$row->user_email;
 
-						 $mobile	=	$row->mobile; 
+						 $mobile	=	$row->mobile;
 
 
 						$roomName	=	$row->roomname;
@@ -4035,7 +4035,7 @@ function resend_confirmation()
 	}
 	function export_reservationPDF()
 	{
-		
+
 		if(admin_id()=='')
 		{
 			$this->is_login();
@@ -4045,18 +4045,18 @@ function resend_confirmation()
 			$this->is_admin();
 		}
 
-		
+
 
 		$chaReserCheckCount = array();
 
 		$query = $this->db->query("select e.status,e.guest_name, 'Hoteratus' AS channel, e.start_date,e.end_date,e.created_date as booking_date,e.reservation_code,e.price,e.email as user_email,e.mobile,e.room_id,e.channel_id,e.currency_id ,
 			case when b.property_name is null then 'No Room Set' else b.property_name end  roomname
-			FROM `manage_reservation`   AS e 
+			FROM `manage_reservation`   AS e
 			left join manage_property b on e.room_id = b.property_id
 			where  e.hotel_id = ".hotel_id()." order by DATE_FORMAT(STR_TO_DATE(e.start_date,'%d/%m/%Y'),'%Y-%m-%d') desc");
 
 		$booking=$this->db->query("select a.status,a.guest_name,'Booking.com' AS channel, DATE_FORMAT(a.arrival_date,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure_date,'%d/%m/%Y') as end_date, a.date_time as booking_date, concat(a.reservation_id,'-',a.roomreservation_id) reservation_code,
-			a.totalprice as price, b.email as user_email, telephone as mobile, 
+			a.totalprice as price, b.email as user_email, telephone as mobile,
 			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
 			2 as channel_id , b.currencycode  as currency_id
 			from import_reservation_BOOKING_ROOMS a
@@ -4066,7 +4066,7 @@ function resend_confirmation()
 			left join manage_property e on d.property_id = e.property_id
 		 where a.hotel_hotel_id=".hotel_id()." order by arrival_date desc")->result();
 		$airbnb=$this->db->query("select a.ResStatus as status,a.name as guest_name,'AIRBNB' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.ImportDate as booking_date, a.ResID_Value reservation_code,
-			a.AmountAfterTax as price, '' as user_email, '' as mobile, 
+			a.AmountAfterTax as price, '' as user_email, '' as mobile,
 			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
 			9 as channel_id , a.Currency  as currency_id
 			from import_reservation_AIRBNB a
@@ -4076,7 +4076,7 @@ function resend_confirmation()
 		 where a.hotel_id=".hotel_id()." order by arrival desc")->result();
 
 		$expedia=$this->db->query("select a.type as status,  concat(a.givenName,' ',a.surname) as guest_name,'EXPEDIA' AS channel, DATE_FORMAT(a.arrival,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure,'%d/%m/%Y') as end_date, a.created_time as booking_date, a.booking_id reservation_code,
-			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile, 
+			a.amountAfterTaxes as price, a.Email as user_email, a.number as mobile,
 			'' roomname,
 			1 as channel_id , a.currency  as currency_id
 			from import_reservation_EXPEDIA a
@@ -4087,7 +4087,7 @@ function resend_confirmation()
 		$chaReserCheckCount = array_merge($chaReserCheckCount,$airbnb);
 		$chaReserCheckCount = array_merge($chaReserCheckCount,$expedia);
 
-		
+
 		$test	=	'<table border="1" width="100%" style="width: 100%; border-collapse:separate;border-spacing:2px;border-color:#ddd;">
 
 					<thead>
@@ -4113,9 +4113,9 @@ function resend_confirmation()
 
 					foreach($chaReserCheckCount as $row)
 					{
-						$user_email	=	$row->user_email; 
+						$user_email	=	$row->user_email;
 
-						 $mobile	=	$row->mobile; 
+						 $mobile	=	$row->mobile;
 
 
 						$roomName	=	$row->roomname;
@@ -4135,7 +4135,7 @@ function resend_confirmation()
 						<td>'.$row->guest_name.'</td>
 						<td>'.$user_email.'</td>
 						<td>'.$mobile.'</td>
-		
+
 						<td>'.$price.'</td></tr>';
 					}
 
@@ -7547,11 +7547,11 @@ function save_reservation()
 	                if($total_extras_result){
 		                foreach($total_extras_result as $total){
 		                $total_ex = $total->amount;
-		                $add = $total_ex + $add; 
-		                } 
+		                $add = $total_ex + $add;
+		                }
 	                }
-                     
-                     $add = $add +($reser->price*$reser->num_rooms);                                                  
+
+                     $add = $add +($reser->price*$reser->num_rooms);
 
 				$message = "Location:Manual Reservation,Reservation Id:".$reser->reservation_code.", Name:".ucfirst($reser->guest_name).", Check In Date:".$reser->start_date.", Check Out Date:".$reser->end_date.", Room:".$room_name.", Price:".$reser->price.", Booking Status:New Booking, IP:".$this->input->ip_address()." User:".$username;
 
@@ -7932,12 +7932,12 @@ function save_reservation()
 
 			if($result){
 				$data['type']='success';
-				$data['message']='Extras Deleted successfully.';	
+				$data['message']='Extras Deleted successfully.';
 			}
 			else{
 
 				$data['type']='error';
-				$data['message']='Not Updated.';	
+				$data['message']='Not Updated.';
 			}
 
 			echo json_encode($data);
@@ -8016,7 +8016,7 @@ function save_reservation()
 
 
 			if(user_type()=='1' || user_type()=='2' && in_array('2',user_edit()))
-			{	
+			{
 
 				$result = $this->reservation_model->update_notes_channel($reservation_id,$description,$ChannelID);
 
@@ -9115,7 +9115,7 @@ function password_check()
 				$data['CC_YEAR']			=	substr($reservation_channeldetails['expireDate'], -2);
 				$data['CC_TYPE']            =   $reservation_channeldetails['cardCode'];
 				$data['CC_CVC']             = $reservation_channeldetails['SeriesCode'];
-		
+
 
 			}
 			else if($channel==19)
@@ -9177,7 +9177,7 @@ function password_check()
 					$tokenex = new tokenex();
 					$Valor=safe_b64decode($booking_table['cc_number']);
 					//$data['CC_NUMBER']=(strlen($Valor)>20?safe_b64decode($booking_table['cc_number']): $tokenex->Detokenizar(safe_b64decode($Valor)));
-				
+
 					$data['CC_NUMBER']=(strlen($Valor)>20?$Valor: $tokenex->Detokenizar($Valor));
 
 
@@ -10344,7 +10344,7 @@ function password_check()
 			echo 'error';
 		}
 	} */
-	
+
 	function getAllOtaReservations(){
 		if(admin_id()=='')
 		{
@@ -11247,14 +11247,14 @@ received">
                     $headers .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
 
             $this->load->model('agoda_model');
-					
+
 			$ch_details = get_data(CONNECT,array('user_id'=>current_user_type(),'hotel_id'=>hotel_id(),'channel_id'=>19))->row();
-			$urls="";						
+			$urls="";
 			if($ch_details->mode == 0){
 				$urls =$ch_details->test_url;
 			}else{
 				$urls =$ch_details->live_url;
-			}  
+			}
 			//$start = date(DATE_ATOM, strtotime("-50 days"));
 			$start = date(DATE_ATOM,strtotime("-50 days"));
 			$end = date(DATE_ATOM, strtotime("+30 days"));
@@ -11264,7 +11264,7 @@ received">
                           <property id="'.$ch_details->hotel_channel_id.'"/>
                         </criteria>
                       </request>';
-                      
+
             $x_r_rq_data['channel_id'] = '19';
 			$x_r_rq_data['user_id'] = current_user_type();
 			$x_r_rq_data['hotel_id'] = hotel_id();
@@ -11285,7 +11285,7 @@ received">
 			$x_r_rs_data['message'] = $output;
 			$x_r_rs_data['type'] = 'AGD_RES';
 			$x_r_rs_data['section'] = 'RESER';
-			
+
 			$data_api 	= simplexml_load_string($output);
 			mail("xml@hoteratus.com", "Agoda Reservations",$xml_data.$output , $headers);
 			$error =@$data_api->errors;
@@ -11305,7 +11305,7 @@ received">
 				foreach($BookingListing as $Booking_key=>$book)
 				{
 
-					
+
 					if($book['status'] != ""){
 
 						$xml_data ='<?xml version="1.0" encoding="UTF-8"?>
@@ -11335,7 +11335,7 @@ received">
 							}
 							else if($error == "")
 							{
-								
+
 								$Hotelbook=$data_bookingapi->bookings->booking;
 								$data['user_id']=current_user_type();
 								$data['hotel_id']=hotel_id();
@@ -11371,7 +11371,7 @@ received">
 								$data['phone'] = (string)$customer['phone'];
 
 
-							
+
 
 								$requests=$Hotelbook->requests->request;
 								$request='';
@@ -11407,24 +11407,24 @@ received">
 									foreach ($price as  $value) {
 										$pricedate .=(string)$value['date'].",";
 										$pricemoney .=(string)$value['net_inclusive_amt'].",";
-										
+
 									}
 								}
 								$data['pricedate']=$pricedate;
 								$data['pricemoney']=$pricemoney;
 								$data['paymentmodel']=(string)$Hotelbook->paymentmodel;
-								
+
 
 								$available = get_data('import_reservation_AGODA',array('hotel_id'=>hotel_id(),'booking_id'=>$data['booking_id']))->row_array();
 								if(count($available)==0)
-								{	
+								{
 									$result = "";
 									for($i = 0; $i < 10; $i++)
 									{
 									    $result .= mt_rand(0, 9);
 									}
 									$data['confirmation_number'] = $result;
-									
+
 									$array_keys = array_keys($data);
 									fetchColumn('import_reservation_AGODA',$array_keys);
 									insert_data('import_reservation_AGODA',$data);
@@ -11434,11 +11434,11 @@ received">
 									if(count($benefits)>0)
 									{
 
-										foreach ($benefits as  $value) 
+										foreach ($benefits as  $value)
 										{
 											 $dataextra=array('reservation_id'=> $id,'channel_id'=>19,'description'=>(string)$value['benefit_name'],'amount'=>0,'extra_date'=>date('Y-m-d'));
-						                        insert_data('extras',$dataextra); 
-						                         
+						                        insert_data('extras',$dataextra);
+
 										}
 									}
 
@@ -11447,7 +11447,7 @@ received">
 
 
 										$importBookingDetails	=	get_data('import_reservation_AGODA',array('hotel_id'=>hotel_id(),'booking_id'=>$book['booking_id']))->row_array();
-										
+
 
 										if(count($importBookingDetails)!=0)
 										{
@@ -11455,20 +11455,20 @@ received">
 												]));
 											$departure = date('Y-m-d',strtotime($importBookingDetails['departure']."-1 days"));
 
-											
+
 									            $roomMappingDetails = $this->db->query("SELECT B.property_id,B.rate_id FROM import_mapping_AGODA as A left join roommapping as B on A.map_id =B.import_mapping_id and B.channel_id=19
 													where A.roomtype_id=".$importBookingDetails['room_id']." and A.rate_type_ID=".$importBookingDetails['rateplan_id']." and A.hotel_id =".hotel_id())->row_array();
 
-									           
+
 
 
 									            if(count($roomMappingDetails)!=0)
-									            {    
+									            {
 
 									                require_once(APPPATH.'controllers/arrivalreservations.php');
 									                $callAvailabilities = new arrivalreservations();
-									                
-									                $callAvailabilities->updateavailability(0,$roomMappingDetails['property_id'],$roomMappingDetails['rate_id'],hotel_id(),$arrival,$departure ,'new');              
+
+									                $callAvailabilities->updateavailability(0,$roomMappingDetails['property_id'],$roomMappingDetails['rate_id'],hotel_id(),$arrival,$departure ,'new');
 
 									            }
 
@@ -11488,17 +11488,17 @@ received">
 									$benefits = $Hotelbook->benefits->benefit;
 									if(count($benefits)>0)
 									{
-										
-										foreach ($benefits as  $value) 
+
+										foreach ($benefits as  $value)
 										{	$available = get_data('extras',array('channel_id'=>19,'description'=>(string)$value['benefit_name']))->row_array();
 
 											if(count($available)==0)
 											{
 													 $dataextra=array('reservation_id'=> $id ,'channel_id'=>19,'description'=>(string)$value['benefit_name'],'amount'=>0,'extra_date'=>date('Y-m-d'),);
-						                        	insert_data('extras',$dataextra); 
-						                     
+						                        	insert_data('extras',$dataextra);
+
 											}
-										
+
 										}
 									}
 									if ($data['status']=="CancelBooking" )
@@ -11507,7 +11507,7 @@ received">
 		    							$res = $this->db->insert('new_history',$history);
 
 		    							$importBookingDetails	=	get_data('import_reservation_AGODA',array('hotel_id'=>hotel_id(),'booking_id'=>$book['booking_id']))->row_array();
-											
+
 
 											if(count($importBookingDetails)!=0)
 											{
@@ -11515,20 +11515,20 @@ received">
 													]));
 												$departure = date('Y-m-d',strtotime($importBookingDetails['departure']."-1 days"));
 
-												
+
 										            $roomMappingDetails = $this->db->query("SELECT B.property_id,B.rate_id FROM import_mapping_AGODA as A left join roommapping as B on A.map_id =B.import_mapping_id and B.channel_id=19
 														where A.roomtype_id=".$importBookingDetails['room_id']." and A.rate_type_ID=".$importBookingDetails['rateplan_id']." and A.hotel_id =".hotel_id())->row_array();
 
-										           
+
 
 
 										            if(count($roomMappingDetails)!=0)
-										            {    
+										            {
 
 										                require_once(APPPATH.'controllers/arrivalreservations.php');
 										                $callAvailabilities = new arrivalreservations();
-										                
-										                $callAvailabilities->updateavailability(0,$roomMappingDetails['property_id'],$roomMappingDetails['rate_id'],hotel_id(),$arrival,$departure ,'cancel');              
+
+										                $callAvailabilities->updateavailability(0,$roomMappingDetails['property_id'],$roomMappingDetails['rate_id'],hotel_id(),$arrival,$departure ,'cancel');
 
 										            }
 
@@ -11537,15 +11537,15 @@ received">
 
 								}
 
-								
 
-								
+
+
 
 							}
 					}
-				
+
 					//este bloque en comentario para ver si es necesario confirmar las reservaciones
-					/*	
+					/*
 					$confirm = date(DATE_ATOM);
 					$confitm_time = explode("+", $confirm);
 					$xml_confirm ='<?xml version="1.0" encoding="UTF-8"?>
@@ -11585,14 +11585,14 @@ received">
 						echo json_encode($meg);
 					}
 					*/
-					
+
 					//$this->reservation_model->send_confirmation_email(19,$data['booking_id'],$data['user_id'],$data['hotel_id']);
 					//$this->reservation_log(insep_decode($channel_id),$data['booking_id'],$data['user_id'],$data['hotel_id']);
-					
-				
-				}		
+
+
+				}
 			}
-			
+
 			$meg['result'] = '1';
 			$meg['content']='Successfully import reservation from '.$cha_name.'!!!';
 			echo json_encode($meg);
@@ -11761,7 +11761,7 @@ received">
 			$x_r_rq_data['message'] = $xml_data;
 			$x_r_rq_data['type'] = 'BOOK_REQ_SUMM';
 			$x_r_rq_data['section'] = 'RESER';
-			
+
 			$URL = "https://secure-supply-xml.booking.com/hotels/xml/reservationssummary";
 			$ch = curl_init($URL);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -11813,7 +11813,7 @@ received">
 
 	function getResrvationCronFromBooking($channel_id='')
 	{
-		
+
 		$AllConections = $this->db->query("select us.user_name,us.user_password,us.hotel_channel_id, mp.property_name, us.hotel_id, us.user_id
 											from
 											user_connect_channel as us
@@ -11854,7 +11854,7 @@ received">
 				$output = curl_exec($ch);
 				/* echo $output; */
 
-				
+
 				$x_r_rs_data['channel_id'] = '2';
 				$x_r_rs_data['user_id'] = '0';
 				$x_r_rs_data['hotel_id'] = '0';
@@ -11880,7 +11880,7 @@ received">
 		        }
 					$Mensaje .= '\n Successfully import '.count($data_api).' reservations Hotel: '.$property_name.' from Booking.com!!!';
 		        if (count($data_api)>0 && strlen($data_api) > 0)
-		       { 
+		       {
 		       	 	$conect=0;
 
 		       		foreach ($data_api as $value ) {
@@ -11902,7 +11902,7 @@ received">
 						$headers .= "CC: xml@hoteratus.com\r\n";
 						$headers .= "MIME-Version: 1.0\r\n";
 						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-								
+
 	    				//mail($to, $subject, $message, $headers);
 	    				mail('felix@hoteratus.com', $subject, $message, $headers);
 	    				//mail("xml@hoteratus.com", $subject, $message, $headers);
@@ -11914,7 +11914,7 @@ received">
 		     				$this->saveBooking_Booking_Cron($data_api,$ruid,$cha_name="Booking.com",$hotel_channel_id=$hotel_id,$x_r_rs_data);
 		       				mail("datahernandez@gmail.com"," Reservaciones importadas hotel_id = $hotel_id ".count($data_api),count($data_api).' '.$property_name);
 		     		}
-		       
+
 				}
 
 
@@ -11935,10 +11935,10 @@ received">
 	}
 
 
-	
+
 	function getResrvationCronFromBookingTest($channel_id='')
 	{
-		
+
 		$Mensaje='';
 					$hotel_id=25;
 									$xml_data ='<?xml version="1.0" encoding="UTF-8"?>
@@ -12036,7 +12036,7 @@ rewritten_from_id="0" rewritten_from_name="">40.20</price>
 [UmFuZG9tSVYkc2RlIyh9YVGYOXx0O6TcVsRREO+wuPKEo1gotOeyQzBQHm/Cr5pgZytVAeAnGA
 T7bx1FxR47F2YFgO0tYIWm]
 -->';
-				
+
 				$x_r_rs_data['channel_id'] = '2';
 				$x_r_rs_data['user_id'] = '0';
 				$x_r_rs_data['hotel_id'] = '0';
@@ -12068,7 +12068,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 				}
 
 
-			
+
 
 
 
@@ -12076,10 +12076,10 @@ T7bx1FxR47F2YFgO0tYIWm]
 				echo json_encode($meg);
 
 
-	
+
 	}
 
-	
+
 	function getResrvationCronFromBooking_OneWay($channel_id='')
 	{
 		$cron_details = get_data(B_WAY,array('id'=>5,'type'=>5))->row_array();
@@ -12231,14 +12231,14 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
 												{
 													$data[$cus_key]         =  (string)safe_b64encode($cust_value);
 												}
-												
+
 											}
 										}
 										else
@@ -12248,7 +12248,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -12435,13 +12435,13 @@ T7bx1FxR47F2YFgO0tYIWm]
 								{
 									if($data['status'] == 'modified'){
 										if($cust_value != ""){
-											
+
 											if($cus_key == "cc_number" )
 												{
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -12455,7 +12455,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -12775,7 +12775,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -12791,7 +12791,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -12962,12 +12962,12 @@ T7bx1FxR47F2YFgO0tYIWm]
 						}
 					}
 
-					
+
 					$user_details						= 	get_data(CONNECT,array('channel_id'=>'2','hotel_id'=>$hotel_channel_id))->row_array();
-					
-					
+
+
 					if(count($user_details)!=0)
-					{ 
+					{
 						$data['user_id']  				= 	$user_details['user_id'];
 						$data['hotel_hotel_id'] 		= 	$user_details['hotel_id'];
 						$room_datas['user_id'] 			= 	$user_details['user_id'];
@@ -12996,7 +12996,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -13010,7 +13010,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 													require_once(APPPATH.'controllers/tokenex.php');
 
 													$tokenex = new tokenex();
-													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value)); 
+													$data[$cus_key]   =(string)safe_b64encode($tokenex->tokenizar($cust_value));
 
 												}
 												else
@@ -13230,7 +13230,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 								$arrival = date('Y-m-d',strtotime($importBookingDetails['arrival_date']));
 								$departure = date('Y-m-d',strtotime($importBookingDetails['departure_date']."-1 days"));
 								$mappingDetails		=	get_data(BOOKING,array('B_room_id'=>$importBookingDetails['id'],'B_rate_id'=>$importBookingDetails['rate_id'],'owner_id'=>$user_details['user_id'],'hotel_id'=>$user_details['hotel_id']),'import_mapping_id')->row_array();
-							
+
 
 								if(count($mappingDetails)!=0)
 								{
@@ -13239,14 +13239,14 @@ T7bx1FxR47F2YFgO0tYIWm]
 									{
 										require_once(APPPATH.'controllers/arrivalreservations.php');
 										$callAvailabilities = new arrivalreservations();
-										
+
 										$callAvailabilities->updateavailability(2,$roomMappingDetails['property_id'], $roomMappingDetails['rate_id'],$user_details['hotel_id'],$arrival,$departure ,$data['status']);
 									}
 								}
 							}
 						}
 					}
-					
+
 
 					$this->booking_model->send_mail_to_hoteliers($data['id'],$user_details['user_id'],$user_details['hotel_id']);
 					$this->booking_model->store_ruid_booking($ruid,'Reservation Import',$user_details['user_id'],$user_details['hotel_id']);
@@ -15341,7 +15341,7 @@ BED PREFERENCE:Studio (2 Adults): 1 double - Studio (2 Adults): 1 double
 								if($arrival->email){
 									$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
 									$image = base_url().'uploads/logo/'.$admin_detail->site_logo;
-									if ($roomImage != '' && $roomImage != 0) { 
+									if ($roomImage != '' && $roomImage != 0) {
 										$image = base_url().'uploads/room_photos/'.$roomImage;
 									}
 									$content = array(
@@ -15653,7 +15653,7 @@ BED PREFERENCE:Studio (2 Adults): 1 double - Studio (2 Adults): 1 double
 									echo "Going to send mail";
 									$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
 									$image = base_url().'uploads/logo/'.$admin_detail->site_logo;
-									if ($roomImage != '' && $roomImage != 0) { 
+									if ($roomImage != '' && $roomImage != 0) {
 										$image = base_url().'uploads/room_photos/'.$roomImage;
 									}
 									$content = array(
@@ -15813,7 +15813,7 @@ BED PREFERENCE:Studio (2 Adults): 1 double - Studio (2 Adults): 1 double
 								//echo "ROOMIMAGE=>$roomImage";
 								$admin_detail = get_data(TBL_SITE,array('id'=>1))->row();
 								$image = base_url().'uploads/logo/'.$admin_detail->site_logo;
-								if ($roomImage != '' && $roomImage != 0) { 
+								if ($roomImage != '' && $roomImage != 0) {
 									$image = base_url().'uploads/room_photos/'.$roomImage;
 								}
 								$content = array(
@@ -16204,7 +16204,7 @@ BED PREFERENCE:Studio (2 Adults): 1 double - Studio (2 Adults): 1 double
     			{
     				$cha_name=get_data('manage_channel', array('channel_id'=>$data['channel_id']))->row()->channel_name;
     			}
-    			
+
 
     			mail("datahernandez@gmail.com","Canal nomber",$cha_name );
 

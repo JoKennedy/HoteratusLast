@@ -74,7 +74,8 @@
     <!--skycons-icons-->
 
     <script src="<?php echo base_url();?>user_asset/back/js/skycons.js"></script>
-    <script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>
+    <!--<script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/helpers.js"></script>
     <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/vroom.css">
     <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/vroom.js"></script>

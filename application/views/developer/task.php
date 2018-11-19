@@ -150,7 +150,9 @@
 													button: "Ok!",
 											}).then((n) => {
 													list();
+
 													$(".close").trigger('click');
+													$("#TaskC").trigger("reset");
 
 											});
 									} else {

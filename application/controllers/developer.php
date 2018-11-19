@@ -24,6 +24,19 @@ class developer extends Front_Controller {
       $data['DeveloperTaskStatus']=get_data('DeveloperTaskStatus',array('active'=>1))->result_array();
       $this->views('developer/task',$data);
     }
+    public function viewtask($taskid)
+    {
+      is_login();
+      $hotelid=hotel_id();
+      $data['page_heading'] = 'Developer Task';
+      $user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
+      $data= array_merge($user_details,$data);
+      $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+      $data['Developers']=get_data('Developers',array('active'=>1))->result_array();
+      $data['DeveloperTaskStatus']=get_data('DeveloperTaskStatus',array('active'=>1))->result_array();
+      $data['TaskInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+      $this->views('developer/edittask',$data);
+    }
     function taskhtml()
     {
       $status=$_POST['status'];

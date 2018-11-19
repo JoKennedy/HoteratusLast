@@ -27,6 +27,7 @@ class developer extends Front_Controller {
     public function viewtask($taskid)
     {
       is_login();
+      $taskid= insep_decode($taskid);
       $hotelid=hotel_id();
       $data['page_heading'] = 'Developer Task';
       $user_details = get_data(TBL_USERS,array('user_id'=>user_id()))->row_array();
@@ -34,7 +35,7 @@ class developer extends Front_Controller {
       $data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
       $data['Developers']=get_data('Developers',array('active'=>1))->result_array();
       $data['DeveloperTaskStatus']=get_data('DeveloperTaskStatus',array('active'=>1))->result_array();
-      $data['TaskInfo']= get_data('manage_hotel',array('hotel_id'=>$hotelid))->row_array();
+      $data['TaskInfo']= get_data('DeveloperTask',array('DeveloperTaskId'=>$taskid))->row_array();
       $this->views('developer/edittask',$data);
     }
     function taskhtml()
@@ -79,14 +80,14 @@ class developer extends Front_Controller {
                           $status='<a style="padding: 0px;" href="#" class="inline_username" data-type="select" data-name="StatusId"  data-pk="'.$value['DeveloperTaskId'].'" data-value="'.$value['StatusId'].'" data-source="'.lang_url().'developer/developerstatuslist" title="Select a Status"></a>';
                           $percentage='<a style="padding: 0px;" href="#" class="inline_username" data-type="number" data-name="PercentageProccess" data-pk="'.$value['DeveloperTaskId'].'" data-value="'.$value['PercentageProccess'].'" title="Change Percentege"></a>';
                           $html.=' <tr id="row'.$value['DeveloperTaskId'].'" scope="row" class="active"> <th scope="row">'.$i.'</th>
-                          <td><a onclick="viewtask('.$value['DeveloperTaskId'].')">'.$value['SubjectTask'].'</a></td>
+                          <td><a href="'.base_url().'developer/viewtask/'.insep_encode($value['DeveloperTaskId']).'">'.$value['SubjectTask'].'</a></td>
                           <td>'.$value['usercreate'].'</td>
                           <td>'.$developer.'</td>
                           <td>'.date('m/d/Y',strtotime($value['DateCreation'])).'</td>
                           <td align="center"> <span id="percentage'.$value['DeveloperTaskId'].'" class="percentage">'.$percentage.'%</span> <div class="progress progress-striped active">
                           <div id="class'.$value['DeveloperTaskId'].'" class="progress-bar progress-bar-'.$class.'" style="width: '.$value['PercentageProccess'].'%"></div></div></td>
                           <td><center>'.$status.'</center></td>
-                          <td><center><a onclick="deletetask('.$value['DeveloperTaskId'].')"><i class="fas fa-trash-alt"></i></a></center></td>';
+                          <td><center><a '.($value['PercentageProccess']>=100?'':'onclick="deletetask('.$value['DeveloperTaskId'].')"').'><i class="fas fa-trash-alt"></i></a></center></td>';
 
                       }
                        $html.='</tbody> </table> </div></div></div>';
@@ -158,10 +159,10 @@ class developer extends Front_Controller {
                  else
                  {
                      $src = $carpeta.'Task'.user_id().hotel_id().$nombre;
-                     move_uploaded_file($ruta_provisional, $src);
+                     move_uploaded_file($ruta_provisional, FCPATH.$src);
                      if(true)
                      {
-                         $fileattached.=(strlen($src)>0?'###':'')."/".$src;
+                         $fileattached.=(strlen($src)>0?'###':'').'/'.$src;
                      }
                      else
                      {

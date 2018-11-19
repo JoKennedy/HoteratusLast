@@ -123,6 +123,7 @@ $lang['developer']='Programador';
 $lang['created']='Creado';
 $lang['percentage']='Porcentage';
 $lang['status']='Estatus';
+$lang['selectstatus']='Selecciona un Estatus';
 $lang['action']='Acción';
 $lang['createtask']='Crear Nueva Tarea';
 $lang['addnewtask']='Agregar Nueva Tarea';
@@ -132,6 +133,8 @@ $lang['tasksaved']='Tarea Guardada';
 $lang['taskdeleted']='Tarea Eliminada';
 $lang['areyousure']='Estas Seguro?';
 $lang['doyouwantdelete']='Deseas Eliminar Esta Tarea';
+$lang['showattached']='Mostar Archivos Adjuntos';
+$lang['filesattached']='Archivos Adjuntos';
 //general
 $lang['profile_language'] = 'Idioma';
 $lang['general_email'] = 'Email';

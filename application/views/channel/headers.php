@@ -30,16 +30,16 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-   
+
     <link href="<?php echo base_url();?>user_asset/back/css/styletable.css" rel='stylesheet' type='text/css' />
-    
+
     <!-- Custom CSS -->
     <link href="<?php echo base_url();?>user_asset/back/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
     <link href="<?php echo base_url();?>user_asset/back/css/style.css" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->
    <!-- <link href="<?php echo base_url();?>user_asset/back/css/font-awesome.css" rel="stylesheet">-->
 
-    
+
     <!-- jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'>
     <!-- lined-icons -->
@@ -48,7 +48,7 @@
     <script src="<?php echo base_url();?>user_asset/back/js/jquery-1.10.2.min.js"></script>
 
    <link href="<?php echo base_url();?>user_asset/back/css/bootstrap-editable.css" rel='stylesheet' type='text/css' />
-  
+
 
     <script src="<?php echo base_url();?>user_asset/back/js/jquery-ui.js"></script>
     <script src="<?php echo base_url();?>user_asset/back/js/amcharts.js"></script>
@@ -58,7 +58,7 @@
     <link href="<?php echo base_url();?>user_asset/back/css/barChart.css" rel='stylesheet' type='text/css' />
     <link href="<?php echo base_url();?>user_asset/back/css/fabochart.css" rel='stylesheet' type='text/css' />
     <!--clock init-->
-    
+
 
 <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/TweenLite.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/CSSPlugin.min.js"></script>
@@ -74,12 +74,12 @@
     <!--skycons-icons-->
 
     <script src="<?php echo base_url();?>user_asset/back/js/skycons.js"></script>
-    <!--<script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>-->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="<?php echo base_url();?>user_asset/back/js/sweetalert.min.js"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
     <script src="<?php echo base_url();?>user_asset/back/js/helpers.js"></script>
     <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/vroom.css">
     <script type="text/javascript" src="<?php echo base_url();?>user_asset/back/js/vroom.js"></script>
-      <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/jquery-ui.css">  
+      <link rel="stylesheet" href="<?php echo base_url();?>user_asset/back/css/jquery-ui.css">
      <script src="<?php echo base_url();?>user_asset/back/js/bootstrap-editable.min.js"></script>
  <script src="<?php echo base_url();?>user_asset/back/js/scripts.js"></script>
     <!--//skycons-icons-->
@@ -109,28 +109,28 @@
                 <div class="header-section">
                     <!--menu-right-->
                     <div class="top_menu">
- 
+
                         <!--/profile_details-->
                         <div class="profile_details_left">
                             <ul class="nofitications-dropdown">
                                 <li class="dropdown note dra-down">
                                     <div id="dd" class="wrapper-dropdown-3" tabindex="1" >
-                                    
-                                        
-                                   
+
+
+
                                         <span><?= "ID [".$HotelInfo['hotel_id']."]" ?></span>
-                                    
+
                                         <ul class="dropdown"  >
                                             <div style="height:500px; " id="boxscroll4">
                                                 <div class="wrapper">
-                                                    
+
                                                 <?php
 
                                                 if($User_Type==1)
                                                 {
                                                     $AllHotel= $this->db->query("select * from manage_hotel where owner_id = $user_id order by trim(property_name)")->result_array();
 
-                                                    
+
                                                 }
                                                 else if($User_Type==2)
                                                 {
@@ -146,7 +146,7 @@
                                              </div>
                                         </ul>
                                     </div>
-                                     
+
                                     <script type="text/javascript">
 
                                         function changeproperty(hotelid)
@@ -169,7 +169,7 @@
                                                                 repeticion++;
                                                                 if(repeticion>5)
                                                                 {
-                                                                    
+
                                                                     break;
                                                                 }
                                                             }
@@ -182,9 +182,9 @@
                                                         {
                                                             location.reload();
                                                         }
-                                                       
-                                                        
-                                                         
+
+
+
 
                                                        }
                                                 });
@@ -412,7 +412,7 @@
                     }
 
 
-                    
+
                 ?>
                 <div id="mensagesincro" class="alert alert-warning" style="text-align: center; display: none " >
                     <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">&times; </i></span></button>
@@ -422,4 +422,3 @@
                     <button aria-label="Close" data-dismiss="alert" class="close" type="button"><span aria-hidden="true">&times; </i></span></button>
                     Correctly updated calendar
                 </div>
-

@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('form_validation','database','session','pagination','email','upload');   
+$autoload['libraries'] = array('form_validation','database','session','pagination','email','upload');
 
 
 /*
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('form_validation','database','session','paginatio
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('form','url','file','html','email','cookie','common','image','my_url','captcha');
+$autoload['helper'] = array('form','url','file','html','email','cookie','common','image','captcha');
 
 
 /*
@@ -123,14 +123,14 @@ spl_autoload_extensions('.php');
 spl_autoload_register(function($classname)
 {
 	$path = APPPATH . 'domain/' . str_replace('\\','/',$classname).'.php';
-	
+
 	if( is_file($path) )
 	{
 		require_once $path;
-	
+
 		return true;
 	}
-	
+
 	return false;
 });
 

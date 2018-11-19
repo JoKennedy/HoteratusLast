@@ -37,7 +37,7 @@ if (defined('ENVIRONMENT'))
 			ini_set('display_errors','1');
 			error_reporting(E_ALL);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);
@@ -178,6 +178,7 @@ if (defined('ENVIRONMENT'))
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
+
 
 
 	// The path to the "application" folder

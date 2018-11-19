@@ -128,11 +128,14 @@ $lang['action']='Action';
 $lang['createtask']='Create a Task';
 $lang['addnewtask']='Add a New Task';
 $lang['selectdeveloper']='Select a Developer';
+$lang['selectstatus']='Select a Status';
 $lang['files']='Files';
 $lang['tasksaved']='Task Saved';
 $lang['taskdeleted']='Task Deleted';
 $lang['areyousure']='Are you sure?';
 $lang['doyouwantdelete']='Do You Want Delete this Task';
+$lang['showattached']='Show Files Attached';
+$lang['filesattached']='Files Attached';
 //Profile
 
 

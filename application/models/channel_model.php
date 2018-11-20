@@ -515,7 +515,7 @@ class channel_model extends CI_Model
 	}
 	function savePolicy()
 	{
-		
+
 		$data['hotelid']=hotel_id();
 		$data['description']=$_POST['policydescription'];
 		$data['Name']=$_POST['policyname'];
@@ -546,7 +546,7 @@ class channel_model extends CI_Model
 		    $file = $_FILES["Image"];
 
 
-		   	
+
 		    $nombre = $file["name"] ;
 		    $tipo = $file["type"];
 		    $ruta_provisional = $file["tmp_name"];
@@ -556,24 +556,24 @@ class channel_model extends CI_Model
 		    $height = $dimensiones[1];
 		    $carpeta = "user_assets/images/Users/";
 
-		    
+
 		    if ($tipo != 'image/jpg' && $tipo != 'image/jpeg' && $tipo != 'image/png' && $tipo != 'image/gif')
 		    {
 
-		      $result["message"]= "Error, el archivo no es una imagen"; 
+		      $result["message"]= "Error, el archivo no es una imagen";
 		      $result['success']=false;
 		    }
 		    else
 
-		    {	
-		    	
+		    {
+
 		        $src = $carpeta.'user'.hotel_id().user_id().$nombre;
 		        move_uploaded_file($ruta_provisional, $src);
 
 
 			    $data['Logo']="/".$src;
-				
-			
+
+
 
 		    }
 
@@ -805,15 +805,12 @@ class channel_model extends CI_Model
 
 			 for ($i=0; $i <=30 ; $i++) {
 		 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
-
-
 		 			$dato=null;
 		 			$idfound=array_search(date('Y-m-d',strtotime($datereal)), array_column($datos,'datereal'));
-		 			if(!$idfound===false)
+		 			if(!$idfound===false || $idfound ==0)
 		 			{
 		 				$dato=$datos[$idfound];
 		 			}
-
 
 				$Editprices=(isset($dato['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'" " data-title="Change Price">'.floatval($dato['price']).'</a>':'Null');
 				$Editava=(isset($dato['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.',0,'.$hotelid.'"  data-title="Change Availability">'.intval($dato['availability']).'</a>':'Null');
@@ -826,9 +823,6 @@ class channel_model extends CI_Model
 				$ctas.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.',0,'.$hotelid.'" name ="cta" type="checkbox" '.(isset($dato['cta'])=='1'?($dato['cta']==1?'checked':''):'').' /> </td>';
 				$ctds.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.',0,'.$hotelid.'" name ="ctd" type="checkbox" '.(isset($dato['ctd'])=='1'?($dato['ctd']==1?'checked':''):'').' /> </td>';
 				$sss.='<td style="font-size: 12px; text-align:center; " > <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.',0,'.$hotelid.'" name ="stop_sell" type="checkbox" '.(isset($dato['stop_sell'])?($dato['stop_sell']==1?'checked':''):'').' /> </td>';
-
-
-
 
 		 	}
 
@@ -863,7 +857,7 @@ class channel_model extends CI_Model
 
 		 			$dator=null;
 		 			$idfoundr=array_search(date('Y-m-d',strtotime($datereal)), array_column($datosr,'datereal'));
-		 			if(!$idfoundr===false)
+		 			if(!$idfoundr===false || $idfoundr===0)
 		 			{
 		 				$dator=$datosr[$idfoundr];
 		 			}
@@ -878,10 +872,6 @@ class channel_model extends CI_Model
 					$ctas.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="cta" type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').'/> </td>';
 					$ctds.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="ctd" type="checkbox" '.(isset($dator['ctd'])=='1'?($dator['ctd']==1?'checked':''):'').'  /> </td>';
 					$sss.='<td style="font-size: 12px; text-align:center; " > <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="stop_sell" type="checkbox" '.(isset($dator['stop_sell'])?($dator['stop_sell']==1?'checked':''):'').' /> </td>';
-
-
-
-
 			 	}
 
 				$precio.='</tr>';
@@ -1082,6 +1072,8 @@ class channel_model extends CI_Model
 		$info['area']=$data['Area'];
 		$info['description']=$data['description'];
 		$info['meal_plan']=$data['MealPlanid'];
+		$info['showwidget']=(isset($data['showwidget'])?1:0);
+
 
 		if(update_data('manage_property',$info,array('property_id'=>$roomid,'hotel_id'=>$hotelid)))
 		{

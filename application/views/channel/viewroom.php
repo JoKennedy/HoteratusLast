@@ -59,11 +59,11 @@
                                                     <label style="padding:4px;" class="control-label controls">Selling period </label>
                                                     <select style="width: 100%; padding: 9px;" name="selling_period">
                                                         <?php
-                                                             $selling = array('Daily','Weekly','Monthly');  
-                                                             $i=0;                                                 
+                                                             $selling = array('Daily','Weekly','Monthly');
+                                                             $i=0;
                                                                 echo '<option value="0" >Select a Selling Period</option>';
                                                                 foreach ($selling as $sell=>$value) {
-                                                                    $i++;                                    
+                                                                    $i++;
                                                                     echo '<option  value="'.$i.'" '.($Roominfo['selling_period']==$i?'selected':'').'>'.$value.'</option>';
                                                                 }
                                                           ?>
@@ -90,11 +90,11 @@
                                                         <?php
                                                             if (count($mealplan)>0) {
                                                                 echo '<option value="0" >Select a Meal Plan</option>';
-                                                                foreach ($mealplan as $value) {                                    
+                                                                foreach ($mealplan as $value) {
                                                                     echo '<option  value="'.$value['meal_id'].'" '.($Roominfo['meal_plan']==$value['meal_id']?'selected':'').'>'.$value['meal_name'].'</option>';
                                                                 }
                                                             }
-                                                            else 
+                                                            else
                                                             {
                                                                 echo '<option value="0">Does not have Meal Plan</option>';
                                                             }
@@ -102,6 +102,20 @@
                                                           ?>
                                                     </select>
                                                 </div>
+
+                                                <div class="form-group1 col-md-6">
+                                                    <label  class="control-label controls">Show In Widget</label>
+                                                            <div class="input-group input-icon right">
+                                                                <div class="onoffswitch">
+                                                                    <input type="checkbox" name="showwidget" class="onoffswitch-checkbox" id="showwidget" <?=($Roominfo['showwidget']==1?'checked':'')?> >
+                                                                    <label class="onoffswitch-label" for="showwidget">
+                                                                        <span class="onoffswitch-inner"></span>
+                                                                        <span class="onoffswitch-switch"></span>
+                                                                    </label>
+                                                                </div>
+                                                        </div>
+                                                </div>
+
                                                 <div class="clearfix"> </div>
                                             </div>
                                             <div class="col-md-6 form-group button-2">
@@ -156,13 +170,13 @@
                                             <input type="hidden" name="hotelId" value="<?=insep_encode($Roominfo['hotel_id'])?>">
                                             <div class="vali-form">
                                                 <?php   $numbers = explode(",", $Roominfo['existing_room_number']);
-                                                        $count = intval($Roominfo['existing_room_count'] ); 
+                                                        $count = intval($Roominfo['existing_room_count'] );
 
                                                             if($count > 0){
                                                                 for($i=0;$i<$count;$i++) {
                                                                     $number = array_shift($numbers);
                                                                     echo '<div class="col-md-2 form-group1">';
-                                                                        
+
                                                                         echo ' <input name="Roomnumber[]" type="text" value="'.$number.'" placeholder="Room #" required="">';
                                                                     echo '</div>';
                                                                 }
@@ -184,7 +198,7 @@
                             <div class="forms-main">
                                 <div class="graph-form">
                                     <div class="validation-form">
-                                        
+
                                         <div class="buttons-ui" style="float:left;">
                                             <center><h3>Amenities</h3></center>
                                         </div>
@@ -192,7 +206,7 @@
                                             <a onclick="ShowaddAmenities()" class="btn green"><i class="fas fa-plus"></i> Add a New Amenity </a>
                                         </div>
                                         <div class="clearfix"></div>
-                                            
+
 
                                         <form id="amenitiesInfo" onsubmit="return pres();">
                                             <input type="hidden" name="roomid" value="<?=insep_encode($Roominfo['property_id'])?>">
@@ -200,7 +214,7 @@
                                             <div class="vali-form">
                                                 <div class="graph">
                                                     <nav class="second">
-                                                        <?php 
+                                                        <?php
                                                     foreach ($amenitiesType as  $value) {
                                                         echo '<a>';
                                                         echo $value['amenities_type'];
@@ -212,7 +226,7 @@
                                                      foreach ($amenitiesType as  $value) {
                                                          echo '<div class="context">';
                                                         $amenitiesdestails=$this->db->query("select * from room_amenities where type_id=".$value['id']." and (hotelid=0 or hotelid=".$Roominfo['hotel_id'].") ")->result_array();
-                                                        
+
                                                         foreach ($amenitiesdestails as $ame) {
 
                                                            echo '<div class="col-md-4">
@@ -237,10 +251,10 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                               
+
                                                 <h4 class="modal-title">Create a New Amenities</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span> 
+                                                <span aria-hidden="true">&times;</span>
                                             </div>
                                             <div>
                                                 <div class="graph-form">
@@ -253,7 +267,7 @@
                                                                 <?php
                                                                     if(count($amenitiesType)>0)
                                                                     {
-                                                                        echo '<option value="0">Select a Amenity Type </option>'; 
+                                                                        echo '<option value="0">Select a Amenity Type </option>';
                                                                         foreach ($amenitiesType as  $value) {
                                                                             echo '<option value="'.$value['id'].'">'.$value['amenities_type'].'</option>';
                                                                         }
@@ -265,7 +279,7 @@
                                                             <label class="control-label">Amenity Name</label>
                                                             <input style="background:white; color:black;"  name="AmenityName" id="AmenityName" type="text" placeholder="Type a Amenity Name" required="">
                                                         </div>
-                                                        
+
                                                         <div class="clearfix"> </div>
                                                         <br>
                                                         <br>
@@ -284,7 +298,7 @@
                                 function ShowaddAmenities()
                                 {
                                     $("#newamenety").modal();
-                                }  
+                                }
                                 function addAmenities()
                                 {
                                     if($("#AmenityTypeId").val()==0 || $("#AmenityTypeId").val()=='' )
@@ -339,7 +353,7 @@
                                             }
                                         }
                                     });
-                                }   
+                                }
 
                                 function saveRoomNumber() {
 
@@ -421,7 +435,7 @@
                             </script>
                         </section>
                         <section id="section-3">
-                            
+
                             <div style="float: left;" >
                                 <h3>Rate Type</h3>
                             </div>
@@ -429,7 +443,7 @@
                                 <a href="#newRate" data-toggle="modal" class="btn blue">Create New Rate</a>
                             </div>
                             <div class="clearfix"></div>
-                            
+
                             <div class="table-responsive">
                                 <div class="graph">
                                     <div class="tables">
@@ -450,8 +464,8 @@
                                                 {
                                                     $i=0;
                                                     foreach($ratetype as $rate)
-                                                    {     
-                                                        $update="'".$rate['ratetypeid']."','".$rate['name']."','".$rate['mealplanid']."','".$rate['pricingtype']."','".$rate['type']."','".$rate['fee']."','".$rate['value']."','".$rate['active']."'";                                            
+                                                    {
+                                                        $update="'".$rate['ratetypeid']."','".$rate['name']."','".$rate['mealplanid']."','".$rate['pricingtype']."','".$rate['type']."','".$rate['fee']."','".$rate['value']."','".$rate['active']."'";
                                                         $i++;
                                                         echo '  <tr id="extra'.$i.'" class="'.($i%2?'active':'success').'">
                                                                     <td>'.$i.'</td>
@@ -461,8 +475,8 @@
                                                                     <td align="center"> <a onclick="showratetype('.$update.')"><i class="fa fa-edit"></i> </a></td>
                                                                 </tr>';
                                                     }
-                                                }                               
- 
+                                                }
+
                                             ?>
                                             </tbody>
                                         </table>
@@ -473,7 +487,7 @@
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                            
+
                             <div style="float: left;" class="buttons-ui">
                                 <h3>Rooms Attributes</h3>
                             </div>
@@ -486,10 +500,10 @@
                                     <input type="hidden" name="RoomId" value="<?=$Roominfo['property_id']?>">
                                     <div  class="graph">
                                         <nav class="second">
-                                        <?php 
+                                        <?php
 
                                           $numbers = explode(",", $Roominfo['existing_room_number']);
-                                            $count = count($Roominfo['existing_room_count'] ); 
+                                            $count = count($Roominfo['existing_room_count'] );
 
                                                 if($count > 0){
 
@@ -507,9 +521,9 @@
                                         $numbers =(explode(",", $Roominfo['existing_room_number']));
                                          foreach ($numbers as  $number) {
                                              echo '<div class="context">';
-                                             $attributeIds=$this->db->query("select AttributeIds from room_number_attributes where RoomId =".$Roominfo['property_id']." and RoomNumber='$number' ")->row_array();   
+                                             $attributeIds=$this->db->query("select AttributeIds from room_number_attributes where RoomId =".$Roominfo['property_id']." and RoomNumber='$number' ")->row_array();
 
-                                            $attributeIds = (count($attributeIds)>0?explode(",", $attributeIds['AttributeIds']):array()); 
+                                            $attributeIds = (count($attributeIds)>0?explode(",", $attributeIds['AttributeIds']):array());
 
                                             foreach ($Attributes as $Attribute) {
 
@@ -525,9 +539,9 @@
                                     </div>
                                     <div class="col-md-12 form-group button-2">
                                             <a onclick="loadAttributes()" class="btn btn-primary">Save</a>
-                                    </div>               
+                                    </div>
                                 </form>
-                                
+
 
                             </div>
                             <div class="table-responsive">
@@ -550,8 +564,8 @@
                                                 {
                                                     $i=0;
                                                     foreach($Attributes as $Attribute)
-                                                    {     
-                                                        $update="'".$Attribute['AttributeId']."','".$Attribute['AttributeCode']."','".$Attribute['AttributeName']."','".$Attribute['Active']."'";                                            
+                                                    {
+                                                        $update="'".$Attribute['AttributeId']."','".$Attribute['AttributeCode']."','".$Attribute['AttributeName']."','".$Attribute['Active']."'";
                                                         $i++;
                                                         echo '  <tr id="extra'.$i.'" class="'.($i%2?'active':'success').'">
                                                                     <td>'.$i.'</td>
@@ -561,8 +575,8 @@
                                                                     <td align="center"> <a onclick="showratetype('.$update.')"><i class="fa fa-edit"></i> </a></td>
                                                                 </tr>';
                                                     }
-                                                }                               
- 
+                                                }
+
                                             ?>
                                             </tbody>
                                         </table>
@@ -577,10 +591,10 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                               
+
                                                 <h4 class="modal-title">Create a New Attribute</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span> 
+                                                <span aria-hidden="true">&times;</span>
                                             </div>
                                             <div>
                                                 <div class="graph-form" >
@@ -639,8 +653,8 @@
 
                                 }
                                 function addAttribute()
-                                {   
-                                    if ($("#AttributeName").val().length==0  ) 
+                                {
+                                    if ($("#AttributeName").val().length==0  )
                                     {
                                         swal({
                                                 title: "upps, Sorry",
@@ -650,7 +664,7 @@
                                             }).then((n) => {
                                                $("#AttributeName").focus();
                                             });
-                                        
+
                                         return;
                                     }
                                     else if($("#AttributeCode").val().length==0 )
@@ -695,7 +709,7 @@
                                         }
                                     });
 
-                                    
+
                                 }
 
 
@@ -729,7 +743,7 @@
                                                 {
                                                     $i=0;
                                                     foreach($extras as $extra)
-                                                    {                                                   
+                                                    {
                                                         $i++;
                                                         echo '  <tr id="extra'.$i.'" class="'.($i%2?'active':'success').'">
                                                                     <td>'.$i.'</td>
@@ -741,8 +755,8 @@
                                                                     <td align="center"> <a onclick="return delete_extras();"><i class="fas fa-trash-alt"></i> </a></td>
                                                                 </tr>';
                                                     }
-                                                }                                
-                                                
+                                                }
+
                                             ?>
                                                 </tbody>
                                             </table>
@@ -758,7 +772,7 @@
                                 <div class="validation-form">
                                     <div class="col-md-12 form-group1">
                                         <form id="roomimages"   accept-charset="utf-8">
-                                            <input type="hidden" name="roomid" value="<?=$Roominfo['property_id']?>">                                   
+                                            <input type="hidden" name="roomid" value="<?=$Roominfo['property_id']?>">
                                             <div class="col-md-6 form-group1">
                                                 <label class="control-label">Add New Images</label>
                                                 <input type="file" id="Image" style="color: black;" reqired name="Image[]" multiple accept="image/png,image/gif,image/jpeg">
@@ -770,9 +784,9 @@
                                     </div>
                                     <h4>All images uploaded</h4>
                                     <div class="col-md-12 form-group1 graph">
-                                         
+
                                               <ul class="gridder">
-                                             <?php 
+                                             <?php
 
                                                 $i=0;
                                                 foreach ($roomphotos as $value) {
@@ -782,24 +796,24 @@
                                                 }
                                              ?>
                                             </ul>
-                                            
-                                              <?php 
+
+                                              <?php
 
                                                 $i=0;
                                                 foreach ($roomphotos as $value) {
                                                     $i++;
-                                                   
+
                                                     echo '<div id="content'.$i.'" class="gridder-content"><center> <img id="'.$value['photo_id'].'" src="'.base_url().$value['photo_names'].'" /> </center></div>';
                                                 }
                                              ?>
-                                                                           
-          
-                            
+
+
+
                                     </div>
 
                                 </div>
 
-                               
+
                                 <div class="clearfix"></div>
                             </div>
                             <div id="newextra" class="modal fade" role="dialog" aria-hidden="true">
@@ -837,9 +851,9 @@
                                                              </select>
                                                         </div>
 
-                                                        
-                             
-                           
+
+
+
                                                         <div class="clearfix"> </div>
                                                         <div class="buttons-ui">
                                                             <a onclick="addExtra()" class="btn green"><i class="far fa-save"></i> Save</a>
@@ -867,14 +881,14 @@
                                     dataType: 'json',
                                     data: {id:id},
                                 });
-                                
-                                
-                                
+
+
+
                             }
 
                             function addExtra()
                             {
-                                if ($("#ExtraName").val().length==0  ) 
+                                if ($("#ExtraName").val().length==0  )
                                     {
                                         swal({
                                                 title: "upps, Sorry",
@@ -884,7 +898,7 @@
                                             }).then((n) => {
                                                $("#ExtraName").focus();
                                             });
-                                        
+
                                         return;
                                     }
                                     else if($("#ExtraPrice").val().length==0 ||$("#ExtraPrice").val()==0 )
@@ -981,7 +995,7 @@
                                             });
                                             return;
                                         }
-                                    
+
                                     var data = new FormData($("#roomimages")[0]);
                                     $.ajax({
                                         type: "POST",
@@ -1229,12 +1243,12 @@
                     <div class="buttons-ui">
                         <a onclick="saveratetype();" class="btn green">Save</a>
                     </div>
-                    
+
                 </form>
                  <div class="clearfix"></div>
             </div>
-            
-            
+
+
         </div>
     </div>
 </div>
@@ -1283,8 +1297,8 @@
                             <option  value="3 " >Per Occupancy</option>
                         </select>
                     </div>
-                   
-                   
+
+
                     <div style="text-align: center; padding:15px; " class="col-md-12 form-group1 form-last ">
                         <h3 ">Refundable</h3>
                         <hr>

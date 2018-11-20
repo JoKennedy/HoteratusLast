@@ -13,7 +13,7 @@
 
 .dataTables_filter input {
     color: black;
-} 
+}
 </style>
 
 <div class="outter-wp" style="height: 2000px;">
@@ -67,11 +67,11 @@
 
      <div class="col-md-4 form-group1">
         <button onclick="viewreport(6)" style="width: 100%;" type="button" class="btn btn-info ">No Show</button>
-    </div>  
+    </div>
      <div class="col-md-4 form-group1">
         <button style="width: 100%;" type="button" class="btn btn-info ">Outstanding Balance </button>
-    </div>  
-   
+    </div>
+
 </div>
 
 
@@ -82,12 +82,12 @@
     <div class="modal-dialog modal-lg">
         <div id="reportviewsize" class="modal-content">
             <div class="modal-header">
-           
+
                <center> <h4 class="modal-title">Report View</h4></center>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span> 
+                <span aria-hidden="true">&times;</span>
             </div>
-            <div> 
+            <div>
                  <div id="reportid"></div>
             </div>
         </div>
@@ -116,12 +116,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+
     $(".datepicker").datepicker();
 
     function viewreport(idreport)
     {
-       
+
         if ($("#startdate").val().length==0 ) {
              swal({
                     title: "upps, Sorry",
@@ -155,11 +155,11 @@
             success: function(msg) {
                 unShowWait();
                 $("#reportid").html(msg['html']);
-                
+
                 document.title=msg['title'];
                 orderby();
                 $("#reportview").modal();
-               
+
             }
         });
     }
@@ -194,7 +194,7 @@ function orderby()
         ],
         "order": [[ 0, "asc" ]]
     });
-    
+
 }
 
 </script>

@@ -11940,7 +11940,7 @@ received">
 	{
 
 		$Mensaje='';
-					$hotel_id=25;
+					$hotel_id=34;
 									$xml_data ='<?xml version="1.0" encoding="UTF-8"?>
 									<request>
 									<username>18</username>
@@ -11956,85 +11956,90 @@ received">
 									$x_r_rq_data['section'] = 'RESER';
 
 
-									$output = '<reservations>
-<reservation>
-<booked_at>2017-08-19T17:15:50+00:00</booked_at>
-<commissionamount>14.472</commissionamount>
-<currencycode>EUR</currencycode>
-<customer>
-<address>Gret Palucca Straße 11</address>
-<cc_cvc/>
-<cc_expiration_date>03/2022</cc_expiration_date>
-<cc_name>Marco Pilz</cc_name>
-<cc_number>454617FXVWFN6018</cc_number>
-<cc_type>Visa</cc_type>
-<city>Dresden</city>
-<company/>
-<countrycode>de</countrycode>
-<dc_issue_number/>
-<dc_start_date/>
-<email>mpilz.543953@guest.booking.com</email>
-<first_name>test Marco</first_name>
-<last_name>test </last_name>
-<remarks>Approximate time of arrival: between 14:00 and 15:00</remarks>
-<telephone>0176 34096046</telephone>
-<zip>01069</zip>
-</customer>
-<date>2017-12-12</date>
-<guest_counts/>
-<hotel_id>2344104</hotel_id>
-<hotel_name>Le Stanze del Carro - Appartamenti</hotel_name>
-<id>1763664250</id>
-<modified_at>2017-08-23T11:53:26+00:00</modified_at>
-<reservation_extra_info>
-<flags>
-<flag name="booker_is_genius"/>
-</flags>
-</reservation_extra_info>
-<room>
-<arrival_date>2017-12-14</arrival_date>
-<commissionamount>14.472</commissionamount>
-<currencycode>EUR</currencycode>
-<departure_date>2017-12-15</departure_date>
-<extra_info>This apartment features a sofa, seating area and
-stovetop.</extra_info>
-<facilities>TV, Air conditioning, Hairdryer, Iron, Refrigerator, Ironing
-facilities, Sitting area, Free toiletries, Toilet, Microwave, Bathroom,
-Heating, Kitchen, Bathtub or shower, Private entrance, Sofa, Tile/Marble
-floor, Electric kettle, Kitchenware, Wardrobe/Closet, Oven, Stovetop,
-Toaster, Bidet, Coffee machine, City view, Towels, Linens, Dining table,
-Upper floors accessible by elevator, Fold-up bed, Toilet paper , Sofa bed,
-Trash cans, Childrens cribs, Shampoo, Accessible by elevator</facilities>
-<guest_name>Marco Pilz</guest_name>
-<id>234410403</id>
-<info>No meal is included in this room rate. Children and Extra Bed Policy:
-All children are welcome. All children under 2 years are charged EUR 10 per
-night in a crib. All children under 12 years are charged EUR 15 per night
-for extra beds. Any additional older children or adults are charged EUR 20
-per night for extra beds. The maximum number of extra beds in a room is 1.
+									$output ='<reservations>
+ <reservation>
+ <booked_at>2018-11-21T05:36:59+00:00</booked_at>
+ <commissionamount>600.687</commissionamount>
+ <currencycode>ZAR</currencycode>
+ <customer>
+ <address>Plot 54887 Phakalane</address>
+ <cc_cvc>627</cc_cvc>
+ <cc_expiration_date>11/2019</cc_expiration_date>
+ <cc_name>Losika Seboni</cc_name>
+ <cc_number>4901324016306165</cc_number>
+ <cc_type>Visa</cc_type>
+ <city>Gaborone</city>
+ <company></company>
+ <countrycode>bw</countrycode>
+ <dc_issue_number></dc_issue_number>
+ <dc_start_date></dc_start_date>
+ <email>lsebon.123020@guest.booking.com</email>
+ <first_name>TESTTLosika</first_name>
+ <last_name>Seboni</last_name>
+ <remarks>You have a booker that would like free parking. (based on
+availability)</remarks>
+ <telephone>+267 71 600 060</telephone>
+ <zip></zip>
+ </customer>
+ <date>2018-11-21</date>
+ <guest_counts></guest_counts>
+ <hotel_id>2494146</hotel_id>
+ <hotel_name>Key West Condo Apartment</hotel_name>
+ <id>2040560215</id>
+ <modified_at>2018-11-21T05:37:00+00:00</modified_at>
+ <room>
+ <arrival_date>2018-11-23</arrival_date>
+ <commissionamount>600.687</commissionamount>
+ <currencycode>ZAR</currencycode>
+ <departure_date>2018-11-25</departure_date>
+ <extra_info>This apartment has a microwave, tile/marble floor and
+patio.</extra_info>
+ <facilities>Tea/Coffee maker, Minibar, Shower, Bathtub, TV, Air
+conditioning, Hairdryer, Hot tub, Kitchenette, Balcony, Refrigerator, Desk,
+Sitting area, Free toiletries, Toilet, Microwave, Dishwasher, Washing
+machine, Patio, Private Bathroom, Satellite channels, Kitchen, Cable
+channels, Bathtub or shower, Carpeted, Flat-screen TV, Private entrance,
+Sofa, Tile/Marble floor, View, Dining area, Electric kettle, Kitchenware,
+Towels/Sheets (extra fee), Wardrobe or closet, Oven, Stovetop, Toaster,
+Barbecue, Bidet, Lake view, Garden view, Pool view, Mountain view, Cleaning
+products, Coffee machine, Terrace, Towels, Linens, Dining table, Outdoor
+furniture, Outdoor dining area, Upper floors accessible by stairs only,
+Toilet paper, Adapted Bath, Pool With a View, Trash cans, Socket near the
+bed, Adapter, Key Access</facilities>
+ <guest_name>Losika Seboni</guest_name>
+ <id>249414601</id>
+ <info>No meal is included in this room rate. Children and Extra Bed Policy:
+All children are welcome. There is no capacity for extra beds in the room.
 Deposit Policy: The total price of the reservation may be charged anytime
 after booking. Cancellation Policy: Please note, if canceled, modified or in
 case of no-show, the total price of the reservation will be charged. </info>
-<max_children>0</max_children>
-<meal_plan>No meal is included in this room rate.</meal_plan>
-<name>Studio Apartment</name>
-<numberofguests>2</numberofguests>
-<price date="2017-12-14" genius_rate="no" rate_id="9333277"
-rewritten_from_id="0" rewritten_from_name="">40.20</price>
-<price date="2017-12-15" genius_rate="no" rate_id="9333277"
-rewritten_from_id="0" rewritten_from_name="">40.20</price>
-<remarks/>
-<roomreservation_id>1510099315</roomreservation_id>
-<smoking>0</smoking>
-<totalprice>80.4</totalprice>
-</room>
-<status>new</status>
-<time>19:15:50</time>
-<totalprice>80.40</totalprice>
-</reservation>
-</reservations><!-- RUID:
-[UmFuZG9tSVYkc2RlIyh9YVGYOXx0O6TcVsRREO+wuPKEo1gotOeyQzBQHm/Cr5pgZytVAeAnGA
-T7bx1FxR47F2YFgO0tYIWm]
+ <max_children>0</max_children>
+ <meal_plan>No meal is included in this room rate.</meal_plan>
+ <name>Apartment</name>
+ <numberofguests>4</numberofguests>
+ <price date="2018-11-23"
+ genius_rate="no"
+ rate_id="9618820"
+ rewritten_from_id="0"
+ rewritten_from_name="80% OFF ALL YEAR">2002.29</price>
+ <price date="2018-11-24"
+ genius_rate="no"
+ rate_id="9618820"
+ rewritten_from_id="0"
+ rewritten_from_name="80% OFF ALL YEAR">2002.29</price>
+ <remarks></remarks>
+ <roomreservation_id>2150627426</roomreservation_id>
+ <smoking>0</smoking>
+ <totalprice>4004.58</totalprice>
+ </room>
+ <status>new</status>
+ <time>06:36:59</time>
+ <totalprice>4004.58</totalprice>
+ </reservation>
+</reservations>
+<!-- RUID:
+[UmFuZG9tSVYkc2RlIyh9YUhDRrwT62DJxW7qDPGcbfjsjD4TPm7zxHh1xJp2h5kXSYTNi+jHvH
+EUIYo4cStIeEl9IMHhfn12]
 -->';
 
 				$x_r_rs_data['channel_id'] = '2';
@@ -12045,6 +12050,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 				$x_r_rs_data['section'] = 'RESER';
 
 				$data_api = simplexml_load_string($output);
+
 				$ruid = "";
 				preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($output), $output);
 				$end = end($output);
@@ -12060,7 +12066,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 		            $ruid =  trim(str_replace('] --', '', $ruid));
 		          // $this->booking_model->store_ruid_booking($ruid,'Reservation Import');
 		        }
-					$Mensaje .= '\n Successfully import '.count($data_api).' reservations Hotel: 25 test from Booking.com!!!';
+					$Mensaje .= '\n Successfully import '.count($data_api).' reservations Hotel: 34 test from Booking.com!!!';
 		        if (count($data_api)>0)
 		       {
 		       	$this->saveBooking_Booking_Cron($data_api,$ruid,$cha_name="Booking.com",$hotel_channel_id=$hotel_id,$x_r_rs_data);
@@ -12811,6 +12817,7 @@ T7bx1FxR47F2YFgO0tYIWm]
 						$room_datas['reservation_id'] 	= @$data['id'];
 						$room_datas['date_time'] 		= @$data['date'].' '.@$data['time'];
 						$room_datas['status'] 			= $data['status'];
+
 
 						if($data['status'] =='new')
 						{

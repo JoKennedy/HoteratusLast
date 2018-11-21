@@ -15,7 +15,11 @@ class Reservation_model extends CI_Model
         where(array('property_type'=>$property_id))->count_all_results();
         return $count;
     }
-
+    function savereserva($tabla,$data)
+    { echo $tabla;
+      var_dump($data);
+      echo insert_data($tabla,$data);
+    }
     function mailsettings()
     {
         $this->load->library('email');
@@ -178,7 +182,7 @@ class Reservation_model extends CI_Model
             $pagado['total']=0;
         }
 
-        $result=$this->db->query("SELECT  a.reservationinvoiceid, sum(b.total) Total, a.number,a.datecreate, 0.00 totalPaid  FROM 
+        $result=$this->db->query("SELECT  a.reservationinvoiceid, sum(b.total) Total, a.number,a.datecreate, 0.00 totalPaid  FROM
                                     reservationinvoice a
                                     left join reservationinvoicedetails b on a.reservationinvoiceid=b.reservationinvoiceid
                                     where a.reservationinvoiceid =$reservationinvoiceid
@@ -193,14 +197,14 @@ class Reservation_model extends CI_Model
         else if ($amount >$deuda) {
              $results['message']= 'The amount is different from the debt, check and try again';
              return $results;
-             
+
         }
 
 
 
         if ($paymenttypeid==1) {
 
-            
+
               $cash= array('reservationinvoiceid' =>($reservationinvoiceid) , 'paymenttypeid' =>($paymenttypeid),'amount' =>$amount,'comments' =>'','datecreate' =>date('Y-m-d H:i:s'),'paymentmethod' =>$paymentmethod,'currency'=>$currency);
 
              if(insert_data('reservationpaymenttype',$cash))
@@ -263,7 +267,7 @@ class Reservation_model extends CI_Model
 
                 $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Booking',"qty"=>1,"description"=>$ran->format('M d, Y'),"total"=>$pricede,"tax"=>$totaltax);
 
-                
+
                 insert_data('reservationinvoicedetails',$datadetails);
             }
 
@@ -271,10 +275,10 @@ class Reservation_model extends CI_Model
         if(count($extras)>0)
         {
             foreach ($extras as $value) {
-                
+
                 $datadetails =array("reservationinvoiceId"=>$invoiceid,"item"=>'Extras',"qty"=>1,"description"=>$value['description'],"total"=>$value['amount'],"tax"=>0, "productid"=>$value['extra_id']);
 
-                
+
                 insert_data('reservationinvoicedetails',$datadetails);
             }
         }
@@ -286,7 +290,7 @@ class Reservation_model extends CI_Model
     {
         $hotelid=hotel_id();
 
-        $result=$this->db->query("SELECT  a.reservationinvoiceid, sum(b.total)+sum(b.tax) Total, a.number,a.datecreate, 0.00 totalPaid  FROM 
+        $result=$this->db->query("SELECT  a.reservationinvoiceid, sum(b.total)+sum(b.tax) Total, a.number,a.datecreate, 0.00 totalPaid  FROM
                                     reservationinvoice a
                                     left join reservationinvoicedetails b on a.reservationinvoiceid=b.reservationinvoiceid
                                     where channelid=$channelID and reservationid=$ReservationID and hotelid=$hotelid
@@ -294,37 +298,37 @@ class Reservation_model extends CI_Model
 
         $count=count($result);
         if ($count==0) {
-            
+
              return array();
         }
 
 
 
-        for ($i=0; $i <$count ; $i++) { 
+        for ($i=0; $i <$count ; $i++) {
 
             $total=$this->db->query("select sum(amount) total from reservationpaymenttype where reservationinvoiceid =".$result[$i]['reservationinvoiceid'])->row_array();
             $result[$i]['totalPaid']=$total['total'];
             $result[$i]['due']=$result[$i]['Total']-$total['total'];
         }
 
-        return ($result);       
+        return ($result);
     }
     public function reservationdetails($channelId,$reservationId)
     {
         $hotelid =hotel_id();
         $data=array();
         if ($channelId==0) {
-            
+
             $cha_logo = get_data(TBL_SITE,array('id'=>'1'))->row();
             $data['LogoReservation']=base64_encode(file_get_contents("uploads/logo/".$cha_logo->reservation_logo));
-            
+
             $result=$this->db->query("select a.*, case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end statusId , STR_TO_DATE(start_date ,'%d/%m/%Y') checkin, STR_TO_DATE(end_date ,'%d/%m/%Y') checkout, b.country_name countryname, taxes, c.Name agencyname, case c.CommissionType when 2 then (a.price * (c.CommissionValue/100)) when 1 then c.CommissionValue else 0 end comissionmoney
                 from manage_reservation a
                 left join country b on a.country=b.id
                 left join agencies c on a.sourceid=c.AgencyId
                 where reservation_id = $reservationId and hotel_id=$hotelid ")->row_array();
 
-            $currency= $this->db->query("select currency_code from currency where currency_id = ".$result['currency_id'])->row_array();            
+            $currency= $this->db->query("select currency_code from currency where currency_id = ".$result['currency_id'])->row_array();
 
             $roomtype= $this->db->query("select * from manage_property where property_id = ".$result['room_id'])->row_array();
 
@@ -381,7 +385,7 @@ class Reservation_model extends CI_Model
             $data['rateDetailsPrice']=explode(',', $result['price_details']);
             $data['currency']=$currency['currency_code'];
             $data['extrasInfo']=$this->extrasAllTotal($channelId,$result['reservation_id']);
-            $data['totalStay']=($result['price']>0?number_format((float)$result['price'], 2, '.', ''):$this->totalRate(explode(',', $result['price_details'])))  ; 
+            $data['totalStay']=($result['price']>0?number_format((float)$result['price'], 2, '.', ''):$this->totalRate(explode(',', $result['price_details'])))  ;
             $data['grandtotal']=number_format(($data['totalStay']+$data['extrasInfo']['total']), 2, '.', '');
             $data['extrastoroom']=get_data("room_extras", array("room_id"=>$result['room_id']))->result_array();
             $data['allguest']=$result['guestname'];
@@ -391,19 +395,19 @@ class Reservation_model extends CI_Model
             $taxtotal=0;
             $taxP=0;
             if (isset($result['taxes']) && strlen($result['taxes'])>2) {
-                                                            
+
                 $taxinfo=explode(',', $result['taxes']);
                 $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
-                foreach ($taxinfo as  $tax) { 
+                foreach ($taxinfo as  $tax) {
                     $tax=explode('*', $tax);
                     $taxid= array_search($tax[0], array_column($taxdata, 'taxid'));
                     $TOTALTAX=$data['totalStay']*($tax[1]/100);
-                    $taxP+=($tax[1]/100);                                                   
+                    $taxP+=($tax[1]/100);
                     if($tax[2]==0)
                     {
                         $taxtotal+=$TOTALTAX;
                     }
-                    
+
                 }
             }
              $data['totalTax']=$taxtotal;
@@ -434,7 +438,7 @@ class Reservation_model extends CI_Model
 
     }
     function totalRate($rate)
-    {   
+    {
         $total=0;
         if(count($rate)>0)
         {
@@ -444,7 +448,7 @@ class Reservation_model extends CI_Model
 
             return number_format((float)$total, 2, '.', '');
         }
-            
+
         else
         {
             return 0.00;
@@ -480,13 +484,13 @@ class Reservation_model extends CI_Model
 
 
         $invoice=get_data('reservationinvoice',array('channelId'=>$channelID ,'reservationId'=>$reservationId));
-        
+
 
         if ($invoice->num_rows()>0) {
             $invoice=$invoice->row_array();
             $number=$invoice['Number'];
             $invoiceId=$invoice['reservationinvoiceid'];
-       
+
         }
         else
         {
@@ -509,10 +513,10 @@ class Reservation_model extends CI_Model
             }
 
             if ( $invoiceId>0) {
-              
+
               $datadetails =array("reservationinvoiceId"=>$invoiceId,"item"=>'Extras',"qty"=>1,"description"=>$d[2],"total"=>$d[1],"tax"=>0,'productid'=>$id);
 
-                
+
                 insert_data('reservationinvoicedetails',$datadetails);
 
 
@@ -524,7 +528,7 @@ class Reservation_model extends CI_Model
 
         }
 
-        return 'Done';   
+        return 'Done';
     }
     function delete_extras($extra_id,$reser_id,$channel_id,$detail)
     {
@@ -538,7 +542,7 @@ class Reservation_model extends CI_Model
             $invoice=$invoice->row_array();
             $number=$invoice['Number'];
             $invoiceId=$invoice['reservationinvoiceid'];
-       
+
         }
         else
         {
@@ -555,7 +559,7 @@ class Reservation_model extends CI_Model
 
 
        if ( $invoiceId>0) {
-          
+
           $monto=$this->db->query("select sum(total) total from  reservationinvoicedetails where item ='Extras' and  reservationinvoiceId = $invoiceId and productid=$extra_id")->row_array();
 
           $this->db->query("delete from reservationinvoicedetails  where item ='Extras' and  reservationinvoiceId = $invoiceId and productid=$extra_id ");
@@ -565,7 +569,7 @@ class Reservation_model extends CI_Model
             insert_data('new_history',$data);
         }
 
-        
+
 
         return true;
     }
@@ -784,25 +788,25 @@ class Reservation_model extends CI_Model
     }
 
     function addtaxesprice($info)
-    {     
+    {
 
         $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
         foreach ($info as $key =>   $result) {
                     $taxtotal=0;
                     $TOTALTAX=0;
                     if (isset($result['taxes']) && strlen($result['taxes'])>2) {
-                                                                
+
                         $taxinfo=explode(',', $result['taxes']);
-                        
-                        foreach ($taxinfo as  $tax) { 
+
+                        foreach ($taxinfo as  $tax) {
                             $tax=explode('*', $tax);
                             $taxid= array_search($tax[0], array_column($taxdata, 'taxid'));
-                            $TOTALTAX=$result['price']*($tax[1]/100);                                                 
+                            $TOTALTAX=$result['price']*($tax[1]/100);
                             if($tax[2]==0)
                             {
                                 $taxtotal+=$TOTALTAX;
                             }
-                            
+
                         }
 
                         $info[$key]['price']+=$taxtotal;
@@ -822,7 +826,7 @@ class Reservation_model extends CI_Model
         $checkinout="";
 
 
-        if($status!=5 && $status!=6) 
+        if($status!=5 && $status!=6)
         {
             $checkinout="and ( (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') or (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
         }
@@ -834,23 +838,23 @@ class Reservation_model extends CI_Model
         }
 
         if (strlen($channels)==0 || $channels==0 ) {
-            
+
             $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in ($status) ";
 
             $hoteratus=$this->addtaxesprice($this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
                 b.property_name roomName, taxes
-            FROM manage_reservation a        
-            left join manage_property b on a.room_id = b.property_id     
+            FROM manage_reservation a
+            left join manage_property b on a.room_id = b.property_id
             where a.hotel_id=$hotelid and a.channel_id=0   $checkinout ".(strlen($status)==0?'':$sta)." order by a.created_date desc")->result_array());
 
-            
+
          }
 
         $allchannel=$this->db->query("select  a.channel_id,channel_name from user_connect_channel a
                                         left join manage_channel b on a.channel_id=b.channel_id where a.hotel_id =$hotelid ".(strlen($channels)==0?'':' and a.channel_id='.$channels)." order by channel_id ")->result_array();
 
         if( count($hoteratus)>0)
-        {   
+        {
             $alllogo['LogoReservation0'] = $LogoReservation ;
             $result= array_merge($result,$hoteratus);
         }
@@ -859,7 +863,7 @@ class Reservation_model extends CI_Model
           foreach ($allchannel as  $value) {
               $canalid=$value['channel_id'];
               if ($canalid==1) {
-                
+
                 $this->load->model('expedia_model');
                 $expedia=$this->expedia_model->ReservationList($hotelid,$date1,$date2,$status);
                  if(count($expedia)>0)
@@ -912,9 +916,9 @@ class Reservation_model extends CI_Model
         $alllogo=array();
         $hoteratus=array();
         $checkinout="";
-        
-        
-        if(($status!=5 && $status!=6) && $t=='') 
+
+
+        if(($status!=5 && $status!=6) && $t=='')
         {
             $checkinout="and ( (STR_TO_DATE(start_date ,'%d/%m/%Y') between '$date1' and '$date2') or (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
         }
@@ -925,26 +929,26 @@ class Reservation_model extends CI_Model
            $checkinout="and ( (STR_TO_DATE(end_date ,'%d/%m/%Y') between '$date1' and '$date2')) ";
         }
 
-        
+
 
         if (strlen($channels)==0 || $channels==0 ) {
-            
+
             $sta="and case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end in ($status) ";
 
             $hoteratus=$this->addtaxesprice($this->db->query("SELECT reservation_id,reservation_code,case a.status when 'Canceled' then 0 when 'Reserved' then 1 when 'modified' then 2 when 'No Show' then 3 when 'Confirmed' then 4 when 'Checkin' then 5 when 'Checkout' then 6 else 7 end status,guest_name Full_Name,room_id,channel_id,STR_TO_DATE(start_date ,'%d/%m/%Y') start_date,RoomNumber,STR_TO_DATE(end_date,'%d/%m/%Y')  end_date,a.booking_date,a.currency_id,a.price,a.num_nights,a.num_rooms,a.created_date as current_date_time ,  'Manual Booking' channel_name,
                 b.property_name roomName, taxes
-            FROM manage_reservation a        
-            left join manage_property b on a.room_id = b.property_id     
+            FROM manage_reservation a
+            left join manage_property b on a.room_id = b.property_id
             where a.hotel_id=$hotelid and a.channel_id=0   $checkinout ".(strlen($status)==0?'':$sta)." order by a.created_date desc")->result_array());
 
-            
+
          }
 
         $allchannel=$this->db->query("select  a.channel_id,channel_name from user_connect_channel a
                                         left join manage_channel b on a.channel_id=b.channel_id where a.hotel_id =$hotelid ".(strlen($channels)==0?'':' and a.channel_id='.$channels)." order by channel_id ")->result_array();
 
         if( count($hoteratus)>0)
-        {   
+        {
             $alllogo['LogoReservation0'] = $LogoReservation ;
             $result= array_merge($result,$hoteratus);
         }
@@ -953,7 +957,7 @@ class Reservation_model extends CI_Model
           foreach ($allchannel as  $value) {
               $canalid=$value['channel_id'];
               if ($canalid==1) {
-                
+
                 $this->load->model('expedia_model');
                 $expedia=$this->expedia_model->ReservationList($hotelid,$date1,$date2,$status);
                  if(count($expedia)>0)
@@ -1047,8 +1051,8 @@ class Reservation_model extends CI_Model
 			{
 
 				$channel_name = strtoupper($channel->channel_name);
-               
-                                
+
+
 				if($channel_name == "BOOKING.COM")
 				{
 					$channel_name = "BOOKING";
@@ -1323,11 +1327,11 @@ class Reservation_model extends CI_Model
 								}else if($val->status == "cancelled"){
 									$status = "Canceled";
 								}
-                                else 
+                                else
                                 {
                                     $status=$val->status;
                                 }
-                                
+
 
 								$bk_details = booking_hotel_id();
 								$bkg_rooms = get_data("import_reservation_BOOKING_ROOMS",array('reservation_id'=>$val->id, 'user_id'=>current_user_type(), 'hotel_hotel_id'=>hotel_id(),'hotel_id'=>$bk_details))->result_array();
@@ -1734,7 +1738,7 @@ class Reservation_model extends CI_Model
                     }
                     return $travel;
                 }
-	            else if ($channel_name == "AIRBNB") 
+	            else if ($channel_name == "AIRBNB")
                 {
                     $this->load->model("airbnb_model");
                     $travel = $this->airbnb_model->getReservationLists('separate');
@@ -2542,7 +2546,7 @@ class Reservation_model extends CI_Model
 			}else{
 				$data = array('status'=>'Confirmed');
 			}
-            
+
         }
         else if($this->input->post('method')=='cancel')
         {
@@ -2550,7 +2554,7 @@ class Reservation_model extends CI_Model
 				$data = array('status'=>'Canceled','comments'=>$this->input->post('comments'),'modified_date'=>date('Y-m-d'),'cancel_date'=>date('Y-m-d H:i:s'));
 			}else{
 				$data = array('status'=>'Canceled','modified_date'=>date('Y-m-d'),'cancel_date'=>date('Y-m-d H:i:s'));
-			}            
+			}
         }
 		else if($this->input->post('method')=='noshow')
         {
@@ -2585,11 +2589,11 @@ class Reservation_model extends CI_Model
 
                             require_once(APPPATH.'controllers/arrivalreservations.php');
                             $callAvailabilities = new arrivalreservations();
-                            $callAvailabilities->updateavailability(0,$reservation_details->room_id,$reservation_details->rate_types_id,hotel_id(),$startDate->format('Y-m-d'),$endDate->format('Y-m-d') ,'cancel');              
+                            $callAvailabilities->updateavailability(0,$reservation_details->room_id,$reservation_details->rate_types_id,hotel_id(),$startDate->format('Y-m-d'),$endDate->format('Y-m-d') ,'cancel');
 
-                        
 
-               
+
+
                 }
             }
 
@@ -3298,10 +3302,10 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
     }
     function findRoomsAvailable()
     {
-    
+
         $start_date     =   $_POST['date1Edit'];
 
-        $end_date       =  date('Y-m-d',strtotime($_POST['date2Edit']."-1 days")); 
+        $end_date       =  date('Y-m-d',strtotime($_POST['date2Edit']."-1 days"));
 
         $rooms          =  $_POST['numrooms'];
 
@@ -3316,42 +3320,42 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         $nights         =   ceil(abs($end - $start) / 86400);
 
 
-   
-        $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
+
+        $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date ,
                 U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
                sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
                 count(*) available, min(U.availability) roomAvailability
-                FROM room_update U 
-                LEFT JOIN manage_property P ON U.room_id = P.property_id 
-                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
-                AND U.availability >=$rooms  
-                AND U.minimum_stay <= $nights AND P.member_count >=$adult 
+                FROM room_update U
+                LEFT JOIN manage_property P ON U.room_id = P.property_id
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date'
+                AND U.availability >=$rooms
+                AND U.minimum_stay <= $nights AND P.member_count >=$adult
                 AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
                 AND stop_sell='0' AND P.hotel_id=".hotel_id()."
                 GROUP BY U.room_id ORDER BY P.`order` ")->result_array();
-       
-      
+
+
 
         $available= '';
 
         if (count($result)>=0 ) {
             $i=0;
             foreach ($result as $value) {
-                
+
                 if ( $value['available']>=$nights && $value['totalprice']>0) {
                     $available[$i]=$value ;
 
-                     $rate=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date , 
+                     $rate=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date ,
                     U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
                    sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
                     count(*) available, min(U.availability) roomAvailability, r.name,U.rate_types_id
-                    FROM room_rate_types_base U 
+                    FROM room_rate_types_base U
                     LEFT JOIN manage_property P ON U.room_id = P.property_id
                     LEFT JOIN ratetype r ON U.rate_types_id = r.ratetypeid
-                    WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date' 
-                    AND U.availability >=$rooms  
+                    WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '$start_date' and '$end_date'
+                    AND U.availability >=$rooms
                     and U.room_id = ".$value['room_id']."
-                    AND U.minimum_stay <= $nights AND P.member_count >=$adult 
+                    AND U.minimum_stay <= $nights AND P.member_count >=$adult
                     AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
                     AND stop_sell='0' AND P.hotel_id=".hotel_id()."
                     GROUP BY U.rate_types_id ORDER BY U.rate_types_id DESC")->result_array();
@@ -3359,7 +3363,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                      if (count($rate)>=0 ) {
                         $y=0;
                         foreach ($rate as $valu) {
-                            
+
                             if ( $valu['available']>=$nights && $valu['totalprice']>0) {
                                 $available[$i]['rate'][$y]=$valu ;
                                 $y++;
@@ -3375,11 +3379,11 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
     }
 
-  
+
     function saveReservation()
     {
 
-       
+
 
          $nights  =   ceil(abs(strtotime($_POST['checkout'] )- strtotime($_POST['checkin'] )) / 86400);
 
@@ -3390,30 +3394,30 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         if($_POST['rateid']==0)
         {
              $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
-                FROM room_update U 
-                LEFT JOIN manage_property P ON U.room_id = P.property_id 
-                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
-                AND U.availability >=".$_POST['numroom']." 
-                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
-                AND P.children >=".$_POST['child']." AND individual_channel_id =0 
+                FROM room_update U
+                LEFT JOIN manage_property P ON U.room_id = P.property_id
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."'
+                AND U.availability >=".$_POST['numroom']."
+                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']."
+                AND P.children >=".$_POST['child']." AND individual_channel_id =0
                 AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
-                ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array(); 
+                ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
         }
-      
+
         else
         {
               $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
-                FROM room_rate_types_base U 
-                LEFT JOIN manage_property P ON U.room_id = P.property_id 
-                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."' 
-                AND U.availability >=".$_POST['numroom']." 
-                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']." 
-                AND P.children >=".$_POST['child']." AND individual_channel_id =0 
-                AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']." 
+                FROM room_rate_types_base U
+                LEFT JOIN manage_property P ON U.room_id = P.property_id
+                WHERE str_to_date(U.separate_date,'%d/%m/%Y') between '".$_POST['checkin']."' and '".$checkout_date."'
+                AND U.availability >=".$_POST['numroom']."
+                AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']."
+                AND P.children >=".$_POST['child']." AND individual_channel_id =0
+                AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
                 and U.rate_types_id =".$_POST['rateid']."
                 ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
         }
-    
+
         if(count($result)>0)
         {
             if (count($result)>=$_POST['numroom']) {
@@ -3424,7 +3428,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                $pricesdetails='';
 
                foreach ($result as $value) {
-                   
+
                    $prices += ($newprices=="-1"?$value['price']:$newprices);
 
                    $pricesdetails .= (strlen($pricesdetails)>0?',':'').($newprices=="-1"?$value['price']:$newprices);
@@ -3437,7 +3441,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                $code = $this->db->query("SELECT max(reservation_code) code FROM manage_reservation where hotel_id=".hotel_id()."")->row_array();
 
                 if(isset($code['code'])){$reservation_code   =   sprintf('%08d',$code['code']+1);}else{$reservation_code = sprintf('%08d',1);}
-                
+
 
                 $data['hotel_id']=hotel_id();
                 $data['user_id']=user_id();
@@ -3501,7 +3505,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     insert_data('new_history',$history);
 
                     $this->load->model("room_auto_model");
-                   
+
                     $indata['RoomNumber'] =  $this->room_auto_model->Assign_room($data['hotel_id'],$data['room_id'],$_POST['checkin'],$_POST['checkout'] );
 
                    if (strlen($indata['RoomNumber'])>0) {
@@ -3516,9 +3520,9 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                         insert_data('roomnumberused',$roomnumberdata);
                         update_data('manage_reservation',$indata,array('hotel_id'=> $data['hotel_id'],'reservation_id' => $id));
                     }
-                    
 
-                                     
+
+
 
                     $response['success']=true;
                     $response['reservationid']=$id;
@@ -3526,10 +3530,10 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     return $response;
 
                 }
-                
+
             }
             else
-            {            
+            {
                 $response['success']=false;
                 $response['availability']=0;
                 return false;
@@ -3543,9 +3547,9 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
     }
 
     function updatereservation($channelid,$resid,$name,$lastname,$guest)
-    {   
+    {
 
-     
+
         $result['success']=false;
         if($channelid==0)
         {
@@ -3639,7 +3643,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         $zipcode		= 	$_GET['zipcode'];
 
         $arrivaltime    =   $_GET['arrivaltime'];
-      
+
            $hotel_detail           =   get_data(HOTEL,array('owner_id'=>current_user_type(),'hotel_id'=>hotel_id()))->row()->currency;
 
                 if  ($hotel_detail !=0)   {
@@ -3659,7 +3663,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 		}
 
              $R_taxes = get_data(TAX,array('user_id'=>$user_id,'hotel_id'=>hotel_id()))->result_array();
-             $get_numrows    =   $this->db->query('SELECT * FROM manage_reservation');     
+             $get_numrows    =   $this->db->query('SELECT * FROM manage_reservation');
 
                     $reservation_code   =   sprintf('%08d',$get_numrows->num_rows()+100);
                      /*  bank details start */
@@ -3726,7 +3730,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                         }
                     }
 
-       
+
                     $startDate      =   DateTime::createFromFormat("d/m/Y",$start_date);
 
                     $endDate        =   DateTime::createFromFormat("d/m/Y",$end_date);
@@ -3738,14 +3742,14 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     $roomMappingDetails =  '';
 
 
-       
 
-            
+
+
             $count=0;
-            while ( $count <$rooms) 
+            while ( $count <$rooms)
             {
-                $count++;                     
-   
+                $count++;
+
 
                 $data	=	array(
         							'reservation_code'=>$reservation_code,
@@ -3805,16 +3809,16 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                                     'bank_details'=>$bank_deta,
 
         							'currency_id'=>$currencycodes,
-                                    
+
                                     'arrivaltime'=>$arrivaltime,
-                                    
+
         						);
 
 
 
                  $array_keys = array_keys($data);
                 fetchColumn('manage_reservation',$array_keys);
-                
+
                 if(insert_data('manage_reservation',$data))
                 {
         			$id =  getinsert_id();
@@ -3841,7 +3845,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                             {
                                 foreach ($_GET['extra'] as $key => $value) {
                                    $extrasid .= (strlen($extrasid)>0?",":"").$key;
-                                   $extrasmontos.=(strlen($extrasmontos)>0?",":"").$value; 
+                                   $extrasmontos.=(strlen($extrasmontos)>0?",":"").$value;
                                    $totalextras +=$value;
                                 }
                             }
@@ -3856,17 +3860,17 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                         {
                         $contar = count($extrasid) ;
 
-                        for ($i=0; $i < $contar ; $i++) { 
+                        for ($i=0; $i < $contar ; $i++) {
 
                             if ($extrasid[$i]!="")
                             {
-                                  $descrip=get_data('room_extras',array('room_id'=>$room_id,'extra_id'=>$extrasid[$i]))->row()->name; 
+                                  $descrip=get_data('room_extras',array('room_id'=>$room_id,'extra_id'=>$extrasid[$i]))->row()->name;
 
                                 $dataextra=array('reservation_id'=>$id ,'channel_id'=>0,'description'=>$descrip,'amount'=>$extrasmontos[$i],'extra_date'=>date('Y-m-d'),);
                                 $totalextras +=$extrasmontos[$i];
-                                insert_data('extras',$dataextra);    
+                                insert_data('extras',$dataextra);
                             }
-                                     
+
                         }
 
                         }
@@ -3879,15 +3883,15 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     $arrival = date('Y-m-d',strtotime($checkin_date));
                     $departure = date('Y-m-d',strtotime($checkout_date."-1 days"));
 
-                    
+
 
                     if(count($roomMappingDetails)!=0)
-                    {    
+                    {
 
                         require_once(APPPATH.'controllers/arrivalreservations.php');
                         $callAvailabilities = new arrivalreservations();
-                        
-                        $callAvailabilities->updateavailability(0,$room_id, $rate_type_id,hotel_id(),$arrival,$departure ,'new');              
+
+                        $callAvailabilities->updateavailability(0,$room_id, $rate_type_id,hotel_id(),$arrival,$departure ,'new');
 
                     }
 
@@ -3913,7 +3917,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     $ver = $this->db->insert('notifications',$save_note);
 
                 }
-        } 
+        }
         if(isset($id)>0)
         {
 
@@ -3982,7 +3986,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
             {
 
                 $get_bank_Details = get_data('manage_reservation',array('reservation_id'=>$id))->row();
-            
+
                 $Reference_code = $get_bank_Details->reference_code;
 
                 $bank_details = json_decode($get_bank_Details->bank_details);
@@ -4379,7 +4383,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                 </div>';
 
-             
+
 
                 $tbl_data = '<div class="row">
 
@@ -4612,8 +4616,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
 
                 $content_pop = strtr($template,$data);
- 
-               
+
+
                 $this->mailsettings();
 
                 if($guestmail!='')
@@ -4633,7 +4637,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                 $this->email->from($admin_detail->email_id);
 
-                
+
 
                 $this->email->to(get_data(HOTEL,array('hotel_id'=>hotel_id()))->row()->email_address);
 
@@ -4644,7 +4648,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 $this->email->send();
                 return $id;
         }
-        
+
         else
         {
          return false;
@@ -4847,10 +4851,10 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
     {
         $date = date('d/m/Y');
         $bdate = date('Y-m-d');
-	
+
 			$hotel_id = hotel_id();
-		
-	
+
+
 
         if($type=='reserve')
         {
@@ -4888,7 +4892,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
     {
         $date = date('d/m/Y');
         $bdate = date('Y-m-d');
-    
+
         $hotel_id = hotel_id();
 
 
@@ -4898,32 +4902,32 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
             $data['reserve'] = $manaul_new + all_reservation_count('reserve',$bdate,$hotel_id);
 
         //fin nuevas llegadas
-        
+
         //CAncelaciones
              $det=$this->db->query("SELECT * FROM `manage_reservation` WHERE `modified_date`='".$bdate."' AND hotel_id=".$hotel_id." AND status='Canceled'");
             $manaul_cancel = $det->num_rows();
             $data['cancel'] = $manaul_cancel+all_reservation_count('cancel',$bdate,$hotel_id);
-        //fin 
-            
+        //fin
+
         //llegadas
             $det=$this->db->query("SELECT * FROM `manage_reservation` WHERE str_to_date(`start_date`, '%d/%m/%Y') ='".$bdate."' AND hotel_id=".$hotel_id." AND user_status='Booking'");
             $manaul_arr = $det->num_rows();
             $data['arrival'] = $manaul_arr + all_reservation_count('arrival',$bdate,$hotel_id);
-        //fin 
+        //fin
         //Salidas
             $det=$this->db->query("SELECT * FROM `manage_reservation` WHERE str_to_date(`end_date`, '%d/%m/%Y') = '".$bdate."' AND hotel_id=".$hotel_id." AND user_status='Booking'");
             $manaul_dep = $det->num_rows();
             $data['depature'] = $manaul_dep + all_reservation_count('depature',$bdate,$hotel_id);
-        //fin 
+        //fin
         //Modificaciones
              $det=$this->db->query('SELECT * FROM `manage_reservation` WHERE str_to_date(`end_date`, "%d/%m/%Y") = str_to_date("'.$date.'", "%d/%m/%Y") AND hotel_id='.$hotel_id.' AND user_status="Departure"');
             $manaul_modify = $det->num_rows();
             $data['modify'] = $manaul_modify + all_reservation_count('modify',$bdate,$hotel_id);
-        //fin 
+        //fin
 
             return $data;
 
-       
+
     }
 
     function get_count_room($type,$param='',$param2='')
@@ -5015,12 +5019,12 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         if ($query->cantidad>0) {
            $data['Hoteratus'] =$query->cantidad;
         }
-        
-         
+
+
         $canales= $this->db->query(" select * from user_connect_channel where hotel_id=$hotelid " )->result_array();
 
         foreach ($canales as $value) {
-                    
+
                     $channel = $value['channel_id'];
 
                     if($channel==11)
@@ -5028,30 +5032,30 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                         $reservation_channeldetails = 'import_reservation_RECONLINE';
 
-                        
+
                     }
                     elseif($channel==19)
                     {
 
                        $sql = "SELECT count(*) cantidad  FROM import_reservation_AGODA where booking_date >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Agoda'] =$query->cantidad;
                         }
 
-                       
+
                     }
                     elseif($channel==40 || $channel==41 || $channel==42)
                     {
-                    
+
                           $sql = "SELECT count(*) cantidad  FROM import_reservation_HOTUSAGROUP where create_date >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['HotusaGroup'] =$query->cantidad;
                         }
-     
+
                     }
                     elseif($channel==8)
                     {
@@ -5064,18 +5068,18 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                         $sql = "SELECT count(*) cantidad  FROM import_reservation_AIRBNB where ImportDate >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['AIRBNB'] =$query->cantidad;
                         }
-                       
+
                     }
                     else if($channel==1)
                     {
 
                          $sql = "SELECT count(*) cantidad  FROM import_reservation_EXPEDIA where current_date_time >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Expedia'] =$query->cantidad;
                         }
@@ -5092,11 +5096,11 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                         $sql = "SELECT count(*) cantidad  FROM import_reservation_BOOKING_ROOMS where current_date_time >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Booking.com'] =$query->cantidad;
                         }
-                        
+
                     }
                     else if($channel==17)
                     {
@@ -5104,14 +5108,14 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     }
                     else if($channel==15)
                     {
-                        $reservation_channeldetails ='import_reservation_TRAVELREPUBLIC'; 
+                        $reservation_channeldetails ='import_reservation_TRAVELREPUBLIC';
                     }
 
                     else if($channel==36)
-                    {    
+                    {
                         $sql = "SELECT count(*) cantidad  FROM import_reservation_DESPEGAR where CreateDateTime >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Despegar'] =$query->cantidad;
                         }
@@ -5133,15 +5137,15 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         $RoomNumber= $this->db->query("SELECT sum(existing_room_count) cantidad FROM manage_property where hotel_id=$hotelid")->row()->cantidad;
         $RoomNumber=($RoomNumber==0?1:$RoomNumber);
 
-       
+
         $sql = "select  sum(case when STR_TO_DATE(start_date ,'%d/%m/%Y') <= '$date1'  then 1 else 0 end) hoy,
-                 sum(case when STR_TO_DATE(start_date ,'%d/%m/%Y') <= '$date1' 
+                 sum(case when STR_TO_DATE(start_date ,'%d/%m/%Y') <= '$date1'
                   then case when STR_TO_DATE(end_date ,'%d/%m/%Y') > '$date2' then datediff('$date2','$date1') else datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),'$date1')  end   else case when STR_TO_DATE(start_date ,'%d/%m/%Y') between  '$date1' and '$date2'  then
                    case when STR_TO_DATE(end_date ,'%d/%m/%Y') > '$date2' then datediff('$date2',STR_TO_DATE(start_date ,'%d/%m/%Y')) else datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y'))  end else 0 end  end)  semana,
-                   sum(case when STR_TO_DATE(start_date ,'%d/%m/%Y') <= '$date1' 
+                   sum(case when STR_TO_DATE(start_date ,'%d/%m/%Y') <= '$date1'
                   then case when STR_TO_DATE(end_date ,'%d/%m/%Y') > '$date3' then datediff('$date3','$date1') else datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),'$date1')  end   else case when STR_TO_DATE(end_date ,'%d/%m/%Y') > '$date3' then datediff('$date3',STR_TO_DATE(start_date ,'%d/%m/%Y')) else datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y'))  end  end)  mes
-                  
-                 from manage_reservation where    (STR_TO_DATE(start_date ,'%d/%m/%Y') between  '$date1' and '$date3' 
+
+                 from manage_reservation where    (STR_TO_DATE(start_date ,'%d/%m/%Y') between  '$date1' and '$date3'
                 or  STR_TO_DATE(end_date ,'%d/%m/%Y') between  '$date1' and '$date3') and status not in ('Canceled') and hotel_id=$hotelid  ";
 
 
@@ -5152,14 +5156,14 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
              $data['semana']=round(($query->row()->semana/($RoomNumber*7))*100,2);
              $data['mes']=round(($query->row()->mes/($RoomNumber*30))*100,2);
         }
-       
-      
-        
+
+
+
          return $data;
         $canales= $this->db->query(" select * from user_connect_channel where hotel_id=$hotelid " )->result_array();
 
         foreach ($canales as $value) {
-                    
+
                     $channel = $value['channel_id'];
 
                     if($channel==11)
@@ -5167,30 +5171,30 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                         $reservation_channeldetails = 'import_reservation_RECONLINE';
 
-                        
+
                     }
                     elseif($channel==19)
                     {
 
                        $sql = "SELECT count(*) cantidad  FROM import_reservation_AGODA where booking_date >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Agoda'] =$query->cantidad;
                         }
 
-                       
+
                     }
                     elseif($channel==40 || $channel==41 || $channel==42)
                     {
-                    
+
                           $sql = "SELECT count(*) cantidad  FROM import_reservation_HOTUSAGROUP where create_date >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['HotusaGroup'] =$query->cantidad;
                         }
-     
+
                     }
                     elseif($channel==8)
                     {
@@ -5203,18 +5207,18 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                         $sql = "SELECT count(*) cantidad  FROM import_reservation_AIRBNB where ImportDate >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['AIRBNB'] =$query->cantidad;
                         }
-                       
+
                     }
                     else if($channel==1)
                     {
 
                          $sql = "SELECT count(*) cantidad  FROM import_reservation_EXPEDIA where current_date_time >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Expedia'] =$query->cantidad;
                         }
@@ -5231,11 +5235,11 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                         $sql = "SELECT count(*) cantidad  FROM import_reservation_BOOKING_ROOMS where current_date_time >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Booking.com'] =$query->cantidad;
                         }
-                        
+
                     }
                     else if($channel==17)
                     {
@@ -5243,14 +5247,14 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     }
                     else if($channel==15)
                     {
-                        $reservation_channeldetails ='import_reservation_TRAVELREPUBLIC'; 
+                        $reservation_channeldetails ='import_reservation_TRAVELREPUBLIC';
                     }
 
                     else if($channel==36)
-                    {    
+                    {
                         $sql = "SELECT count(*) cantidad  FROM import_reservation_DESPEGAR where CreateDateTime >='$tomorrow' and hotel_id=$hotelid";
                         $query = $this->db->query($sql)->row();
-                    
+
                          if ($query->cantidad>0) {
                             $data['Despegar'] =$query->cantidad;
                         }
@@ -5347,20 +5351,20 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         $curr_cha_id = unsecure($this->input->post('curr_cha_id'));
 
         if(!isset($_POST['extra'])){return false;}
-        
+
         $Notes='';
         foreach ($_POST['extra'] as $key => $value) {
-            $extra =get_data('room_extras',array('room_id'=>$_POST['room_id'],'extra_id'=>$key ))->row_array(); 
-  
+            $extra =get_data('room_extras',array('room_id'=>$_POST['room_id'],'extra_id'=>$key ))->row_array();
+
              $dataextra=array('reservation_id'=>$reser_id ,'channel_id'=>$curr_cha_id ,'description'=>$extra['name'],'amount'=>$extra['price'],'extra_date'=>date('Y-m-d H:i:s'));
-            insert_data('extras',$dataextra); 
+            insert_data('extras',$dataextra);
 
              $Notes .=$extra['name'].' Price:'.$extra['price'];
         }
 
          $history = array('channel_id'=>$curr_cha_id,'reservation_id'=>$reser_id,'description'=>'Add Extras '.$Notes,'amount'=>'','extra_date'=>date('Y-m-d H:i:s'),'extra_id'=>'0','history_date'=>date('Y-m-d H:i:s'),'UserID'=>user_id());
 
-        $res = $this->db->insert('new_history',$history); 
+        $res = $this->db->insert('new_history',$history);
 
         if($res)
         {
@@ -5432,7 +5436,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         $channel_id =unsecure($channel_id);
         $res = $this->db->query("select a.*,  concat(b.fname , ' ' , b.lname) as Username   from new_history as a left join manage_users as b on a.userid = b.user_id where a.channel_id =$channel_id and a.reservation_id =$history_uri order by a.history_id desc");
 
-   
+
         if($res->num_rows >0){
 
             return $res->result();
@@ -5459,10 +5463,10 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
         if($ver)
 
         {
-             
+
              $history = array('channel_id'=>0,'reservation_id'=>$reservation_id,'description'=>"Modify Note (Old Note: ".$id['description'].") (New Note: ".$description.")",'amount'=>'','extra_date'=>date('Y-m-d'),'extra_id'=>'0','history_date'=>date('Y-m-d H:i:s'),'UserID'=>user_id());
 
-                $res = $this->db->insert('new_history',$history); 
+                $res = $this->db->insert('new_history',$history);
 
             return true;
 
@@ -5484,7 +5488,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         if($channelID==2)
         {
-            $id= $this->db->query("select a.room_res_id,b.remarks from import_reservation_BOOKING_ROOMS as a left join 
+            $id= $this->db->query("select a.room_res_id,b.remarks from import_reservation_BOOKING_ROOMS as a left join
             import_reservation_BOOKING as b on a.reservation_id = b.id where reservation_id = $reservation_id ")->row_array();
 
             $this->db->where('id',$reservation_id);
@@ -5496,20 +5500,20 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
             {
                  $history = array('channel_id'=>2,'reservation_id'=>$id['room_res_id'],'description'=>"Modify Note (Old Note: ".$id['remarks'].") (New Note: ".$description.")",'amount'=>'','extra_date'=>date('Y-m-d'),'extra_id'=>'0','history_date'=>date('Y-m-d H:i:s'),'UserID'=>user_id());
 
-                $res = $this->db->insert('new_history',$history); 
+                $res = $this->db->insert('new_history',$history);
 
 
             }
-            
+
 
         }
         elseif ($channelID==1) {
-             
+
              $this->db->where('booking_id',$reservation_id);
 
             $ver = $this->db->update('import_reservation_EXPEDIA',$data);
         }
-        
+
 
 
 
@@ -5533,10 +5537,10 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
      function Reservation_ChangeStatus($reservation_id,$status,$channelID){
 
-        
+
 
         if($channelID==2)
-        {   
+        {
             $id= get_data('import_reservation_BOOKING_ROOMS',array('room_res_id' => $reservation_id))->row_array();
 
             $data = array('status'=>$status);
@@ -5944,7 +5948,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
     function billing_details()
     {
-		
+
 		$this->db->where('hotel_id',hotel_id());
         $ver = $this->db->get('bill_info');
 
@@ -6671,7 +6675,7 @@ METHOD:PUBLISH";
             $email_content1= $get_email_info['message'];
 
             //$row=get_data(USERS,array('user_id'=>user_id()));
-          
+
 
             $staydate = explode(',', $data['stayDate']);
             $baserate = explode(',', $data['baseRate']);
@@ -6779,7 +6783,7 @@ METHOD:PUBLISH";
 	if($thank != ''){
 		$date = date('d/m/Y', strtotime('-2 day', strtotime(date('Y-m-d'))));
 		$bdate = date('Y-m-d', strtotime('-2 day', strtotime(date('Y-m-d'))));
-	} 
+	}
 
         if($type=='arrival')
         {

@@ -11940,7 +11940,7 @@ received">
 	{
 
 		$Mensaje='';
-					$hotel_id=34;
+					$hotel_id=44;
 									$xml_data ='<?xml version="1.0" encoding="UTF-8"?>
 									<request>
 									<username>18</username>
@@ -11958,88 +11958,44 @@ received">
 
 									$output ='<reservations>
  <reservation>
- <booked_at>2018-11-21T05:36:59+00:00</booked_at>
- <commissionamount>600.687</commissionamount>
+ <booked_at>2018-11-22T10:44:49+00:00</booked_at>
+ <commissionamount>0</commissionamount>
  <currencycode>ZAR</currencycode>
  <customer>
- <address>Plot 54887 Phakalane</address>
- <cc_cvc>627</cc_cvc>
- <cc_expiration_date>11/2019</cc_expiration_date>
- <cc_name>Losika Seboni</cc_name>
- <cc_number>4901324016306165</cc_number>
- <cc_type>Visa</cc_type>
- <city>Gaborone</city>
+ <address>118 van wijk</address>
+ <cc_cvc></cc_cvc>
+ <cc_expiration_date></cc_expiration_date>
+ <cc_name></cc_name>
+ <cc_number></cc_number>
+ <cc_type></cc_type>
+ <city>Nelspruit</city>
  <company></company>
- <countrycode>bw</countrycode>
+ <countrycode>za</countrycode>
  <dc_issue_number></dc_issue_number>
  <dc_start_date></dc_start_date>
- <email>lsebon.123020@guest.booking.com</email>
- <first_name>TESTTLosika</first_name>
- <last_name>Seboni</last_name>
+ <email>smamba.337761@guest.booking.com</email>
+ <first_name>Selby</first_name>
+ <last_name>Mamba</last_name>
  <remarks>You have a booker that would like free parking. (based on
-availability)</remarks>
- <telephone>+267 71 600 060</telephone>
+availability)
+Checking in 19:30</remarks>
+ <telephone>+27 82 827 9136</telephone>
  <zip></zip>
  </customer>
- <date>2018-11-21</date>
+ <date>2018-11-22</date>
  <guest_counts></guest_counts>
- <hotel_id>2494146</hotel_id>
- <hotel_name>Key West Condo Apartment</hotel_name>
- <id>2040560215</id>
- <modified_at>2018-11-21T05:37:00+00:00</modified_at>
- <room>
- <arrival_date>2018-11-23</arrival_date>
- <commissionamount>600.687</commissionamount>
- <currencycode>ZAR</currencycode>
- <departure_date>2018-11-25</departure_date>
- <extra_info>This apartment has a microwave, tile/marble floor and
-patio.</extra_info>
- <facilities>Tea/Coffee maker, Minibar, Shower, Bathtub, TV, Air
-conditioning, Hairdryer, Hot tub, Kitchenette, Balcony, Refrigerator, Desk,
-Sitting area, Free toiletries, Toilet, Microwave, Dishwasher, Washing
-machine, Patio, Private Bathroom, Satellite channels, Kitchen, Cable
-channels, Bathtub or shower, Carpeted, Flat-screen TV, Private entrance,
-Sofa, Tile/Marble floor, View, Dining area, Electric kettle, Kitchenware,
-Towels/Sheets (extra fee), Wardrobe or closet, Oven, Stovetop, Toaster,
-Barbecue, Bidet, Lake view, Garden view, Pool view, Mountain view, Cleaning
-products, Coffee machine, Terrace, Towels, Linens, Dining table, Outdoor
-furniture, Outdoor dining area, Upper floors accessible by stairs only,
-Toilet paper, Adapted Bath, Pool With a View, Trash cans, Socket near the
-bed, Adapter, Key Access</facilities>
- <guest_name>Losika Seboni</guest_name>
- <id>249414601</id>
- <info>No meal is included in this room rate. Children and Extra Bed Policy:
-All children are welcome. There is no capacity for extra beds in the room.
-Deposit Policy: The total price of the reservation may be charged anytime
-after booking. Cancellation Policy: Please note, if canceled, modified or in
-case of no-show, the total price of the reservation will be charged. </info>
- <max_children>0</max_children>
- <meal_plan>No meal is included in this room rate.</meal_plan>
- <name>Apartment</name>
- <numberofguests>4</numberofguests>
- <price date="2018-11-23"
- genius_rate="no"
- rate_id="9618820"
- rewritten_from_id="0"
- rewritten_from_name="80% OFF ALL YEAR">2002.29</price>
- <price date="2018-11-24"
- genius_rate="no"
- rate_id="9618820"
- rewritten_from_id="0"
- rewritten_from_name="80% OFF ALL YEAR">2002.29</price>
- <remarks></remarks>
- <roomreservation_id>2150627426</roomreservation_id>
- <smoking>0</smoking>
- <totalprice>4004.58</totalprice>
- </room>
- <status>new</status>
- <time>06:36:59</time>
- <totalprice>4004.58</totalprice>
+ <hotel_id>2485972</hotel_id>
+ <hotel_name>Jeanettes Villa at Westlake</hotel_name>
+ <id>1908936752</id>
+ <modified_at>2018-11-22T11:54:28+00:00</modified_at>
+ <status>cancelled</status>
+ <time>11:44:49</time>
+ <totalprice>0</totalprice>
  </reservation>
 </reservations>
 <!-- RUID:
-[UmFuZG9tSVYkc2RlIyh9YUhDRrwT62DJxW7qDPGcbfjsjD4TPm7zxHh1xJp2h5kXSYTNi+jHvH
-EUIYo4cStIeEl9IMHhfn12]
+[UmFuZG9tSVYkc2RlIyh9YQGHVMjHjATW6G8fNLGSbiULrreim4PtUF9x7UTVNUTkOligyc+w/o
+89QdQQxSj7ZlfNo/1n4+H0]
 -->';
 
 				$x_r_rs_data['channel_id'] = '2';
@@ -12066,7 +12022,7 @@ EUIYo4cStIeEl9IMHhfn12]
 		            $ruid =  trim(str_replace('] --', '', $ruid));
 		          // $this->booking_model->store_ruid_booking($ruid,'Reservation Import');
 		        }
-					$Mensaje .= '\n Successfully import '.count($data_api).' reservations Hotel: 34 test from Booking.com!!!';
+					$Mensaje .= '\n Successfully import '.count($data_api).' reservations Hotel: 44 test from Booking.com!!!';
 		        if (count($data_api)>0)
 		       {
 		       	$this->saveBooking_Booking_Cron($data_api,$ruid,$cha_name="Booking.com",$hotel_channel_id=$hotel_id,$x_r_rs_data);
@@ -12902,6 +12858,7 @@ EUIYo4cStIeEl9IMHhfn12]
 		}
 		else
 		{
+
 			$Error		=	@$data_api->fault;
 			if($Error)
 			{
@@ -12932,6 +12889,7 @@ EUIYo4cStIeEl9IMHhfn12]
 							$reservation_extra_info = $reservation->reservation_extra_info->flags;
 						}
 					}
+
 					if(isset($reservation_extra_info))
 					{
 						if($reservation_extra_info != "")
@@ -13035,14 +12993,17 @@ EUIYo4cStIeEl9IMHhfn12]
 					$room_datas['reservation_id'] 	= $data['id'];
 					$room_datas['date_time'] 		= $data['date'].' '.$data['time'];
 					$room_datas['status'] 			= $data['status'];
+
+
 					if(isset($data['modified_at'])){
 						$room_datas['modified_at'] 			=  $data['modified_at'];
 					}
 
 					if($data['status'] =='new' || $data['status'] =='modified')
 					{
-						$book_available = get_data(BOOK_RESERV,array('user_id'=>$user_details['user_id'],'hotel_hotel_id'=>$user_details['hotel_id'],'hotel_id'=>$data['hotel_id'],'id'=>$data['id']))->row_array();
-						if(count($book_available)==0)
+						$book_available = get_data(BOOK_RESERV,array('hotel_hotel_id'=>$user_details['hotel_id'],'hotel_id'=>$data['hotel_id'],'id'=>$data['id']))->row_array();
+
+            if(count($book_available)==0)
 						{
 							$array_keys = array_keys($data);
 							fetchColumn(BOOK_RESERV,$array_keys);
@@ -13053,7 +13014,8 @@ EUIYo4cStIeEl9IMHhfn12]
 						{
 							$array_keys = array_keys($data);
 							fetchColumn(BOOK_RESERV,$array_keys);
-							update_data(BOOK_RESERV,$data,array('user_id'=>$user_details['user_id'],'hotel_hotel_id'=>$user_details['hotel_id'],'hotel_id'=>$data['hotel_id'],'id'=>$data['id']));
+							update_data(BOOK_RESERV,$data,array('hotel_hotel_id'=>$user_details['hotel_id'],'hotel_id'=>$data['hotel_id'],'id'=>$data['id']));
+              $room_datas['import_reserv_id'] = $book_available['import_reserv_id'];
 						}
 						$room_details 	=	$reservation->room;
 						if($room_details)
@@ -13096,8 +13058,10 @@ EUIYo4cStIeEl9IMHhfn12]
 								}
 								$room_datas['day_price_detailss'] = trim($room_datas['day_price_detailss'],'###');
 								$new_rooms[] 	= 	$room_datas['roomreservation_id'];
-								$room_availale	=	get_data(BOOK_ROOMS,array('user_id'=>$user_details['user_id'],'hotel_hotel_id'=>$user_details['hotel_id'],'hotel_id'=>$data['hotel_id'],'reservation_id'=>$data['id'],'roomreservation_id'=>$room_datas['roomreservation_id']))->row_array();
-								$data_addons['roomreservation_id'] = $room_datas['roomreservation_id'];
+								$room_availale	=	$this->db->query(" select * from import_reservation_BOOKING_ROOMS where hotel_id=".$data['hotel_id']." and hotel_hotel_id=".$user_details['hotel_id'].
+                " and reservation_id=".$data['id']." and roomreservation_id=".$room_datas['roomreservation_id'])->result_array();
+
+                $data_addons['roomreservation_id'] = $room_datas['roomreservation_id'];
 
 
 								if(count($room_availale)==0)
@@ -13163,6 +13127,8 @@ EUIYo4cStIeEl9IMHhfn12]
 
 						$result = array_diff($names, $new_rooms);
 
+
+
 						if($result)
 						{
 							foreach($result as $un_rooms)
@@ -13184,7 +13150,7 @@ EUIYo4cStIeEl9IMHhfn12]
 										}
 									}
 								}
-								delete_data(BOOK_ROOMS,array('roomreservation_id'=>$un_rooms));
+								//delete_data(BOOK_ROOMS,array('roomreservation_id'=>$un_rooms));
 							}
 						}
 					}

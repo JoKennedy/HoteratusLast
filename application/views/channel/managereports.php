@@ -53,7 +53,7 @@
         <button onclick="viewreport(4)" style="width: 100%;" type="button" class="btn btn-info">Departure</button>
     </div>
     <div class="col-md-4 form-group1">
-        <button style="width: 100%;" type="button" class="btn btn-info" >Occupancy Report</button>
+        <button onclick="viewreport(7)" style="width: 100%;" type="button" class="btn btn-info" >Occupancy Report</button>
     </div>
      <div class="col-md-4 form-group1">
         <button style="width: 100%;" type="button" class="btn btn-info ">Room Changes</button>
@@ -90,6 +90,28 @@
             <div>
                  <div id="reportid"></div>
             </div>
+        </div>
+    </div>
+</div>
+<div id="orderoccupancy" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div  class="modal-content">
+            <div class="modal-header">
+
+               <center> <h4 class="modal-title">Occupancy Report</h4></center>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </div>
+              <div class="col-md-12 form-group1 form-last">
+                  <label style="padding:4px;" class="control-label controls">Show By </label>
+                  <select style="width: 100%; padding: 9px;" name="occupancyid" id="occupancyid">
+                      <?php
+                          echo '<option  value="1" >Day</option>';
+                          echo '<option  value="2" >Week</option>';
+                          echo '<option  value="3" >Month</option>';
+                    ?>
+                  </select>
+              </div>
         </div>
     </div>
 </div>
@@ -141,7 +163,10 @@
              return;
         }
 
-
+        if(idreport==7)
+        {
+          $("#orderoccupancy").modal();
+        }
         var data={'startdate':$("#startdate").val(),'enddate':$("#enddate").val(),'reportid':idreport};
         $.ajax({
             type: "POST",

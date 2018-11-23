@@ -422,7 +422,11 @@ class reports extends Front_Controller
 				}
 			echo json_encode(array('html'=>$html,'title'=>"Cancelations"));
 	}
-	public function reporttype()
+
+  $date1=date('Y-m-d',strtotime($_POST['startdate']));
+  $date2=date('Y-m-d',strtotime($_POST['enddate']));
+
+  public function reporttype()
 	{
 		switch ($_POST['reportid']) {
 			case '1':
@@ -442,6 +446,9 @@ class reports extends Front_Controller
 			break;
       case '6':
 				$this->noshow();
+			break;
+      case '7':
+				$this->occupancy();
 			break;
 			default:
 				# code...

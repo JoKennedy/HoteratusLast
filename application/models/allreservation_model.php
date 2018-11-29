@@ -9,7 +9,7 @@ class allreservation_model extends CI_Model
 		$booking=$this->db->query("select e.status,e.guest_name, 'Hoteratus' AS channel, e.start_date,e.end_date,e.created_date as booking_date,e.reservation_code,e.price,e.email as user_email,e.mobile,e.room_id,e.channel_id,e.currency_id FROM `manage_reservation`   AS e 
 			where  e.hotel_id = ".hotel_id()." order by e.reservation_id desc");
 
-
+/*
 		"select a.status,a.guest_name,'Booking.com' AS channel, DATE_FORMAT(a.arrival_date,'%d/%m/%Y') as start_date , DATE_FORMAT(a.departure_date,'%d/%m/%Y') as end_date, a.date_time as booking_date, concat(a.id,'-',a.roomreservation_id) reservation_code,
 			a.totalprice as price, b.email as user_email, telephone as mobile, 
 			case when e.property_name is null then 'No Room Set' else e.property_name end  roomname,
@@ -42,7 +42,7 @@ class allreservation_model extends CI_Model
 		 where a.hotel_id=".hotel_id()." order by arrival desc"
 
 
-
+*/
 
 
 

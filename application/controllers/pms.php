@@ -15,8 +15,8 @@ class pms extends CI_Controller {
 				<img width="1350" height="600" src="data:image/png;base64,<?php echo base64_encode(file_get_contents('user_assets/images/under.jpg'));?>" class="img-responsive" data="<?php echo insep_encode($ip); ?>">
 				<?php
 				die;
-			}*/
-		}
+			}
+		}*/
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
 		$this->output->set_header("Pragma: no-cache"); 	
 		$data=$this->admin_model->generall();

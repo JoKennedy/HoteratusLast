@@ -369,7 +369,7 @@ class reports extends Front_Controller
 		$status[7]="Unchecked";
 
 		if(count($reservas['info'])>0)
-				{
+			{
 					$html='<div><div style="float: right;" class="buttons-ui">
 					            <a onclick="Export()" class="btn green">Export</a>
 					        </div> <div class="clearfix"></div><center><h1><span class="label label-primary">Cancelations</span></h1></center></div>';
@@ -421,13 +421,14 @@ class reports extends Front_Controller
 					$html='<center><h1><span class="label label-danger">No Record Found</span></h1></center>';
 				}
 			echo json_encode(array('html'=>$html,'title'=>"Cancelations"));
+		
 	}
 
-  $date1=date('Y-m-d',strtotime($_POST['startdate']));
-  $date2=date('Y-m-d',strtotime($_POST['enddate']));
-
+ 
+	/*$date1=date('Y-m-d',strtotime($_POST['startdate']));
+	$date2=date('Y-m-d',strtotime($_POST['enddate']));*/
   public function reporttype()
-	{
+{
 		switch ($_POST['reportid']) {
 			case '1':
 				$this->guestinhouse();

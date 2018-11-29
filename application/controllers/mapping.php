@@ -1221,8 +1221,12 @@ class Mapping extends Front_Controller {
             if(insep_decode($channel_id)=='1')
             {
                 $re_details = get_data(CONNECT,array('user_id'=>current_user_type(),'hotel_id'=>hotel_id(),'channel_id'=>insep_decode($channel_id)))->row();
-                
-                if($re_details->mode == 0){
+                $urls = explode(',', $re_details->test_url);
+                    foreach($urls as $url){
+                        $path = explode("~",$url);
+                        $exp[$path[0]] = $path[1];
+                    }
+                /*if($re_details->mode == 0){
                     $urls = explode(',', $re_details->test_url);
                     foreach($urls as $url){
                         $path = explode("~",$url);
@@ -1234,7 +1238,7 @@ class Mapping extends Front_Controller {
                         $path = explode("~",$url);
                         $exp[$path[0]] = $path[1];
                     }
-                }
+                }*/
 				/* echo ' mode = '.$re_details->mode;  */
                     $xml_data =' <ProductAvailRateRetrievalRQ xmlns="http://www.expediaconnect.com/EQC/PAR/2013/07">
 

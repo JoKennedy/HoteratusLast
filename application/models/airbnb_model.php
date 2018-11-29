@@ -25,7 +25,7 @@ class airbnb_model extends CI_Model
             'hotel_id' => $hotelid,
             'channel_id' => "9"
         ))->row();
-        //Busco las Habiaciones Conectadas al Canal 36 AIRBNB
+        //Busco las Habiaciones Conectadas al Canal 9 AIRBNB
         
         $room_mapping    = get_data(MAP, array(
             'owner_id' => $userid,
@@ -205,7 +205,7 @@ class airbnb_model extends CI_Model
                     $ch_details->other_id = 'd306zoyjsyarp7ifhu67rjxn52tv0t20';
                 } else {
                     $ch_details->other_id = 'd306zoyjsyarp7ifhu67rjxn52tv0t20';
-                    
+
                     $url                    = 'https://api.airbnb.com/v1/authorize';
                     $formData['client_id']  = $ch_details->other_id;
                     $formData['locale']     = 'en-US';

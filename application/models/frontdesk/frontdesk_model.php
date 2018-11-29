@@ -10,7 +10,7 @@ class frontdesk_model extends CI_Model
     }
 
 
-    public  deleteExtras($extra_id,$reser_id,$channel_id,$detail)
+    public function  deleteExtras($extra_id,$reser_id,$channel_id,$detail)
     {
     	
     }

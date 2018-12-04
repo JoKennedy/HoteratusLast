@@ -56,6 +56,134 @@ class salesmarketing extends Front_Controller {
 
         $this->views('salesmarketing/paceanalysis',$data);
     }
+    public function paceinfo()
+    {
+      $type='month';//$_POST['Type'];
+      $date1='2018-10-01';//$_POST['date1'];
+      $date2='2018-12-31';//$_POST['date2'];
+      $date1Previous=date('Y-m-d',strtotime($date1."-1 Year"));
+      $date2Previous=date('Y-m-d',strtotime($date2."-1 Year"));
+
+      switch ($type) {
+        case 'day':
+          $datetime1 = new DateTime($date1);
+          $datetime2 = new DateTime($date2);
+          $resultado = $datetime1->diff($datetime2);
+          $days=$resultado->format('%R%a')+1;
+
+          if ($days>31)
+          {
+            echo 'Maximum 30 days';
+            return;
+          }
+          else
+          {
+            
+            $resultCurrentYear='';
+            echo date('Y-m-d h:m:s');
+            for ($i=0; $i < $days; $i++) { 
+             
+              $datereal=date('Y-m-d',strtotime($date1."+$i days"));
+
+              $resultCurrentYear=$this->db->query("
+              select count(*) TotalReservations,
+              ifnull(sum(price/num_nights),0) TotalRevenue
+              from manage_reservation where hotel_id=13 
+              and '$datereal' between  str_to_date(start_date,'%d/%m/%Y')  and DATE_ADD(str_to_date(end_date,'%d/%m/%Y'),  INTERVAL -1 DAY) 
+              and status not in ('No Show','Canceled')
+              ")->row_array();
+
+              $daterealPrevious=date('Y-m-d',strtotime($datereal."-1 Year"));
+              $resultPreviousYear=$this->db->query("
+              select count(*) TotalReservations,
+              ifnull(sum(price/num_nights),0) TotalRevenue
+              from manage_reservation where hotel_id=13 
+              and '$daterealPrevious' between  str_to_date(start_date,'%d/%m/%Y')  and DATE_ADD(str_to_date(end_date,'%d/%m/%Y'),  INTERVAL -1 DAY) 
+              and status not in ('No Show','Canceled')
+              ")->row_array();
+
+              echo $datereal;
+              echo "<br>";
+              var_dump($resultCurrentYear);
+              echo "<br>";
+
+              echo $daterealPrevious;
+              echo "<br>";
+              var_dump($resultPreviousYear);
+              echo "<br>";
+
+            }
+            echo date('Y-m-d h:m:s');
+          }
+          break;
+        
+        case 'month':
+          $datetime1 = new DateTime($date1);
+          $datetime2 = new DateTime($date2);
+          $resultado = $datetime1->diff($datetime2);
+          $months=$resultado->format('%R%m');
+          echo $months;
+          die;
+          if ($days>31)
+          {
+            echo 'Maximum 30 days';
+            return;
+          }
+          else
+          {
+            $resultCurrentYear=$this->db->query("
+            select count(*) TotalReservations,
+            count(*) TotalRooms,
+            sum(DATEDIFF(case when str_to_date(end_date,'%d/%m/%Y') >'$date2' then DATE_ADD('$date2', INTERVAL 1 DAY)  
+            else str_to_date(end_date,'%d/%m/%Y')  end  ,case when str_to_date(start_date,'%d/%m/%Y') <'$date1' then '$date1'  else str_to_date(start_date,'%d/%m/%Y')  end )) TotalRoomNights,
+            sum(price) TotalRevenue,
+            case when str_to_date(start_date,'%d/%m/%Y') <'$date1' then '$date1'  else str_to_date(start_date,'%d/%m/%Y')  end  startdate
+            from manage_reservation where hotel_id=13 
+            and (str_to_date(start_date,'%d/%m/%Y')  between '$date1' and '$date2' or  DATE_ADD(str_to_date(end_date,'%d/%m/%Y'),  INTERVAL -1 DAY)  between '$date1' and '$date2')
+            and status not in ('No Show','Canceled')
+            group by  case when str_to_date(start_date,'%d/%m/%Y') <'$date1' then '$date1'  else str_to_date(start_date,'%d/%m/%Y')  end
+            order by  case when str_to_date(start_date,'%d/%m/%Y') <'$date1' then '$date1'  else str_to_date(start_date,'%d/%m/%Y')  end asc
+            ")->result_array();
+
+            $date1Previous=date('Y-m-d',strtotime($date1."-1 Year"));
+            $date2Previous=date('Y-m-d',strtotime($date2."-1 Year"));
+       
+            $resultPreviousYear=$this->db->query("
+            select count(*) TotalReservations,
+            count(*) TotalRooms,
+            sum(DATEDIFF(case when str_to_date(end_date,'%d/%m/%Y') >'$date2Previous' then DATE_ADD('$date2Previous', INTERVAL 1 DAY)  
+            else str_to_date(end_date,'%d/%m/%Y')  end  ,case when str_to_date(start_date,'%d/%m/%Y') <'$date1Previous' then '$date1Previous'  else str_to_date(start_date,'%d/%m/%Y')  end )) TotalRoomNights,
+            sum(price) TotalRevenue,
+            case when str_to_date(start_date,'%d/%m/%Y') <'$date1Previous' then '$date1Previous'  else str_to_date(start_date,'%d/%m/%Y')  end  startdate
+            from manage_reservation where hotel_id=13 
+            and (str_to_date(start_date,'%d/%m/%Y')  between '$date1Previous' and '$date2Previous' or  DATE_ADD(str_to_date(end_date,'%d/%m/%Y'),  INTERVAL -1 DAY)  between '$date1Previous' and '$date2Previous')
+            and status not in ('No Show','Canceled')
+            group by  case when str_to_date(start_date,'%d/%m/%Y') <'$date1Previous' then '$date1Previous'  else str_to_date(start_date,'%d/%m/%Y')  end
+            order by  case when str_to_date(start_date,'%d/%m/%Y') <'$date1Previous' then '$date1Previous'  else str_to_date(start_date,'%d/%m/%Y')  end asc
+            ")->result_array();
+
+            for ($i=0; $i <= $days; $i++) { 
+              $datereal=date('Y-m-d',strtotime($date1."+$i days"));
+              $idfound=array_search(date('Y-m-d',strtotime($datereal)), array_column($resultCurrentYear,'startdate'));
+              if(!$idfound===false || $idfound ===0)
+              {
+                $dato=$resultCurrentYear[$idfound];
+                echo $datereal;
+                var_dump($dato);
+                echo "<br>";
+                
+              }
+              
+            }
+
+          }
+          break;
+        
+        default:
+          # code...
+          break;
+      }
+    }
     public function InfoPrices($date1,$date2,$channelid,$roomname)
     {
 

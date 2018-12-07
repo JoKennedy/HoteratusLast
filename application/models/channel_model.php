@@ -655,8 +655,7 @@ class channel_model extends CI_Model
                         $result =$this->db->query("SELECT datediff(STR_TO_DATE(end_date ,'%d/%m/%Y'),STR_TO_DATE(start_date ,'%d/%m/%Y')) noche,RoomNumber, 0 channelid,reservation_id, STR_TO_DATE(start_date ,'%d/%m/%Y') date1, STR_TO_DATE(end_date ,'%d/%m/%Y') date2 ,status FROM `manage_reservation` WHERE  '$fecha' between STR_TO_DATE(start_date ,'%d/%m/%Y') and DATE_ADD(STR_TO_DATE(end_date ,'%d/%m/%Y'), INTERVAL -1 DAY)
 			and hotel_id=$hotel_id and RoomNumber='$roomnumber' and room_id=$roomtypeid and status <> 'Canceled' and status <> 'No Show' ")->row_array();
                         
-                        $start_date = $result['date1'];
-                        $end_date = $result['date2'];
+                        
                         
 			if(!isset($result['noche']))
 			{	$path="uploads/small/channels_booking.gif";
@@ -670,8 +669,23 @@ class channel_model extends CI_Model
 					DATE_ADD(a.departure_date, INTERVAL -1 DAY)
 					and a.hotel_hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid and a.status <>'cancelled'")->row_array();
 			}
+			if(!isset($result['noche']))
+			{	$path="uploads/small/76728.png";
+				$result=$this->db->query("SELECT datediff(a.departure,a.arrival) noche, STR_TO_DATE(a.arrival ,'%Y-%m-%d') date1 , STR_TO_DATE(a.departure ,'%Y-%m-%d') date2, a.RoomNumber, 1 channelid, a.import_reserv_id reservation_id, a.type
+				from import_reservation_EXPEDIA a
+				left join import_mapping c on a.roomTypeID= c.roomtype_id and a.ratePlanID = c.rate_type_id
+				left join roommapping d on c.map_id=d.import_mapping_id and d.channel_id=1
+				left join manage_property e on d.property_id = e.property_id
+				WHERE  '$fecha' between STR_TO_DATE(a.arrival ,'%Y-%m-%d')  and
+				DATE_ADD(STR_TO_DATE(a.departure ,'%Y-%m-%d') ,INTERVAL -1 DAY)
+				and a.hotel_id=$hotel_id and a.RoomNumber='$roomnumber' and e.property_id=$roomtypeid  and a.Type <>'Cancel'")->row_array();
+			
+			}
 
-                        if (isset($result['noche'])){
+			$start_date = $result['date1'];
+            $end_date = $result['date2'];
+
+            if (isset($result['noche'])){
 
 				if(strtotime($result['date1'])<date('Y-m-d'))
 				{

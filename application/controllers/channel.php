@@ -2016,8 +2016,9 @@ bD3U3TIrrTIwwyqc8a5o8JBljUxGO5rg"; */
 	}
 
 	public function Calendarview()
-	{
-		echo $this->channel_model->calendarFull();
+	{            
+            error_reporting(0);
+	    echo $this->channel_model->calendarFull();
 	}
 	function useraccess($user_details)
 	{

@@ -286,7 +286,6 @@
                                                 foreach($daterange as $ran)
                                                 {
                                                     $pricede = $rateDetailsPrice[$i];
-
                                                     $i++;
                                                     $string = date('d-m-Y',strtotime(str_replace('/','-',$ran->format('M d, Y'))));
                                                     $weekday = date('l', strtotime($string));

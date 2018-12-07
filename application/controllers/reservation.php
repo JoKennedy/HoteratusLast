@@ -211,6 +211,7 @@ class reservation extends Front_Controller {
 
 			$available		=	$this->reservation_model->findRoomsAvailable();
 
+
 			$html='';
 
 			$inidate=date('Y-m-d', strtotime( $_POST['date1Edit']));
@@ -222,7 +223,7 @@ class reservation extends Front_Controller {
 
 
 				$bookininfo="'".$value['room_id']."','0','".$inidate."','".$enddate."','".$_POST['numadult']."','".$_POST['numrooms'].
-				"','".$_POST['numchild']."','".$nights."','".number_format ( $value['totalprice'] , 2 ,  "." , "," )."'";
+				"','".$_POST['numchild']."','".$nights."','".$value['totalprice']."'";
 				$html .= '<div>
 				<div class="row">
                     <div class="col-md-3">
@@ -260,7 +261,7 @@ class reservation extends Front_Controller {
 
 	                         foreach ($value['rate'] as  $rate) {
 	                         	$bookininfo="'".$value['room_id']."','".$rate['rate_types_id']."','".$inidate."','".$enddate."','".$_POST['numadult']."','".$_POST['numrooms'].
-								"','".$_POST['numchild']."','".$nights."','".number_format ( $rate['totalprice'] , 2 ,  "." , "," )."'";
+								"','".$_POST['numchild']."','".$nights."','".$rate['totalprice']."'";
 	                         	$html .='<div class="col-md-12">
 	                         			<h3>'.$rate['name'].'</h3>
 				                        <label>Avg. per night</label>

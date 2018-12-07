@@ -63,7 +63,7 @@
         ?>
     </div>
     <div class="clearfix"></div>
-    <div style="width: 100%; height:400px;" class="table-responsive">
+    <div style="width: 100%; height:400px; padding-right:2%;" class="table-responsive">
         <div id="calendario"> </div>
         <!--<?= $calendar ?>-->
     </div>

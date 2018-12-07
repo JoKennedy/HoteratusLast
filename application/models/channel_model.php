@@ -859,8 +859,6 @@ class channel_model extends CI_Model
                         
 			foreach ($ratetype as  $rate) {
 
-
-
 				$precio='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; " >P</td>';
 				$avai='<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">A</td>';
 				$min = '<tr style="display:none" class="rate'.$rate['roomid'].'"> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; ">M</td>';
@@ -870,32 +868,31 @@ class channel_model extends CI_Model
 				$body .='<tr style="display:none" class="rate'.$rate['roomid'].'">  <td ROWSPAN="4" style="margin: 5px; padding:5px; color:#5dade2;">'.$rate['name'].'</td> </tr> ';
 				$room2='';
 
-
 				$dato=null;
 
 				$datosr= $this->db->query("select *,STR_TO_DATE(separate_date ,'%d/%m/%Y') as datereal from room_rate_types_base where hotel_id = $hotel_id  and room_id =".$rate['roomid']." and rate_types_id=".$rate['ratetypeid']." and STR_TO_DATE(separate_date ,'%d/%m/%Y') between '$date1' and '$date2' and individual_channel_id=0 order by STR_TO_DATE(separate_date ,'%d/%m/%Y') ")->result_array();
 
-				 for ($i=0; $i <=30 ; $i++) {
-			 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
+					for ($i=0; $i <=30 ; $i++) {
+					$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 
-		 			$dator=null;
-		 			$idfoundr=array_search(date('Y-m-d',strtotime($datereal)), array_column($datosr,'datereal'));
-		 			if(!$idfoundr===false || $idfoundr===0)
-		 			{
-		 				$dator=$datosr[$idfoundr];
-		 			}
+					$dator=null;
+					$idfoundr=array_search(date('Y-m-d',strtotime($datereal)), array_column($datosr,'datereal'));
+					if(!$idfoundr===false || $idfoundr===0)
+					{
+						$dator=$datosr[$idfoundr];
+					}
 
-				 	$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
-				 	$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');
+					$EditpricesR=(isset($dator['price'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); " href="javascript:;" class="inline_username "  data-type="number" data-name="price" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Price">'.floatval($dator['price']).'</a>':'Null');
+					$Editavar=(isset($dator['availability'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="availability" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Availability">'.intval($dator['availability']).'</a>':'Null');
 					$Editminimumr=(isset($dator['minimum_stay'])?'<a style="border-bottom-color: rgba(255, 255, 255, 0.15); "  href="javascript:;" class="inline_username "  data-type="number" data-name="minimum_stay" data-pk="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'"  data-title="Change Minimum Stay">'.intval($dator['minimum_stay']).'</a>':'Null');
 
-			 		$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';
+					$precio.='<td style="font-size: 12px; text-align:center;" >'.$EditpricesR.'</td>';
 					$avai.='<td style="font-size: 12px;  text-align:center; background-color: '.(isset($dator['availability'])?($dator['availability']<=0?'#C0392B':'#F8F9F9'):'#C0392B').';" > '.$Editavar.' </td>';
 					$min.='<td style="font-size: 12px; text-align:center; "> '.$Editminimumr.' </td>';
 					$ctas.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="cta" type="checkbox" '.(isset($dator['cta'])=='1'?($dator['cta']==1?'checked':''):'').'/> </td>';
 					$ctds.='<td style="font-size: 12px; text-align:center; "> <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="ctd" type="checkbox" '.(isset($dator['ctd'])=='1'?($dator['ctd']==1?'checked':''):'').'  /> </td>';
 					$sss.='<td style="font-size: 12px; text-align:center; " > <input onchange="saveChange2(this)" value="'.$datereal.','.$roomid.','.$rate['ratetypeid'].','.$hotelid.'" name ="stop_sell" type="checkbox" '.(isset($dator['stop_sell'])?($dator['stop_sell']==1?'checked':''):'').' /> </td>';
-			 	}
+				}
 
 				$precio.='</tr>';
 				$avai.='</tr>';
@@ -908,30 +905,21 @@ class channel_model extends CI_Model
 
 
 		 	}
-                        if ($showr==1) {
-                            //	$allreservations=$this->reservation_model->AllReservationList();
-                                    foreach ($roomnumber as  $rooms) {
-
-
-                                            $housekeepingstatus=$this->db->query("select * from housekeepingstatus where HousekeepingStatusId= `RoomStatusHousekeeping` ($roomid,'$rooms') limit 1   ")->row_array();
-
-
-
-                                            $attributes=$this->db->query("select * from room_attributes where AttributeId in(select AttributeIds from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ) order by AttributeCode")->result_array();
-
-                                            $atributetext='';
-
-                                            $statusk=(isset($housekeepingstatus['Code'])?'<strong><span style="font-size:12px; " data-toggle="tooltip" data-placement="right" title="'.$housekeepingstatus['Name'].'">'.$housekeepingstatus['Code'].'</span></strong> ':'');
-
-                                            foreach ($attributes as $attribute) {
-                                                    $atributetext .='<strong><span style="font-size:8px; " data-toggle="tooltip" data-placement="right" title="'.$attribute['AttributeName'].'">'.$attribute['AttributeCode'].'</span></strong> ';
-                                            }
-                                            $room2 .='<tr> <td style="background-color:'.(isset($housekeepingstatus['Code'])?$housekeepingstatus['Color']:'').'"> '.$statusk.' '.$atributetext.'</td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
-                                            
-                                            $room2 .= $this->ReservationShow($rooms, $date1, $roomid, $availability, $price, $room_update_id);
-                                    }
-			}
-                        $int++;
+				if ($showr==1) {
+					//	$allreservations=$this->reservation_model->AllReservationList();
+					foreach ($roomnumber as  $rooms) {
+							$housekeepingstatus=$this->db->query("select * from housekeepingstatus where HousekeepingStatusId= `RoomStatusHousekeeping` ($roomid,'$rooms') limit 1 ")->row_array();
+							$attributes=$this->db->query("select * from room_attributes where AttributeId in(select AttributeIds from room_number_attributes where RoomId =$roomid and RoomNumber ='$rooms' ) order by AttributeCode")->result_array();
+							$atributetext='';
+							$statusk=(isset($housekeepingstatus['Code'])?'<strong><span style="font-size:12px; " data-toggle="tooltip" data-placement="right" title="'.$housekeepingstatus['Name'].'">'.$housekeepingstatus['Code'].'</span></strong> ':'');
+							foreach ($attributes as $attribute) {
+									$atributetext .='<strong><span style="font-size:8px; " data-toggle="tooltip" data-placement="right" title="'.$attribute['AttributeName'].'">'.$attribute['AttributeCode'].'</span></strong> ';
+							}
+							$room2 .='<tr> <td style="background-color:'.(isset($housekeepingstatus['Code'])?$housekeepingstatus['Color']:'').'"> '.$statusk.' '.$atributetext.'</td> <td bgcolor="#E5E7E9" style="font-size: 12px; text-align:center; "> '.$rooms.'</td>';
+							$room2 .= $this->ReservationShow($rooms, $date1, $roomid, $availability, $price, $room_update_id);
+					}
+				}
+				$int++;
 
 			$room2.='</tr>';
 			$body.=($showr==1?$room2:'');

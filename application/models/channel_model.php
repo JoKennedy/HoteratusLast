@@ -16,7 +16,7 @@ class channel_model extends CI_Model
 			$result = $res->row();
 			$t_hasher = new PasswordHash(8, FALSE);
 			$hash = $result->password;
-			$check = true;//$t_hasher->CheckPassword($this->security->xss_clean($this->input->post('login_pwd')), $hash);
+			$check = $t_hasher->CheckPassword($this->security->xss_clean($this->input->post('login_pwd')), $hash);
 
 
 			if($check)
@@ -693,15 +693,17 @@ class channel_model extends CI_Model
                                    $vRoomUpdateId = $room_update_id[($i + $a)];
 
                                    if($a == 0 || $result['noche'] == ($a+1)){
-                                        $repuesta .= '<td id="drag'. str_replace("-", "_", $fecha2).$roomnumber.'" draggable="true" ondragstart="drag(event)" data-roomnumber="'.$roomnumber.'" data-date="'.$fecha2.'" data-availability="'.$vAvailability.'" data-price="'.$vPrice.'" data-room_update_id="'.$vRoomUpdateId.'" data-start_date="'.$start_date.'" data-end_date="'.$end_date.'" data-reservation="'.$result['reservation_id'].'" onclick="gotoreser('."'".site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id']))."'".')" bgcolor="'.$color.'"> <div data-reservation="'.$result['reservation_id'].'" style="width: 100%; height: 20px; cursor: pointer; text-align: center; background-image: url("data:image/png;base64,'. base64_encode(file_get_contents($path)).'");"> </div> </td>';//COLSPAN="'.$result['noche'].'"
+                                       $end = ($result['noche'] == ($a+1)) ? "end" : "start";
+                                        $repuesta .= '<td id="drag'. str_replace("-", "_", $fecha2).$roomnumber.'" draggable="true" ondragstart="drag(event)" data-type="'.$end.'" data-room_id="'.$roomtypeid.'" data-roomnumber="'.$roomnumber.'" data-date="'.$fecha2.'" data-availability="'.$vAvailability.'" data-price="'.$vPrice.'" data-room_update_id="'.$vRoomUpdateId.'" data-start_date="'.$start_date.'" data-end_date="'.$end_date.'" data-reservation="'.$result['reservation_id'].'" onclick="gotoreser('."'".site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id']))."'".')" bgcolor="'.$color.'"> <div data-reservation="'.$result['reservation_id'].'" style="width: 100%; height: 20px; cursor: pointer; text-align: center;"> <i class="fas fa-arrows-alt" style="color: white;margin-top: 3px;"></i> </div> </td>';//COLSPAN="'.$result['noche'].'"
                                    }else{
-                                        $repuesta .= '<td id="drag'. str_replace("-", "_", $fecha2).$roomnumber.'" data-availability="'.$vAvailability.'" data-price="'.$vPrice.'" data-room_update_id="'.$vRoomUpdateId.'" data-roomnumber="'.$roomnumber.'" data-date="'.$fecha2.'" data-start_date="'.$start_date.'" data-end_date="'.$end_date.'" data-reservation="'.$result['reservation_id'].'" onclick="gotoreser('."'".site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id']))."'".')" bgcolor="'.$color.'" style="text-align: center; cursor: not-allowed"> <img src="data:image/png;base64,'. base64_encode(file_get_contents($path)).'"> </td>';//COLSPAN="'.$result['noche'].'"
+                                        $repuesta .= '<td id="drag'. str_replace("-", "_", $fecha2).$roomnumber.'" data-availability="'.$vAvailability.'" data-price="'.$vPrice.'" data-room_id="'.$roomtypeid.'" data-room_update_id="'.$vRoomUpdateId.'" data-roomnumber="'.$roomnumber.'" data-date="'.$fecha2.'" data-start_date="'.$start_date.'" data-end_date="'.$end_date.'" data-reservation="'.$result['reservation_id'].'" onclick="gotoreser('."'".site_url('reservation/reservationdetails/'.secure($result['channelid']).'/'.insep_encode($result['reservation_id']))."'".')" bgcolor="'.$color.'" style="text-align: center; cursor: pointer; background-image: url(data:image/png;base64,'. base64_encode(file_get_contents($path)).');background-repeat: no-repeat; background-position: center;"> </td>';//COLSPAN="'.$result['noche'].'"
+                                        
                                    } 
                                    $fecha2 = date('Y-m-d', strtotime($fecha2."+1 days"));
                                }
                                $i += $result['noche']-1;
 			} else {
-				$repuesta .= '<td class="room-filed" bgcolor="#E5E7E9" data-reservation="0" data-date="'.$fecha.'" data-availability="'.$availability[$i].'" data-price="'.$price[$i].'" data-room_update_id="'.$room_update_id[$i].'" data-roomnumber="'.$roomnumber.'"> </td>';
+				$repuesta .= '<td class="room-filed" bgcolor="#E5E7E9" data-reservation="0" data-date="'.$fecha.'" data-availability="'.$availability[$i].'" data-room_id="'.$roomtypeid.'" data-price="'.$price[$i].'" data-room_update_id="'.$room_update_id[$i].'" data-roomnumber="'.$roomnumber.'"> </td>';
 
 			}
 		}

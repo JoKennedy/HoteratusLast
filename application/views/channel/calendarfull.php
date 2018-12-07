@@ -2,11 +2,6 @@
     .inline_username{
         color: black;
     }
-
-    /*.room-filed:hover{
-        border-style: dashed;
-        background-color: #52c748;
-    }*/
 </style>
 <div class="outter-wp">
     <!--sub-heard-part-->
@@ -322,59 +317,109 @@
     function drop(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("text"), roomnumber, reservation, roomNow,
-        reservationNow, obj, startDate, endDate, nowDate,
-        nItem = document.getElementById(data).cloneNode(true),
-        $i = 0, price = "", availability = false, room_update_id = "";
+                reservationNow, obj, startDate, endDate, nowDate, msj_txt,
+                nItem = document.getElementById(data).cloneNode(true),
+                $i = 0, price = "", availability = false, room_update_id = "",
+                latToomUpdateId = "", room_id, type = "";
         ev.target.appendChild(nItem);
-        reservation = ev.target.attributes.getNamedItem('data-reservation').value; 
-        
-        if (parseInt(reservation)) {
-            swal("Attention!","Does not have availability for this date.", "error");
+        reservation = ev.target.attributes.getNamedItem('data-reservation').value;
+        roomnumber = ev.target.attributes.getNamedItem('data-roomnumber').value;
+        roomNow = document.getElementById(data).attributes.getNamedItem('data-roomnumber').value;
+
+        if (parseInt(reservation) && parseInt(roomnumber) !== parseInt(roomNow)) {
+            swal("<?= html_entity_decode(lang("msj_attention")) ?>", "<?= lang("msj_availability_date") ?>", "error");
+            ev.target.innerHTML = "";
         } else {
-            roomnumber = ev.target.attributes.getNamedItem('data-roomnumber').value;
-            roomNow = document.getElementById(data).attributes.getNamedItem('data-roomnumber').value;
             startDate = document.getElementById(data).attributes.getNamedItem('data-start_date').value;
             endDate = document.getElementById(data).attributes.getNamedItem('data-end_date').value;
             reservationNow = document.getElementById(data).attributes.getNamedItem('data-reservation').value;
             nowDate = ev.target.attributes.getNamedItem('data-date').value;
-            
-            $(ev.target).parent().find("td").each(function() {
-               if(nowDate === $(this).data("date")){
-                   return false;
-               }
-               if(price){
-                  price = price + $(this).data("price")+","; 
-                  room_update_id = room_update_id + $(this).data("room_update_id") + ",";
-               }       
-               if(startDate === $(this).data("date")){
-                   price = price + $(this).data("price")+",";
-                   room_update_id = room_update_id + $(this).data("room_update_id") + ",";
-               }
-               availability = (parseInt($(this).data("availability"))) ? true : false;
-               $i++;
+            type = document.getElementById(data).attributes.getNamedItem('data-type').value;
+            room_id = ev.target.attributes.getNamedItem('data-room_id').value;
+
+            /**
+             * Get list of last rooms id
+             */
+            $(ev.target).parent().find("td").each(function () {
+                if (endDate === $(this).data("date")) {
+                    return false;
+                }
+
+                if (startDate === $(this).data("date")) {
+                    latToomUpdateId = latToomUpdateId + $(this).data("room_update_id") + ",";
+                } else if (latToomUpdateId) {
+                    latToomUpdateId = latToomUpdateId + $(this).data("room_update_id") + ",";
+                }
             });
-            if(!availability){
-               swal("Attention!","Does not have availability for this date.", "error");
-               return false;
+
+            /**
+             * Get list of new rooms id
+             */
+            $(ev.target).parent().find("td").each(function () {
+                if (nowDate === $(this).data("date")) {
+                    return false;
+                }
+                if (price) {
+                    price = price + $(this).data("price") + ",";
+                    room_update_id = room_update_id + $(this).data("room_update_id") + ",";
+                }
+                if (startDate === $(this).data("date")) {
+                    price = price + $(this).data("price") + ",";
+                    room_update_id = room_update_id + $(this).data("room_update_id") + ",";
+                }
+                availability = (parseInt($(this).data("availability"))) ? true : false;
+                $i++;
+            });
+
+            if (!availability) {
+                swal("<?= html_entity_decode(lang("msj_attention")) ?>", "<?= lang("msj_availability_date") ?>", "error");
+                ev.target.innerHTML = "";
+                return false;
             }
-            //console.log(availability+" ::::::::::::::::::: ");
-            //console.log(price+" HOLA ::::::::::::::::::: ");
-            //console.log(room_update_id+" ::::::::::::::::::: ");
-                        
+
+            if (Date.parse(nowDate) > Date.parse(startDate) && Date.parse(nowDate) > Date.parse(endDate)) {
+                msj_txt = "<?= html_entity_decode(lang("msj_increase_days")) ?>";
+            } else {
+                msj_txt = "<?= html_entity_decode(lang("msj_decrease_days")) ?>";
+            }
+
             if (roomnumber === roomNow) {
-                if (Date.parse(nowDate) > Date.parse(startDate)) {
-                    endDate = nowDate;
+                if (Date.parse(nowDate) > Date.parse(startDate) && Date.parse(nowDate) > Date.parse(endDate)) {
+                    if (Date.parse(nowDate) > Date.parse(startDate)) {
+                        endDate = nowDate;
+                    } else {
+                        startDate = nowDate;
+                    }
                 } else {
-                    startDate = nowDate;
+                    if (type === "end") {
+                        endDate = nowDate;
+                    } else {
+                        startDate = nowDate;
+                    }
                 }
             }
-            
-            obj = {roomnumber: roomnumber, reservation: reservationNow,
-                   startDate: startDate, endDate: endDate, price: price, 
-                   room_update_id:room_update_id};
-            $.post(base_url + 'bulkupdate/savechangeReservation', obj, function (data) {
-                Calendario(0, 1);
-            });   
+
+            /**
+             * Confirm alert
+             */
+            swal({
+                title: "<?= html_entity_decode(lang("msj_are_you_sure")) ?>",
+                text: msj_txt,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((confirm) => {
+                if (confirm) {
+                    obj = {roomnumber: roomnumber, reservation: reservationNow,
+                        startDate: startDate, endDate: endDate, price: price, room_id: room_id,
+                        room_update_id: room_update_id, latToomUpdateId: latToomUpdateId};
+                    $.post(base_url + 'bulkupdate/savechangeReservation', obj, function (data) {
+                        Calendario(0, 1);
+                    });
+                } else {
+                    ev.target.innerHTML = "";
+                }
+            });
         }
     }
 </script>

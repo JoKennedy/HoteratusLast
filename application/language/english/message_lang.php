@@ -73,8 +73,11 @@ $lang['expiredcc']='Expired credit card';
 $lang['ccinvalid']='Credit Card Invalid';
 $lang['expiration']='Expiration';
 $lang['reservationcreated']='Reservation created successfully, you will receive an email with the confirmation in the next minutes.';
-
-
+$lang['msj_increase_days'] = "You want to increase the days of the reservation?";
+$lang['msj_decrease_days'] = "Do you want to decrease the days of the reservation?";
+$lang['msj_availability_date'] = "Does not have availability for this date.";
+$lang['msj_are_you_sure'] = "Are you sure?";
+$lang['msj_attention'] = "Attention!";
 
 //Agencies Manager
 $lang['agenciesmanager']='Agencies Manager';

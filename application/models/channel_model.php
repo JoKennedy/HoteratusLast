@@ -807,7 +807,7 @@ class channel_model extends CI_Model
 		 		$datereal=date('Y-m-d',strtotime($date1."+$i days"));
 		 			$dato=null;
 		 			$idfound=array_search(date('Y-m-d',strtotime($datereal)), array_column($datos,'datereal'));
-		 			if(!$idfound===false || $idfound ==0)
+		 			if(!$idfound===false || $idfound ===0)
 		 			{
 		 				$dato=$datos[$idfound];
 		 			}

@@ -402,9 +402,9 @@ class Reservation_model extends CI_Model
                     $tax=explode('*', $tax);
                     $taxid= array_search($tax[0], array_column($taxdata, 'taxid'));
                     $TOTALTAX=$data['totalStay']*($tax[1]/100);
-                    $taxP+=($tax[1]/100);
+                   
                     if($tax[2]==0)
-                    {
+                    {   $taxP+=($tax[1]/100);
                         $taxtotal+=$TOTALTAX;
                     }
 
@@ -3303,7 +3303,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
     function findRoomsAvailable()
     {
 
-        $start_date     =   $_POST['date1Edit'];
+        $start_date     = date('Y-m-d',strtotime($_POST['date1Edit']));  ;
 
         $end_date       =  date('Y-m-d',strtotime($_POST['date2Edit']."-1 days"));
 
@@ -3319,9 +3319,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
         $nights         =   ceil(abs($end - $start) / 86400);
 
-
-
-        $result=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date ,
+        $result=$this->db->query("SELECT trim(P.description) description, U.room_id , 
                 U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
                sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
                 count(*) available, min(U.availability) roomAvailability
@@ -3332,11 +3330,9 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 AND U.minimum_stay <= $nights AND P.member_count >=$adult
                 AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
                 AND stop_sell='0' AND P.hotel_id=".hotel_id()."
-                GROUP BY U.room_id ORDER BY P.`order` ")->result_array();
+                GROUP BY U.room_id,P.description,U.minimum_stay  ORDER BY P.`order` ")->result_array();
 
-
-
-        $available= '';
+         $available= '';
 
         if (count($result)>=0 ) {
             $i=0;
@@ -3344,8 +3340,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
 
                 if ( $value['available']>=$nights && $value['totalprice']>0) {
                     $available[$i]=$value ;
-
-                     $rate=$this->db->query("SELECT P.description , U.room_update_id, U.room_id , U.separate_date ,
+                   
+                     $rate=$this->db->query("SELECT trim(P.description) description, U.room_id , 
                     U.minimum_stay , sum( ifnull(U.price,0)  ) totalprice,
                    sum( ifnull(U.price,0)  )/(count(*)) avgprice, P.price as base_price , P.image , P.property_name ,  P.member_count , P.children , P.number_of_bedrooms,P.existing_room_count,
                     count(*) available, min(U.availability) roomAvailability, r.name,U.rate_types_id
@@ -3358,7 +3354,7 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                     AND U.minimum_stay <= $nights AND P.member_count >=$adult
                     AND P.children >=$child AND individual_channel_id =0 and ifnull(U.price,0)>0
                     AND stop_sell='0' AND P.hotel_id=".hotel_id()."
-                    GROUP BY U.rate_types_id ORDER BY U.rate_types_id DESC")->result_array();
+                    GROUP BY U.rate_types_id,P.description,U.minimum_stay ORDER BY U.rate_types_id DESC")->result_array();
 
                      if (count($rate)>=0 ) {
                         $y=0;
@@ -3402,8 +3398,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 AND P.children >=".$_POST['child']." AND individual_channel_id =0
                 AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
                 ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
-        }
 
+        }
         else
         {
               $result=$this->db->query("SELECT U.price,str_to_date(U.separate_date,'%d/%m/%Y') datecurrent
@@ -3413,7 +3409,8 @@ else if($this->input->post('method')=='cancel' || $this->input->post('method')==
                 AND U.availability >=".$_POST['numroom']."
                 AND U.minimum_stay <= $nights AND P.member_count >=".$_POST['adult']."
                 AND P.children >=".$_POST['child']." AND individual_channel_id =0
-                AND stop_sell=0 AND P.hotel_id=".hotel_id()." and U.room_id=".$_POST['roomid']."
+                AND stop_sell=0 AND P.hotel_id=".hotel_id()." 
+                and U.room_id=".$_POST['roomid']."
                 and U.rate_types_id =".$_POST['rateid']."
                 ORDER BY str_to_date(U.separate_date,'%d/%m/%Y') ASC")->result_array();
         }

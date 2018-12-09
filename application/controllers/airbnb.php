@@ -23,7 +23,6 @@ class Airbnb extends Front_Controller
     function importRooms($channel_id)
     {
         $bk_details = get_data(CONNECT, array(
-            'user_id' => current_user_type(),
             'hotel_id' => hotel_id(),
             'channel_id' => insep_decode($channel_id),
             'status' => 'enabled'

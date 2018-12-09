@@ -191,8 +191,8 @@ function format(val)
 function reservethis(roomid, rateid, date1, date2, adult, numroom, numchild, numnight,totalstay,idreplace) {
     var pricenew=$("#price_"+idreplace).html().replace(',','');
     var newmonto= pricenew*numnight;
-
-    $("#newprice").val((totalstay!=newmonto?newmonto:-1));
+   
+    $("#newprice").val((formatMoney(totalstay)!=formatMoney(newmonto)?newmonto:-1));
     totalstay=(totalstay!=newmonto?newmonto:totalstay)*numroom;
 
 

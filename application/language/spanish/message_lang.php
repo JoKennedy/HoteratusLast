@@ -73,8 +73,11 @@ $lang['ccinvalid']='Tarjeta de Credito Invalida';
 $lang['expiration']='Expiracion';
 $lang['reservationcreated']='Reservación creada exitosamente, recibirá un email con la confirmacion en los proximos minutos.';
 $lang['savingreservation']='Guardando datos de la Reservacion <br> Por Favor Espere';
-
-
+$lang['msj_increase_days'] = "¿Quieres aumentar los d&iacute;as de la reserva?";
+$lang['msj_decrease_days'] = "¿Quieres disminuir los d&iacute;as de la reserva?";
+$lang['msj_availability_date'] = "No tiene disponibilidad para esta fecha.";
+$lang['msj_are_you_sure'] = "¿Est&aacute;s seguro?";
+$lang['msj_attention'] = "Atenci&oacute;n!";
 
 //Agencies Manager
 $lang['agenciesmanager']='Gestor de Agencias';

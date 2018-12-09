@@ -21,14 +21,12 @@ class airbnb_model extends CI_Model
         $airbnbErrors = "";
         //Dealles de CAnal
         $ch_details   = get_data(CONNECT, array(
-            'user_id' => $userid,
             'hotel_id' => $hotelid,
             'channel_id' => "9"
         ))->row();
         //Busco las Habiaciones Conectadas al Canal 9 AIRBNB
         
         $room_mapping    = get_data(MAP, array(
-            'owner_id' => $userid,
             'hotel_id' => $hotelid,
             'channel_id' => 9,
             'enabled' => 'enabled'
@@ -42,7 +40,6 @@ class airbnb_model extends CI_Model
                 $Data = $this->db->query("select *  from room_update where owner_id =" . $userid. " and hotel_id =" . $hotelid . " and individual_channel_id =0 and room_id =" . $Mappingvalue["property_id"] . " and STR_TO_DATE(separate_date, '%d/%m/%Y') BETWEEN '" . $datepicker_full_start . "' and '" . $datepicker_full_end . "' order by STR_TO_DATE(separate_date, '%d/%m/%Y') asc")->result_array();
                 
                 $mp_details = get_data('import_mapping_AIRBNB', array(
-                    'user_id' => $userid,
                     'hotel_id' => $hotelid,
                     'channel_id' => "9",
                     'import_mapping_id' => $Mappingvalue["import_mapping_id"]
@@ -78,7 +75,6 @@ class airbnb_model extends CI_Model
                     update_data(CONNECT, array(
                         'other_id' => $AuthToken
                     ), array(
-                        'user_id' => $userid,
                         'hotel_id' => $hotelid,
                         'channel_id' => '9',
                         'status' => 'enabled'

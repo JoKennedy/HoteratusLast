@@ -69,9 +69,9 @@ $browsers = array(
 					'Links'				=> 'Links',
 					'hotjava'			=> 'HotJava',
 					'amaya'				=> 'Amaya',
-					'IBrowse'			=> 'IBrowse'
-					'Apple Safari'		=> 'Safari'
-					'Safari'		    => 'Apple Safari'
+					'IBrowse'			=> 'IBrowse',
+					'Apple Safari'		=> 'Safari',
+					'Safari'		    => 'Apple Safari',
 				);
 
 $mobiles = array(

@@ -54,7 +54,7 @@ class bulkupdate extends Front_Controller
 		
 		$rooms=$this->cleanArray($_POST['room']);
 		$subrooms=$this->cleanArray($_POST['subroom']);
-		var_dump($rooms);
+		//var_dump($rooms);
 		if($rooms)
 		{
 
@@ -205,8 +205,6 @@ class bulkupdate extends Front_Controller
                         
 			}
 		}
-
-		echo($result);
 		$this->session->set_flashdata('bulk_success', $result );
 	
 	}
@@ -342,12 +340,35 @@ class bulkupdate extends Front_Controller
 	{
 		echo getsincro();
 	}
+        
+        function savechangeReservation(){
+            $startDate = date('d/m/Y', strtotime($this->input->post('startDate')));
+            $endDate = date('d/m/Y', strtotime($this->input->post('endDate')));
+            
+            $rows = array('RoomNumber' => $this->input->post('roomnumber'),
+                          'room_id' => $this->input->post('room_id'),
+                          'start_date' => $startDate,
+                          'end_date' => $endDate,
+                          'price_details' => $this->input->post('price'));
 
-
+            update_data('manage_reservation', $rows, 
+                    array('reservation_id'=>$this->input->post('reservation')));
+            
+            $latToomUpdateId = explode(",", substr($this->input->post('latToomUpdateId'), 0, -1));
+            $this->db->set('availability', 'availability+1', FALSE);
+            $this->db->where_in('room_update_id', $latToomUpdateId);
+            $this->db->update('room_update');
+                        
+            $room_update_id = explode(",", substr($this->input->post('room_update_id'), 0, -1));
+            $this->db->set('availability', 'availability-1', FALSE);
+            $this->db->where_in('room_update_id', $room_update_id);
+            $this->db->update('room_update');   
+        }
+                
 	function savechangecalendar()
 	{
-
-		$name=$_POST['name'];
+        
+        $name=$_POST['name'];
         $value=$_POST['value'];
         $pk=explode(',',$_POST['pk']);
 

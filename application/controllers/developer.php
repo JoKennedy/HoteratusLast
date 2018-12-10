@@ -12,6 +12,15 @@ class developer extends Front_Controller {
         parent::__construct();
 
     }
+    function mailsettings()
+    {
+        $this->load->library('email');
+        $config['wrapchars'] = 76; // Character count to wrap at.
+        $config['priority']  = 1; // Character count to wrap at.
+        $config['mailtype']  = 'html'; // text or html Type of mail. If you send HTML email you must send it as a complete web page. Make sure you don't have any relative links or relative image paths otherwise they will not work.
+        $config['charset']   = 'utf-8'; // Character set (utf-8, iso-8859-1, etc.).
+        $this->email->initialize($config);
+    }
     public function task()
     {
       is_login();
@@ -47,7 +56,8 @@ class developer extends Front_Controller {
       from DeveloperTask a
       left join manage_users b on a.usercreatedid=b.user_id
       where (StatusId=$status or $status=0)
-      and  (DeveloperAssignedId=$developer or $developer=0) ")->result_array();
+      and  (DeveloperAssignedId=$developer or $developer=0) 
+      and (UserCreatedId =".user_id()." or ".user_id()."=13)" )->result_array();
 
       $html='';
         $html.= '<div class="graph-visual tables-main">
@@ -83,7 +93,7 @@ class developer extends Front_Controller {
                           <td><a href="'.base_url().'developer/viewtask/'.insep_encode($value['DeveloperTaskId']).'">'.$value['SubjectTask'].'</a></td>
                           <td>'.$value['usercreate'].'</td>
                           <td>'.$developer.'</td>
-                          <td>'.date('m/d/Y',strtotime($value['DateCreation'])).'</td>
+                          <td>'.date('m/d/Y h:m:s',strtotime($value['DateCreation'])).'</td>
                           <td align="center"> <span id="percentage'.$value['DeveloperTaskId'].'" class="percentage">'.$percentage.'%</span> <div class="progress progress-striped active">
                           <div id="class'.$value['DeveloperTaskId'].'" class="progress-bar progress-bar-'.$class.'" style="width: '.$value['PercentageProccess'].'%"></div></div></td>
                           <td><center>'.$status.'</center></td>
@@ -102,6 +112,30 @@ class developer extends Front_Controller {
     }
     public function deletetask()
     {
+     
+        $campomodificado='';
+        $message='';
+        $taskinfo=$this->db->query("select a.*,concat(b.FirstName,' ',b.LastName) Developer,c.description status, b.email email
+        from DeveloperTask a
+        left join Developers b on a.DeveloperAssignedId=b.DeveloperId
+        left join DeveloperTaskStatus c on a.StatusId=c.DeveloperTaskStatusId
+        where DeveloperTaskId=".$_POST['id'])->row_array();
+
+        $userinfo=$this->db->query("select * from manage_users  where user_id=".user_id())->row_array();
+       
+        $result['success']=true;
+        $message.="<h1>Nombre de la tarea</h1><p>".$taskinfo['SubjectTask']."</p><h2>Detalle de la Tarea</h2><p>".$taskinfo['Description']."</p>";
+        $subject='Eliminacion de Tarea by '.$userinfo['fname'].' '.$userinfo['lname'];
+        $headers = "From: ".$userinfo['email_address']."\r\n";
+        $headers .= "Reply-To: ".$userinfo['email_address']."\r\n";
+        $headers .= "CC: XML@hoteratus.com\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        if(strlen($taskinfo['email'])>0)
+        {
+          mail($taskinfo['email'], $subject, $message, $headers);
+        }
+
       $this->db->query("delete from DeveloperTask where DeveloperTaskId=".$_POST['id']);
     }
     public function developerlist()
@@ -122,9 +156,48 @@ class developer extends Front_Controller {
       $result['success']=false;
       if(update_data('DeveloperTask',$data,$where))
       {
-        $result['success']=true;
-      }
+        $campomodificado='';
+        $message='';
+        $taskinfo=$this->db->query("select a.*,concat(b.FirstName,' ',b.LastName) Developer,c.description status, b.email email
+        from DeveloperTask a
+        left join Developers b on a.DeveloperAssignedId=b.DeveloperId
+        left join DeveloperTaskStatus c on a.StatusId=c.DeveloperTaskStatusId
+        where DeveloperTaskId=".$_POST['pk'])->row_array();
 
+        switch ($_POST['name']) {
+          case 'DeveloperAssignedId':
+            $campomodificado='Cambio de Personal Asignado';
+            $message="<div><p>El nuevo Encargado para esta Tarea Es:<strong>".$taskinfo['Developer']."</strong></p></div>";
+            break;
+            case 'PercentageProccess':
+            $campomodificado='Cambio de Porcentaje Completado';
+            $message="<div><p>El nuevo porcentaje Es:<strong>".$taskinfo['PercentageProccess']."</strong></p></div>";
+            break;
+            case 'StatusId':
+            $campomodificado='Cambio de Estatus';
+            $message="<div><p>El nuevo Estatus Es:<strong>".$taskinfo['status']."</strong></p></div>";
+            break;
+          default:
+            # code...
+            break;
+        }
+        $userinfo=$this->db->query("select * from manage_users  where user_id=".user_id())->row_array();
+       
+        $result['success']=true;
+        $message.="<h1>Nombre de la tarea</h1><p>".$taskinfo['SubjectTask']."</p><h2>Detalle de la Tarea</h2><p>".$taskinfo['Description']."</p>";
+        $subject='Modificacion de '.$campomodificado.' by '.$userinfo['fname'].' '.$userinfo['lname'];
+        $headers = "From: ".$userinfo['email_address']."\r\n";
+        $headers .= "Reply-To: ".$userinfo['email_address']."\r\n";
+        $headers .= "CC: XML@hoteratus.com\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        if(strlen($taskinfo['email'])>0)
+        {
+          mail($taskinfo['email'], $subject, $message, $headers);
+        }
+        
+
+      }
       echo json_encode($result);
     }
 
@@ -185,7 +258,28 @@ class developer extends Front_Controller {
           $data['StatusId']=2;
           $data['Active']=1;
 
-          insert_data('DeveloperTask',$data);
+          if(insert_data('DeveloperTask',$data))
+          {
+            $campomodificado='';
+            $message='';
+            $taskinfo=$this->db->query("select a.*,concat(b.FirstName,' ',b.LastName) Developer,c.description status, b.email email
+            from DeveloperTask a
+            left join Developers b on a.DeveloperAssignedId=b.DeveloperId
+            left join DeveloperTaskStatus c on a.StatusId=c.DeveloperTaskStatusId
+            where DeveloperTaskId=".getinsert_id())->row_array();
+            $userinfo=$this->db->query("select * from manage_users  where user_id=".user_id())->row_array();
+            $message.="<h1>Nombre de la tarea</h1><p>".$taskinfo['SubjectTask']."</p><h2>Detalle de la Tarea</h2><p>".$taskinfo['Description']."</p>";
+            $subject='Nueva Tarea Creada by '.$userinfo['fname'].' '.$userinfo['lname'];
+            $headers = "From: ".$userinfo['email_address']."\r\n";
+            $headers .= "Reply-To: ".$userinfo['email_address']."\r\n";
+            $headers .= "CC: XML@hoteratus.com\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+            if(strlen($taskinfo['email'])>0)
+            {
+              mail($taskinfo['email'], $subject, $message, $headers);
+            }
+          }
   				if(strlen($errores)>0)
   				{
   					echo json_encode(array("success"=>false,'message'=>$errores));
@@ -193,7 +287,9 @@ class developer extends Front_Controller {
   				else
   				{
   					echo json_encode(array("success"=>true,'message'=>$errores));
-  				}
+          }
+          
+
   			}
 
       }

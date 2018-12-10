@@ -35,7 +35,9 @@
 	<div style="float: right; " class="buttons-ui">
 			<a href="#createtask" data-toggle="modal" class="btn blue"><?=infolang('addnewtask')?></a>
 	</div>
-
+	<div style="float: right; " class="buttons-ui">
+			<a href="#createtask" data-toggle="modal" class="btn blue"><?=infolang('addnewdeveloper')?></a>
+	</div>
 <div  class="clearfix"></div>
 	<div class="graph-visual tables-main">
 		<div class="graph">

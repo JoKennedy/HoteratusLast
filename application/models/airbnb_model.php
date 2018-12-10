@@ -176,7 +176,7 @@ class airbnb_model extends CI_Model
                         }
                     }
                 } elseif (preg_match('/"error_message"\s*:\s*"(.*?)"/is', $resultFile, $match)) {
-                    $this->inventory_model->store_error($userid, $hotelid, '9', $match[1], 'Inline Edit No', date('m/d/Y h:i:s a', time()));
+                   // $this->inventory_model->store_error($userid, $hotelid, '9', $match[1], 'Inline Edit No', date('m/d/Y h:i:s a', time()));
                     $this->session->set_flashdata('bulk_error', $match[1]);
                     $airbnbErrors .= $match[1];
                 } else {

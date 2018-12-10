@@ -317,17 +317,28 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <td> <strong>Total Stay:&nbsp</strong></td>
+                                                        <?php
+
+                                                            $taxinfo=explode(',', $taxes);
+                                                            $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
+                                                            $taxincluded=0;
+                                                            foreach ($taxinfo as $taxvalue) {
+                                                                $taxvalue=explode('*', $taxvalue);
+                                                                if($taxvalue[2]==1)
+                                                                {
+                                                                    $taxincluded+=$totalStay*($taxvalue[1]/100);
+                                                                }
+                                                            }
+                                                        ?>
+                                                        <td> <strong>Rate Without Taxes:&nbsp</strong></td>
                                                         <td style="text-align: right;">
-                                                            <?=number_format($totalStay, 2, '.', ',')?>
+                                                            <?=number_format($totalStay-$taxincluded, 2, '.', ',')?>
                                                         </td>
                                                     </tr>
                                                     <?php
                                                         if (isset($taxes) && strlen($taxes)>2) {
                                                             
-                                                            $taxinfo=explode(',', $taxes);
-                                                            $taxdata=$this->db->query("select * from taxcategories where hotelid=".hotel_id())->result_array();
-
+                                                            
                                                             foreach ($taxinfo as  $tax) {
                                                                 
                                                                 $tax=explode('*', $tax);
@@ -350,7 +361,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td> <strong>Gran Total:&nbsp</strong></td>
+                                                        <td> <strong>Gran Total After Tax:&nbsp</strong></td>
                                                         <td style="text-align: right;">
                                                             <?= number_format($grandtotal, 2, '.', ',')?>
                                                         </td>

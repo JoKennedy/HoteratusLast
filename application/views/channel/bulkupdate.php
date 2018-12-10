@@ -452,16 +452,7 @@ function sendbulk() {
 
     });
 
-   if(!$("input[id=channelid]").is(":checked"))
-    {
-            falta=1;
-            swal({
-                title: "Oops, Sorry",
-                text: "Select a Channel to continue!",
-                icon: "warning",
-                button: "Ok!",
-            });
-    }
+  
     
        
 

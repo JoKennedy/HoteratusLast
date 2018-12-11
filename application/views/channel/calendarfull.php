@@ -46,15 +46,15 @@
             $specialpermit = specialpermitids();
         }
 
-        if ($User_Type == 1 || in_array(1, $specialpermit)) {
+        //if ($User_Type == 1 || in_array(1, $specialpermit)) {
             echo '<a onclick="setfullUpdate()" class="btn orange">Full Update</a>';
-        }
-        if ($User_Type == 1 || in_array(2, $specialpermit)) {
+        //}
+       // if ($User_Type == 1 || in_array(2, $specialpermit)) {
             echo '<a href="' . base_url() . 'bulkupdate/viewBulkUpdate" class="btn green">Bulk Update</a>';
-        }
-        if ($User_Type == 1 || in_array(3, $specialpermit)) {
+       // }
+       // if ($User_Type == 1 || in_array(3, $specialpermit)) {
             echo '<a onclick="setcalendar()" class="btn blue">Add Reservation</a>';
-        }
+       // }
         ?>
     </div>
     <div class="clearfix"></div>

@@ -2160,7 +2160,7 @@ function profile()
 		$data= array_merge($user_details,$data);
 		$data['AllHotelInfo']=$this->reservation_model->reservationQtyAllHotel();
 		$data['HotelInfo']= get_data('manage_hotel',array('hotel_id'=>hotel_id()))->row_array();
-    	$this->views('channel/profile',$data);
+    	$this->views('channel/profile',$data); 
 }
 function settingsProperty()
 {

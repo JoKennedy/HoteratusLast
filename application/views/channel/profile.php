@@ -1,6 +1,6 @@
 <!--outter-wp-->
 <?php
-$pais=$this->db->query("select * from country where id=$country")->row_array();
+$pais=$this->db->query("select * from country where id=".(strlen($country)==0?0:$country))->row_array();
 
 $lastactivity=$this->db->query("select * from new_history where Userid=$user_id order by history_date desc limit 10 ")->result_array();
 
@@ -60,7 +60,7 @@ $lastactivity=$this->db->query("select * from new_history where Userid=$user_id 
                         <strong>Location</strong>
                         <br>
                         <p class="text-muted">
-                            <?=$town.', '.$pais['country_name']?>
+                            <?=$town.', '.(isset($pais['country_name'])?$pais['country_name']:'')?>
                         </p>
                     </div>
                     

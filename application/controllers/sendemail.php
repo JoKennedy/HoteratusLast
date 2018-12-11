@@ -48,7 +48,7 @@ class sendemail extends Front_Controller
             $variable['###ALLGUESTNAME###']=$resinfo[0]['guestname'];;
             $variable['###HOTELNAME###']=$hotelinfo['property_name'];
             $variable['###NUMBERROOM###']=count($resinfo);
-            $variable['###HOTELLOGO###']=base_url().(strlen($hotelinfo['Logo'])<5?"uploads/room_photos/noimage.jpg":$hotelinfo['Logo']);
+            $variable['###HOTELLOGO###']='<img style="width:100px; " src="'.base_url().(strlen($hotelinfo['Logo'])<5?"uploads/room_photos/noimage.jpg":$hotelinfo['Logo']).'" class="img-responsive" alt="Logo Hotel">';
             $variable['###LINKRESERVATION###']='';//numeros id y hotel encriptado
             
 			$GuestEmail=$resinfo[0]['email'];

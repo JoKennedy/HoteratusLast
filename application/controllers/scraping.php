@@ -361,6 +361,56 @@ class scraping extends Front_Controller {
     {
        $this->db->query("delete FROM HotelScrapingInfo  where TIMESTAMPDIFF(MINUTE ,CreateDate,now() ) >240 and HotelScrapingInfoId <>0");
     }
+
+    public function ScrapingAgodaHotel()
+    { 
+      //Type 1 hoteles, Type 2 Villas
+      //if($type==1) 2672994 Marien, 2668710 Cofresi palm, 2676589 CRown Suite
+      $hotelScrapingId=2676589;
+      $curl = curl_init();
+      
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://www.agoda.com/api/en-us/pageparams/property?asq=WMTQ%2F0cVll8TN7Bcp5MzO1wgQbBvHi3iNYdF%2Bigg6pT16Ub2oIGagkc5nfUMVawaLBbwkguDPCYzYWsP5PeCV4sStil9s6g8wervZNBUiDwr%2Be%2FjGm1aX76eIHUFNEje41eQys3gvwZJCwt8zgLoQx2E5nyWv96cDOfSEYVvnYNoyk4oCvSjPx9l8q4hfDBxeGmIUcsqygftTQJOgnsrar53mor5irIt%2BX9JEVHia9k%3D&hotel=$hotelScrapingId&tick=636788665037&languageId=1&userId=8c6b4613-b120-421f-83c4-3330cbe92334&sessionId=34gsid0jta5jqwlzp0dk235x&pageTypeId=7&origin=DO&locale=en-US&cid=-1&aid=130243&currencyCode=USD&htmlLanguage=en-us&cultureInfoName=en-US&ckuid=8c6b4613-b120-421f-83c4-3330cbe92334&prid=0&checkIn=2019-08-24&checkOut=2019-08-25&rooms=1&adults=2&childs=0&priceCur=USD&los=1&textToSearch=Cofresi%20Palm%20Beach%20%26%20Spa%20Resort%20-%20All%20Inclusive&productType=-1&travellerType=1&hotel_id=$hotelScrapingId&all=false",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+          "accept: */*",
+          "accept-encoding: gzip, deflate, br",
+          "accept-language: es,en;q=0.9",
+          "cache-control: no-cache",
+          //'cookie: agoda.vuser=UserId=801cfbca-1560-4c61-8103-b49937ff9f49; agoda.user.03=UserId=8c6b4613-b120-421f-83c4-3330cbe92334; UserSession=8c6b4613-b120-421f-83c4-3330cbe92334; ashnew=www.agoda.com_cluster_d; ABSTATIC=0; ak_geo=DO; akamai.guid=8c6b4613-b120-421f-83c4-3330cbe92334; ASP.NET_SessionId=34gsid0jta5jqwlzp0dk235x; agoda.firstclicks=-1||||2018-11-26T20:52:53||34gsid0jta5jqwlzp0dk235x||{\"IsPaid\":false,\"gclid\":\"\",\"Type\":\"\"}; agoda.lastclicks=-1||||2018-11-26T20:52:53||34gsid0jta5jqwlzp0dk235x||{\"IsPaid\":false,\"gclid\":\"\",\"Type\":\"\"}; agoda.prius=PriusID=0&PointsMaxTraffic=Agoda; _ab50group=GroupB; _40-40-20Split=Group40B; _ga=GA1.2.1800672789.1543240378; _gid=GA1.2.2010417682.1543240378; _fbp=fb.1.1543240378463.1828561591; cto_lwid=c058e8dd-b5ea-43ce-84a8-e1f3ce559747; _abck=90B3493B60E94F1DCD8927B4A37B2DCD17C967DF27220000DEFAFB5B8026D57D~-1~UAA31UHxNZ6EFdN9d82cwsaBFPpXNOmUMSht6mWC9hA=~-1~-1; bm_sz=091AB0581BDED40A4A39BF07724F3A8B~QAAQ32fJFxEKAiZnAQAATPVLUIdcjo7+B6MmU50885vNss6tu0iUB6P/fBizvmIlNRSqr8a9gEMUQ38PUVZto1uAq9/FeBaWBZLOZfI8yqimJb+5kdEZ87Bgj+zGFNta4YIYgXMlp6Eqi8ryu0h5rf24BY1Sy02XFbd3X+oL++lDKZc/hh+5H+QVwXKB9A==; agoda.search.01=SHist=4$4462881$6548$1$1$2$0$0$$|4$4462881$6603$1$1$2$0$0$$|4$4462881$6624$1$1$2$0$0$$|4$4462881$6652$1$1$2$0$0$$|4$4462881$6692$1$1$2$0$0$$|4$4462881$6722$1$1$2$0$0$$|4$4462881$6750$1$1$2$0$0$$|4$4462881$6778$1$1$2$0$0$$|4$4462881$6778$2$1$2$0$0$$|4$4462881$6778$4$1$2$0$0$$|4$4462881$6778$29$1$2$0$0$$|4$4462881$6809$1$1$2$0$0$$|4$2668710$6809$1$1$2$0$0$$&H=6538|0$4462881$2668710; utag_main=v_id:0167504b5f12001a4db2cc9f5c1203079001c07100c98$_sn:2$_ss:1$_st:1543246316495$ses_id:1543244516495%3Bexp-session$_pn:1%3Bexp-session; agoda.analytics=Id=801456717093096295&Signature=348455222670370118&Expiry=1543248264244; agoda.version.03=CookieId=f26d3f75-7891-4ed5-a2fc-a7be23bdbba2&AllocId=668ba0d55d2c59d3872b28facfb91ec93ce85547dde25c9aedd2e05d891eb128ce31c9cc322723ed986a1949f7a08b9b125cf3bc8239e5ea7f1aaf219d63ca0269cd6f16d832ee76332ed6a4abb83eef163d0c6230f26d3f757891ed52fca7be23bdbba2&DPN=1&DLang=en-us&CurLabel=USD&Alloc=953$48|2069$91|2071$49|2079$40|2221$62|2188$21|2192$91|2211$50|2201$7|2273$17|2291$34|2346$61|2226$68|2229$50|2288$13|2308$89|2333$98|2528$92&FEBuildVersion=&CurIP=190.166.93.109&TItems=2$-1$11-26-2018 22:04$11-26-2019 22:04$&CuLang=1; agoda.allclicks=-1||||2018-11-26T22:04:24||34gsid0jta5jqwlzp0dk235x||{\"IsPaid\":false,\"gclid\":\"\",\"Type\":\"LC\"}; agoda.attr.03=CookieId=70338b47-1d59-463e-8e8d-8ca0da54d804&ATItems=-1$11-26-2018 22:04$; session_cache={\"Cache\":\"as4\",\"Time\":\"636788414663478220\",\"SessionID\":\"34gsid0jta5jqwlzp0dk235x\",\"CheckID\":\"9a9ae9cd1e4b9a8532a5e3c33b0f9ff8d75b080d\",\"CType\":\"N\"}',
+          "postman-token: fd42d906-82e2-b5cb-160e-887437dbda35",
+          //"referer: https://www.agoda.com/cofresi-palm-beach-spa-resort-all-inclusive_2/hotel/puerto-plata-do.html?asq=WMTQ%2F0cVll8TN7Bcp5MzO1wgQbBvHi3iNYdF%2Bigg6pT16Ub2oIGagkc5nfUMVawaLBbwkguDPCYzYWsP5PeCV4sStil9s6g8wervZNBUiDwr%2Be%2FjGm1aX76eIHUFNEje41eQys3gvwZJCwt8zgLoQx2E5nyWv96cDOfSEYVvnYNoyk4oCvSjPx9l8q4hfDBxeGmIUcsqygftTQJOgnsrar53mor5irIt%2BX9JEVHia9k%3D&hotel=2668710&tick=636788665037&languageId=1&userId=8c6b4613-b120-421f-83c4-3330cbe92334&sessionId=34gsid0jta5jqwlzp0dk235x&pageTypeId=7&origin=DO&locale=en-US&cid=-1&aid=130243&currencyCode=USD&htmlLanguage=en-us&cultureInfoName=en-US&ckuid=8c6b4613-b120-421f-83c4-3330cbe92334&prid=0&checkIn=2019-08-24&checkOut=2019-08-25&rooms=1&adults=2&childs=0&priceCur=USD&los=1&textToSearch=Cofresi%20Palm%20Beach%20%26%20Spa%20Resort%20-%20All%20Inclusive&productType=-1&travellerType=1",
+          "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+         // "x-raw-url: /cofresi-palm-beach-spa-resort-all-inclusive_2/hotel/puerto-plata-do.html?asq=WMTQ%2F0cVll8TN7Bcp5MzO1wgQbBvHi3iNYdF%2Bigg6pT16Ub2oIGagkc5nfUMVawaLBbwkguDPCYzYWsP5PeCV4sStil9s6g8wervZNBUiDwr%2Be%2FjGm1aX76eIHUFNEje41eQys3gvwZJCwt8zgLoQx2E5nyWv96cDOfSEYVvnYNoyk4oCvSjPx9l8q4hfDBxeGmIUcsqygftTQJOgnsrar53mor5irIt%2BX9JEVHia9k%3D&hotel=2668710&tick=636788665037&languageId=1&userId=8c6b4613-b120-421f-83c4-3330cbe92334&sessionId=34gsid0jta5jqwlzp0dk235x&pageTypeId=7&origin=DO&locale=en-US&cid=-1&aid=130243&currencyCode=USD&htmlLanguage=en-us&cultureInfoName=en-US&ckuid=8c6b4613-b120-421f-83c4-3330cbe92334&prid=0&checkIn=2019-08-24&checkOut=2019-08-25&rooms=1&adults=2&childs=0&priceCur=USD&los=1&textToSearch=Cofresi%20Palm%20Beach%20%26%20Spa%20Resort%20-%20All%20Inclusive&productType=-1&travellerType=1",
+          //"x-referer: https://www.agoda.com/cofresi-palm-beach-spa-resort-all-inclusive_2/hotel/puerto-plata-do.html?asq=WMTQ%2F0cVll8TN7Bcp5MzO1wgQbBvHi3iNYdF%2Bigg6pT16Ub2oIGagkc5nfUMVawaLBbwkguDPCYzYWsP5PeCV4sStil9s6g8wervZNBUiDwr%2Be%2FjGm1aX76eIHUFNEje41eQys3gvwZJCwt8zgLoQx2E5nyWv96cDOfSEYVvnYNoyk4oCvSjPx9l8q4hfDBxeGmIUcsqygftTQJOgnsrar53mor5irIt%2BX9JEVHia9k%3D&hotel=2668710&tick=636788644410&languageId=5&userId=8c6b4613-b120-421f-83c4-3330cbe92334&sessionId=34gsid0jta5jqwlzp0dk235x&pageTypeId=7&origin=DO&locale=es-ES&cid=-1&aid=130243&currencyCode=USD&htmlLanguage=es-es&cultureInfoName=es-ES&ckuid=8c6b4613-b120-421f-83c4-3330cbe92334&prid=0&checkIn=2019-08-24&checkOut=2019-08-25&rooms=1&adults=2&childs=0&priceCur=USD&los=1&textToSearch=Cofresi%20Palm%20Beach%20%26%20Spa%20Resort%20-%20All%20Inclusive&productType=-1&travellerType=1"
+        ),
+      ));
+
+      
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+      
+      curl_close($curl);
+      
+      if ($err) {
+        echo "cURL Error #:" . $err;
+      } else {
+        $info= json_decode($response,true);
+        
+        $allRooms=$info['roomGridData']['masterRooms'];
+        foreach ($allRooms as $room) {
+          echo "Nombre".$room['recommendedRoomName']."<br>";
+          echo "Total".$room['cheapestPrice']."<br>";
+          echo "MaxOccupancy".$room['maxOccupancyInGroup']."<br>";
+          echo "--------------------------------------<br>";
+        }
+      }
+    }
 	public function ScrapingBooking($start)
 	{
     ignore_user_abort(true);
@@ -457,7 +507,7 @@ class scraping extends Front_Controller {
 		var_dump($videos);
 		}
 
-	    function cURL($url, $posts, $cookies, $referer, $proxy,$agent){
+	function cURL($url, $posts, $cookies, $referer, $proxy,$agent){
 	    $headers = array (
 	        'Accept-Language: en-US;q=0.6,en;q=0.4',
 	    );

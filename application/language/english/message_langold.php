@@ -73,8 +73,11 @@ $lang['expiredcc']='Expired credit card';
 $lang['ccinvalid']='Credit Card Invalid';
 $lang['expiration']='Expiration';
 $lang['reservationcreated']='Reservation created successfully, you will receive an email with the confirmation in the next minutes.';
-
-
+$lang['msj_increase_days'] = "You want to increase the days of the reservation?";
+$lang['msj_decrease_days'] = "Do you want to decrease the days of the reservation?";
+$lang['msj_availability_date'] = "Does not have availability for this date.";
+$lang['msj_are_you_sure'] = "Are you sure?";
+$lang['msj_attention'] = "Attention!";
 
 //Agencies Manager
 $lang['agenciesmanager']='Agencies Manager';
@@ -136,10 +139,6 @@ $lang['areyousure']='Are you sure?';
 $lang['doyouwantdelete']='Do You Want Delete this Task';
 $lang['showattached']='Show Files Attached';
 $lang['filesattached']='Files Attached';
-$lang['therearenocomments']="There aren't Comments Created";
-$lang['category']="Category";
-$lang['subcategory']="Sub Category";
-$lang['addnewstaff']="Add New Staff";
 //Profile
 
 
@@ -197,64 +196,3 @@ $lang['login_usernameP']='Type your username';
 $lang['login_passwordP']='Type your password';
 $lang['login_usernameV']='Username is required';
 $lang['login_passwordV']='Password is required';
-
-
-//Views booking
-
-//booking engine
-$lang["engine_home"]="Home";
-$lang["engine_manage"]="Manage Booking Engine";
-$lang["engine_bookingengine"]="Booking Engine";
-$lang["engine_bookingwidget"]="Booking Widget";
-$lang["engine_widgetmultiproperty"]="Widget Multi Property";
-$lang["engine_description"]="Description";
-$lang["engine_background"]="Background";
-$lang["engine_color"]="Color";
-$lang["engine_image"]="Image";
-$lang["engine_headercolor"]="Header Color";
-$lang["engine_widget"]="Widget";
-$lang["engine_showheader"]="Show Header";
-$lang["engine_numberofguests"]="Number of Guests";
-$lang["engine_hidden"]="Hidden";
-$lang["engine_automatic"]="Automatic";
-$lang["engine_all"]="All";
-$lang["engine_askforchildren"]="Ask For Children";
-$lang["engine_layout"]="Layout";
-$lang["engine_default"]="Default";
-$lang["engine_formatted"]="Formatted";
-$lang["engine_vertical"]="Vertical";
-$lang["engine_floating"]="Floating Widget";
-$lang["engine_embedded"]="Embedded";
-$lang["engine_left"]="Left";
-$lang["engine_center"]="Center";
-$lang["engine_right"]="Right";
-$lang["engine_openpagein"]="Open Page in";
-$lang["engine_newtab"]="New Tab";
-$lang["engine_samepage"]="Same Page";
-$lang["engine_themecolor"]="Theme Color";
-$lang["engine_gray"]="Gray";
-$lang["engine_blue"]="Blue";
-$lang["engine_green"]="Green";
-$lang["engine_lightblue"]="Light Blue";
-$lang["engine_orange"]="Orange";
-$lang["engine_orange"]="Red";
-$lang["engine_font"]="Font Style";
-$lang["engine_defaultfont"]="Default Font";
-$lang["engine_arial"]="Arial";
-$lang["engine_times"]="Times New Roman";
-$lang["engine_courier"]="Courier";
-$lang["engine_verdana"]="Verdana";
-$lang["engine_customcss"]="Custom CSS";
-$lang["engine_previewwidget"]="Preview Widget";
-$lang["engine_viewinblankpage"]="View in Blank Page";
-$lang["engine_reloadpreview"]="Reload Preview";
-$lang["engine_sourcecodeindividual"]="Source Code For Individual Property";
-$lang["engine_copyandpastetagbody"]="Copy the following code and paste it in your page inside the tag body";
-$lang["engine_facebookbutton"]="Facebook Booking Button";
-$lang["engine_facebookbuttonindividual"]="Facebook Button for Individual Property";
-$lang["engine_copyfollowingcodefacebookbutton"]="Copy the following code and paste it in the Facebook Booking Button";
-$lang["engine_showheader"]="Show Header";
-$lang["engine_sourcecodemulti"]="Source Code for Multi-Property";
-$lang["engine_facebookbuttonmulti"]="Facebook Button for Multi Property";
-
-

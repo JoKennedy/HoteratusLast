@@ -110,6 +110,50 @@ class developer extends Front_Controller {
                   }
 
     }
+    public function addNote()
+    {
+      is_login();
+      $result['success']=false;
+      $data['DeveloperTaskId']=$_POST['taskid'];
+      $data['Description']=$_POST['description'];
+      $data['Status']=1;
+      $data['UserId']=user_id();
+      if(insert_data('DeveloperTaskFollow',$data))
+      {
+        $result['success']=true;
+        $campomodificado='';
+        $message='';
+        $task='';
+        $taskinfo=$this->db->query("select a.*,concat(b.FirstName,' ',b.LastName) Developer,c.description status, b.email email
+        from DeveloperTask a
+        left join Developers b on a.DeveloperAssignedId=b.DeveloperId
+        left join DeveloperTaskStatus c on a.StatusId=c.DeveloperTaskStatusId
+        where DeveloperTaskId=".$_POST['taskid'])->row_array();
+
+        $ALLUsersNotes=$this->db->query("SELECT a.*, concat(b.fname,' ' , b.lname) Username
+					FROM DeveloperTaskFollow a
+					left join manage_users b on a.Userid=b.user_id
+					where
+          a.DeveloperTaskId=".$_POST['taskid']." order by CreateDate desc")->result_array();
+        $task.='<br><h1>Follow Up</h1><br>';
+        foreach ($ALLUsersNotes as  $value) {
+          $task.="</p><h2>".$value['Username']."</h2><p>".$value['Description']."</p>";
+        }
+        $userinfo=$this->db->query("select * from manage_users  where user_id=".user_id())->row_array();
+        $message.="<h1>Nombre de la tarea</h1><p>".$taskinfo['SubjectTask']."</p><h2>Detalle de la Tarea</h2><p>".$taskinfo['Description']."</p>";
+        $subject='Nuevo Comentario Creado by '.$userinfo['fname'].' '.$userinfo['lname'];
+        $headers = "From: ".$userinfo['email_address']."\r\n";
+        $headers .= "Reply-To: ".$userinfo['email_address']."\r\n";
+        $headers .= "CC: XML@hoteratus.com\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        if(strlen($taskinfo['email'])>0)
+        {
+          mail($taskinfo['email'], $subject, $message.$task, $headers);
+        }
+      }
+      echo json_encode($result);
+    }
     public function deletetask()
     {
      
@@ -200,6 +244,42 @@ class developer extends Front_Controller {
       }
       echo json_encode($result);
     }
+    public function updatetask()
+    {
+      $data['Category']=$_POST['category'];
+      $data['SubCategory']=$_POST['subcategory'];
+      $data['StatusId']=$_POST['statusid'];
+      $where['DeveloperTaskId']=$_POST['taskid'];
+      $result['success']=false;
+      if(update_data('DeveloperTask',$data,$where))
+      {
+
+        $message='';
+        $taskinfo=$this->db->query("select a.*,concat(b.FirstName,' ',b.LastName) Developer,c.description status, b.email email
+        from DeveloperTask a
+        left join Developers b on a.DeveloperAssignedId=b.DeveloperId
+        left join DeveloperTaskStatus c on a.StatusId=c.DeveloperTaskStatusId
+        where DeveloperTaskId=".$_POST['taskid'])->row_array();
+
+        $userinfo=$this->db->query("select * from manage_users  where user_id=".user_id())->row_array();
+       
+        $result['success']=true;
+        $message.="<h1>Nombre de la tarea</h1><p>".$taskinfo['SubjectTask']."</p><h2>Detalle de la Tarea</h2><p>".$taskinfo['Description']."</p>";
+        $subject='Tarea Actualizada by '.$userinfo['fname'].' '.$userinfo['lname'];
+        $headers = "From: ".$userinfo['email_address']."\r\n";
+        $headers .= "Reply-To: ".$userinfo['email_address']."\r\n";
+        $headers .= "CC: XML@hoteratus.com\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        if(strlen($taskinfo['email'])>0)
+        {
+          mail($taskinfo['email'], $subject, $message, $headers);
+        }
+        
+
+      }
+      echo json_encode($result);
+    }
 
     public function savetask()
     {
@@ -254,6 +334,8 @@ class developer extends Front_Controller {
           $data['LinkFileAttached']=$fileattached;
           $data['UserCreatedId']=user_id();
           $data['DeveloperAssignedId']=$_POST['DeveloperId'];
+          $data['Category']=$_POST['category'];
+          $data['SubCategory']=$_POST['subcategory'];
           $data['PercentageProccess']=0;
           $data['StatusId']=2;
           $data['Active']=1;

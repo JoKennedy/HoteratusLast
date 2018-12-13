@@ -26,8 +26,8 @@ function background_change() {
     <!--sub-heard-part-->
     <div class="sub-heard-part">
         <ol class="breadcrumb m-b-0">
-            <li><a href="<?php echo base_url();?>channel/dashboard">Home</a></li>
-            <li class="active">Manage Engine</li>
+            <li><a href="<?php echo base_url();?>channel/dashboard"><?=$this->lang->line("engine_home")?></a></li>
+            <li class="active"><?=$this->lang->line("engine_manage")?></li>
         </ol>
     </div>
     <div class="profile-widget" style="background-color: white;">
@@ -38,9 +38,9 @@ function background_change() {
                 <div class="">
                     <nav>
                         <ul>
-                            <li><a onclick="showtab(1,this);" class="maintab"> <span>Booking Engine</span></a></li>
-                            <li><a onclick="showtab(2,this);" class="maintab" style="color:#fff; background:#00C6D7;"> <span>Booking Widget</span></a></li>
-                            <li><a onclick="showtab(3,this);" class="maintab" style="color:#fff; background:#00C6D7;"> <span>Widget Multi Property</span></a></li>
+                            <li><a onclick="showtab(1,this);" class="maintab"> <span><?=$this->lang->line("engine_bookingengine")?></span></a></li>
+                            <li><a onclick="showtab(2,this);" class="maintab" style="color:#fff; background:#00C6D7;"> <span><?=$this->lang->line("engine_bookingwidget")?></span></a></li>
+                            <li><a onclick="showtab(3,this);" class="maintab" style="color:#fff; background:#00C6D7;"> <span><?=$this->lang->line("engine_widgetmultiproperty")?></span></a></li>
                         </ul>
                     </nav>
                     <div class="content tab">
@@ -49,7 +49,7 @@ function background_change() {
                                 <div style="float:left; width:50%;">
                                     <div class="col-md-12 form-group1">
                                         <p>
-                                            <label for="logo">Logo</label>
+                                            <label for="logo"><?=$this->lang->line("engine_logo")?></label>
                                         </p>
                                         <img id="logo" <?=( isset($booking['logo'])) ? 'src="'.base_url( 'uploads/'.$booking[ 'logo']). '"' : '' ?> width="240" height="180">
                                         <input type="file" name="logo" style="background:white; color:black;">
@@ -70,7 +70,7 @@ function background_change() {
                                         </script>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <label for="descripcion">Description</label>
+                                        <label for="descripcion"><?=$this->lang->line("engine_description")?></label>
                                         <textarea name="description" class="form-control" id="" cols="30" rows="10">
                                             <?= (isset($booking['description'])) ? $booking['description'] : '' ?>
                                         </textarea>
@@ -79,10 +79,10 @@ function background_change() {
                                 <div style="float:right; width:50%; padding-left: 20px;">
                                     <script src="<?php echo base_url();?>user_assets/js/jscolor.js"></script>
                                     <div class="col-md-12 form-group1">
-                                        <label for="header_color">Background</label>
+                                        <label for="header_color"><?=$this->lang->line("engine_background")?></label>
                                         <select onchange="background_change()" name="background_type" id="">
-                                            <option value="0">Color</option>
-                                            <option value="1">Imagen</option>
+                                            <option value="0"><?=$this->lang->line("engine_color")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_image")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
@@ -114,7 +114,7 @@ function background_change() {
                                         </script>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <label for="header_color">Header Color</label>
+                                        <label for="header_color"><?=$this->lang->line("engine_headercolor")?></label>
                                         <input type="text" name="header_color" id="header_color" class="jscolor form-control" value="<?= (isset($booking['header_color'])) ? $booking['header_color'] : '2993BC' ?>">
                                     </div>
                                 </div>
@@ -127,70 +127,70 @@ function background_change() {
                         <section id="section-2" class="content-current sec">
                             <form id="form-widget">
                                 <div style="float:left; width:50%;">
-                                    <h3>Widget</h3>
+                                    <h3><?=$this->lang->line("engine_widget")?></h3>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Show Header</h4>
+                                        <h4><?=$this->lang->line("engine_showheader")?></h4>
                                         <input onchange="update_widget()" type="checkbox" name="header" class="checkbox">
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Guest Number</h4>
+                                        <h4><?=$this->lang->line("engine_numberofguests")?></h4>
                                         <select onchange="update_widget()" name="guest_number" id="" >
-                                            <option value="0">Hidden</option>
-                                            <option value="1">Automatic</option>
-                                            <option value="2">All</option>
+                                            <option value="0"><?=$this->lang->line("engine_hidden")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_automatic")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_all")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Ask For Children</h4>
+                                        <h4><?=$this->lang->line("engine_askforchildren")?></h4>
                                         <input onchange="update_widget()" type="checkbox" name="children" id="" class="checkbox">
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Layout</h4>
+                                        <h4><?=$this->lang->line("engine_layout")?></h4>
                                         <select onchange="update_widget()" name="layout" id="" >
-                                            <option value="0">DEFAULT</option>
-                                            <option value="1">FORM</option>
-                                            <option value="2">VERTICAL</option>
+                                            <option value="0"><?=$this->lang->line("engine_default")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_formatted")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_vertical")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Floating position</h4>
+                                        <h4><?=$this->lang->line("engine_floating")?></h4>
                                         <select onchange="update_widget()" name="floating_position" id="" >
-                                            <option value="0">EMBEDDED</option>
-                                            <option value="1">LEFT</option>
-                                            <option value="2">CENTER</option>
-                                            <option value="3">RIGHT</option>
+                                            <option value="0"><?=$this->lang->line("engine_embedded")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_left")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_center")?></option>
+                                            <option value="3"><?=$this->lang->line("engine_right")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Open page</h4>
+                                        <h4><?=$this->lang->line("engine_openpagein")?></h4>
                                         <select onchange="update_widget()" name="open_page" id="" >
-                                            <option value="0" id="">New tab</option>
-                                            <option value="1" id="">Same Page</option>
+                                            <option value="0" id=""><?=$this->lang->line("engine_newtab")?></option>
+                                            <option value="1" id=""><?=$this->lang->line("engine_samepage")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Theme</h4>
+                                        <h4><?=$this->lang->line("engine_themecolor")?></h4>
                                         <select onchange="update_widget()" name="theme" id="" >
-                                            <option value="0">GRAY</option>
-                                            <option value="1">BLUE</option>
-                                            <option value="2">GREEN</option>
-                                            <option value="3">LIGHT BLUE</option>
-                                            <option value="4">ORANGE</option>
-                                            <option value="5">RED</option>
+                                            <option value="0"><?=$this->lang->line("engine_gray")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_blue")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_green")?></option>
+                                            <option value="3"><?=$this->lang->line("engine_lightblue")?></option>
+                                            <option value="4"><?=$this->lang->line("engine_orange")?></option>
+                                            <option value="5"><?=$this->lang->line("engine_red")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Font</h4>
+                                        <h4><?=$this->lang->line("engine_font")?></h4>
                                         <select onchange="update_widget()" name="font" id="" >
-                                            <option value="0">DEFAULT</option>
-                                            <option value="1">ARIAL</option>
-                                            <option value="2">TIMES NEW ROMAN</option>
-                                            <option value="3">COURIER</option>
-                                            <option value="4">VERDANA</option>
+                                            <option value="0"><?=$this->lang->line("engine_defaultfont")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_arial")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_times")?></option>
+                                            <option value="3"><?=$this->lang->line("engine_courier")?></option>
+                                            <option value="4"><?=$this->lang->line("engine_verdana")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Custom Css</h4>
+                                        <h4><?=$this->lang->line("engine_customcss")?></h4>
                                         <textarea name="custom_css" id="" cols="30" rows="10" >
                                             <?= (isset($widget['css'])) ? $widget['css'] : '' ?>
                                         </textarea>
@@ -199,29 +199,29 @@ function background_change() {
                             </form>
                             
                             <div style="float:right; width:50%; padding-left: 20px;">
-                                <h3>Preview widget</h3>
+                                <h3><?=$this->lang->line("engine_previewwidget")?></h3>
                                 <iframe src="<?= lang_url().'booking/test'; ?>" id="preview" frameborder="0" width="100%" height="260"></iframe>
                                 <div class="col-sm-6">
                                     <a href="<?= lang_url().'booking/test'; ?>" target="_blank">
-                                        <h3>View in blank page</h3>
+                                        <h3><?=$this->lang->line("engine_viewinblankpage")?></h3>
                                     </a>
                                 </div>
                                 <div class="col-sm-6" style="margin-bottom: 80px;">
                                     <a href="javascript:load_preview();">
-                                        <h3>Reload Preview</h3>
+                                        <h3><?=$this->lang->line("engine_reloadpreview")?></h3>
                                     </a>
                                 </div>
-                                <h3>Source Code For Individual Property</h3>
-                                <h4>Copy de following code and paste in your page inside the tag body</h4>
+                                <h3<?=$this->lang->line("engine_sourcecodeindividual")?></h3>
+                                <h4<?=$this->lang->line("engine_copyandpastetagbody")?></h4>
                                 <blockquote>
                                     &lt;iframe src="
                                     <?= lang_url() ?>booking/widget/<?=insep_encode(hotel_id())?>" frameborder="0" width="100%" height="260"&gt;&lt;/iframe&gt;
                                 </blockquote>
                                 
                                 <div id="facebook">
-                                    <h2 style="background-color: #00FFFF; ">Facebook Button</h2>
-                                    <h3>Facebook Button For Individual Property </h3>
-                                    <h4>Copy de following code and paste in Facebook Button</h4>
+                                    <h2 style="background-color: #00FFFF; "><?=$this->lang->line("engine_facebookbutton")?></h2>
+                                    <h3><?=$this->lang->line("engine_facebookbuttonindividual")?></h3>
+                                    <h4><?=$this->lang->line("engine_copyfollowingcodefacebookbutton")?></h4>
                                     <blockquote>
                                         <?= lang_url() ?>booking/widget/<?=insep_encode(hotel_id())?>
                                     </blockquote>
@@ -231,70 +231,70 @@ function background_change() {
                         <section id="section-3" class="content-current sec">
                             <form id="form-widget2">
                                 <div style="float:left; width:50%;">
-                                    <h3>Widget</h3>
+                                    <h3><?=$this->lang->line("engine_booking widget")?></h3>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Show Header</h4>
+                                        <h4><?=$this->lang->line("engine_showheader")?></h4>
                                         <input onchange="update_widget2()" type="checkbox" name="header2" class="checkbox">
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Guest Number</h4>
+                                        <h4><?=$this->lang->line("engine_numberofguests")?></h4>
                                         <select onchange="update_widget2()" name="guest_number2" id="" >
-                                            <option value="0">Hidden</option>
-                                            <option value="1">Automatic</option>
-                                            <option value="2">All</option>
+                                            <option value="0"><?=$this->lang->line("engine_hidden")?></option>
+                                            <option value="1"> <?=$this->lang->line("engine_automatic")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_all")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Ask For Children</h4>
+                                        <h4><?=$this->lang->line("engine_askforchildren")?></h4>
                                         <input onchange="update_widget2()" type="checkbox" name="children2" id="" class="checkbox">
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Layout</h4>
+                                        <h4><?=$this->lang->line("engine_layout")?></h4>
                                         <select onchange="update_widget2()" name="layout2" id="" >
-                                            <option value="0">DEFAULT</option>
-                                            <option value="1">FORM</option>
-                                            <option value="2">VERTICAL</option>
+                                            <option value="0"><?=$this->lang->line("engine_default")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_formatted")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_vertical")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Floating position</h4>
+                                        <h4><?=$this->lang->line("engine_floating")?></h4>
                                         <select onchange="update_widget2()" name="floating_position2" id="" >
-                                            <option value="0">EMBEDDED</option>
-                                            <option value="1">LEFT</option>
-                                            <option value="2">CENTER</option>
-                                            <option value="3">RIGHT</option>
+                                            <option value="0"><?=$this->lang->line("engine_embedded")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_left")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_center")?></option>
+                                            <option value="3"><?=$this->lang->line("engine_right")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Open page</h4>
+                                        <h4><?=$this->lang->line("engine_openpagein")?></h4>
                                         <select onchange="update_widget2()" name="open_page2" id="" >
-                                            <option value="0" id="">New tab</option>
-                                            <option value="1" id="">Same Page</option>
+                                            <option value="0" id=""><?=$this->lang->line("engine_newtab")?></option>
+                                            <option value="1" id=""><?=$this->lang->line("engine_samepage")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Theme</h4>
+                                        <h4><?=$this->lang->line("engine_themecolor")?></h4>
                                         <select onchange="update_widget2()" name="theme2" id="" >
-                                            <option value="0">GRAY</option>
-                                            <option value="1">BLUE</option>
-                                            <option value="2">GREEN</option>
-                                            <option value="3">LIGHT BLUE</option>
-                                            <option value="4">ORANGE</option>
-                                            <option value="5">RED</option>
+                                            <option value="0"><?=$this->lang->line("engine_gray")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_blue")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_green")?></option>
+                                            <option value="3"><?=$this->lang->line("engine_lightblue")?></option>
+                                            <option value="4"><?=$this->lang->line("engine_orange")?></option>
+                                            <option value="5"><?=$this->lang->line("engine_orange")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Font</h4>
+                                        <h4><?=$this->lang->line("engine_font")?></h4>
                                         <select onchange="update_widget2()" name="font2" id="" >
-                                            <option value="0">DEFAULT</option>
-                                            <option value="1">ARIAL</option>
-                                            <option value="2">TIMES NEW ROMAN</option>
-                                            <option value="3">COURIER</option>
-                                            <option value="4">VERDANA</option>
+                                            <option value="0"><?=$this->lang->line("engine_defaultfont")?></option>
+                                            <option value="1"><?=$this->lang->line("engine_arial")?></option>
+                                            <option value="2"><?=$this->lang->line("engine_times")?></option>
+                                            <option value="3"><?=$this->lang->line("engine_courier")?></option>
+                                            <option value="4"><?=$this->lang->line("engine_verdana")?></option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 form-group1">
-                                        <h4>Custom Css</h4>
+                                        <h4><?=$this->lang->line("engine_customcss")?></h4>
                                         <textarea name="custom_css2" id="" cols="30" rows="10" >
                                             <?= (isset($widgetM['css'])) ? $widgetM['css'] : '' ?>
                                         </textarea>
@@ -303,28 +303,28 @@ function background_change() {
                             </form>
                             
                             <div style="float:right; width:50%; padding-left: 20px;">
-                                <h3>Preview widget</h3>
+                                <h3><?=$this->lang->line("engine_previewwidget")?></h3>
                                 <iframe src="<?= lang_url().'booking/test2'; ?>" id="preview2" frameborder="0" width="100%" height="260"></iframe>
                                 <div class="col-sm-6">
                                     <a href="<?= lang_url().'booking/test2'; ?>" target="_blank">
-                                        <h3>View in blank page</h3>
+                                        <h3><?=$this->lang->line("engine_viewinblankpage")?></h3>
                                     </a>
                                 </div>
                                 <div class="col-sm-6" style="margin-bottom: 80px;">
                                     <a href="javascript:load_preview2();">
-                                        <h3>Reload Preview</h3>
+                                        <h3><?=$this->lang->line("engine_reloadpreview")?></h3>
                                     </a>
                                 </div>
-                                <h3>Source Code For MultiProperty</h3>
-                                <h4>Copy de following code and paste in your page inside the tag body</h4>
+                                <h3<?=$this->lang->line("engine_sourcecodemulti")?></h3>
+                                <h4><?=$this->lang->line("engine_copyandpastetagbody")?></h4>
                                 <blockquote>
                                     &lt;iframe src="
                                     <?= lang_url() ?>booking/widgetmulti/<?=insep_encode(user_id())?>" frameborder="0" width="100%" height="260"&gt;&lt;/iframe&gt;
                                 </blockquote>
                                 <div id="facebook">
-                                    <h2 style="background-color: #00FFFF; ">Facebook Button</h2>
-                                    <h3>Facebook Button For  MultiProperty</h3>
-                                    <h4>Copy de following code and paste in Facebook Button</h4>
+                                    <h2 style="background-color: #00FFFF; "><?=$this->lang->line("engine_facebookbutton")?></h2>
+                                    <h3><?=$this->lang->line("engine_facebookbuttonmulti")?></h3>
+                                    <h4<?=$this->lang->line("engine_copyfollowingcodefacebookbutton")?></h4>
                                     <blockquote>
                                         <?= lang_url() ?>booking/widgetmulti/<?=insep_encode(user_id()); ?>
                                     </blockquote>

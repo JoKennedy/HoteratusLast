@@ -562,7 +562,7 @@
                                         }
                                         else
                                         {
-                                            echo'<div class="stats-info graph"
+                                            echo'<div class="stats-info graph">
                                                     <div class="stats">
                                                             <ul class="list-unstyled">
                                                                 <h4 class="sub-tittle">This Reservation Has No History!!</h4>

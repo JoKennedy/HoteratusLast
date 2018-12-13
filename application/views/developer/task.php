@@ -34,9 +34,7 @@
 	</div>
 	<div style="float: right; " class="buttons-ui">
 			<a href="#createtask" data-toggle="modal" class="btn blue"><?=infolang('addnewtask')?></a>
-	</div>
-	<div style="float: right; " class="buttons-ui">
-			<a href="#createtask" data-toggle="modal" class="btn blue"><?=infolang('addnewdeveloper')?></a>
+			<a href="#createstaff" data-toggle="modal" class="btn green"><?=infolang('addnewstaff')?></a>
 	</div>
 <div  class="clearfix"></div>
 	<div class="graph-visual tables-main">
@@ -59,6 +57,14 @@
             <div>
                 <div class="graph-form">
                     <form id="TaskC">
+						<div class="col-md-12 form-group1">
+								<label class="control-label"><?=infolang('category')?></label>
+								<input style="background:white; color:black;" name="category" id="category" type="text" placeholder="<?=infolang('category')?>" value="">
+						</div>
+						<div class="col-md-12 form-group1">
+								<label class="control-label"><?=infolang('subcategory')?></label>
+								<input style="background:white; color:black;" name="subcategory" id="subcategory" type="text" placeholder="<?=infolang('subcategory')?>"  value="">
+						</div>
                         <div class="col-md-12 form-group1">
                             <label class="control-label"><?=infolang('subject')?></label>
                             <input style="background:white; color:black;" name="subject" id="subject" type="text" placeholder="<?=infolang('subject')?>" required="">

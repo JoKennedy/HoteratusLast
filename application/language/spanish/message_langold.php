@@ -73,8 +73,11 @@ $lang['ccinvalid']='Tarjeta de Credito Invalida';
 $lang['expiration']='Expiracion';
 $lang['reservationcreated']='Reservación creada exitosamente, recibirá un email con la confirmacion en los proximos minutos.';
 $lang['savingreservation']='Guardando datos de la Reservacion <br> Por Favor Espere';
-
-
+$lang['msj_increase_days'] = "¿Quieres aumentar los d&iacute;as de la reserva?";
+$lang['msj_decrease_days'] = "¿Quieres disminuir los d&iacute;as de la reserva?";
+$lang['msj_availability_date'] = "No tiene disponibilidad para esta fecha.";
+$lang['msj_are_you_sure'] = "¿Est&aacute;s seguro?";
+$lang['msj_attention'] = "Atenci&oacute;n!";
 
 //Agencies Manager
 $lang['agenciesmanager']='Gestor de Agencias';
@@ -135,10 +138,6 @@ $lang['areyousure']='Estas Seguro?';
 $lang['doyouwantdelete']='Deseas Eliminar Esta Tarea';
 $lang['showattached']='Mostar Archivos Adjuntos';
 $lang['filesattached']='Archivos Adjuntos';
-$lang['therearenocomments']="No hay comentarios Creados";
-$lang['category']="Categoria";
-$lang['subcategory']="Sub Categoria";
-$lang['addnewstaff']="Agregar nuevo Empleado";
 //general
 $lang['profile_language'] = 'Idioma';
 $lang['general_email'] = 'Email';
@@ -194,67 +193,3 @@ $lang['login_usernameP']='Type your username';
 $lang['login_passwordP']='Type your password';
 $lang['login_usernameV']='Username is required';
 $lang['login_passwordV']='Password is required';
-
-
-
-//views booking
-
-//booking engine
-
-
-$lang["engine_home"]="Pagina Principal";
-$lang["engine_manage"]="Manejo Motor de Reservas";
-$lang["engine_bookingengine"]="Motor de Reservas";
-$lang["engine_bookingwidget"]="Widget Motor de Reservas";
-$lang["engine_widgetmultiproperty"]="Widget Multi Propiedad";
-$lang["engine_description"]="Descripcion";
-$lang["engine_background"]="Fondo";
-$lang["engine_color"]="Color";
-$lang["engine_image"]="Imagen";
-$lang["engine_headercolor"]="Color Encabezado";
-$lang["engine_widget"]="Widget";
-$lang["engine_showheader"]="Mostrar Encabezado";
-$lang["engine_numberofguests"]="Numero de Huespedes";
-$lang["engine_hidden"]="Oculto";
-$lang["engine_automatic"]="Automatico";
-$lang["engine_all"]="Todo";
-$lang["engine_askforchildren"]="Preguntar por Niños";
-$lang["engine_layout"]="Diseno";
-$lang["engine_default"]="Default";
-$lang["engine_formatted"]="Formateado Horizontal";
-$lang["engine_vertical"]="Vertical";
-$lang["engine_floating"]="Widget Flotante";
-$lang["engine_embedded"]="Dentro de Aplicación";
-$lang["engine_left"]="Izquierdo";
-$lang["engine_center"]="Centrado";
-$lang["engine_right"]="Derecha";
-$lang["engine_openpagein"]="Abrir la pagina en";
-$lang["engine_newtab"]="Nueva Pestaña";
-$lang["engine_samepage"]="Misma Pagina";
-$lang["engine_themecolor"]="Color del Tema";
-$lang["engine_gray"]="Gris";
-$lang["engine_blue"]="Azul";
-$lang["engine_green"]="Verde";
-$lang["engine_lightblue"]="Azul Claro";
-$lang["engine_orange"]="Naranja";
-$lang["engine_orange"]="Rojo";
-$lang["engine_font"]="Estilo de Fuente";
-$lang["engine_defaultfont"]="Default";
-$lang["engine_arial"]="Arial";
-$lang["engine_times"]="Times New Roman";
-$lang["engine_courier"]="Courier";
-$lang["engine_verdana"]="Verdana";
-$lang["engine_customcss"]="CSS Customizado";
-$lang["engine_previewwidget"]="Vista Previa Widget";
-$lang["engine_viewinblankpage"]="Ver en Pagina en Blanco";
-$lang["engine_reloadpreview"]="Recargar Vista Previa";
-$lang["engine_sourcecodeindividual"]="Codigo para Propiedades Individuales";
-$lang["engine_copyandpastetagbody"]="Copiar y pegar en el Cuerpo de Texto";
-$lang["engine_facebookbutton"]="Motor de Reservas en Facebook";
-$lang["engine_facebookbuttonindividual"]="Motor de Reservas para Propiedades Individuales en Facebook";
-$lang["engine_copyfollowingcodefacebookbutton"]="Copiar y pegar  en el Motor de Reservas de Facebook";
-$lang["engine_showheader"]="Mostrar Encabezado";
-$lang["engine_sourcecodemulti"]="Codigo para Multi Propiedades";
-$lang["engine_facebookbuttonmulti"]="Motor de Reservas para Multi Propiedad en Facebook";
-
-

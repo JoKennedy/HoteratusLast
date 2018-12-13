@@ -35,8 +35,6 @@
 							FROM user_connect_channel a
 							left join manage_channel b on a.channel_id=b.channel_id
 							where hotel_id=".hotel_id()." and a.channel_id<>39;")->result_array();
-
-
 						$sub=0;
 						$item1=0;
 						$item2=0;
@@ -54,18 +52,38 @@
 							}
 						}
 						foreach ($menudata as  $value) {
-							
+							$language=$this->session->userdata('site_lang');   
+							$description=''; 
+							switch ($language) {
+								case 'english':
+									$description=$value['description']; 
+									break;
+								case 'spanish':
+									$description=$value['spanish']; 
+									break;
+								case 'french':
+									$description=$value['french']; 
+									break;
+								case 'german':
+									$description=$value['german']; 
+									break;
+								case 'italian':
+									$description=$value['italian']; 	
+									break;
+								default:
+									$description=$value['description']; 
+									break;
+							}							
 							if($sub==1 && $item1 !=$value['order1'])
 							{
 								echo '</ul>';
 							}
-
 							if($item1 !=$value['order1']){echo '</li>';}
 
 
 							if ($value['order2']==0 && $value['order3']==0) {
 								
-								echo '<li><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'"><i class="'.$value['iconclass'].'"></i> <span>'.$value['description'].'</span>
+								echo '<li><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'"><i class="'.$value['iconclass'].'"></i> <span>'.$description.'</span>
 								'.($value['flecha']==1?'<span class="fa fa-angle-right" style="text-align: right; "></span>':'').'</a>';
 								$sub=0;
 								$item1=$value['order1'];
@@ -87,36 +105,20 @@
 										}
 										echo '</div>';
 									}
-									
-
-		                    		
-
 								}
-								else if ($value['order1']==4) {
-
-										
+								else if ($value['order1']==4) {										
 										if ($order4==0) {
 											echo '<div style="width:200px; height:250px; overflow:auto; "  >';
 											$order4=1;
 										}
-										
-										
-										echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
-										
+										echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$description.'</a></li>';
 										
 								}
 								else
 								{	
-
-									echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$value['description'].'</a></li>';
-									
+									echo '<li id="menu-academico-avaliacoes"><a href="'.(strlen($value['href'])>0?base_url().$value['href']:'#').'">'.$description.'</a></li>';
 								}
-								
-
-
 							}
-								
-
 						}
 						if($sub==1){echo '</ul>';}
 						echo '</li>';

@@ -132,14 +132,19 @@ $lang['selectstatus']='Select a Status';
 $lang['files']='Files';
 $lang['tasksaved']='Task Saved';
 $lang['taskdeleted']='Task Deleted';
+$lang['taskclosed']='Task Closed';
 $lang['areyousure']='Are you sure?';
 $lang['doyouwantdelete']='Do You Want Delete this Task';
+$lang['doyouwantclose']='Do You Want Close this Task';
 $lang['showattached']='Show Files Attached';
 $lang['filesattached']='Files Attached';
 $lang['therearenocomments']="There aren't Comments Created";
 $lang['category']="Category";
 $lang['subcategory']="Sub Category";
 $lang['addnewstaff']="Add New Staff";
+$lang['open']="Open";
+$lang['closed']="Closed";
+$lang['priority']="Priority";
 //Profile
 
 

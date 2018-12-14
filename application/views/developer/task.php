@@ -8,9 +8,13 @@
 			<li class="active"><?=infolang('task')?></li>
 		</ol>
 	</div>
+	
 	<div  class="clearfix"></div>
 	<div style="float: left;" class="buttons-ui">
-
+			<select onchange="list()" id="closed" class="green">
+					<option value="0"><?=infolang('open')?></option>
+					<option value="1"><?=infolang('closed')?></option>
+			</select>
 			<select onchange="list()" id="developerid" class="green">
 					<option value="0"><?=infolang('alldeveloper')?></option>
 					<?php if (count($Developers)>0) {
@@ -57,6 +61,16 @@
             <div>
                 <div class="graph-form">
                     <form id="TaskC">
+						<div class="col-md-12 form-group1 form-last">
+                            <label style="padding:4px;" class="control-label controls"><?=infolang('priority')?></label>
+                            <select style="width: 100%; padding: 9px;" name="priority" id="priority">
+															<?php if (count($Priorities)>0) {
+																	foreach ($Priorities as  $Priorityid) {
+																			echo '<option value="'.$Priorityid['value'].'">'.$Priorityid['text'].'</option>';
+																	}
+															} ?>
+                            </select>
+                        </div>
 						<div class="col-md-12 form-group1">
 								<label class="control-label"><?=infolang('category')?></label>
 								<input style="background:white; color:black;" name="category" id="category" type="text" placeholder="<?=infolang('category')?>" value="">
@@ -110,103 +124,96 @@
 		function savetask()
 		{
 
-						if ($.trim($("#subject").val())=='') {
+			if ($.trim($("#subject").val())=='') {
 
-							swal({
-									title: "Upps",
-									text: '<?=sprintf($this->lang->line('missingfield'),$this->lang->line('subject'))?>',
-									icon: "warning",
-									button: "Ok!",
-							}).then((n) => {
-									$("#subject").focus();
-							});
-							return;
-					}
-					else 	if ($.trim($("#description").val())=='') {
+				swal({
+						title: "Upps",
+						text: '<?=sprintf($this->lang->line('missingfield'),$this->lang->line('subject'))?>',
+						icon: "warning",
+						button: "Ok!",
+				}).then((n) => {
+						$("#subject").focus();
+				});
+				return;
+			}
+			else if ($.trim($("#description").val())=='') {
 
+				swal({
+						title: "Upps",
+						text: '<?=sprintf($this->lang->line('missingfield'),$this->lang->line('description'))?>',
+						icon: "warning",
+						button: "Ok!",
+				}).then((n) => {
+						$("#description").focus();
+				});
+				return;
+			}
+
+			var data = new FormData($("#TaskC")[0]);
+			$.ajax({
+					type: "POST",
+					dataType: "json",
+					contentType: false,
+					processData: false,
+					url: "<?php echo lang_url(); ?>developer/savetask",
+					data: data,
+					beforeSend: function() {
+							showWait();
+							setTimeout(function() { unShowWait(); }, 10000);
+					},
+					success: function(msg) {
+							unShowWait();
+
+							if (msg["success"]) {
 									swal({
-											title: "Upps",
-											text: '<?=sprintf($this->lang->line('missingfield'),$this->lang->line('description'))?>',
-											icon: "warning",
+											title: "Success",
+											text: "<?=$this->lang->line('tasksaved')?>",
+											icon: "success",
 											button: "Ok!",
 									}).then((n) => {
-											$("#description").focus();
+											list();
+
+											$(".close").trigger('click');
+											$("#TaskC").trigger("reset");
+
 									});
-									return;
-					}
+							} else {
 
-					var data = new FormData($("#TaskC")[0]);
-					$.ajax({
-							type: "POST",
-							dataType: "json",
-							contentType: false,
-							processData: false,
-							url: "<?php echo lang_url(); ?>developer/savetask",
-							data: data,
-							beforeSend: function() {
-									showWait();
-									setTimeout(function() { unShowWait(); }, 10000);
-							},
-							success: function(msg) {
-									unShowWait();
-
-									if (msg["success"]) {
-											swal({
-													title: "Success",
-													text: "<?=$this->lang->line('tasksaved')?>",
-													icon: "success",
-													button: "Ok!",
-											}).then((n) => {
-													list();
-
-													$(".close").trigger('click');
-													$("#TaskC").trigger("reset");
-
-											});
-									} else {
-
-											swal({
-													title: "upps, Sorry",
-													text: msg["message"],
-													icon: "warning",
-													button: "Ok!",
-											});
-									}
+									swal({
+											title: "upps, Sorry",
+											text: msg["message"],
+											icon: "warning",
+											button: "Ok!",
+									});
 							}
-					});
+					}
+			});
 
 		}
 		function list() {
 
-					$.ajax({
-					 type: "POST",
-					 //dataType: "json",
-					 url: "<?php echo lang_url(); ?>developer/taskhtml",
-					 data: {'date1':$("#date1").val(),'date2':$("#date2").val(),'developerid':$("#developerid").val(),'status':$("#status").val()},
-					 beforeSend: function() {
-							 showWait();
-							 setTimeout(function() { unShowWait(); }, 10000);
-					 },
-					 success: function(msg) {
-							 unShowWait();
-							 $("#Tasklist").html('');
-							$("#Tasklist").html(msg);
-							 $('.inline_username').editable({
-								 url: function (params) {
-										return saveChange(params);
-								 }
-						 });
-						 return;
-								$('#myTable').DataTable({
-									 dom: 'Bfrtip',
-									 buttons: [
-											 'copy', 'csv', 'excel', 'pdf', 'print'
-									 ],
-									 "order": [[ 7, "desc" ]]
-							 });
-
-
-					 }
+			$.ajax({
+				type: "POST",
+				//dataType: "json",
+				url: "<?php echo lang_url(); ?>developer/taskhtml",
+				data: {'date1':$("#date1").val(),'date2':$("#date2").val(),'developerid':$("#developerid").val(),'status':$("#status").val(),
+					'closed':$("#closed").val(),},
+				beforeSend: function() {
+						showWait();
+						setTimeout(function() { unShowWait(); }, 10000);
+				},
+				success: function(msg) {
+						unShowWait();
+						$("#Tasklist").html('');
+					$("#Tasklist").html(msg);
+						$('.inline_username').editable({
+							url: function (params) {
+								return saveChange(params);
+							}
+						});
+					$('#myTable').DataTable({"order": [[ 0, "asc" ]]});
+					
+				}
 			 });
 
 		}
@@ -225,10 +232,7 @@
 
 
 			}
-
 			var data={'name':params['name'],'pk':params['pk'],'value':params['value']};
-
-
 		    $.ajax({
 		        type: "POST",
 		        //dataType: "json",
@@ -290,4 +294,48 @@
 
 
 		}
+		function closedtask(id)
+		{
+
+			swal({
+							title: "<?=infolang('areyousure')?>",
+							text: "<?=infolang('doyouwantclose')?>",
+							icon: "warning",
+							buttons: true,
+							dangerMode: true,
+					})
+					.then((willDelete) => {
+							if (!willDelete) { return; }
+							$.ajax({
+									type: "POST",
+									//dataType: "json",
+									url:  '<?=lang_url()?>developer/closetask',
+									data:{'id':id},
+									beforeSend: function() {
+											 showWait();
+											 setTimeout(function() { unShowWait(); }, 10000);
+									 },
+								 success: function(msg) {
+									 unShowWait();
+									 $('#rowclosed'+id).html('<i class="fas fa-lock"></i>');
+									 $('#row'+id).remove();
+									 swal({
+											 title: "Success",
+											 text: "<?=$this->lang->line('taskclosed')?>",
+											 icon: "success",
+											 button: "Ok!",
+									 });
+								 }
+							});
+					});
+		}
 </script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url();?>user_asset/back/js/datatables/datatables-init.js"></script>
